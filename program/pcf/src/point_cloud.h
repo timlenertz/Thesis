@@ -3,6 +3,9 @@
 
 namespace pcf {
 
+/**
+
+*/
 template<typename Point>
 class point_cloud {
 protected:
