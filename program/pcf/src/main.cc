@@ -9,7 +9,7 @@
 using namespace pcf;
 
 int main(int argc, const char* argv[]) {
-	ply_reader ply(argv[1], '\n');
+	ply_reader ply(argv[1], '\r');
 	std::size_t sz = ply.size();
 	
 	std::cout << "Size: " << sz << std::endl;
@@ -19,12 +19,15 @@ int main(int argc, const char* argv[]) {
 	
 	std::cout << "Imported point cloud." << std::endl;
 	
-	using transform_t = Eigen::Transform<float, 3, Eigen::AffineCompact>;
-	transform_t t;
+	using transform_t = Eigen::Transform<float, 3, Eigen::Affine>;
+	transform_t t( Eigen::AngleAxisf(0.01*M_PI, Eigen::Vector3f::UnitX()) );
+
+	std::cout << t.matrix() << std::endl;
 	
 	for(;;) {
-		t.rotate( Eigen::AngleAxisf(0.1*M_PI, Eigen::Vector3f::UnitX()) );
+		std::cout << pc[0] << std::endl;
+
 		pc.apply_transformation(t);
-		std::cout << "Transformation applied." << std::endl;
+		std::cout << "Transformation applied." << std::endl;		
 	}
 }

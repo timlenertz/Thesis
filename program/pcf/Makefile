@@ -6,12 +6,12 @@ LN := ln
 
 PACKAGES := eigen3
 
-CXXFLAGS := -std=c++11 -fopenmp
+CXXFLAGS := -std=c++11 -fdiagnostics-color=auto
 LDFLAGS := 
 LDLIBS := 
 
 ifeq ($(DEPLOY), 1)
-	CXXFLAGS += -O3 -DNDEBUG
+	CXXFLAGS += -O3 -fopenmp -DNDEBUG
 else
 	CXXFLAGS += -g
 endif

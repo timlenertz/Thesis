@@ -24,12 +24,15 @@ public:
 
 	point_cloud(Point* buf, std::size_t size) :
 	buffer_(buf), buffer_end_(buf + size) {
-		if(! has_correct_alignment_()) throw std::runtime_error("Point cloud memory not properly aligned.");
+		if(! has_correct_alignment_()) throw std::runtime_error("Point cloud data not properly aligned.");
 	}
 	
 	virtual ~point_cloud() { }
 	
 	std::size_t size() const { return buffer_end_ - buffer_; }
+	
+	Point& operator[](std::ptrdiff_t d) { return buffer_[d]; }
+	const Point& operator[](std::ptrdiff_t d) const { return buffer_[d]; }
 	
 	Point* data() { return buffer_; }
 	const Point* data() const { return buffer_; }
