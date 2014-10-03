@@ -1,14 +1,30 @@
-#include "ply_reader.h"
 #include <iostream>
+#include <Eigen/Eigen>
+#include <Eigen/Geometry>
+
+#include "point_cloud_alloc.h"
+#include "ply_reader.h"
+#include "point.h"
 
 using namespace pcf;
 
 int main(int argc, const char* argv[]) {
-	ply_reader reader(argv[1]);
-	std::cout << "Length: " << reader.size() << std::endl;
-	point_xyzrgb buf[100];
-	reader.read(buf, 100);
-	for(point_xyzrgb *p = buf, *buf_end = buf + 100; p != buf_end; ++p) {
-		std::cout << "x=" << (*p)[0] << " ; " << "y=" << (*p)[1] << " ; " << "z=" << (*p)[2] << std::endl;
+	ply_reader ply(argv[1], '\n');
+	std::size_t sz = ply.size();
+	
+	std::cout << "Size: " << sz << std::endl;
+	
+	point_cloud_alloc<point_xyz> pc(sz);
+	ply.read(pc.data(), sz);
+	
+	std::cout << "Imported point cloud." << std::endl;
+	
+	using transform_t = Eigen::Transform<float, 3, Eigen::AffineCompact>;
+	transform_t t;
+	
+	for(;;) {
+		t.rotate( Eigen::AngleAxisf(0.1*M_PI, Eigen::Vector3f::UnitX()) );
+		pc.apply_transformation(t);
+		std::cout << "Transformation applied." << std::endl;
 	}
 }

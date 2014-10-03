@@ -1,5 +1,5 @@
-#ifndef PLY_READER_H_
-#define PLY_READER_H_
+#ifndef PCF_PLY_READER_H_
+#define PCF_PLY_READER_H_
 
 #include <fstream>
 #include <string>
@@ -25,7 +25,6 @@ public:
 
 class ply_reader {
 private:
-	constexpr static char delimitor_  = '\r';
 	constexpr static std::size_t maximal_ascii_element_line_length_ = 256;
 
 	enum property_type {
@@ -44,6 +43,7 @@ private:
 	static constexpr bool host_has_iec559_float_ = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
 	static void flip_endianness_(char* data, std::size_t sz);
 	
+	const char line_delimitor_;
 	std::ifstream file_;
 	std::ifstream::pos_type vertex_data_start_; ///< File offset where vertex data starts.
 	std::size_t number_of_vertices_; ///< Number of vertex elements in file.
@@ -74,7 +74,7 @@ private:
 	template<typename T> T read_binary_property_(const property& prop, char* data) const;
 	
 public:
-	explicit ply_reader(const char* filename);
+	explicit ply_reader(const char* filename, char line_delimitor = '\r');
 	
 	std::size_t size() const { return number_of_vertices_; }
 	bool is_binary() const { return format_ != ascii; }

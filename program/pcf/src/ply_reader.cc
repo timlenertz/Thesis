@@ -153,8 +153,8 @@ void ply_reader::rewind() {
 	current_element_ = 0;
 }
 
-ply_reader::ply_reader(const char* filename) :
-file_(filename, std::ios_base::in) {
+ply_reader::ply_reader(const char* filename, char line_delimitor) :
+line_delimitor_(line_delimitor), file_(filename, std::ios_base::in) {
 	read_header_();	
 	rewind();
 }
@@ -169,12 +169,12 @@ void ply_reader::flip_endianness_(char* data, std::size_t sz) {
 
 
 void ply_reader::skip_lines_(std::size_t n) {
-	while(n--) file_.ignore(std::numeric_limits<std::streamsize>::max(), file_.widen(delimitor_));
+	while(n--) file_.ignore(std::numeric_limits<std::streamsize>::max(), file_.widen(line_delimitor_));
 }
 
 
 void ply_reader::read_line_(std::string& line) {
-	std::getline(file_, line, file_.widen(delimitor_));
+	std::getline(file_, line, file_.widen(line_delimitor_));
 }
 
 

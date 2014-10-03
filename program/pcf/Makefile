@@ -1,12 +1,20 @@
+DEPLOY := 1
+
 TARGET := pcf
-CXX := g++
+CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
 LN := ln
 
 PACKAGES := eigen3
 
-CXXFLAGS := -std=c++11 -g
+CXXFLAGS := -std=c++11 -fopenmp
 LDFLAGS := 
 LDLIBS := 
+
+ifeq ($(DEPLOY), 1)
+	CXXFLAGS += -O3 -DNDEBUG
+else
+	CXXFLAGS += -g
+endif
 
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 LDLIBS += $(shell pkg-config --libs $(PACKAGES))
@@ -26,6 +34,9 @@ $(TARGET) : $(OBJ)
 build/%.o : %.cc
 	mkdir -p $(dir $@) && \
 	$(CXX) $(CXXFLAGS) -c -o $@ $< -MMD
+
+%.s : %.cc
+	$(CXX) $(CXXFLAGS) -S -c -o $@ $<
 
 clean :
 	rm -rf build/
