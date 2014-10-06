@@ -9,18 +9,19 @@
 
 namespace pcf {
 
-
 template<typename Point>
 class point_cloud_mmap : public point_cloud<Point> {
 private:
 	using super = point_cloud<Point>;
 
-	std::string path_;
+	const bool temporary_;
+	const std::string path_;
 	boost::iostreams::mapped_file file_;
 	
 public:
-	point_cloud_mmap(std::size_t size, const std::string& path) :
-	path_(path) {
+	point_cloud_mmap(std::size_t size, const std::string& path, bool temporary = true) :
+	temporary_(temporary), path_(path) {
+		// TODO move into cc
 		assert(boost::iostreams::mapped_file::alignment() % alignof(Point) == 0);
 		
 		boost::iostreams::mapped_file_params params(path_);
@@ -31,11 +32,12 @@ public:
 		
 		super::buffer_ = reinterpret_cast<Point*>(file_.data());
 		super::buffer_end_ = super::buffer_ + size;
+		super::check_correct_alignment_();
 	}
 	
 	~point_cloud_mmap() override {
 		file_.close();
-		unlink(path_.c_str());
+		if(temporary_) unlink(path_.c_str());
 	}
 };
 

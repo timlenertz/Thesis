@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "point.h"
+#include "util.h"
 
 namespace pcf {
 
@@ -39,12 +40,11 @@ private:
 		explicit operator bool() const { return (type != none); }
 	};
 	
-	static const bool host_is_little_endian_; ///< Whether host is little-endian.
 	static constexpr bool host_has_iec559_float_ = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
 	static void flip_endianness_(char* data, std::size_t sz);
 	
-	const char line_delimitor_;
 	std::ifstream file_;
+	line_delimitor line_delimitor_;
 	std::ifstream::pos_type vertex_data_start_; ///< File offset where vertex data starts.
 	std::size_t number_of_vertices_; ///< Number of vertex elements in file.
 	enum { binary_big_endian, binary_little_endian, ascii } format_; ///< Format of file.
@@ -55,9 +55,16 @@ private:
 	
 	std::ptrdiff_t current_element_; ///< Index of current element.
 
-	void skip_lines_(std::size_t);
-	void read_line_(std::string& ln);
-	bool is_host_endian_binary_() const { return (format_ == host_is_little_endian_ ? binary_little_endian : binary_big_endian); }
+
+	void skip_lines_(std::size_t n) {
+		while(n--) skip_line(file_, line_delimitor_);
+	}
+	
+	void read_line_(std::string& ln) {
+		read_line(file_, ln, line_delimitor_);
+	}
+	
+	bool is_host_endian_binary_() const { return (format_ == host_is_little_endian() ? binary_little_endian : binary_big_endian); }
 	
 	property* identify_property_(const std::string& nm);
 	static property_type identify_property_type_(const std::string& nm);
@@ -74,7 +81,7 @@ private:
 	template<typename T> T read_binary_property_(const property& prop, char* data) const;
 	
 public:
-	explicit ply_reader(const char* filename, char line_delimitor = '\r');
+	explicit ply_reader(const char* filename, line_delimitor ld = line_delimitor::unknown);
 	
 	std::size_t size() const { return number_of_vertices_; }
 	bool is_binary() const { return format_ != ascii; }

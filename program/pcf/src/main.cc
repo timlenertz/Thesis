@@ -9,7 +9,7 @@
 using namespace pcf;
 
 int main(int argc, const char* argv[]) {
-	ply_reader ply(argv[1], '\n');
+	ply_reader ply(argv[1]);
 	std::size_t sz = ply.size();
 	
 	std::cout << "Size: " << sz << std::endl;
@@ -23,7 +23,7 @@ int main(int argc, const char* argv[]) {
 	transform_t t = Eigen::AngleAxisf(0.01*M_PI, Eigen::Vector3f::UnitX()) * Eigen::Translation3f(0.1, 0.1, 0.1);
 
 	std::cout << t.matrix() << std::endl;
-	for(;;) {
+	for(std::ptrdiff_t i = 0; i < 10000; ++i) {
 		std::cout << pc[1] << std::endl;
 
 		pc.apply_transformation(t);

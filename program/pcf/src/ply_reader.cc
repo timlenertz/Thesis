@@ -7,15 +7,6 @@
 namespace pcf {
 
 
-static bool check_host_little_endian_() {
-	unsigned int i = 1;
-	char* c = reinterpret_cast<char*>(&i);
-	return *c;
-}
-	
-const bool ply_reader::host_is_little_endian_ = check_host_little_endian_();
-
-
 ply_reader::property_type ply_reader::identify_property_type_(const std::string& nm) {
 	if(nm == "char" || nm == "int8") return int8;
 	else if(nm == "uchar" || nm == "uint8") return uint8;
@@ -153,8 +144,8 @@ void ply_reader::rewind() {
 	current_element_ = 0;
 }
 
-ply_reader::ply_reader(const char* filename, char line_delimitor) :
-line_delimitor_(line_delimitor), file_(filename, std::ios_base::in) {
+ply_reader::ply_reader(const char* filename, line_delimitor ld) :
+file_(filename, std::ios_base::in), line_delimitor_(ld != line_delimitor::unknown ? ld : detect_line_delimitor(file_)) {
 	read_header_();	
 	rewind();
 }
@@ -165,16 +156,6 @@ void ply_reader::flip_endianness_(char* data, std::size_t sz) {
 	std::ptrdiff_t i = sz/2 - 1;
 	std::ptrdiff_t o = sz - i - 1;
 	while(i >= 0) std::swap(data[i--], data[o++]);
-}
-
-
-void ply_reader::skip_lines_(std::size_t n) {
-	while(n--) file_.ignore(std::numeric_limits<std::streamsize>::max(), file_.widen(line_delimitor_));
-}
-
-
-void ply_reader::read_line_(std::string& line) {
-	std::getline(file_, line, file_.widen(line_delimitor_));
 }
 
 

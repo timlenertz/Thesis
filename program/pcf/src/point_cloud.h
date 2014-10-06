@@ -17,7 +17,9 @@ protected:
 	
 	point_cloud() : buffer_(nullptr), buffer_end_(nullptr) { }
 
-	bool has_correct_alignment_() const { return ((std::uintptr_t)buffer_ % alignof(Point) == 0); }
+	void check_correct_alignment_() const {
+		if((std::uintptr_t)buffer_ % alignof(Point)) throw std::runtime_error("Point cloud data not properly aligned.");
+	}
 
 public:
 	using iterator = Point*;
@@ -25,7 +27,7 @@ public:
 
 	point_cloud(Point* buf, std::size_t size) :
 	buffer_(buf), buffer_end_(buf + size) {
-		if(! has_correct_alignment_()) throw std::runtime_error("Point cloud data not properly aligned.");
+		check_correct_alignment_();
 	}
 	
 	virtual ~point_cloud() { }
