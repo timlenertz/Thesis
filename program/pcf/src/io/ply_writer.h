@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 
-#include "point.h"
-#include "util.h"
+#include "../point.h"
+#include "../util.h"
 
 namespace pcf {
 
@@ -40,6 +40,7 @@ public:
 	
 	std::size_t size() const { return count_; }
 };
+
 
 
 template<typename Point> class ply_writer;

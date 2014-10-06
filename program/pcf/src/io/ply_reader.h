@@ -12,8 +12,8 @@
 #include <utility>
 #include <memory>
 
-#include "point.h"
-#include "util.h"
+#include "../point.h"
+#include "../util.h"
 
 namespace pcf {
 
