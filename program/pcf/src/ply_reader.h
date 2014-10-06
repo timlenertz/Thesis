@@ -68,9 +68,9 @@ private:
 	template<typename Point> void read_binary_(Point* buffer, std::size_t n);
 	
 	void read_ascii_point_(point_xyz& out_point, const char* props[]) const;
-	void read_ascii_point_(point_xyzrgb& out_point, const char* props[]) const;
+	//void read_ascii_point_(point_xyzrgb& out_point, const char* props[]) const;
 	void read_binary_point_(point_xyz& out_point, char* data) const;
-	void read_binary_point_(point_xyzrgb& out_point, char* data) const;
+	//void read_binary_point_(point_xyzrgb& out_point, char* data) const;
 	template<typename T> T read_binary_property_(const property& prop, char* data) const;
 	
 public:

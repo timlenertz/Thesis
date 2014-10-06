@@ -2,34 +2,51 @@
 #define PCF_POINT_H_
 
 #include <Eigen/Eigen>
+#include <ostream>
 #include <cstdint>
+#include <cassert>
 
 #include "rgb_color.h"
 
 namespace pcf {
 
-struct alignas(16) point_xyz : public Eigen::Vector3f {
-	using Eigen::Vector3f::Vector3f;
-};
+class alignas(16) point_xyz {
+private:
+	Eigen::Vector4f homogeneous_;
 
-struct point_xyzrgb : public point_xyz {
-	rgb_color color;
-
-	using point_xyz::point_xyz;
-
-	point_xyzrgb() = default;
+public:
+	point_xyz(float x = 0, float y = 0, float z = 0) : homogeneous_(x, y ,z, 1) { }
+	point_xyz(const Eigen::Vector3f& v) : homogeneous_(v[0], v[1], v[2], 1) { }
+	point_xyz(const Eigen::Vector4f& v) : homogeneous_(v[0], v[1], v[2], 1) { assert(v[3] == 1); }
 	
-	point_xyzrgb(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b) :
-		point_xyz(x, y, z), color(r, g, b) { }
-
-	template<typename OtherDerived>
-	point_xyzrgb(const Eigen::MatrixBase<OtherDerived>& m) : point_xyz(m) { }
+	point_xyz& operator=(const point_xyz&) = default;
+	point_xyz& operator=(const Eigen::Vector3f& v) {
+		assert(homogeneous_[3] == 1);
+		homogeneous_[0] = v[0]; homogeneous_[1] = v[1]; homogeneous_[2] = v[2];
+		return *this;
+	}
 	
-	template<typename OtherDerived>
-	point_xyzrgb& operator=(const Eigen::MatrixBase<OtherDerived>& m) {
-		this->point_xyz::operator=(m); return *this;
+	point_xyz& operator=(const Eigen::Vector4f& v) {
+		assert(v[3] == 1);
+		homogeneous_ = v;
+		return *this;
+	}
+	
+	float& operator[](std::ptrdiff_t i) { return homogeneous_[i]; }
+	float operator[](std::ptrdiff_t i) const { return homogeneous_[i]; }
+	
+	template<typename Transform>
+	void apply_transformation(const Transform& t) {
+		homogeneous_ = t * homogeneous_;
+	}
+	
+	friend std::ostream& operator<<(std::ostream& str, const point_xyz& p) {
+		str << '(' << p[0] << ", " << p[1] << ", "<< p[2] << ')';
+		return str;
 	}
 };
+
+
 
 }
 

@@ -199,7 +199,7 @@ void ply_reader::read_ascii_point_(point_xyz& pt, const char* props[]) const {
 }
 
 
-
+/*
 void ply_reader::read_ascii_point_(point_xyzrgb& pt, const char* props[]) const {
 	if(has_rgb_) pt = point_xyzrgb(
 		strtof(props[x_.index], nullptr),
@@ -215,7 +215,7 @@ void ply_reader::read_ascii_point_(point_xyzrgb& pt, const char* props[]) const 
 		strtof(props[z_.index], nullptr)	
 	);
 }
-
+*/
 
 void ply_reader::read_binary_point_(point_xyz& pt, char* data) const {
 	pt = point_xyz(
@@ -225,7 +225,7 @@ void ply_reader::read_binary_point_(point_xyz& pt, char* data) const {
 	);
 }
 
-
+/*
 void ply_reader::read_binary_point_(point_xyzrgb& pt, char* data) const {
 	if(has_rgb_) pt = point_xyzrgb(
 		read_binary_property_<float>(x_, data),
@@ -241,6 +241,6 @@ void ply_reader::read_binary_point_(point_xyzrgb& pt, char* data) const {
 		read_binary_property_<float>(z_, data)
 	);
 }
-
+*/
 
 }

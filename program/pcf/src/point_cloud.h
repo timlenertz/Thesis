@@ -10,13 +10,14 @@ template<typename Point>
 class point_cloud {
 public:
 	using point_type = Point;
-
-private:
-	bool has_correct_alignment_() const { return ((std::uintptr_t)buffer_ % alignof(Point) == 0); }
 	
 protected:
-	Point* const buffer_;
-	Point* const buffer_end_;
+	Point* buffer_;
+	Point* buffer_end_;
+	
+	point_cloud() : buffer_(nullptr), buffer_end_(nullptr) { }
+
+	bool has_correct_alignment_() const { return ((std::uintptr_t)buffer_ % alignof(Point) == 0); }
 
 public:
 	using iterator = Point*;
@@ -46,9 +47,9 @@ public:
 	const_iterator cend() const { return buffer_end_; }
 	
 	template<typename Transform>
-	void apply_transformation(const Transform& T) {
+	void apply_transformation(const Transform& t) {
 		#pragma omp parallel for
-		for(iterator it = begin(); it < end(); ++it) *it = T * *it;
+		for(Point* p = buffer_; p < buffer_end_; ++p) p->apply_transformation(t);
 	}
 };
 

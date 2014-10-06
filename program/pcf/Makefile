@@ -1,17 +1,17 @@
 DEPLOY := 1
 
 TARGET := pcf
-CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
-LN := ln
+#CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
+CXX := clang++
 
 PACKAGES := eigen3
 
 CXXFLAGS := -std=c++11 -fdiagnostics-color=auto
 LDFLAGS := 
-LDLIBS := 
+LDLIBS := -lboost_iostreams
 
 ifeq ($(DEPLOY), 1)
-	CXXFLAGS += -O3 -fopenmp -DNDEBUG
+	CXXFLAGS += -O3  -DNDEBUG
 else
 	CXXFLAGS += -g
 endif
