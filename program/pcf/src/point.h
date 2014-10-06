@@ -32,6 +32,9 @@ public:
 		return *this;
 	}
 	
+	float* data() { return homogeneous_.data(); }
+	const float* data() const { return homogeneous_.data(); }
+	
 	float& operator[](std::ptrdiff_t i) { return homogeneous_[i]; }
 	float operator[](std::ptrdiff_t i) const { return homogeneous_[i]; }
 	

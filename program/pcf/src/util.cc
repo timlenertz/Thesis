@@ -62,13 +62,12 @@ void skip_line(std::istream& str, line_delimitor ld) {
 }
 
 void write_line(std::ostream& str, const std::string& line, line_delimitor ld) {
-	if(ld == line_delimitor::unknown) throw std::invalid_argument("Line delimitor not specified");
-
 	str << line;
 	switch(ld) {
 		case line_delimitor::LF: str << '\n'; break;
 		case line_delimitor::CR: str << '\r'; break;
 		case line_delimitor::CRLF: str << "\r\n"; break;
+		default: throw std::invalid_argument("Line delimitor not specified");
 	}
 }
 
