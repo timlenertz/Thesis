@@ -151,14 +151,6 @@ file_(filename, std::ios_base::in), line_delimitor_(ld != line_delimitor::unknow
 }
 
 
-void ply_reader::flip_endianness_(char* data, std::size_t sz) {
-	if(sz < 2) return;
-	std::ptrdiff_t i = sz/2 - 1;
-	std::ptrdiff_t o = sz - i - 1;
-	while(i >= 0) std::swap(data[i--], data[o++]);
-}
-
-
 std::size_t ply_reader::property_type_size_(property_type t) {
 	switch(t) {
 		case int8:  case uint8:  return 1;

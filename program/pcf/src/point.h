@@ -32,11 +32,16 @@ public:
 		return *this;
 	}
 	
+	const Eigen::Vector4f& vector() const { return homogeneous_; }
+	Eigen::Vector4f& vector() { return homogeneous_; }
+	
 	float* data() { return homogeneous_.data(); }
 	const float* data() const { return homogeneous_.data(); }
 	
-	float& operator[](std::ptrdiff_t i) { return homogeneous_[i]; }
-	float operator[](std::ptrdiff_t i) const { return homogeneous_[i]; }
+	float& operator[](std::ptrdiff_t i) { assert(i >= 0 && i <= 2); return homogeneous_[i]; }
+	float operator[](std::ptrdiff_t i) const { assert(i >= 0 && i <= 2); return homogeneous_[i]; }
+	
+	auto operator-(const point_xyz& pt) { return homogeneous_ - pt.homogeneous_; }
 	
 	template<typename Transform>
 	void apply_transformation(const Transform& t) {
@@ -47,6 +52,14 @@ public:
 		str << '(' << p[0] << ", " << p[1] << ", "<< p[2] << ')';
 		return str;
 	}
+};
+
+
+class alignas(32) point_full : public point_xyz {
+public:
+	Eigen::Vector3f normal;
+	rgb_color color;
+	std::uint8_t whatever;
 };
 
 

@@ -78,4 +78,12 @@ bool host_is_little_endian() {
 }
 
 
+void flip_endianness(char* data, std::size_t sz) {
+	if(sz < 2) return;
+	std::ptrdiff_t i = sz/2 - 1;
+	std::ptrdiff_t o = sz - i - 1;
+	while(i >= 0) std::swap(data[i--], data[o++]);
+}
+
+
 }

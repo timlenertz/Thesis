@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <Eigen/Eigen>
+#include <Eigen/Geometry>
 
 namespace pcf {
 
@@ -18,7 +20,8 @@ protected:
 	point_cloud() : buffer_(nullptr), buffer_end_(nullptr) { }
 
 	void check_correct_alignment_() const {
-		if((std::uintptr_t)buffer_ % alignof(Point)) throw std::runtime_error("Point cloud data not properly aligned.");
+		if((std::uintptr_t)buffer_ % alignof(Point))
+			throw std::runtime_error("Point cloud data not properly aligned.");
 	}
 
 public:
@@ -48,10 +51,16 @@ public:
 	const_iterator end() const { return buffer_end_; }
 	const_iterator cend() const { return buffer_end_; }
 	
-	template<typename Transform>
-	void apply_transformation(const Transform& t) {
+	void apply_transformation(const Eigen::Affine3f& t) {
 		#pragma omp parallel for
 		for(Point* p = buffer_; p < buffer_end_; ++p) p->apply_transformation(t);
+	}
+	
+	Eigen::Vector3f mean() const {
+		Eigen::Vector4f sum(0, 0, 0, 0);
+		//#pragma omp parallel for shared(sum)
+		for(Point* p = buffer_; p < buffer_end_; ++p) sum += p->vector();
+		return Eigen::Vector3f(sum[0] / size(), sum[1] / size(), sum[2] / size());
 	}
 };
 

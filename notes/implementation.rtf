@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16320\viewh14940\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural
+
+\f0\fs26 \cf0 Point cloud fusion\
+Software architecture for complete point cloud fusion framework\
+Subset for thesis project implemented\
+\
+\
+Libraries used:\
+	Do not use PCL?\
+		Need to study/work on algorithm implementations\
+		Need to handle large point sets\
+		Problems with command line tools\
+	Use Eigen\
+		Parallelized linear algebra/math functionality\
+		Also used by PCL in case\
+	OpenMP for parallelization\
+	Maybe:\
+		CGAL (compatible? with Eigen) for CG algorithms\
+		OpenCV for image analysis\
+		HDF5 for structure serialization\
+		\
+	\
+\
+Architecture Requirements:\
+	Test out different methods\
+	Handling of large data sets\
+	Differents kinds/combinations of input data\
+	Measure results accuracy\
+	Visualize/Record intermediary representations\
+	Generate artificial data sets\
+\
+\
+Input:\
+	Scene Assets (name?)\
+		Kept in working memory (file mapping)\
+		Compromise between compactness (large size) and efficiency (alignment, vectorization)\
+		Import/Export of input, output, intermediary\
+\
+	Attributes:\
+		Transformation matrix, relative to another asset (photo?)\
+		Quality attribute of transformation (none, user defined, coarse, fine, final?)\
+\
+	3D Unstructured point set (point cloud)\
+	2.5D Structured point set (from range image)\
+		From range image\
+		Transform spherical coords on import\
+		As structured point cloud variant\
+	2D Photo\
+		? best representation, what preprocessing\
+		matrix by spherical coordinates, ray directions?\
+\
+Point set structures?\
+	Raw (unordered list)\
+	Range Image (2D matrix)\
+	Octree, KDtree, others?\
+\
+Point variants\
+	point_xyz			using Vector4f for alignment+vectorization\
+	point_xyzrgb (?)	still 16 byte, need to swap out/in pt[3]\
+	point_full			32 byte: RGB, normal, 1 byte (saliency, category?)}

@@ -1,12 +1,12 @@
 DEPLOY := 1
 
 TARGET := pcf
-#CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
-CXX := clang++
+CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
+#CXX := clang++
 
 PACKAGES := eigen3
 
-CXXFLAGS := -std=c++11 -fdiagnostics-color=auto
+CXXFLAGS := -std=c++1y -fdiagnostics-color=auto -fopenmp
 LDFLAGS := 
 LDLIBS := -lboost_iostreams
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Eigen/Eigen>
+#include <Eigen/Geometry>
 
 #include "point_cloud_mmap.h"
 #include "point_cloud_alloc.h"
@@ -10,23 +11,11 @@
 using namespace pcf;
 
 int main(int argc, const char* argv[]) {
-	ply_reader ply_in(argv[1]);
-	std::size_t sz = ply_in.size();
-	std::cout << "Size: " << sz << std::endl;
-	
-	std::cout << "Importing PLY..." << std::endl;
-	point_cloud_mmap<point_xyz> pc(sz, "pc.dat");
-	ply_in.read(pc.data(), sz);
-	std::cout << "Done." << std::endl;
-	
-	std::cout << "Applying transformation..." << std::endl;
-	using transform_t = Eigen::Transform<float, 3, Eigen::Affine>;
-	transform_t t( Eigen::AngleAxisf(0.5*M_PI, Eigen::Vector3f::UnitX()) );
-	pc.apply_transformation(t);
-	std::cout << "Done." << std::endl;
+	ply_reader ply(argv[1]);
+	point_cloud_alloc<point_xyz> pc(ply.size());
+	ply.read(pc.data(), ply.size());
 
-	ply_writer<point_xyz> ply_out(argv[2]);
-	std::cout << "Exporting PLY..." << std::endl;
-	ply_out.write(pc.data(), sz);
-	std::cout << "Done." << std::endl;
+	pc.apply_transformation(Eigen::Translation3f(-pc.mean()));
+
+	std::cout << pc.mean() << std::endl;
 }

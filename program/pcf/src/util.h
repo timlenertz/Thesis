@@ -2,6 +2,7 @@
 #define PCF_UTIL_H_
 
 #include <iosfwd>
+#include <limits>
 
 namespace pcf {
 
@@ -17,6 +18,8 @@ void write_line(std::ostream&, const std::string&, line_delimitor = default_line
 
 bool host_is_little_endian();
 
+constexpr bool host_has_iec559_float = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+void flip_endianness(char* data, std::size_t sz);
 
 
 }

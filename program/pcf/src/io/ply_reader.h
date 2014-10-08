@@ -39,10 +39,7 @@ private:
 		
 		explicit operator bool() const { return (type != none); }
 	};
-	
-	static constexpr bool host_has_iec559_float_ = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
-	static void flip_endianness_(char* data, std::size_t sz);
-	
+		
 	std::ifstream file_;
 	line_delimitor line_delimitor_;
 	std::ifstream::pos_type vertex_data_start_; ///< File offset where vertex data starts.
@@ -145,7 +142,7 @@ template<typename T>
 T ply_reader::read_binary_property_(const property& prop, char* data) const {
 	std::size_t sz = property_type_size_(prop.type);
 	data += prop.offset;
-	if(! is_host_endian_binary_()) flip_endianness_(data, sz);
+	if(! is_host_endian_binary_()) flip_endianness(data, sz);
 	switch(prop.type) {
 		case int8:   return static_cast<T>( *reinterpret_cast<const std::int8_t*>(data) );
 		case uint8:  return static_cast<T>( *reinterpret_cast<const std::uint8_t*>(data) );
@@ -155,7 +152,7 @@ T ply_reader::read_binary_property_(const property& prop, char* data) const {
 		case uint32: return static_cast<T>( *reinterpret_cast<const std::uint32_t*>(data) );
 		default: break;
 	}
-	if(host_has_iec559_float_) switch(prop.type) {
+	if(host_has_iec559_float) switch(prop.type) {
 		case float32: return static_cast<T>( *reinterpret_cast<const float*>(data) );
 		case float64: return static_cast<T>( *reinterpret_cast<const double*>(data) );
 		default: break;
