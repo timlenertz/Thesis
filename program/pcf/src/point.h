@@ -4,6 +4,7 @@
 #include <Eigen/Eigen>
 #include <ostream>
 #include <cstdint>
+#include <cmath>
 #include <cassert>
 
 #include "rgb_color.h"
@@ -32,17 +33,15 @@ public:
 		return *this;
 	}
 	
-	const Eigen::Vector4f& vector() const { return homogeneous_; }
-	Eigen::Vector4f& vector() { return homogeneous_; }
+	const Eigen::Vector4f& homogeneous_coordinates() const { return homogeneous_; }
+	Eigen::Vector4f& homogeneous_coordinates() { return homogeneous_; }
 	
 	float* data() { return homogeneous_.data(); }
 	const float* data() const { return homogeneous_.data(); }
 	
 	float& operator[](std::ptrdiff_t i) { assert(i >= 0 && i <= 2); return homogeneous_[i]; }
 	float operator[](std::ptrdiff_t i) const { assert(i >= 0 && i <= 2); return homogeneous_[i]; }
-	
-	auto operator-(const point_xyz& pt) { return homogeneous_ - pt.homogeneous_; }
-	
+		
 	template<typename Transform>
 	void apply_transformation(const Transform& t) {
 		homogeneous_ = t * homogeneous_;
@@ -54,6 +53,14 @@ public:
 	}
 };
 
+inline float euclidian_distance_sq(const point_xyz& a, const point_xyz& b) {
+	Eigen::Vector4f d = b.homogeneous_coordinates() - a.homogeneous_coordinates();
+	return d[0]*d[0] + d[1]*d[1] + d[2]*d[2];
+}
+
+inline float euclidian_distance(const point_xyz& a, const point_xyz& b) {
+	return std::sqrt(euclidian_distance_sq(a, b));
+}
 
 class alignas(32) point_full : public point_xyz {
 public:

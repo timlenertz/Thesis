@@ -2,6 +2,8 @@
 #define PCF_POINT_CORRESPONDENCES_H_
 
 #include <vector>
+#include <Eigen/Eigen>
+#include <Eigen/Geometry>
 #include "../point.h"
 
 namespace pcf {
@@ -16,6 +18,8 @@ public:
 
 public:
 	std::vector<correspondence> correspondences_;
+	
+	Eigen::Affine3f estimate_transformation();
 };
 
 }
