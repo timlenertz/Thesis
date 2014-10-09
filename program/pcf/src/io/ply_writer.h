@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../point.h"
-#include "../util.h"
+#include "util.h"
 
 namespace pcf {
 

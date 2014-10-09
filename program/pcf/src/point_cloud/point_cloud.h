@@ -6,9 +6,11 @@
 #include <utility>
 #include <memory>
 #include <limits>
+#include <cstring>
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
-#include "asset.h"
+#include "../asset.h"
+#include "../point.h"
 
 namespace pcf {
 
@@ -23,8 +25,9 @@ private:
 	Allocator allocator_;
 
 protected:
-	Point* buffer_;
+	Point* const buffer_;
 	Point* buffer_end_;
+	const std::size_t allocated_size_;
 	
 	void check_correct_alignment_() const {
 		if((std::uintptr_t)buffer_ % alignof(Point))
@@ -32,18 +35,35 @@ protected:
 	}
 
 public:
-	point_cloud(std::size_t size, const Allocator& alloc = Allocator()) :
-	allocator_(alloc) {
-		buffer_ = allocator_.allocate(size);
-		buffer_end_ = buffer_ + size;
+	explicit point_cloud(std::size_t size, const Allocator& alloc = Allocator()) :
+	allocator_(alloc), buffer_(allocator_.allocate(size)), buffer_end_(buffer_ + size), allocated_size_(size) {
 		check_correct_alignment_();
 	}
 	
-	~point_cloud() {
-		allocator_.deallocate(buffer_, size());
+	
+	template<typename Other_alloc>
+	point_cloud(const point_cloud<Point, Other_alloc>& pc, const Allocator& alloc = Allocator()) :
+	point_cloud(pc.capacity(), alloc) {
+		std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
+	}
+	
+	template<typename Other>
+	point_cloud(const Other& pc, const Allocator& alloc = Allocator()) :
+	point_cloud(pc.capacity(), alloc) {
+		Point* o = buffer_;
+		typename Other::const_iterator i = pc.cbegin();
+		
+		#pragma omp parallel for
+		for(; i < pc.cend(); ++o, ++i) *o = *i;
 	}
 	
 	std::size_t size() const { return buffer_end_ - buffer_; }
+	std::size_t capacity() const { return allocated_size_; }
+
+	void resize(std::size_t new_size) {
+		if(new_size > capacity()) throw std::logic_error("Point cloud new size cannot be greater than capacity.");
+		else buffer_end_ = buffer_ + new_size;
+	}
 	
 	Point& operator[](std::ptrdiff_t d) { return buffer_[d]; }
 	const Point& operator[](std::ptrdiff_t d) const { return buffer_[d]; }
@@ -69,15 +89,16 @@ public:
 	Eigen::Vector3f mean() const {
 		Eigen::Vector4f sum(0, 0, 0, 0);
 		//#pragma omp parallel for shared(sum)
-		for(Point* p = buffer_; p < buffer_end_; ++p) sum += p->homogeneous_coordinates();
+		for(Point* p = buffer_; p < buffer_end_; ++p) sum += p->homogeneous_coordinates;
 		return Eigen::Vector3f(sum[0] / size(), sum[1] / size(), sum[2] / size());
 	}
 	
-	template<typename Distance_func>
-	Point& find_closest_point(const Point& from, const Distance_func& dist) {
+	template<typename Other_point, typename Distance_func>
+	Point& find_closest_point(const Other_point& from, Distance_func dist) {
 		float minimal_distance = std::numeric_limits<float>::infinity();
 		Point* closest_point = nullptr;
 		
+		#pragma omp parallel for shared(minimal_distance, closest_point)
 		for(Point* p = buffer_; p < buffer_end_; ++p) {
 			float d = dist(*p, from);
 			if(d < minimal_distance) {
@@ -87,6 +108,12 @@ public:
 		}
 		
 		return *closest_point;
+	}
+	
+	void remove_invalid_points() {
+		Point* np = buffer_;
+		for(Point* p = buffer_; p < buffer_end_; ++p) if(p->valid()) *(np++) = *p;
+		buffer_end_ = np;
 	}
 };
 

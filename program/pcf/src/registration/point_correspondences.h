@@ -8,11 +8,13 @@
 
 namespace pcf {
 
-class point_correspondences {	
+template<typename... Point>
+class point_correspondences {
 public:
+	constexpr static std::size_t number_of_point_clouds = sizeof...(Point);
+
 	struct correspondence {
-		const point_xyz& source;
-		const point_xyz& target;
+		std::tuple<Point&...> points;
 		float weight = 1.0;
 	};
 

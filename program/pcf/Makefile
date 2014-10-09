@@ -1,20 +1,20 @@
-DEPLOY := 1
-
 TARGET := pcf
-#CXX := /usr/local/Cellar/gcc/4.9.1/bin/g++-4.9
+#CXX := g++-4.9
 CXX := clang++
 
-PACKAGES := eigen3
+PACKAGES := eigen3 opencv
 
-CXXFLAGS := -std=c++1y -fdiagnostics-color=auto #-fopenmp
+CXXFLAGS := -std=c++1y -fdiagnostics-color=auto -Wall -pedantic
 LDFLAGS := 
 LDLIBS := -lboost_iostreams -lboost_filesystem -lboost_system
 
-ifeq ($(DEPLOY), 1)
-	CXXFLAGS += -O3  -DNDEBUG -g
-else
-	CXXFLAGS += -g
-endif
+CXXFLAGS += -O3 -g #-fopenmp
+
+#ifeq ($(DEPLOY), 1)
+#	CXXFLAGS += -O3  -DNDEBUG -g
+#else
+#	CXXFLAGS += -g
+#endif
 
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 LDLIBS += $(shell pkg-config --libs $(PACKAGES))
