@@ -10,17 +10,18 @@ Subset for thesis project implemented\
 \
 \
 Libraries used:\
-	Do not use PCL?\
+	Not use PCL\
 		Need to study/work on algorithm implementations\
 		Need to handle large point sets\
 		Problems with command line tools\
+		Restrict mainly to merging/registration\
 	Use Eigen\
 		Parallelized linear algebra/math functionality\
 		Also used by PCL in case\
+	OpenCV for image analysis + range images\
 	OpenMP for parallelization\
 	Maybe:\
 		CGAL (compatible? with Eigen) for CG algorithms\
-		OpenCV for image analysis\
 		HDF5 for structure serialization\
 		\
 	\
@@ -67,7 +68,9 @@ Point variants\
 	point_full			32 byte: RGB, normal, 1 byte (saliency, category, intensity?)\
 \
 \
-Architecture:\
+\
+\
+Pipeline Architecture:\
 	Name?:\
 		Component\
 		Module\

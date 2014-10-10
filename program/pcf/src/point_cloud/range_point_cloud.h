@@ -5,6 +5,7 @@
 #include <vector>
 #include <limits>
 #include "point_cloud.h"
+#include "../range_image.h"
 
 namespace pcf {
 
@@ -69,6 +70,21 @@ public:
 				{ z_buffer[off] = z; super::buffer_[off] = *p; }
 			}
 		}
+	}
+	
+
+	
+	range_image to_range_image() {
+		Point* p = super::buffer_;
+		range_image ri(width_, height_);
+		for(std::ptrdiff_t y = 0; y < height_; ++y) {
+			for(std::ptrdiff_t x = 0; x < width_; ++x) {
+				++p;
+				
+				ri.at(x, y) = (p->valid() ? 1 : 0);
+			}
+		}
+		return ri;
 	}
 	
 	void print() {

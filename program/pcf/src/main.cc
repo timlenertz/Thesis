@@ -26,9 +26,9 @@ int main(int argc, const char* argv[]) try {
 	
 	rpc.print();
 	rpc.apply_transformation( Eigen::Translation<float, 3>(0, 0, 1000) );
-	std::cout << "-------------------------------------------" << std::endl;
-	rpc.print();
 
+	range_image ri = rpc.to_range_image();
+	ri.save("ri.png");
 
 } catch(const std::exception& ex) {
 	std::cerr << "Uncaught exception: " << ex.what() << std::endl;
