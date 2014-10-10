@@ -6,6 +6,7 @@
 #include "point_cloud/point_cloud.h"
 #include "point_cloud/range_point_cloud.h"
 #include "util/projection.h"
+#include "registration/point_correspondences.h"
 
 #include "util/mmap_allocator.h"
 #include "io/ply_reader.h"
@@ -16,19 +17,21 @@ using namespace pcf;
 
 int main(int argc, const char* argv[]) try {
 	ply_reader ply(argv[1]);
-	point_cloud<point_xyz> pc(ply.size());
-	ply.read(pc.data(), ply.size());
+	point_cloud<point_xyz> pc1(ply.size());
+	ply.read(pc1.data(), ply.size());
 
-	auto proj = perspective_projection_matrix(90, 4.0/3.0, 1000, 0.1) * Eigen::Translation<float, 3>(0, 0, std::strtof(argv[2], nullptr));
-	range_point_cloud<point_xyz> rpc(50, 20);
+	point_cloud<point_xyz> pc2 = pc1;
 	
-	rpc.project_point_cloud(pc, proj);
+	pc2.apply_transformation(Eigen::AngleAxisf(0.1*M_PI, Eigen::Vector3f::UnitX()));
 	
-	rpc.print();
-	rpc.apply_transformation( Eigen::Translation<float, 3>(0, 0, 1000) );
+	point_correspondences<point_xyz, point_xyz> cor;
+	for(;;) {
+		cor.find_closest_points(pc1, pc2);
+		std::cout << cor.error() << std::endl;
 
-	range_image ri = rpc.to_range_image();
-	ri.save("ri.png");
+		cor.erase();
+		pc2.apply_transformation(Eigen::AngleAxisf(-0.01*M_PI, Eigen::Vector3f::UnitX()));
+	}
 
 } catch(const std::exception& ex) {
 	std::cerr << "Uncaught exception: " << ex.what() << std::endl;

@@ -40,16 +40,22 @@ public:
 		check_correct_alignment_();
 	}
 	
+	point_cloud(const point_cloud& pc) : point_cloud(pc.capacity()) {
+		resize(pc.size());
+		std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
+	}
 	
 	template<typename Other_alloc>
 	point_cloud(const point_cloud<Point, Other_alloc>& pc, const Allocator& alloc = Allocator()) :
 	point_cloud(pc.capacity(), alloc) {
+		resize(pc.size());
 		std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
 	}
 	
 	template<typename Other>
 	point_cloud(const Other& pc, const Allocator& alloc = Allocator()) :
 	point_cloud(pc.capacity(), alloc) {
+		resize(pc.size());
 		Point* o = buffer_;
 		
 		#pragma omp parallel for
@@ -102,7 +108,7 @@ public:
 	}
 	
 	template<typename Other_point, typename Distance_func>
-	Point& find_closest_point(const Other_point& from, Distance_func dist) {
+	Point& find_closest_point(const Other_point& from, Distance_func dist) const {
 		float minimal_distance = std::numeric_limits<float>::infinity();
 		Point* closest_point = nullptr;
 		
@@ -113,7 +119,7 @@ public:
 
 			#pragma omp for
 			for(Point* p = buffer_; p < buffer_end_; ++p) {
-				float d = dist(*p, from);
+				float d = dist(*p, from);								
 				if(d < min_d) { min_d = d; cp = p; }
 			}
 

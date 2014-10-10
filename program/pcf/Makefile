@@ -2,7 +2,7 @@ TARGET := pcf
 CXX := g++-4.9
 #CXX := clang++
 
-PACKAGES := eigen3 opencv
+PACKAGES := eigen3 #opencv
 
 CXXFLAGS := -std=c++1y -fdiagnostics-color=auto #-Wall -pedantic
 LDFLAGS := 
