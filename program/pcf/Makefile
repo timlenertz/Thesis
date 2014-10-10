@@ -1,14 +1,14 @@
 TARGET := pcf
-#CXX := g++-4.9
-CXX := clang++
+CXX := g++-4.9
+#CXX := clang++
 
 PACKAGES := eigen3 opencv
 
-CXXFLAGS := -std=c++1y -fdiagnostics-color=auto -Wall -pedantic
+CXXFLAGS := -std=c++1y -fdiagnostics-color=auto #-Wall -pedantic
 LDFLAGS := 
 LDLIBS := -lboost_iostreams -lboost_filesystem -lboost_system
 
-CXXFLAGS += -O3 -g #-fopenmp
+CXXFLAGS += -O3 -g -fopenmp
 
 #ifeq ($(DEPLOY), 1)
 #	CXXFLAGS += -O3  -DNDEBUG -g

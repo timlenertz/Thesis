@@ -51,10 +51,9 @@ public:
 	point_cloud(const Other& pc, const Allocator& alloc = Allocator()) :
 	point_cloud(pc.capacity(), alloc) {
 		Point* o = buffer_;
-		typename Other::const_iterator i = pc.cbegin();
 		
 		#pragma omp parallel for
-		for(; i < pc.cend(); ++o, ++i) *o = *i;
+		for(typename Other::const_iterator i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
 	}
 	
 	std::size_t size() const { return buffer_end_ - buffer_; }
@@ -88,8 +87,17 @@ public:
 	
 	Eigen::Vector3f mean() const {
 		Eigen::Vector4f sum(0, 0, 0, 0);
-		//#pragma omp parallel for shared(sum)
-		for(Point* p = buffer_; p < buffer_end_; ++p) sum += p->homogeneous_coordinates;
+		
+		#pragma omp parallel
+		{
+			Eigen::Vector4f s(0, 0, 0, 0);
+			#pragma omp for
+			for(Point* p = buffer_; p < buffer_end_; ++p) s += p->homogeneous_coordinates;
+			
+			#pragma omp critical
+			{ sum += s; }
+		}
+
 		return Eigen::Vector3f(sum[0] / size(), sum[1] / size(), sum[2] / size());
 	}
 	
@@ -98,13 +106,19 @@ public:
 		float minimal_distance = std::numeric_limits<float>::infinity();
 		Point* closest_point = nullptr;
 		
-		#pragma omp parallel for shared(minimal_distance, closest_point)
-		for(Point* p = buffer_; p < buffer_end_; ++p) {
-			float d = dist(*p, from);
-			if(d < minimal_distance) {
-				minimal_distance = d;
-				closest_point = p;
+		#pragma omp parallel
+		{
+			float min_d = std::numeric_limits<float>::infinity();
+			Point* cp = nullptr;
+
+			#pragma omp for
+			for(Point* p = buffer_; p < buffer_end_; ++p) {
+				float d = dist(*p, from);
+				if(d < min_d) { min_d = d; cp = p; }
 			}
+
+			#pragma omp critical
+			if(min_d < minimal_distance) { minimal_distance = min_d; closest_point = cp; }
 		}
 		
 		return *closest_point;

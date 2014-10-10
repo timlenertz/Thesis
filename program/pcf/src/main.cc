@@ -19,18 +19,17 @@ int main(int argc, const char* argv[]) try {
 	point_cloud<point_xyz> pc(ply.size());
 	ply.read(pc.data(), ply.size());
 
-	auto proj = perspective_projection_matrix(60, 4.0/3.0, 1000, 0.1) * Eigen::Affine3f(Eigen::Translation3f(0.0, 0.0, -100.0));
-	range_point_cloud<point_xyz> rpc(400, 300, proj.matrix());
-	rpc.erase();
-	rpc.project_point_cloud(pc, proj.matrix());
-		
-	rpc.remove_invalid_points();
-	std::cout << rpc.size() << std::endl;
+	auto proj = perspective_projection_matrix(90, 4.0/3.0, 1000, 0.1) * Eigen::Translation<float, 3>(0, 0, std::strtof(argv[2], nullptr));
+	range_point_cloud<point_xyz> rpc(50, 20);
 	
-	ply_writer<point_xyz> plyw(argv[2]);
-	plyw.write(rpc.data(), rpc.size());
+	rpc.project_point_cloud(pc, proj);
+	
+	rpc.print();
+	rpc.apply_transformation( Eigen::Translation<float, 3>(0, 0, 1000) );
+	std::cout << "-------------------------------------------" << std::endl;
+	rpc.print();
+
 
 } catch(const std::exception& ex) {
 	std::cerr << "Uncaught exception: " << ex.what() << std::endl;
 }
-

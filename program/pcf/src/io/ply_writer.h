@@ -45,6 +45,7 @@ public:
 
 template<typename Point> class ply_writer;
 
+
 template<>
 class ply_writer<point_xyz> : public ply_writer_base {
 public:
@@ -58,10 +59,38 @@ public:
 	
 	void write(const point_xyz* buffer, std::size_t n) {
 		count_ += n;
-		while(n--) write_raw_(
-			reinterpret_cast<const char*>( (buffer++)->data() ),
-			3 * sizeof(float)
-		);
+		while(n--)
+			write_raw_(reinterpret_cast<const char*>( &(buffer++)->homogeneous_coordinates ), 3 * sizeof(float));
+		overwrite_count_();
+	}
+};
+
+
+template<>
+class ply_writer<point_full> : public ply_writer_base {
+public:
+	using ply_writer_base::ply_writer_base;
+	
+	void write_vertex_properties_definition_() override {
+		write_line_("property float x");
+		write_line_("property float y");
+		write_line_("property float z");
+		write_line_("property float nx");
+		write_line_("property float ny");
+		write_line_("property float nz");
+		write_line_("property uchar red");
+		write_line_("property uchar green");
+		write_line_("property uchar blue");
+	}
+	
+	void write(const point_full* buffer, std::size_t n) {
+		count_ += n;
+		while(n--) {
+			write_raw_(reinterpret_cast<const char*>( &buffer->homogeneous_coordinates ), 3 * sizeof(float));
+			write_raw_(reinterpret_cast<const char*>( &buffer->normal ), 3 * sizeof(float));
+			write_raw_(reinterpret_cast<const char*>( &buffer->color ), 3);
+			++buffer;
+		}
 		overwrite_count_();
 	}
 };
