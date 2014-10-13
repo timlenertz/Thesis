@@ -3,7 +3,7 @@
 
 namespace pcf {
 
-template<typename Point>
+template<typename Point_correspondences>
 class icp {
 
 };

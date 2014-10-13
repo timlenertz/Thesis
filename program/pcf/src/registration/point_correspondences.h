@@ -28,6 +28,7 @@ public:
 	
 	template<typename Cloud1, typename Cloud2>
 	void find_closest_points(const Cloud1& pc1, const Cloud2& pc2) {
+		correspondences_.reserve(pc1.size());
 		#pragma omp parallel for
 		for(auto p1 = pc1.cbegin(); p1 < pc1.cend(); ++p1) {
 			const auto& p2 = pc2.find_closest_point(*p1, euclidian_distance_sq);

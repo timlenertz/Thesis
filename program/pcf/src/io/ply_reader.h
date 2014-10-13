@@ -12,6 +12,8 @@
 #include <utility>
 #include <memory>
 
+#include <iostream>
+
 #include "../point.h"
 #include "util.h"
 
@@ -48,7 +50,7 @@ private:
 	std::size_t vertex_length_; ///< For binary formats, length of one vertex element.
 	std::size_t number_of_properties_; ///< Number of properties for vertex element.
 	bool has_rgb_; ///< Whether r_, g_, b_ are defined.
-	property x_, y_, z_, r_, g_, b_; ///< Offsets, Indices and types of vertex properties.
+	property x_, y_, z_, r_, g_, b_, nx_, ny_, nz_; ///< Offsets, Indices and types of vertex properties.
 	
 	std::ptrdiff_t current_element_; ///< Index of current element.
 
@@ -61,7 +63,9 @@ private:
 		read_line(file_, ln, line_delimitor_);
 	}
 	
-	bool is_host_endian_binary_() const { return (format_ == host_is_little_endian() ? binary_little_endian : binary_big_endian); }
+	bool is_host_endian_binary_() const {
+		return (format_ == host_is_little_endian() ? binary_little_endian : binary_big_endian);
+	}
 	
 	property* identify_property_(const std::string& nm);
 	static property_type identify_property_type_(const std::string& nm);

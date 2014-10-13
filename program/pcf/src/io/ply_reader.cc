@@ -25,6 +25,9 @@ ply_reader::property* ply_reader::identify_property_(const std::string& nm_orig)
 	if(nm == "x") return &x_;
 	else if(nm == "y") return &y_;
 	else if(nm == "z") return &z_;
+	else if(nm == "nx") return &nx_;
+	else if(nm == "ny") return &ny_;
+	else if(nm == "nz") return &nz_;
 	else if(nm == "r" || nm == "red") return &r_;
 	else if(nm == "g" || nm == "green") return &g_;
 	else if(nm == "b" || nm == "blue") return &b_;
@@ -100,13 +103,13 @@ void ply_reader::read_header_() {
 			} else if(state == within_vertex_definition) {
 				// When withnin vertex definition, capture XYZRGB data offsets.
 				property* prop = identify_property_(name);
-				if(! prop) continue; // unknown property
-				
-				// Store data offset (for binary) and index (for ascii) of property
-				prop->type = type;
-				prop->offset = vertex_property_data_offset;
-				prop->index = vertex_property_index;
-				
+				if(prop) {
+					// Store data offset (for binary) and index (for ascii) of property
+					// If prop==null, unknown property
+					prop->type = type;
+					prop->offset = vertex_property_data_offset;
+					prop->index = vertex_property_index;
+				}
 				// Increment data offset and index
 				vertex_property_data_offset += type_size;
 				++vertex_property_index;

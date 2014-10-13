@@ -3,6 +3,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <cmath>
+#include <string>
 #include "asset.h"
 
 namespace pcf {
@@ -20,7 +21,7 @@ public:
 	float& at(std::ptrdiff_t x, std::ptrdiff_t y) { return matrix_.at<float>(y, x); }
 	float at(std::ptrdiff_t x, std::ptrdiff_t y) const { return matrix_.at<float>(y, x); }
 	
-	void save(const char* str);
+	void save_image(const std::string& path);
 };
 
 }
