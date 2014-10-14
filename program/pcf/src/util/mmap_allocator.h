@@ -3,46 +3,47 @@
 
 #include <string>
 #include <cassert>
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/filesystem.hpp>
+#include <memory>
 
 namespace pcf {
 
 class mmap_allocator_base {
+private:
+	struct impl;
+	std::unique_ptr<impl> impl_;
 
+public:
+	mmap_allocator_base(const std::string& path);
+	~mmap_allocator_base();
+	
+	void* allocate_(std::size_t length, std::size_t align, const void* hint);
+	void deallocate_(void* buf, std::size_t length);
+	void remove_file_();
 };
 
+
 template<class T>
-class mmap_allocator {
+class mmap_allocator : private mmap_allocator_base {
 public:
 	using value_type = T;
 
 private:
 	const bool temporary_;
-	const boost::filesystem::path path_;
-	boost::iostreams::mapped_file file_;
 
 public:
-	mmap_allocator(const boost::filesystem::path& path = boost::filesystem::path(), bool temporary = true) :
-	path_(path.empty() ? boost::filesystem::unique_path() : path), temporary_(temporary) { }
+	mmap_allocator(const std::string& path = std::string(), bool temporary = true) :
+	mmap_allocator_base(path), temporary_(temporary) { }
 
 	T* allocate(std::size_t n, const T* hint = 0) {
-		assert(file_.alignment() % alignof(T) == 0);
-	
-		boost::iostreams::mapped_file_params params(path_.native());
-		params.flags = boost::iostreams::mapped_file::readwrite;
-		params.new_file_size = n * sizeof(T);
-		params.hint = 0;
-		
-		file_.open(params);
-		
-		return reinterpret_cast<T*>(file_.data());
+		return reinterpret_cast<T*>(
+			allocate_(n * sizeof(T), alignof(T), reinterpret_cast<void*>(hint))
+		);
 	}
 	
 	void deallocate(T* buf, std::size_t n) {
-		file_.close();
-		if(temporary_) boost::filesystem::remove(path_);
-	}	
+		deallocate_(reinterpret_cast<const T*>(buf), n * sizeof(T));
+		if(temporary_) remove_file_();
+	}
 };
 
 }
