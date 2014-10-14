@@ -4,10 +4,9 @@
 #include <Eigen/Geometry>
 
 #include "point_cloud/point_cloud.h"
-#include "point_cloud/range_point_cloud.h"
 #include "util/projection.h"
-#include "registration/point_correspondences.h"
-#include "range_image.h"
+#include "registration/points_correspondence.h"
+#include "registration/icp.h"
 
 #include "util/mmap_allocator.h"
 #include "io/ply_reader.h"
@@ -16,21 +15,39 @@
 
 using namespace pcf;
 
+static void export_pc(const std::string& path, const point_cloud<point_xyz>& pc) {
+	ply_writer<point_xyz> ply(path);
+	pc.write(ply);
+}
+
 int main(int argc, const char* argv[]) try {
+	using pc_t = point_cloud<point_xyz>;
+
 	ply_reader ply(argv[1]);
-	point_cloud<point_xyz> pc(ply.size());
-	ply.read(pc.data(), ply.size());
+	pc_t pc1 = pc_t::create_from_reader(ply);
+	pc_t pc2 = pc1;
+	
+	std::cout << "Building points correspondence" << std::endl;
+	points_correspondence<pc_t, pc_t> cor(pc1, pc2);
+	for(std::ptrdiff_t i = 0; i <= pc1.size(); ++i) {
+		cor.add(pc1[i], pc2[i]);
+	}
+	
+	Eigen::Affine3f T(
+		Eigen::AngleAxisf(0.01*M_PI, Eigen::Vector3f::UnitY()) * Eigen::Translation3f(0.0, 1.0, 0.0)
+	);
+	std::cout << "Real transformation:" << std::endl;
+	std::cout << T.matrix() << std::endl;
 
-	auto proj = perspective_projection_matrix(60, 4.0/3.0, 10000, 0.1) * Eigen::Translation<float, 3>(0, 0.1, 1) * Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitZ());
-	
-	
-	range_point_cloud<point_xyz> rpc(400, 300);
-	rpc.project_point_cloud(pc, proj);
 
-	range_image ri = rpc.to_range_image();
-	ri.save_image("test.png");
+	pc1.apply_transformation(T);
+	std::cout << "After trans: " << cor.error(euclidian_distance_sq) << std::endl;
+
+	icp<pc_t, pc_t> ic(pc1, pc2);
+	ic();
 	
-	
+	std::cout << "After ICP: " << cor.error(euclidian_distance_sq) << std::endl;
+
 } catch(const std::exception& ex) {
 	std::cerr << "Uncaught exception: " << ex.what() << std::endl;
 }

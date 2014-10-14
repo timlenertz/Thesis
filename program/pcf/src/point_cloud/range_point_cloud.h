@@ -48,9 +48,12 @@ public:
 	template<typename Transformation>
 	void apply_transformation(const Transformation&);
 	
+	template<typename Other_point, typename Distance_func>
+	Point& find_closest_point(const Other_point& from, Distance_func dist, unsigned neightborhood_radius = 1) const;
 	
 	template<typename Other_cloud>
 	void project_point_cloud(const Other_cloud& pc, const Eigen::Projective3f& projm);
+	
 	
 	range_image to_range_image();
 };

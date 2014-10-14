@@ -16,7 +16,9 @@ struct alignas(16) point_xyz {
 	// last component needs to be 1
 	// otherwise point is invalid
 
-	point_xyz() = default;
+	/// Default constructor. Initializes invalid point.
+	point_xyz() : homogeneous_coordinates(Eigen::Vector4f::Zero()) { }
+	
 	point_xyz(float x, float y, float z) : homogeneous_coordinates(x, y ,z, 1) { }
 	point_xyz(const Eigen::Vector3f& v) : homogeneous_coordinates(v[0], v[1], v[2], 1) { }
 	
@@ -44,7 +46,9 @@ struct alignas(16) point_xyz {
 	
 	float& operator[](std::ptrdiff_t i) { assert(i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
 	float operator[](std::ptrdiff_t i) const { assert(i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
-		
+	
+	Eigen::Vector3f coordinates() const { return homogeneous_coordinates.block(0, 0, 3, 1); }
+	
 	template<typename Transform>
 	void apply_transformation(const Transform& t) {
 		homogeneous_coordinates = t * homogeneous_coordinates;
