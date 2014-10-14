@@ -1,8 +1,8 @@
-#ifndef PCF_POINT_H_
-#define PCF_POINT_H_
+#ifndef PCF_POINT_XYZ_H_
+#define PCF_POINT_XYZ_H_
 
 #include <Eigen/Eigen>
-#include <ostream>
+#include <iosfwd>
 #include <cstdint>
 #include <cmath>
 #include <cassert>
@@ -11,10 +11,14 @@
 
 namespace pcf {
 
+/**
+Point defined only by X, Y, Z coordinates.
+Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations.
+*/
 struct alignas(16) point_xyz {
+	/// Homogeneous coordinates of point. When last component is not 1, point is invalid. Hence representation is unique.
 	Eigen::Vector4f homogeneous_coordinates;
-	// last component needs to be 1
-	// otherwise point is invalid
+
 
 	/// Default constructor. Initializes invalid point.
 	point_xyz() : homogeneous_coordinates(Eigen::Vector4f::Zero()) { }
@@ -24,29 +28,28 @@ struct alignas(16) point_xyz {
 	
 	point_xyz& operator=(const point_xyz&) = default;
 	point_xyz& operator=(const Eigen::Vector3f& v) {
-		homogeneous_coordinates[0] = v[0];
-		homogeneous_coordinates[1] = v[1];
-		homogeneous_coordinates[2] = v[2];
-		homogeneous_coordinates[3] = 1;
+		homogeneous_coordinates = Eigen::Vector4f(v[0], v[1], v[2], 1);
 		return *this;
 	}
 	
-	point_xyz& operator=(const Eigen::Vector4f& v) {
-		assert(v[3] == 1);
-		homogeneous_coordinates = v;
-		return *this;
+	bool operator==(const point_xyz& pt) const {
+		if(pt.valid() != valid()) return false;
+		else if(valid()) return (coordinates() == pt.coordinates());
+		else return true;
 	}
+	
+	bool operator!=(const point_xyz& pt) const { return ! operator==(pt); }
 	
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }
 	void invalidate() { homogeneous_coordinates[3] = 0; }
-			
+	
+	float& operator[](std::ptrdiff_t i) { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
+	const float& operator[](std::ptrdiff_t i) const { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
+	
 	float* data() { return homogeneous_coordinates.data(); }
 	const float* data() const { return homogeneous_coordinates.data(); }
-	
-	float& operator[](std::ptrdiff_t i) { assert(i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
-	float operator[](std::ptrdiff_t i) const { assert(i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
-	
+		
 	Eigen::Vector3f coordinates() const { return homogeneous_coordinates.block(0, 0, 3, 1); }
 	
 	template<typename Transform>
@@ -54,25 +57,7 @@ struct alignas(16) point_xyz {
 		homogeneous_coordinates = t * homogeneous_coordinates;
 	}
 	
-	friend std::ostream& operator<<(std::ostream& str, const point_xyz& p) {
-		if(p.valid()) str << '(' << p[0] << ", " << p[1] << ", "<< p[2] << ')';
-		else str << "(none)";
-		return str;
-	}
-};
-
-
-class alignas(32) point_full : public point_xyz {
-public:
-	Eigen::Vector3f normal;
-	rgb_color color;
-	std::uint8_t whatever;
-	
-	using point_xyz::point_xyz;
-	using point_xyz::operator=;
-	
-	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b) :
-	point_xyz(x, y, z), color(r, g, b) { }
+	friend std::ostream& operator<<(std::ostream&, const point_xyz&);
 };
 
 

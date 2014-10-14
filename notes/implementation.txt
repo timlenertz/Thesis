@@ -58,13 +58,17 @@ Point set structures?
 
 Point variants
 	point_xyz			using Vector4f for alignment+vectorization
-	point_xyzrgb (?)	still 16 byte, need to swap out/in pt[3]
+	point_xyzrgb (?)		still 16 byte, need to swap out/in pt[3]
 	point_full			32 byte: RGB, normal, 1 byte (saliency, category, intensity?)
 
 
 
+How to do interface/visualizations?
+	Not too much additional work
+	Scriptable when possible
+		(ie Python interface, compzt ipython notebook)
 
-Pipeline Architecture:
+Pipeline Architecture?:
 	Name?:
 		Component
 		Module

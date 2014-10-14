@@ -8,6 +8,10 @@
 
 namespace pcf {
 
+class mmap_allocator_base {
+
+};
+
 template<class T>
 class mmap_allocator {
 public:

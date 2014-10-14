@@ -21,7 +21,7 @@ private:
 	
 public:
 	icp(const Cloud_fixed& pf, Cloud_loose& pl) :
-		fixed_cloud_(pf), loose_cloud_(pl), correspondence_(pf, pl) { }
+		fixed_cloud_(pf), loose_cloud_(pl) { }
 	
 	void operator()();
 };

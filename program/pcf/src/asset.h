@@ -6,6 +6,10 @@
 
 namespace pcf {
 
+/**
+Asset of data hat represents part of the scene.
+Kept in working memory and modified during operations. Can be point cloud, range image, photo...
+*/
 class asset {
 public:
 	enum transformation_quality_t { none, coarse, fine };

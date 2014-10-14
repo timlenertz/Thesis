@@ -4,11 +4,18 @@
 
 namespace pcf {
 
+template<typename Point, typename Allocator>
+range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, const Allocator& alloc) :
+super(w * h, false, alloc), width_(w), height_(h) {
+	super::resize_(w * h);
+	super::initialize_();
+}
+
 
 template<typename Point, typename Allocator> template<typename Transformation>
 void range_point_cloud<Point, Allocator>::apply_transformation(const Transformation& t) {
 	super::apply_transformation(t);
-	projection_matrix_ *= t.inverse();
+	projection_matrix_ = projection_matrix_ * t.inverse();
 }
 
 template<typename Point, typename Allocator>	
@@ -30,14 +37,14 @@ float range_point_cloud<Point, Allocator>::depth(const Point& p) const {
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-inline auto range_point_cloud<Point, Allocator>::project(const Other_point& p) -> image_coordinates {
+inline auto range_point_cloud<Point, Allocator>::project(const Other_point& p) const -> image_coordinates {
 	float ignore;
 	return project(p, ignore);
 }
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-auto range_point_cloud<Point, Allocator>::project(const Other_point& p, float& depth) -> image_coordinates {
+auto range_point_cloud<Point, Allocator>::project(const Other_point& p, float& depth) const -> image_coordinates {
 	Eigen::Vector4f proj = projection_matrix_ * p.homogeneous_coordinates;
 	proj /= proj[3];
 	depth = proj[2];
@@ -50,14 +57,14 @@ auto range_point_cloud<Point, Allocator>::project(const Other_point& p, float& d
 
 template<typename Point, typename Allocator>
 template<typename Other_point, typename Distance_func>
-Point& range_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist, unsigned neightborhood_radius) const {
+const Point& range_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist, unsigned neightborhood_radius) const {	
 	static Point invalid = Point();
 
 	//float minimal_distance = std::numeric_limits<float>::infinity();
 	//Point* closest_point = nullptr;
 
 	float min_d = std::numeric_limits<float>::infinity();
-	Point* cp = &invalid;
+	const Point* cp = &invalid;
 
 	image_coordinates center = project(from);
 	
@@ -68,10 +75,10 @@ Point& range_point_cloud<Point, Allocator>::find_closest_point(const Other_point
 	
 	for(std::ptrdiff_t y = y_min; y <= y_max; ++y) {
 		for(std::ptrdiff_t x = x_min; x <= x_max; ++x) {
-			Point& p = at({x, y});
+			const Point& p = at(x, y);
 			if(p.valid()) {
-				float d = dist(*p, from);								
-				if(d < min_d) { min_d = d; cp = p; }
+				float d = dist(p, from);								
+				if(d < min_d) { min_d = d; cp = &p; }
 			}
 		}
 	}

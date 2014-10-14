@@ -23,25 +23,21 @@ public:
 		correspondence(const fixed_point_type& f, const loose_point_type& l) : fixed(f), loose(l) { }
 	};
 
-private:
-	const Cloud_fixed& fixed_cloud_;
-	const Cloud_loose& loose_cloud_;
-	
+private:	
 	std::vector<correspondence> correspondences_;
 
 	void centers_of_mass_(Eigen::Vector4f& fixed, Eigen::Vector4f& loose) const;
 	Eigen::Matrix3f correlation_matrix_(const Eigen::Vector4f& fixed_center, const Eigen::Vector4f& loose_center) const;
 
 public:
-	points_correspondence(const Cloud_fixed& fixed, const Cloud_loose& loose) :
-		fixed_cloud_(fixed), loose_cloud_(loose) { }
-
 	void erase() {
 		correspondences_.clear();
 	}
 		
 	correspondence& add(const fixed_point_type& pf, const loose_point_type& pl) {
-		correspondences_.emplace_back(pf, pl);
+		if(pf.valid() && pl.valid()) {
+			correspondences_.emplace_back(pf, pl);
+		}
 		return correspondences_.back();
 	}
 	
