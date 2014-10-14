@@ -1,0 +1,17 @@
+Recalage et fusion de modèles numérisés tridimensionnels de grande taille
+
+
+Dans le cadre de projet archéologique, nous sommes parfois amener à effectuer une numérisation complète de sites. Pour cela, différents appareils et outils sont courramment utilisés : scanner 3D laser, photogrammétrie, scanner par triangulation... Dans certains cas, il est nécessaire de pouvoir combiner plusieurs techniques pour produire des modèles 3D complet et précis de site de grande taille.
+Ce mémoire abordera la problématique du recalage entre eux de modèles, sous forme de nuage de points. Deux cas seront abordés : (1) le couplage d'acquisitions aériennes et terrestres du site entier pour produire un modèle de meilleur qualité, (2) le couplage de modèle de détails en haute résolution avec un modèle plus simple du site entier.
+
+
+
+Le problème qui se pose alors est comment allier les numérisations à distance (long range scanner) du bâtiment effectuée depuis la place elle-même et des ruelles autour (permettant d'obtenir les facades), les numérisations à distance effectué à partir des différentes tours (permettant d'obtenir le relevé des toits) et des numérisation à courtes distance de détails du bâtiments (statues, dessus-de-porte, ou encore le St-Michel).
+
+Plusieurs problèmes se posent alors : 
+- si l'on suppose un scan effectué à partir du sol, au plus on monte, au moins la densité des points sera grande; donc serait-il toujours aisé de recaler un élément de détail à n'importe quelle hauteur, uniquement sur base des nuages de points ? Dans ce cas, est-ce que des photographies complémentaires permettraient-elles de faciliter le recalage et d'augmenter la précision ?
+- quelles sont les densités de points limites pour effectuer un recalage ?
+- les modèles pouvant avoir de très grandes tailles, comment effectuer les calculs ? Approche multi-échelle VS Parallélisation ?
+- un scan d'un détail serait difficile à recaler automatique, quel est le worklow nécessaire pour facilement le recaler ?
+- comment recaler des modèles qui n'ont qu'une faible portion d'information commune ?
+ ....

@@ -13,7 +13,8 @@ float points_correspondence<Cloud_fixed, Cloud_loose>::error(Distance_func dist)
 
 template<typename Cloud_fixed, typename Cloud_loose>
 void points_correspondence<Cloud_fixed, Cloud_loose>::centers_of_mass_(Eigen::Vector4f& fixed, Eigen::Vector4f& loose) const {
-	fixed.setZero(); loose.setZero();
+	fixed.setZero();
+	loose.setZero();
 
 	#pragma omp parallel
 	{
@@ -72,7 +73,7 @@ Eigen::Affine3f points_correspondence<Cloud_fixed, Cloud_loose>::estimate_transf
 	}
 	
 	Eigen::Matrix3f R = V * U.transpose();
-	Eigen::Vector3f t = fixed_center.head(3) - R * loose_center.head(3);
+	Eigen::Vector3f t = loose_center.head(3) - R * fixed_center.head(3);
 		
 	return Eigen::Translation3f(t) * Eigen::AngleAxisf(R);
 }

@@ -1,0 +1,46 @@
+Title: 
+Orig: Recalage et fusion de modèles numérisés tridimensionnels de grande taille
+
+Abstract
+
+Introduction
+	Overview on study methodology, different chapters
+
+3D Documentation	
+	Use cases
+	Mathematical definition of point cloud, range image
+	Operations on point clouds
+	Operations on range images + photos
+	Emphasis on registration+merging
+	Terminology used in literature, conventions for this paper
+
+Preliminary math (RANSAC, least squares, homogeneous coords)
+	put where?
+
+Registration Methods (State of the art, Survey of litterature/Classifications)
+	Exclude non-rigid
+
+	Branches of existing studies (point set math, range image analysis, geo-informatics, …)
+	General definition of problem (distance minimization)
+	Classification of registration algorithms (by approach, aims, input requirements, use case)
+	ICP variations
+		Distance function
+		Cost function
+		
+
+Large model registration
+	Define range/context of problem studied here
+	Experiments using existing algorithms, results
+
+Methods/Solution
+	
+
+Implementation
+	Present PCF
+	Defend architecture
+	Handling of space+time efficiency for large data
+	
+
+Results
+	Fused townhall/cave model
+	Scanning workflow

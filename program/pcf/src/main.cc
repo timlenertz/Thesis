@@ -40,7 +40,7 @@ int main(int argc, const char* argv[]) try {
 	std::cout << T.matrix() << std::endl;
 
 
-	pc1.apply_transformation(T);
+	pc2.apply_transformation(T);
 	std::cout << "After trans: " << cor.error(euclidian_distance_sq) << std::endl;
 
 	icp<pc_t, pc_t> ic(pc1, pc2);

@@ -1,0 +1,8 @@
+since 2 september 	collecting/reading +/- relevant papers
+			planning paper content
+			planning implementation architecture/deps
+6 october		have basic framework for accelerated point set transformations
+			PLY import/export IO 
+10 october		range point cloud projection, transformations
+			experimental ICP, closest point finding
+14 october		ICP, transformation estimation implemented
