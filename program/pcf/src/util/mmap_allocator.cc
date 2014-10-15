@@ -11,6 +11,7 @@ struct mmap_allocator_base::impl {
 	boost::iostreams::mapped_file file;
 };
 
+
 mmap_allocator_base::mmap_allocator_base(const std::string& pathname) :
 impl_(new impl) {
 	if(! pathname.empty()) impl_->path = boost::filesystem::path(pathname);

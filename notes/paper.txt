@@ -1,4 +1,4 @@
-Title: 
+Title: Registration and fusion of large scale 3D models ?
 Orig: Recalage et fusion de modèles numérisés tridimensionnels de grande taille
 
 Abstract

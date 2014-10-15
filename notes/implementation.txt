@@ -63,10 +63,14 @@ Point variants
 
 
 
-How to do interface/visualizations?
+QUESTIONS
+- How to do interface/visualizations?
 	Not too much additional work
 	Scriptable when possible
-		(ie Python interface, compzt ipython notebook)
+	(ie Python interface, compzt ipython notebook)
+- Large scale architecture for this
+- What to implement (will see)
+- Make versatile
 
 Pipeline Architecture?:
 	Name?:

@@ -43,6 +43,8 @@ public:
 	
 	std::size_t size() const { return correspondences_.size(); }	
 
+	float mean_squared_error() const { return error(euclidian_distance_sq) / size(); }
+
 	template<typename Distance_func> float error(Distance_func dist) const;
 		
 	Eigen::Affine3f estimate_transformation_svd() const;

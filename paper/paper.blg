@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: paper.aux
+The style file: authordate1.bst
+Database file #1: ../reference/references.bib
+Warning--to sort, need editor or key in Chen1991
+Warning--to sort, need editor or key in Viei2013
+Warning--empty author and editor in Chen1991
+Warning--empty author and editor in Viei2013
+Warning--empty booktitle in Akca2005
+Warning--empty booktitle in Bart2009
+Warning--empty journal in Bibe2003
+Warning--empty booktitle in Curl1996
+Warning--empty booktitle in Do2012
+Warning--empty booktitle in Dold2005
+Warning--empty booktitle in Else2011
+Warning--empty booktitle in Fitz2001
+Warning--empty booktitle in Holz2014
+Warning--empty journal in Kers2006
+Warning--empty booktitle in Lark2010
+Warning--empty journal in Loru1995
+Warning--empty booktitle in Mati2009
+Warning--empty booktitle in Mati2011
+Warning--empty booktitle in Rusi2001
+Warning--empty booktitle in Rusu2008
+Warning--empty booktitle in Told2010
+You've used 80 entries,
+            2441 wiz_defined-function locations,
+            1078 strings with 18984 characters,
+and the built_in function-call counts, 30782 in all, are:
+= -- 2971
+> -- 1129
+< -- 271
++ -- 348
+- -- 324
+* -- 2473
+:= -- 5094
+add.period$ -- 335
+call.type$ -- 80
+change.case$ -- 504
+chr.to.int$ -- 80
+cite$ -- 103
+duplicate$ -- 1204
+empty$ -- 2293
+format.name$ -- 424
+if$ -- 6382
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 67
+newline$ -- 415
+num.names$ -- 236
+pop$ -- 488
+preamble$ -- 1
+purify$ -- 584
+quote$ -- 0
+skip$ -- 1225
+stack$ -- 0
+substring$ -- 1592
+swap$ -- 254
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 638
+warning$ -- 21
+while$ -- 201
+width$ -- 0
+write$ -- 1033
+(There were 21 warnings)

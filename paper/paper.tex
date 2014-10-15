@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\title{Recalage et fusion de modèles numérisés tridimensionnels de grande taille}
+\title{Registration and fusion of large scale 3D models}
 \author{Tim Lenertz}
 \date{\today}
 \maketitle
@@ -22,5 +22,48 @@
 \tableofcontents
 
 \chapter{Introduction}
+blah
+
+\chapter{3D Documentation}
+The process of acquiring measurements on the shape of a physical object and constructing a digital model of it is sometimes called 3D documentation. Depending on the area of study and the type of scan, different models are used to describe the object.
+
+A first step is to define the \emph{model} of the object that should result from the documentation project. This includes which parts and aspects of the physical object should be included, how it is represented mathematically, and which type of data is used to approximate the model.
+
+In the most common case, the object is modelled as one or more continuous mathematical surfaces. Each surface point may be attributed with additional information such as a colour, temperature or other information. The object is considered to be motionless and solid, and its insides are not of interest. For example a small artefact may be modelled as one closed coloured surface. When the goal is to document an entire environment such as a building or a cave, some inside corridors may be included in the model, and certain smaller elements may need to be represented in higher detail. This type of 3D documentation is the focus of this paper. Depending on how the scans are done, \emph{noise} data about objects that are not part of the model may be acquired, and will need to be filtered out. These may be parts of the scanning equipment, objects lying on the ground, people walking by, birds, and others.
+
+The basic way of digitally representing such a model is using a \emph{point cloud}, that is a discrete set of points located on the surfaces. Each \emph{point} is represented using three X, Y, Z euclidian coordinates in a common reference frame defined for the model, and possibly RGB colour information, coordinates of a surface normal vector, and other data. These points should be densely distributed on the surfaces, in relation to the required level of detail. Information on the connectivity of the points that form the surfaces is not included, but can often be deduced algorithmically.
+
+A way to include connectivity information into a point cloud is to define \emph{faces}, that is, two-dimensional geometric primitives (usually triangles) delimited by the points, which are called \emph{vertices} in this case. 3D models in computer graphics are usually represented this way.
+
+
+ 
+
+
+
+\section{Laser scanning}
+
+\section{Photogrammetry}
+
+\section{Range Image}
+
+\section{Point Cloud}
+
+\section{Terminology}
+
+\chapter{State of the Art of Registration}
+
+\chapter{Large Model Registration}
+
+\chapter{Methods}
+
+\chapter{Implementation}
+
+\chapter{Results and Application}
+
+\chapter{Conclusion}
+
+\bibliographystyle{authordate1}
+\nocite{*}
+\bibliography{../reference/references}
 
 \end{document}

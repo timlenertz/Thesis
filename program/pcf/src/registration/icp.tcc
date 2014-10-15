@@ -21,7 +21,7 @@ void icp<Cloud_fixed, Cloud_loose>::operator() () {
 	for(std::ptrdiff_t i = 0; i < 20; ++i) {
 		match_closest_points_();
 		apply_iteration_transformation_();
-		std::cout << i << ": " << correspondence_.error(euclidian_distance_sq) << std::endl;
+		std::cout << i << ": " << correspondence_.size() << " -> " << correspondence_.mean_squared_error() << std::endl;
 	}
 }
 
