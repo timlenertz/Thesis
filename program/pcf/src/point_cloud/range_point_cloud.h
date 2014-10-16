@@ -11,15 +11,15 @@ namespace pcf {
 
 template<typename Point, typename Allocator = std::allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
+	using super = point_cloud<Point, Allocator>;
+
 public:
 	struct image_coordinates {
 		std::ptrdiff_t x, y;
 		image_coordinates(std::ptrdiff_t nx, std::ptrdiff_t ny) : x(nx), y(ny) { }
 	};
 
-private:
-	using super = point_cloud<Point, Allocator>;
-	
+private:	
 	const std::size_t width_, height_;
 	
 	Eigen::Projective3f projection_matrix_;

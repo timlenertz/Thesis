@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <cassert>
 #include <utility>
 #include <memory>
 #include <limits>
@@ -32,9 +33,9 @@ private:
 	Allocator allocator_;
 
 protected:
-	Point* const buffer_;
-	Point* buffer_end_;
-	const std::size_t allocated_size_;
+	Point* const buffer_; ///< Start of points buffer.
+	Point* buffer_end_; ///< Current end of points buffer. May be set shorter than allocated buffer end.
+	const std::size_t allocated_size_; ///< Allocated buffer size.
 	
 	const bool all_valid_; ///< If set, all points must be valid.
 	const bool fixed_order_; ///< If set, order of points cannot (arbitrarily) be changed.
@@ -54,18 +55,20 @@ public:
 
 	~point_cloud();
 
-	template<typename Reader> static point_cloud create_from_reader(Reader&);
+	template<typename Reader> static point_cloud create_from_reader(Reader&, bool all_valid = true);
 	template<typename Reader> void read(Reader&);
 	template<typename Writer> void write(Writer&) const;
 	
 	bool all_valid() const { return all_valid_; }
 	bool fixed_order() const { return fixed_order_; }
+	std::size_t capacity() const { return allocated_size_; }
 	std::size_t size() const { return buffer_end_ - buffer_; }
 	std::size_t number_of_valid_points() const;
-	std::size_t capacity() const { return allocated_size_; }
+	bool contains_invalid_points() const;
 	
-	Point& operator[](std::ptrdiff_t d) { return buffer_[d]; }
-	const Point& operator[](std::ptrdiff_t d) const { return buffer_[d]; }
+	bool in_bounds(std::ptrdiff_t i) const { return i >= 0 && i < size(); }
+	Point& operator[](std::ptrdiff_t i) { assert(in_bounds(i)); return buffer_[i]; }
+	const Point& operator[](std::ptrdiff_t i) const { assert(in_bounds(i)); return buffer_[i]; }
 	
 	Point* data() { return buffer_; }
 	const Point* data() const { return buffer_; }
@@ -82,12 +85,13 @@ public:
 	void apply_transformation(const Transformation& t);
 	
 	Eigen::Vector3f center_of_mass() const;
+	void bounding_cuboid(Eigen::Vector3f& mn, Eigen::Vector3f& mx) const;
 	
 	template<typename Other_point, typename Distance_func>
 	const Point& find_closest_point(const Other_point& from, Distance_func dist) const;
 	
 	void erase_invalid_points();
-	
+		
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
 };

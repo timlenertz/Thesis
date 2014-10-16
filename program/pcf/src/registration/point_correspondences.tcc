@@ -1,18 +1,25 @@
+#include <cassert>
+
 namespace pcf {
 
+template<typename Cloud_fixed, typename Cloud_loose>
+point_correspondences<Cloud_fixed, Cloud_loose>::point_correspondences(const Cloud_fixed& cf, Cloud_loose& cl) :
+fixed_cloud_(cf), loose_cloud_(cl) { }
+
+
 template<typename Cloud_fixed, typename Cloud_loose> template<typename Distance_func>
-float points_correspondence<Cloud_fixed, Cloud_loose>::error(Distance_func dist) const {
+float point_correspondences<Cloud_fixed, Cloud_loose>::error(Distance_func dist) const {
 	float sum = 0.0;
 	#pragma omp parallel for reduction(+:sum)
-	for(auto it = correspondences_.cbegin(); it < correspondences_.cend(); ++it) {
-		sum += it->weight * dist(it->fixed, it->loose);
+	for(auto it = cors_.cbegin(); it < cors_.cend(); ++it) {
+		sum += dist( it->fixed_point(), it->loose_point() );
 	}
 	return sum;
 }
 
 
 template<typename Cloud_fixed, typename Cloud_loose>
-void points_correspondence<Cloud_fixed, Cloud_loose>::centers_of_mass_(Eigen::Vector4f& fixed, Eigen::Vector4f& loose) const {
+void point_correspondences<Cloud_fixed, Cloud_loose>::centers_of_mass_(Eigen::Vector4f& fixed, Eigen::Vector4f& loose) const {
 	fixed.setZero();
 	loose.setZero();
 
@@ -22,9 +29,9 @@ void points_correspondence<Cloud_fixed, Cloud_loose>::centers_of_mass_(Eigen::Ve
 		Eigen::Vector4f loose_sum_part = Eigen::Vector4f::Zero();
 	
 		#pragma omp for
-		for(auto it = correspondences_.cbegin(); it < correspondences_.cend(); ++it) {
-			fixed_sum_part += it->fixed.homogeneous_coordinates;
-			loose_sum_part += it->loose.homogeneous_coordinates;
+		for(auto it = cors_.cbegin(); it < cors_.cend(); ++it) {
+			fixed_sum_part += it->fixed_point().homogeneous_coordinates;
+			loose_sum_part += it->loose_point().homogeneous_coordinates;
 		}
 	
 		#pragma omp critical
@@ -34,21 +41,21 @@ void points_correspondence<Cloud_fixed, Cloud_loose>::centers_of_mass_(Eigen::Ve
 		}
 	}
 	
-	fixed /= size();
-	loose /= size();
+	fixed /= cors_.size();
+	loose /= cors_.size();
 }
 
 template<typename Cloud_fixed, typename Cloud_loose>
-Eigen::Matrix3f points_correspondence<Cloud_fixed, Cloud_loose>::correlation_matrix_(const Eigen::Vector4f& fixed_center, const Eigen::Vector4f& loose_center) const {
+Eigen::Matrix3f point_correspondences<Cloud_fixed, Cloud_loose>::correlation_matrix_(const Eigen::Vector4f& fixed_center, const Eigen::Vector4f& loose_center) const {
 	Eigen::Matrix4f correlation = Eigen::Matrix4f::Zero();
 	#pragma omp parallel
 	{
 		Eigen::Matrix4f correlation_part = Eigen::Matrix4f::Zero();
 		#pragma omp for
-		for(auto it = correspondences_.cbegin(); it < correspondences_.cend(); ++it) {
+		for(auto it = cors_.cbegin(); it < cors_.cend(); ++it) {
 			correlation_part +=
-				(it->fixed.homogeneous_coordinates - fixed_center)
-			  * (it->loose.homogeneous_coordinates - loose_center).transpose();
+				(it->fixed_point().homogeneous_coordinates - fixed_center)
+			  * (it->loose_point().homogeneous_coordinates - loose_center).transpose();
 		}
 		
 		#pragma omp critical
@@ -60,16 +67,7 @@ Eigen::Matrix3f points_correspondence<Cloud_fixed, Cloud_loose>::correlation_mat
 
 
 template<typename Cloud_fixed, typename Cloud_loose>
-auto points_correspondence<Cloud_fixed, Cloud_loose>::add(const fixed_point_type& pf, const loose_point_type& pl) -> correspondence& {
-	if(pf.valid() && pl.valid()) {
-		correspondences_.emplace_back(pf, pl);
-	}
-	return correspondences_.back();
-}
-
-
-template<typename Cloud_fixed, typename Cloud_loose>
-Eigen::Affine3f points_correspondence<Cloud_fixed, Cloud_loose>::estimate_transformation_svd() const {
+Eigen::Affine3f point_correspondences<Cloud_fixed, Cloud_loose>::estimate_transformation_svd() const {
 	Eigen::Vector4f fixed_center, loose_center;
 	centers_of_mass_(fixed_center, loose_center);
 

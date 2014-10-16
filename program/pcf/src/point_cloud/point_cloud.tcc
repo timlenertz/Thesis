@@ -1,3 +1,5 @@
+#include <cmath>
+
 namespace pcf {
 
 template<typename Point, typename Allocator>
@@ -58,8 +60,8 @@ point_cloud(pc.capacity(), pc.all_valid(), pc.fixed_order(), alloc) {
 }
 
 template<typename Point, typename Allocator> template<typename Reader>
-auto point_cloud<Point, Allocator>::create_from_reader(Reader& reader) -> point_cloud {
-	point_cloud pc(reader.size(), true, false);
+auto point_cloud<Point, Allocator>::create_from_reader(Reader& reader, bool all_val) -> point_cloud {
+	point_cloud pc(reader.size(), all_val, false);
 	pc.read(reader);
 	return pc;
 }
@@ -81,6 +83,26 @@ std::size_t point_cloud<Point, Allocator>::number_of_valid_points() const {
 		for(const Point* p = buffer_; p < buffer_end_; ++p) if(p->valid()) ++total;
 		return total;
 	}
+}
+
+template<typename Point, typename Allocator>
+bool point_cloud<Point, Allocator>::contains_invalid_points() const {
+	if(all_valid_) return false;
+		
+	bool found_invalid = false;
+	#pragma omp parallel for shared(found_invalid)
+	for(const Point* p = buffer_; p < buffer_end_; ++p) {
+		#ifdef _OPENMP
+		if(found_invalid) continue;			
+		else if(! p->valid()) found_invalid = true;
+		#else
+		if(! p->valid()) {
+			found_invalid = true;
+			break;
+		}
+		#endif
+	}
+	return found_invalid;
 }
 
 
@@ -130,8 +152,36 @@ Eigen::Vector3f point_cloud<Point, Allocator>::center_of_mass() const {
 		}
 	}
 	
-
 	return (sum / total).head(3);
+}
+
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::bounding_cuboid(Eigen::Vector3f& mn, Eigen::Vector3f& mx) const {
+	const float inf = INFINITY;
+
+	mn = Eigen::Vector3f(+inf, +inf, +inf);
+	mx = Eigen::Vector3f(-inf, -inf, -inf);
+
+	#pragma omp parallel
+	{
+		Eigen::Vector4f mn_part(+inf, +inf, +inf, 0);
+		Eigen::Vector4f mx_part(-inf, -inf, -inf, 0);
+		
+		#pragma omp for
+		for(Point* p = buffer_; p < buffer_end_; ++p) {
+			if(! p->valid()) continue;
+			const Eigen::Vector4f pc = p->homogeneous_coordinates;
+			
+			mn_part = mn_part.cwiseMin(pc);
+			mx_part = mx_part.cwiseMax(pc);
+		}
+		
+		#pragma omp critical
+		{
+			mn = mn.cwiseMin(mn_part.head(3));
+			mx = mx.cwiseMax(mx_part.head(3));
+		}
+	}
 }
 
 template<typename Point, typename Allocator>

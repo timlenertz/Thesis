@@ -6,7 +6,8 @@
 #include "point_cloud/point_cloud.h"
 #include "point_cloud/range_point_cloud.h"
 #include "util/projection.h"
-#include "registration/points_correspondence.h"
+#include "registration/point_correspondences.h"
+#include "registration/closest_point_correspondences.h"
 #include "registration/icp.h"
 
 #include "util/mmap_allocator.h"
@@ -25,12 +26,15 @@ int main(int argc, const char* argv[]) try {
 	using pc_t = point_cloud<point_xyz>;
 
 	ply_reader ply(argv[1]);
-	pc_t pc = pc_t::create_from_reader(ply);
+	pc_t pc_high = pc_t::create_from_reader(ply);
+	pc_t pc_low = pc_high;
+	pc_low.downsample_random(0.1);
 	
-	std::cout << pc.size() << std::endl;
-	pc.downsample_random(0.5);
-	std::cout << pc.size() << std::endl;
-	
+	std::cout << pc_high.size() << std::endl;
+	std::cout << pc_low.size() << std::endl;
+
+	closest_point_correspondences<pc_t, pc_t> cor(pc_high, pc_low);
+	cor.compute();	
 
 } catch(const std::exception& ex) {
 	std::cerr << "Uncaught exception: " << ex.what() << std::endl;
