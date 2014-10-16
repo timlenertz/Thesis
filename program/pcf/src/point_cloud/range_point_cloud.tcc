@@ -6,7 +6,7 @@ namespace pcf {
 
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, const Allocator& alloc) :
-super(w * h, false, alloc), width_(w), height_(h) {
+super(w * h, false, true, alloc), width_(w), height_(h) {
 	super::resize_(w * h);
 	super::initialize_();
 }
@@ -49,8 +49,8 @@ auto range_point_cloud<Point, Allocator>::project(const Other_point& p, float& d
 	proj /= proj[3];
 	depth = proj[2];
 	return {
-		0.5f*(proj[0] + 1.0) * width_,
-		0.5f*(proj[1] + 1.0) * height_
+		std::size_t( 0.5f*(proj[0] + 1.0) ) * width_,
+		std::size_t( 0.5f*(proj[1] + 1.0) ) * height_
 	};
 }
 

@@ -34,19 +34,14 @@ public:
 		correspondences_.clear();
 	}
 		
-	correspondence& add(const fixed_point_type& pf, const loose_point_type& pl) {
-		if(pf.valid() && pl.valid()) {
-			correspondences_.emplace_back(pf, pl);
-		}
-		return correspondences_.back();
-	}
+	correspondence& add(const fixed_point_type&, const loose_point_type&);
 	
 	std::size_t size() const { return correspondences_.size(); }	
 
 	float mean_squared_error() const { return error(euclidian_distance_sq) / size(); }
 
 	template<typename Distance_func> float error(Distance_func dist) const;
-		
+	
 	Eigen::Affine3f estimate_transformation_svd() const;
 };
 

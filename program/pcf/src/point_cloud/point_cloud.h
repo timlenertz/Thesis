@@ -7,6 +7,7 @@
 #include <memory>
 #include <limits>
 #include <cstring>
+#include <random>
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "../asset.h"
@@ -34,11 +35,13 @@ protected:
 	Point* const buffer_;
 	Point* buffer_end_;
 	const std::size_t allocated_size_;
-	const bool all_valid_;
+	
+	const bool all_valid_; ///< If set, all points must be valid.
+	const bool fixed_order_; ///< If set, order of points cannot (arbitrarily) be changed.
 	
 	void check_correct_alignment_() const;
 
-	point_cloud(std::size_t allocate_size, bool all_valid, const Allocator& alloc = Allocator());
+	point_cloud(std::size_t allocate_size, bool all_valid, bool fixed_order, const Allocator& alloc = Allocator());
 
 	void resize_(std::size_t new_size);
 	void initialize_();
@@ -56,6 +59,7 @@ public:
 	template<typename Writer> void write(Writer&) const;
 	
 	bool all_valid() const { return all_valid_; }
+	bool fixed_order() const { return fixed_order_; }
 	std::size_t size() const { return buffer_end_ - buffer_; }
 	std::size_t number_of_valid_points() const;
 	std::size_t capacity() const { return allocated_size_; }
@@ -83,6 +87,9 @@ public:
 	const Point& find_closest_point(const Other_point& from, Distance_func dist) const;
 	
 	void erase_invalid_points();
+	
+	template<typename Random_generator = std::default_random_engine>
+	void downsample_random(float ratio, bool invalidate = false);
 };
 
 }

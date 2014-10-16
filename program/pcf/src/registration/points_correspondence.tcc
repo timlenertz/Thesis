@@ -58,6 +58,16 @@ Eigen::Matrix3f points_correspondence<Cloud_fixed, Cloud_loose>::correlation_mat
 	return correlation.block(0, 0, 3, 3);
 }
 
+
+template<typename Cloud_fixed, typename Cloud_loose>
+auto points_correspondence<Cloud_fixed, Cloud_loose>::add(const fixed_point_type& pf, const loose_point_type& pl) -> correspondence& {
+	if(pf.valid() && pl.valid()) {
+		correspondences_.emplace_back(pf, pl);
+	}
+	return correspondences_.back();
+}
+
+
 template<typename Cloud_fixed, typename Cloud_loose>
 Eigen::Affine3f points_correspondence<Cloud_fixed, Cloud_loose>::estimate_transformation_svd() const {
 	Eigen::Vector4f fixed_center, loose_center;
@@ -69,7 +79,7 @@ Eigen::Affine3f points_correspondence<Cloud_fixed, Cloud_loose>::estimate_transf
 	Eigen::Matrix3f U = svd.matrixU();
 	Eigen::Matrix3f V = svd.matrixV();
 	if(U.determinant() * V.determinant() < 0) {
-		for(std::ptrdiff_t i = 0; i < 3; ++i ) V(i, 2) = -V(i, 2);
+		for(std::ptrdiff_t i = 0; i < 3; ++i) V(i, 2) = -V(i, 2);
 	}
 	
 	Eigen::Matrix3f R = V * U.transpose();

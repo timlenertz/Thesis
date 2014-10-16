@@ -6,3 +6,4 @@ since 2 september 	collecting/reading +/- relevant papers
 10 october		range point cloud projection, transformations
 			experimental ICP, closest point finding
 14 october		ICP, transformation estimation implemented
+16 october		

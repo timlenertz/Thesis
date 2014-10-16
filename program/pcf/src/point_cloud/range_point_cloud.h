@@ -21,6 +21,7 @@ private:
 	using super = point_cloud<Point, Allocator>;
 	
 	const std::size_t width_, height_;
+	
 	Eigen::Projective3f projection_matrix_;
 
 	std::ptrdiff_t offset_(std::ptrdiff_t x, std::ptrdiff_t y) const {
@@ -48,6 +49,7 @@ public:
 	template<typename Other_point> image_coordinates project(const Other_point& p, float& depth) const;
 	
 	float depth(const Point& p) const;
+	float range(const Point& p) const;
 	
 	template<typename Transformation>
 	void apply_transformation(const Transformation&);
@@ -56,10 +58,12 @@ public:
 	const Point& find_closest_point(const Other_point& from, Distance_func dist, unsigned neightborhood_radius = 30) const;
 	
 	template<typename Other_cloud>
-	void project_point_cloud(const Other_cloud& pc, const Eigen::Projective3f& projm);
-	
+	void project_point_cloud(const Other_cloud& pc, const Eigen::Projective3f& projm);	
 	
 	range_image to_range_image();
+	
+	template<typename Random_generator = std::default_random_engine>
+	void downsample_random(float ratio) { super::downsample_random(ratio, true); }
 };
 
 }
