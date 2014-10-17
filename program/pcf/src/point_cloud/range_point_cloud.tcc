@@ -6,7 +6,7 @@ namespace pcf {
 
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, const Allocator& alloc) :
-super(w * h, false, true, alloc), width_(w), height_(h) {
+super(w * h, false, alloc), width_(w), height_(h) {
 	super::resize_(w * h);
 	super::initialize_();
 }

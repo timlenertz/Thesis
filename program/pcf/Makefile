@@ -1,20 +1,22 @@
+DEBUG := 0
+
 TARGET := pcf
 CXX := g++-4.9
 #CXX := clang++
 
 PACKAGES := eigen3 opencv
 
-CXXFLAGS := -std=c++1y -fdiagnostics-color=auto -mmacosx-version-min=10.9
+CXXFLAGS := -std=c++1y -fdiagnostics-color=auto
 LDFLAGS := 
 LDLIBS := -lboost_iostreams -lboost_filesystem -lboost_system
 
-CXXFLAGS += -O3 -g -fopenmp
+CXXFLAGS += -g -fopenmp 
 
-#ifeq ($(DEPLOY), 1)
-#	CXXFLAGS += -O3  -DNDEBUG -g
-#else
-#	CXXFLAGS += -g
-#endif
+ifeq ($(DEBUG), 1)
+	CXXFLAGS += -g -DEIGEN_DONT_VECTORIZE -DEIGEN_DONT_ALIGN_STATICALLY -DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT
+else
+	CXXFLAGS += -O3 -DNDEBUG -fopenmp
+endif
 
 CXXFLAGS += $(shell pkg-config --cflags $(PACKAGES))
 LDLIBS += $(shell pkg-config --libs $(PACKAGES))
