@@ -23,6 +23,7 @@ void kdtree_point_cloud<Point, Allocator>::build_tree_() {
 	std::vector<node_with_cuboid> todo, next_todo; // nodes to split at current and next iteration
 	todo.emplace_back(root_node_, root_cuboid_);
 	
+	int i = 0;
 	while(todo.size()) {
 		// todo contains set of nodes at same level.
 
@@ -37,16 +38,18 @@ void kdtree_point_cloud<Point, Allocator>::build_tree_() {
 				node& nd = it->first;
 				const node_cuboid& cub = it->second;
 				
+				//for(Point* p = nd.start(); p < nd.end(); ++p) mark_point(*p, std::uintptr_t(&nd));
+				
 				if(nd.size() < leaf_capacity_) continue;
-		
+
 				// Split the node
 				// Rearranges data in node's segment into subsegments for children
 				// and instanciates node's child nodes
 				split_node_(nd, cub);
 		
 				// Schedule child nodes for next iteration
-				next_todo_part.emplace_back(nd.left(), cub.child_cuboid(false));
-				next_todo_part.emplace_back(nd.right(), cub.child_cuboid(true));
+				next_todo_part.emplace_back(nd.left(), cub.child_cuboid(false, nd));
+				next_todo_part.emplace_back(nd.right(), cub.child_cuboid(true, nd));
 			}
 			
 			#pragma omp critical
@@ -67,14 +70,13 @@ void kdtree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cu
 	if(nd.size() == 0) throw std::logic_error("Node must not be empty.");
 	
 	// Make sure all points in segment belong to cuboid
-	#pragma omp parallel for
-	for(Point* p = nd.start(); p < nd.end(); ++p)
-		if(! cub.contains(*p)) throw std::logic_error("Node contains point which is not in its cuboid.");
-		
+	for(const Point* p = nd.start(); p < nd.end(); ++p)
+		if(! cub.contains(*p)) //throw std::logic_error("Node contains point which is not in its cuboid.");
+	{ std::cout << *p << " not in " << cub << std::endl; }
 	// Recursively check children
 	if(! nd.is_leaf()) {
-		verify_(nd.left(), cub.child_cuboid(false));
-		verify_(nd.right(), cub.child_cuboid(true));
+		verify_(nd.left(), cub.child_cuboid(true, nd));
+		verify_(nd.right(), cub.child_cuboid(false, nd));
 	}
 }
 
@@ -84,36 +86,32 @@ void kdtree_point_cloud<Point, Allocator>::split_node_(node& nd, const node_cubo
 	auto cmp = [&cub](const Point& a, const Point& b) -> bool {
 		return (a[cub.orientation] < b[cub.orientation]);
 	};
-	super::sort_points(cmp, nd.start(), nd.end());
 	
+	super::sort_points(cmp, nd.start(), nd.end());
 	Point* median = nd.start() + nd.size()/2;
-	nd.create_children(median);
+	
+	nd.create_children(median, cub);
 }
 
 
-template<typename Point, typename Allocator>
-float kdtree_point_cloud<Point, Allocator>::node_cuboid::split_plane() const {
-	return (origin[orientation] + extremity[orientation]) / 2;
-}
-
 
 template<typename Point, typename Allocator>
-auto kdtree_point_cloud<Point, Allocator>::node_cuboid::child_cuboid(bool left) const -> node_cuboid {
+auto kdtree_point_cloud<Point, Allocator>::node_cuboid::child_cuboid(bool left, const node& nd) const -> node_cuboid {
 	node_cuboid ccub(*this);
 	
-	if(left) ccub.extremity[orientation] = split_plane();
-	else ccub.origin[orientation] = split_plane();
+	if(left) ccub.extremity[orientation] = nd.split_plane();
+	else ccub.origin[orientation] = nd.split_plane();
 	
-	ccub.orientation = (ccub.orientation + 1) % 3;
+	ccub.orientation = (orientation + 1) % 3;
 	
 	return ccub;
 }
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-bool kdtree_point_cloud<Point, Allocator>::node_cuboid::child_for_point(const Other_point& p) const {
+bool kdtree_point_cloud<Point, Allocator>::node_cuboid::child_for_point(const Other_point& p, const node& nd) const {
 	assert(contains(p));
-	return (p[orientation] < split_plane());
+	return (p[orientation] < nd.split_plane());
 }
 
 
@@ -124,8 +122,13 @@ auto kdtree_point_cloud<Point, Allocator>::node_containing_point_(const Other_po
 	if(max_depth == 1 || nd.is_leaf()) {
 		return nd;
 	} else {
-		bool left = cub.child_for_point(pt);
-		return node_containing_point_(pt, left ? nd.left() : nd.right(), cub.child_cuboid(left), max_depth - 1);
+		bool left = cub.child_for_point(pt, nd);
+		return node_containing_point_(
+			pt,
+			left ? nd.left() : nd.right(),
+			cub.child_cuboid(left, nd),
+			max_depth - 1
+		);
 	}
 }
 
@@ -145,7 +148,9 @@ bool kdtree_point_cloud<Point, Allocator>::node::is_leaf() const {
 
 
 template<typename Point, typename Allocator>
-void kdtree_point_cloud<Point, Allocator>::node::create_children(Point* split) {
+void kdtree_point_cloud<Point, Allocator>::node::create_children(Point* split, const node_cuboid& cub) {
+	split_plane_ = (*split)[cub.orientation];
+	
 	node* l = new node(super::start(), split);
 	node* r = new node(split, super::end());
 	

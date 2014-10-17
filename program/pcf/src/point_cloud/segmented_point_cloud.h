@@ -46,7 +46,7 @@ public:
 	const Point* start() const { return start_; }
 	const Point* end() const { return end_; }
 	
-	std::size_t size() const { return std::size_t(end_ - start_); }
+	std::size_t size() const { return end_ - start_; }
 };
 
 }

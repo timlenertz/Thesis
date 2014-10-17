@@ -69,8 +69,7 @@ void octree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cu
 	if(nd.size() == 0) throw std::logic_error("Node must not be empty.");
 	
 	// Make sure all points in segment belong to cuboid
-	#pragma omp parallel for
-	for(Point* p = nd.start(); p < nd.end(); ++p)
+	for(const Point* p = nd.start(); p < nd.end(); ++p)
 		if(! cub.contains(*p)) throw std::logic_error("Node contains point which is not in its cuboid.");
 		
 	// Recursively check children

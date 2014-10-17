@@ -22,9 +22,8 @@ private:
 	struct node_cuboid : cuboid {	
 		std::uint8_t orientation = 0; // 0=x, 1=y, 2_z, modulo
 	
-		float split_plane() const;
-		node_cuboid child_cuboid(bool) const;
-		template<typename Other_point> bool child_for_point(const Other_point&) const;
+		node_cuboid child_cuboid(bool left, const node& nd) const;
+		template<typename Other_point> bool child_for_point(const Other_point&, const node& nd) const;
 		
 		using cuboid::cuboid;
 		using cuboid::operator=;
@@ -61,10 +60,12 @@ class kdtree_point_cloud<Point, Allocator>::node : public segment {
 	
 private:
 	std::unique_ptr<node> left_, right_;
+	float split_plane_ = NAN;
 		
 public:
 	using super::super;
-	node(const segment& seg) : super(seg) { }
+	explicit node(const segment& seg) :
+		super(seg) { }
 	
 	node(const node&) = delete;
 	node& operator=(const node&) = delete;
@@ -75,8 +76,10 @@ public:
 	node& right() { assert(! is_leaf()); return *right_; }
 	const node& left() const { assert(! is_leaf()); return *left_; }
 	const node& right() const { assert(! is_leaf()); return *right_; }
+	
+	float split_plane() const { return split_plane_; }
 
-	void create_children(Point* split);
+	void create_children(Point* split, const node_cuboid& cub);
 };
 
 

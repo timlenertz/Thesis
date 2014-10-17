@@ -61,7 +61,7 @@ private:
 	
 public:
 	using super::super;
-	node(const segment& seg) : super(seg) { }
+	explicit node(const segment& seg) : super(seg) { }
 	
 	node(const node&) = delete;
 	node& operator=(const node&) = delete;

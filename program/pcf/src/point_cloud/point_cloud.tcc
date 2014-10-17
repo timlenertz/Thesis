@@ -25,7 +25,7 @@ template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(std::size_t allocate_size, bool all_val, const Allocator& alloc) :
 	allocator_(alloc),
 	buffer_(allocator_.allocate(allocate_size)),
-	buffer_end_(buffer_),
+	buffer_end_(buffer_end_),
 	allocated_size_(allocate_size),
 	all_valid_(all_val)
 {
@@ -43,7 +43,7 @@ point_cloud(pc.capacity(), all_val, alloc) {
 	resize_(pc.size());
 	std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
 	
-	if(all_valid_ && !pc.all_valid_) erase_invalid_points();
+	if(all_valid_ && pc.all_valid()) erase_invalid_points();
 }
 
 template<typename Point, typename Allocator>
@@ -65,10 +65,9 @@ point_cloud(pc.capacity(), all_val, alloc) {
 	resize_(pc.size());
 	Point* o = buffer_;
 	
-	#pragma omp parallel for
 	for(typename Other::const_iterator i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
 	
-	if(all_valid_ && !pc.all_valid_) erase_invalid_points();
+	if(all_valid_ && pc.all_valid()) erase_invalid_points();
 }
 
 template<typename Point, typename Allocator> template<typename Reader>
@@ -201,7 +200,7 @@ template<typename Point, typename Allocator>
 template<typename Other_point, typename Distance_func>
 const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist, const Point* start, const Point* end) const {
 	if(! start) start = buffer_;
-	if(! end) end = buffer_;
+	if(! end) end = buffer_end_;
 
 	float minimal_distance = INFINITY;
 	const Point* closest_point = nullptr;
@@ -266,7 +265,7 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 template<typename Point, typename Allocator> template<typename Compare_func>
 void point_cloud<Point, Allocator>::sort_points(Compare_func func, Point* start, Point* end) {
 	if(! start) start = buffer_;
-	if(! end) end = buffer_;
+	if(! end) end = buffer_end_;
 
 	std::sort(start, end, func);
 }
