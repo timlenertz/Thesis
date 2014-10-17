@@ -1,5 +1,6 @@
 #include <cmath>
 #include <memory>
+#include <algorithm>
 
 namespace pcf {
 
@@ -198,17 +199,20 @@ cuboid point_cloud<Point, Allocator>::bounding_cuboid(float ep) const {
 
 template<typename Point, typename Allocator>
 template<typename Other_point, typename Distance_func>
-const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist) const {
+const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist, const Point* start, const Point* end) const {
+	if(! start) start = buffer_;
+	if(! end) end = buffer_;
+
 	float minimal_distance = INFINITY;
-	Point* closest_point = nullptr;
+	const Point* closest_point = nullptr;
 	
 	#pragma omp parallel
 	{
-		float min_d = std::numeric_limits<float>::infinity();
-		Point* cp = nullptr;
+		float min_d = INFINITY;
+		const Point* cp = nullptr;
 
 		#pragma omp for
-		for(Point* p = buffer_; p < buffer_end_; ++p) {
+		for(const Point* p = start; p < end; ++p) {
 			if(!all_valid_) if(! p->valid()) continue;
 			float d = dist(*p, from);								
 			if(d < min_d) { min_d = d; cp = p; }
@@ -258,5 +262,13 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 	if(! invalidate) buffer_end_ = np;
 }
 
+
+template<typename Point, typename Allocator> template<typename Compare_func>
+void point_cloud<Point, Allocator>::sort_points(Compare_func func, Point* start, Point* end) {
+	if(! start) start = buffer_;
+	if(! end) end = buffer_;
+
+	std::sort(start, end, func);
+}
 
 }

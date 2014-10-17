@@ -1,26 +1,30 @@
-#ifndef PCF_OCTREE_POINT_CLOUD_H_
-#define PCF_OCTREE_POINT_CLOUD_H_
+#ifndef PCF_KDTREE_POINT_CLOUD_H_
+#define PCF_KDTREE_POINT_CLOUD_H_
 
 #include <utility>
 #include <functional>
 #include <memory>
 #include <array>
+#include <cstdint>
 #include "segmented_point_cloud.h"
 #include "../geometry/cuboid.h"
 
 namespace pcf {
 
 template<typename Point, typename Allocator = std::allocator<Point>>
-class octree_point_cloud : public segmented_point_cloud<Point, Allocator> {
+class kdtree_point_cloud : public segmented_point_cloud<Point, Allocator> {
 	using super = segmented_point_cloud<Point, Allocator>;
 	using typename super::segment;
 	
 private:
 	class node;
 		
-	struct node_cuboid : cuboid {
-		node_cuboid child_cuboid(std::ptrdiff_t) const;
-		template<typename Other_point> std::ptrdiff_t child_for_point(const Other_point&) const;
+	struct node_cuboid : cuboid {	
+		std::uint8_t orientation = 0; // 0=x, 1=y, 2_z, modulo
+	
+		float split_plane() const;
+		node_cuboid child_cuboid(bool) const;
+		template<typename Other_point> bool child_for_point(const Other_point&) const;
 		
 		using cuboid::cuboid;
 		using cuboid::operator=;
@@ -40,7 +44,7 @@ private:
 	
 public:
 	template<typename Other_cloud>
-	octree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, const Allocator& alloc = Allocator());
+	kdtree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, const Allocator& alloc = Allocator());
 	
 	void verify() const { verify_(root_node_, root_cuboid_); }
 	
@@ -52,13 +56,12 @@ public:
 
 
 template<typename Point, typename Allocator>
-class octree_point_cloud<Point, Allocator>::node : public segment {
+class kdtree_point_cloud<Point, Allocator>::node : public segment {
 	using super = segment;
-
-private:
-	using child_ptr = std::unique_ptr<node>;
-	std::array<child_ptr, 8> children_;
 	
+private:
+	std::unique_ptr<node> left_, right_;
+		
 public:
 	using super::super;
 	node(const segment& seg) : super(seg) { }
@@ -66,19 +69,20 @@ public:
 	node(const node&) = delete;
 	node& operator=(const node&) = delete;
 	
-	bool has_child(std::ptrdiff_t i) const { return bool(children_[i]); }
 	bool is_leaf() const;
 
-	node& child(std::ptrdiff_t i) { assert(has_child(i)); return *children_[i]; }
-	const node& child(std::ptrdiff_t i) const { assert(has_child(i)); return *children_[i]; }
+	node& left() { assert(! is_leaf()); return *left_; }
+	node& right() { assert(! is_leaf()); return *right_; }
+	const node& left() const { assert(! is_leaf()); return *left_; }
+	const node& right() const { assert(! is_leaf()); return *right_; }
 
-	node& create_child(std::ptrdiff_t i, const segment& seg);
+	void create_children(Point* split);
 };
 
 
 
 }
 
-#include "octree_point_cloud.tcc"
+#include "kdtree_point_cloud.tcc"
 
 #endif

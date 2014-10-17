@@ -91,12 +91,15 @@ public:
 	cuboid bounding_cuboid(float ep = 0) const;
 	
 	template<typename Other_point, typename Distance_func>
-	const Point& find_closest_point(const Other_point& from, Distance_func dist) const;
+	const Point& find_closest_point(const Other_point& from, Distance_func dist, const Point* start = nullptr, const Point* end = nullptr) const;
 	
 	void erase_invalid_points();
 		
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
+	
+	template<typename Compare_func>
+	void sort_points(Compare_func func, Point* start = nullptr, Point* end = nullptr);
 };
 
 }
