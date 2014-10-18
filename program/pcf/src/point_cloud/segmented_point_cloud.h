@@ -31,7 +31,7 @@ protected:
 
 
 
-template<typename Point, typename Allocator = std::allocator<Point>>
+template<typename Point, typename Allocator>
 class segmented_point_cloud<Point, Allocator>::segment {
 protected:
 	Point* start_;

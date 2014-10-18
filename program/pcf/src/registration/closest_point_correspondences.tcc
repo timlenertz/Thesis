@@ -12,7 +12,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose>::compute() {
 		for(auto it = super::loose_cloud_.cbegin(); it < super::loose_cloud_.cend(); ++it) {
 			const auto& pl = *it;
 			if(! pl.valid()) continue;
-			const auto& pf = super::fixed_cloud_.find_closest_point(pl, euclidian_distance_sq);
+			const auto& pf = super::fixed_cloud_.find_closest_point(pl);
 			if(pf.valid()) cors_part.emplace_back(pf, pl);
 		}
 		

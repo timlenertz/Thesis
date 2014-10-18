@@ -4,10 +4,11 @@
 namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
-octree_point_cloud<Point, Allocator>::octree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, const Allocator& alloc) :
-super(pc, true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+octree_point_cloud<Point, Allocator>::octree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc) :
+super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
 	build_tree_();
 }
+
 
 template<typename Point, typename Allocator>
 void octree_point_cloud<Point, Allocator>::build_tree_() {
@@ -59,6 +60,7 @@ void octree_point_cloud<Point, Allocator>::build_tree_() {
 		next_todo.clear();
 	}
 }
+
 
 template<typename Point, typename Allocator>
 void octree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cuboid& cub) const {
@@ -148,10 +150,10 @@ auto octree_point_cloud<Point, Allocator>::node_containing_point_(const Other_po
 }
 
 
-template<typename Point, typename Allocator> template<typename Other_point, typename Distance_func>
-const Point& octree_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist) const {
+template<typename Point, typename Allocator> template<typename Other_point>
+const Point& octree_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from) const {
 	const node& nd = node_containing_point_(from, root_node_, root_cuboid_);
-	return super::find_closest_point_in_segment_(from, nd, dist);
+	return super::find_closest_point_in_segment_(from, nd, euclidian_distance_sq);
 }
 
 

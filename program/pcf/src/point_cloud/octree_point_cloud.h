@@ -40,12 +40,12 @@ private:
 	
 public:
 	template<typename Other_cloud>
-	octree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, const Allocator& alloc = Allocator());
+	octree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc = Allocator());
 	
 	void verify() const { verify_(root_node_, root_cuboid_); }
 	
-	template<typename Other_point, typename Distance_func>
-	const Point& find_closest_point(const Other_point& from, Distance_func dist) const;
+	template<typename Other_point>
+	const Point& find_closest_point(const Other_point& from) const;
 };
 
 

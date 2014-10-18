@@ -7,7 +7,7 @@
 namespace pcf {
 
 /**
-Asset of data hat represents part of the scene.
+Asset of data that represents part of the scene.
 Kept in working memory and modified during operations. Can be point cloud, range image, photo...
 */
 class asset {

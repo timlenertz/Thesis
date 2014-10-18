@@ -234,7 +234,6 @@ void point_cloud<Point, Allocator>::erase_invalid_points() {
 	}
 }
 
-
 template<typename Point, typename Allocator> template<typename Random_generator>
 void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalidate) {
 	if(invalidate && all_valid_) throw std::invalid_argument("Cannot invalidate points in all valid point cloud.");

@@ -35,8 +35,8 @@ bool cuboid::contains(const Eigen::Vector3f& p) const {
 
 
 std::ostream& operator<<(std::ostream& str, const cuboid& c) {
-	str << '(' << c.origin[0] << ", " << c.origin[1] << ", " << c.origin[2] << ") --> ("
-		<< c.extremity[0] << ", " << c.extremity[1] << ", " << c.extremity[2] << ')';
+	str << "[ (" << c.origin[0] << ", " << c.origin[1] << ", " << c.origin[2] << ");"
+		   " (" << c.extremity[0] << ", " << c.extremity[1] << ", " << c.extremity[2] << ") [";
 	return str;
 }
 

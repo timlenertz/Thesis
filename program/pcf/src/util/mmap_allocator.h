@@ -10,22 +10,23 @@ namespace pcf {
 class mmap_allocator_base {
 private:
 	struct impl;
-	std::unique_ptr<impl> impl_;
-	bool allocated_ = false;
-
-public:
-	mmap_allocator_base(const std::string& path);
-	mmap_allocator_base(const mmap_allocator_base&) = delete;
-	mmap_allocator_base(mmap_allocator_base&&);
-	~mmap_allocator_base();
+	static std::unique_ptr<impl> impl_;
 	
-	mmap_allocator_base& operator=(const mmap_allocator_base&) = delete;
-	mmap_allocator_base& operator=(mmap_allocator_base&&);
+	std::string name_;
+	
+	static impl& get_impl_();
+	std::uintptr_t key_for_ptr_(const void*);
+		
+public:
+	explicit mmap_allocator_base(const std::string& name);
+	
+	mmap_allocator_base(const mmap_allocator_base&) = default;
+	mmap_allocator_base(mmap_allocator_base&&) = default;
 	
 	void* allocate_(std::size_t length, std::size_t align, const void* hint);
 	void deallocate_(void* buf, std::size_t length);
-	void remove_file_();
 };
+
 
 
 template<class T>
@@ -33,25 +34,23 @@ class mmap_allocator : private mmap_allocator_base {
 public:
 	using value_type = T;
 
-private:
-	const bool temporary_;
-
 public:
-	mmap_allocator(const std::string& path = std::string(), bool temporary = true) :
-	mmap_allocator_base(path), temporary_(temporary) { }
+	mmap_allocator(const std::string& name = std::string()) :
+		mmap_allocator_base(name) { }
 	
+	mmap_allocator(const mmap_allocator&) = default;
 	mmap_allocator(mmap_allocator&&) = default;
-	mmap_allocator& operator=(mmap_allocator&) = default;
+	mmap_allocator& operator=(const mmap_allocator&) = default;
+	mmap_allocator& operator=(mmap_allocator&&) = default;
 
 	T* allocate(std::size_t n, const T* hint = 0) {
 		return reinterpret_cast<T*>(
-			allocate_(n * sizeof(T), alignof(T), reinterpret_cast<void*>(hint))
+			allocate_(n * sizeof(T), alignof(T), reinterpret_cast<const void*>(hint))
 		);
 	}
 	
 	void deallocate(T* buf, std::size_t n) {
-		deallocate_(reinterpret_cast<const T*>(buf), n * sizeof(T));
-		if(temporary_) remove_file_();
+		deallocate_(reinterpret_cast<T*>(buf), n * sizeof(T));
 	}
 };
 

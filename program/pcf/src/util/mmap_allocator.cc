@@ -2,64 +2,81 @@
 
 #include <utility>
 #include <stdexcept>
+#include <map>
+#include <cstdint>
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/filesystem.hpp>
+
 
 namespace pcf {
 
 struct mmap_allocator_base::impl {
-	boost::filesystem::path path;
-	boost::iostreams::mapped_file file;
+	struct allocation {
+		boost::iostreams::mapped_file file;
+		boost::filesystem::path path;
+	};
+
+	std::map<std::uintptr_t, std::unique_ptr<allocation>> allocations;
 };
 
 
-mmap_allocator_base::mmap_allocator_base(const std::string& pathname) :
-impl_(new impl) {
-	if(! pathname.empty()) impl_->path = boost::filesystem::path(pathname);
-	else impl_->path = boost::filesystem::unique_path();
-}
+std::unique_ptr<mmap_allocator_base::impl> mmap_allocator_base::impl_ = 
+	std::unique_ptr<mmap_allocator_base::impl>();
+	
 
-mmap_allocator_base::mmap_allocator_base(mmap_allocator_base&& a) :
-impl_(std::move(a.impl_)), allocated_(a.allocated_) {
-	a.allocated_ = false;
-}
-
-mmap_allocator_base& mmap_allocator_base::operator=(mmap_allocator_base&& a) {
-	if(allocated_) throw std::runtime_error("Cannot assign memory mapped allocator while allocated.");
-	impl_ = std::move(a.impl_);
-	allocated_ = a.allocated_;
-	return *this;
+mmap_allocator_base::impl& mmap_allocator_base::get_impl_() {
+	if(! impl_) impl_.reset(new impl);
+	return *impl_;
 }
 
 
-mmap_allocator_base::~mmap_allocator_base() { }
+mmap_allocator_base::mmap_allocator_base(const std::string& name):
+	name_(name) { }
 
+std::uintptr_t mmap_allocator_base::key_for_ptr_(const void* ptr) {
+	return std::uintptr_t(ptr);
+}
 
 void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, const void* hint) {
-	if(allocated_) throw std::runtime_error("Memory mapper file allocator: cannot allocate more than once at the same time.");
-	
-	if(impl_->file.alignment() % align != 0) throw std::runtime_error("Memory mapped file not property aligned.");
+	if(boost::iostreams::mapped_file::alignment() % align != 0)
+		throw std::runtime_error("Memory mapped file not property aligned.");
 
-	boost::iostreams::mapped_file_params params(impl_->path.native());
+
+	boost::filesystem::path model(name_ + "_%%%%-%%%%-%%%%-%%%%");
+	boost::filesystem::path path = boost::filesystem::unique_path(model);
+
+	boost::iostreams::mapped_file_params params;
+	params.path = path.c_str();
 	params.flags = boost::iostreams::mapped_file::readwrite;
 	params.new_file_size = length;
 	params.hint = reinterpret_cast<const char*>(hint);
 	
-	impl_->file.open(params);
+	impl::allocation* alloc = new impl::allocation;
+	alloc->path = path;
 	
-	allocated_ = true;
-	return reinterpret_cast<void*>(impl_->file.data());
+	alloc->file.open(params);
+	void* ptr = reinterpret_cast<void*>(alloc->file.data());
+
+	auto& impl = get_impl_();
+	std::uintptr_t key = key_for_ptr_(ptr);
+	impl.allocations[key].reset(alloc);
+		
+	return ptr;
 }
 
-void mmap_allocator_base::deallocate_(void* buf, std::size_t length) {
-	if(allocated_) {
-		impl_->file.close();
-		allocated_ = false;
-	}
-}
+void mmap_allocator_base::deallocate_(void* ptr, std::size_t length) {
+	auto& impl = get_impl_();
+	std::uintptr_t key = key_for_ptr_(ptr);
 
-void mmap_allocator_base::remove_file_() {
-	boost::filesystem::remove(impl_->path);
+	auto it = impl.allocations.find(key);
+	if(it == impl.allocations.end()) return;
+	if(! it->second) return;
+	impl::allocation& alloc = *(it->second);
+	
+	alloc.file.close();
+	boost::filesystem::remove(alloc.path);
+	
+	impl.allocations.erase(it);
 }
 
 
