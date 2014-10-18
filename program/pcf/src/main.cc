@@ -29,8 +29,8 @@ int main(int argc, const char* argv[]) try {
 	std::size_t cap = 400;
 
 	using cloud  = point_cloud<point_xyz>;
-	using ocloud = octree_point_cloud<point_xyz>;
-	using kcloud = kdtree_point_cloud<point_xyz, mmap_allocator<point_xyz>>;
+	using ocloud = octree_point_cloud<point_full, mmap_allocator<point_full>>;
+	using kcloud = kdtree_point_cloud<point_full, mmap_allocator<point_full>>;
 
 	ply_reader ply(argv[1]);
 	std::cout << "Loading from PLY file" << std::endl;
@@ -40,10 +40,10 @@ int main(int argc, const char* argv[]) try {
 	std::cout << "Transforming" << std::endl;
 	pc2.apply_transformation( Eigen::AngleAxisf(0.05*M_PI, Eigen::Vector3f::UnitY()) );
 
-	/*
-	std::cout << "Finding closest points (Unstructured)" << std::endl;
-	closest_point_correspondences<cloud, cloud> cor(pc1, pc2);
-	cor.compute();
+
+	//std::cout << "Finding closest points (Unstructured)" << std::endl;
+	//closest_point_correspondences<cloud, cloud> cor(pc1, pc2);
+	//cor.compute();
 
 	std::cout << "Building Octree" << std::endl;
 	ocloud opc1(std::move(pc1), cap);
@@ -51,13 +51,13 @@ int main(int argc, const char* argv[]) try {
 	std::cout << "Verifying..." << std::endl;
 	opc1.verify();
 	
-	std::cout << "Finding closest points (Octree)" << std::endl;
-	closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
-	ocor.compute();
-	*/
+	//std::cout << "Finding closest points (Octree)" << std::endl;
+	//closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
+	//ocor.compute();
+
 	
 	std::cout << "Building Kdtree" << std::endl;
-	kcloud kpc1(std::move(pc1), cap, mmap_allocator<point_xyz>("kpd"));
+	kcloud kpc1(std::move(opc1), cap);
 	export_pc("k.ply", kpc1);
 	std::cout << "Verifying..." << std::endl;
 	kpc1.verify();

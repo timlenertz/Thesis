@@ -29,6 +29,12 @@ public:
 
 
 
+/*
+Allocator which create memory-mapped files.
+Allows for allocating very large memory segments. File paths are prefixed with given name, and
+appended with unique code per allocation. Allocations list is shared among all mmap_allocator's
+regardless of type and name. 
+*/
 template<class T>
 class mmap_allocator : private mmap_allocator_base {
 public:

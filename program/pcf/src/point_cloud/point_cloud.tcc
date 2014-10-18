@@ -44,7 +44,9 @@ point_cloud(pc.capacity(), all_val, alloc) {
 	std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
 	
 	if(all_valid_ && pc.all_valid()) erase_invalid_points();
+	std::cout << "COPIED" << std::endl;
 }
+
 
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(point_cloud&& pc, bool all_val) :
@@ -55,20 +57,22 @@ allocated_size_(pc.allocated_size_),
 all_valid_(all_val) {
 	pc.buffer_ = nullptr;
 	if(all_valid_ && !pc.all_valid_) erase_invalid_points();
+	std::cout << "MOVED" << std::endl;
 }
 
 
-
-template<typename Point, typename Allocator> template<typename Other>
-point_cloud<Point, Allocator>::point_cloud(const Other& pc, bool all_val, const Allocator& alloc) :
+template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
+point_cloud<Point, Allocator>::point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
 point_cloud(pc.capacity(), all_val, alloc) {
 	resize_(pc.size());
 	Point* o = buffer_;
 	
-	for(typename Other::const_iterator i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
+	for(auto i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
 	
 	if(all_valid_ && pc.all_valid()) erase_invalid_points();
+	std::cout << "OTHER COPIED" << std::endl;
 }
+
 
 template<typename Point, typename Allocator> template<typename Reader>
 auto point_cloud<Point, Allocator>::create_from_reader(Reader& reader, bool all_val) -> point_cloud {

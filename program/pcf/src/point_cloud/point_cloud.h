@@ -51,7 +51,9 @@ public:
 	point_cloud() = delete;
 	point_cloud(const point_cloud&, bool all_val = false, const Allocator& alloc = Allocator());
 	point_cloud(point_cloud&&, bool all_val = false);
-	template<typename Other> point_cloud(const Other& pc, bool all_val = false, const Allocator& alloc = Allocator());
+	
+	template<typename Other_point, typename Other_allocator>
+	point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val = false, const Allocator& alloc = Allocator());
 
 	point_cloud& operator=(const point_cloud&);
 	point_cloud& operator=(point_cloud&&);

@@ -33,9 +33,11 @@ mmap_allocator_base::impl& mmap_allocator_base::get_impl_() {
 mmap_allocator_base::mmap_allocator_base(const std::string& name):
 	name_(name) { }
 
+
 std::uintptr_t mmap_allocator_base::key_for_ptr_(const void* ptr) {
 	return std::uintptr_t(ptr);
 }
+
 
 void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, const void* hint) {
 	if(boost::iostreams::mapped_file::alignment() % align != 0)
@@ -63,6 +65,7 @@ void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, cons
 		
 	return ptr;
 }
+
 
 void mmap_allocator_base::deallocate_(void* ptr, std::size_t length) {
 	auto& impl = get_impl_();

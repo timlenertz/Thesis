@@ -42,8 +42,8 @@ private:
 	const node& node_containing_point_(const Other_point& pt, const node& par_nd, const node_cuboid& par_cub, std::size_t max_depth = 0) const;
 	
 public:
-	template<typename Other_cloud>
-	kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc = Allocator());
+	template<typename Other_cloud> kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator&);
+	template<typename Other_cloud> kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap);
 	
 	void verify() const { verify_(root_node_, root_cuboid_); }
 	

@@ -9,6 +9,12 @@ super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), roo
 	build_tree_();
 }
 
+template<typename Point, typename Allocator> template<typename Other_cloud>
+kdtree_point_cloud<Point, Allocator>::kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
+super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+	build_tree_();
+}
+
 
 template<typename Point, typename Allocator>
 void kdtree_point_cloud<Point, Allocator>::build_tree_() {
@@ -38,9 +44,7 @@ void kdtree_point_cloud<Point, Allocator>::build_tree_() {
 			for(auto it = todo.cbegin(); it < todo.cend(); ++it) {
 				node& nd = it->first;
 				const node_cuboid& cub = it->second;
-				
-				for(Point* p = nd.start(); p < nd.end(); ++p) mark_point(*p, std::uintptr_t(&nd));
-				
+								
 				if(nd.size() < leaf_capacity_) continue;
 
 				// Split the node
