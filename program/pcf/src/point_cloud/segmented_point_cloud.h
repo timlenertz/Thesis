@@ -21,11 +21,14 @@ protected:
 	}
 	
 	template<typename Condition_func>
-	segment make_segment(Condition_func cond, Point* start, Point* limit = nullptr);
+	segment make_segment_(Condition_func cond, Point* begin, Point* limit);
 	
-	template<typename Other_point, typename Distance_func>
-	const Point& find_closest_point_in_segment_(const Other_point& from, const segment& seg, Distance_func dist) const;
-	
+	template<typename Index_func>
+	std::vector<segment> make_segments_(Index_func cond, std::size_t segment_count, Point* begin, Point* limit);
+		
+	template<typename Condition_func>
+	bool verify_segment_(Condition_func cond, const segment&) const;
+		
 	using super::super;
 };
 
@@ -34,19 +37,25 @@ protected:
 template<typename Point, typename Allocator>
 class segmented_point_cloud<Point, Allocator>::segment {
 protected:
-	Point* start_;
+	Point* begin_;
 	Point* end_;
 
 public:
-	segment() = delete;
-	segment(Point* s, Point* e) : start_(s), end_(e) { }
+	using iterator = Point*;
+	using const_iterator = const Point*;
+
+	segment() = default;
+	segment(Point* s, Point* e) : begin_(s), end_(e) { }
 	
-	Point* start() { return start_; }
-	Point* end() { return end_; }
-	const Point* start() const { return start_; }
-	const Point* end() const { return end_; }
+	iterator begin() { return begin_; }
+	const const_iterator begin() const { return begin_; }
+	const const_iterator cbegin() const { return begin_; }
+
+	iterator end() { return end_; }
+	const_iterator end() const { return end_; }
+	const_iterator cend() const { return end_; }
 	
-	std::size_t size() const { return end_ - start_; }
+	std::size_t size() const { return end_ - begin_; }
 };
 
 }

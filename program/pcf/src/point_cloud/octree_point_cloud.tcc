@@ -45,7 +45,7 @@ void octree_point_cloud<Point, Allocator>::build_tree_() {
 				node& nd = it->first;
 				const node_cuboid& cub = it->second;
 				
-				for(Point* p = nd.start(); p < nd.end(); ++p) mark_point(*p, std::uintptr_t(&nd));
+				for(Point* p = nd.begin(); p < nd.end(); ++p) assert(cub.contains(*p));
 
 				if(nd.size() < leaf_capacity_) continue;
 		
@@ -80,7 +80,7 @@ void octree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cu
 	if(nd.size() == 0) throw std::logic_error("Node must not be empty.");
 	
 	// Make sure all points in segment belong to cuboid
-	for(const Point* p = nd.start(); p < nd.end(); ++p)
+	for(const Point* p = nd.begin(); p < nd.end(); ++p)
 		if(! cub.contains(*p)) throw std::logic_error("Node contains point which is not in its cuboid.");
 		
 	// Recursively check children
@@ -94,19 +94,14 @@ void octree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cu
 
 template<typename Point, typename Allocator>
 void octree_point_cloud<Point, Allocator>::split_node_(node& nd, const node_cuboid& cub) {
-	Point* last_start = nd.start();
-
-	for(std::ptrdiff_t i = 0; i < 8; ++i) {
-		auto cond = [&cub, i](const Point& p) -> bool {
-			return (cub.child_for_point(p) == i);
-		};
-		segment seg = super::make_segment(cond, last_start, nd.end());
-		last_start = seg.end();
-		
-		if(seg.size()) nd.create_child(i, seg);
-	}
+	auto idx = [&cub](const Point& p) -> std::ptrdiff_t {
+		return cub.child_for_point(p);
+	};
+	std::vector<segment> child_segments = super::make_segments_(idx, 8, nd.begin(), nd.end());
+	assert(child_segments.back().end() == nd.end());
 	
-	assert(last_start == nd.end());
+	for(std::ptrdiff_t i = 0; i < 8; ++i)
+		if(child_segments[i].size()) nd.create_child(i, child_segments[i]);
 }
 
 
@@ -134,7 +129,12 @@ auto octree_point_cloud<Point, Allocator>::node_cuboid::child_cuboid(std::ptrdif
 
 template<typename Point, typename Allocator> template<typename Other_point>
 std::ptrdiff_t octree_point_cloud<Point, Allocator>::node_cuboid::child_for_point(const Other_point& p) const {
-	assert(contains(p));
+	//assert(contains(p));
+	
+	if(! contains(p)) {
+		std::cout << p << " not in" << *this << std::endl;
+		throw 1;
+	}
 	
 	Eigen::Vector3f c = center();
 	std::ptrdiff_t i = 0;
@@ -162,7 +162,7 @@ auto octree_point_cloud<Point, Allocator>::node_containing_point_(const Other_po
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& octree_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from) const {
 	const node& nd = node_containing_point_(from, root_node_, root_cuboid_);
-	return super::find_closest_point_in_segment_(from, nd, euclidian_distance_sq);
+	return super::find_closest_point(from, euclidian_distance_sq, nd.begin(), nd.end());
 }
 
 

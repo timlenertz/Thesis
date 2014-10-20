@@ -60,7 +60,7 @@ public:
 	template<typename Other_cloud>
 	void project_point_cloud(const Other_cloud& pc, const Eigen::Projective3f& projm);	
 	
-	range_image to_range_image();
+	//range_image to_range_image();
 	
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio) { super::downsample_random(ratio, true); }

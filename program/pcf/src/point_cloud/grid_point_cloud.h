@@ -16,19 +16,25 @@ class grid_point_cloud : public segmented_point_cloud<Point, Allocator> {
 	using typename super::segment;
 	
 private:
+	using cell_coordinates = std::array<std::ptrdiff_t, 3>;
+
 	const Eigen::Vector3f cell_size_;
 
-	cuboid bounding_cuboid_;
+	Eigen::Vector3f origin_;
 	std::size_t number_of_cells_[3];
 	std::vector<segment> cells_;
 	
-	template<typename Other_point> const segment& cell_for_point_(const Other_point&) const;
-	void build_grid_();
+	template<typename Other_point> cell_coordinates cell_for_point_(const Other_point&) const;
+	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
+	void build_grid_();
+
 public:
 	template<typename Other_cloud>
 	grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz, const Allocator& alloc = Allocator());
-		
+	
+	void verify() const;
+	
 	template<typename Other_point>
 	const Point& find_closest_point(const Other_point& from) const;
 };

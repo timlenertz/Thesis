@@ -38,13 +38,12 @@ point_cloud<Point, Allocator>::~point_cloud() {
 }
 
 template<typename Point, typename Allocator>
-point_cloud<Point, Allocator>::point_cloud(const point_cloud& pc, bool all_val, const Allocator& alloc) :
-point_cloud(pc.capacity(), all_val, alloc) {
+point_cloud<Point, Allocator>::point_cloud(const point_cloud& pc, bool all_val) :
+point_cloud(pc.capacity(), all_val) {
 	resize_(pc.size());
 	std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
 	
 	if(all_valid_ && pc.all_valid()) erase_invalid_points();
-	std::cout << "COPIED" << std::endl;
 }
 
 
@@ -57,7 +56,6 @@ allocated_size_(pc.allocated_size_),
 all_valid_(all_val) {
 	pc.buffer_ = nullptr;
 	if(all_valid_ && !pc.all_valid_) erase_invalid_points();
-	std::cout << "MOVED" << std::endl;
 }
 
 
@@ -70,7 +68,6 @@ point_cloud(pc.capacity(), all_val, alloc) {
 	for(auto i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
 	
 	if(all_valid_ && pc.all_valid()) erase_invalid_points();
-	std::cout << "OTHER COPIED" << std::endl;
 }
 
 
@@ -173,7 +170,10 @@ Eigen::Vector3f point_cloud<Point, Allocator>::center_of_mass() const {
 template<typename Point, typename Allocator>
 cuboid point_cloud<Point, Allocator>::bounding_cuboid(float ep) const {
 	const float inf = INFINITY;
-	cuboid cub = cuboid::infinite();
+	cuboid cub(
+		Eigen::Vector3f(+inf, +inf, +inf),
+		Eigen::Vector3f(-inf, -inf, -inf)
+	);
 	
 	#pragma omp parallel
 	{
@@ -195,8 +195,9 @@ cuboid point_cloud<Point, Allocator>::bounding_cuboid(float ep) const {
 			cub.extremity = cub.extremity.cwiseMax(mx_part.head(3));
 		}
 	}
-	
+		
 	cub.extremity += Eigen::Vector3f(ep, ep, ep);
+	
 	return cub;
 }
 

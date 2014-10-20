@@ -49,7 +49,7 @@ protected:
 
 public:
 	point_cloud() = delete;
-	point_cloud(const point_cloud&, bool all_val = false, const Allocator& alloc = Allocator());
+	point_cloud(const point_cloud&, bool all_val = false);
 	point_cloud(point_cloud&&, bool all_val = false);
 	
 	template<typename Other_point, typename Other_allocator>

@@ -76,7 +76,7 @@ void kdtree_point_cloud<Point, Allocator>::verify_(const node& nd, const node_cu
 	if(nd.size() == 0) throw std::logic_error("Node must not be empty.");
 	
 	// Make sure all points in segment belong to cuboid
-	for(const Point* p = nd.start(); p < nd.end(); ++p)
+	for(const Point* p = nd.begin(); p < nd.end(); ++p)
 		if(! cub.contains(*p)) //throw std::logic_error("Node contains point which is not in its cuboid.");
 	{ std::cout << *p << " not in " << cub << std::endl; }
 	// Recursively check children
@@ -93,8 +93,8 @@ void kdtree_point_cloud<Point, Allocator>::split_node_(node& nd, const node_cubo
 		return (a[cub.orientation] < b[cub.orientation]);
 	};
 	
-	super::sort_points(cmp, nd.start(), nd.end());
-	Point* median = nd.start() + nd.size()/2;
+	super::sort_points(cmp, nd.begin(), nd.end());
+	Point* median = nd.begin() + nd.size()/2;
 	
 	nd.create_children(median, cub);
 }
@@ -142,7 +142,7 @@ auto kdtree_point_cloud<Point, Allocator>::node_containing_point_(const Other_po
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& kdtree_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from) const {
 	const node& nd = node_containing_point_(from, root_node_, root_cuboid_);
-	return super::find_closest_point_in_segment_(from, nd, euclidian_distance_sq);
+	return super::find_closest_point(from, euclidian_distance_sq, nd.begin(), nd.end());
 }
 
 
@@ -157,7 +157,7 @@ template<typename Point, typename Allocator>
 void kdtree_point_cloud<Point, Allocator>::node::create_children(Point* split, const node_cuboid& cub) {
 	split_plane_ = (*split)[cub.orientation];
 	
-	node* l = new node(super::start(), split);
+	node* l = new node(super::begin(), split);
 	node* r = new node(split, super::end());
 	
 	left_.reset(l);

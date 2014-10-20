@@ -118,7 +118,7 @@ void range_point_cloud<Point, Allocator>::project_point_cloud(const Other_cloud&
 		}
 	}
 }
-
+/*
 template<typename Point, typename Allocator>
 range_image range_point_cloud<Point, Allocator>::to_range_image() {
 	range_image ri(width_, height_);
@@ -131,6 +131,6 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() {
 	}
 	return ri;
 }
-
+*/
 
 }
