@@ -45,10 +45,7 @@ auto segmented_point_cloud<Point, Allocator>::make_segments_(Index_func cond, st
 template<typename Point, typename Allocator>
 template<typename Condition_func>
 bool segmented_point_cloud<Point, Allocator>::verify_segment_(Condition_func cond, const segment& seg) const {
-	for(const Point& p : seg) if(! cond(p)) {
-		std::cout << "c=" << cond(p) << p << std::endl;
-		return false;
-	}
+	for(const Point& p : seg) if(! cond(p)) return false;
 	return true;
 }
 

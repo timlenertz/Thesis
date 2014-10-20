@@ -47,6 +47,8 @@ protected:
 	void resize_(std::size_t new_size);
 	void initialize_();
 
+	static const Point& invalid_point_();
+
 public:
 	point_cloud() = delete;
 	point_cloud(const point_cloud&, bool all_val = false);

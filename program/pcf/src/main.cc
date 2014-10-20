@@ -32,7 +32,7 @@ int main(int argc, const char* argv[]) try {
 	using cloud  = point_cloud<point_xyz>;
 	using ocloud = octree_point_cloud<point_xyz>;
 	using kcloud = kdtree_point_cloud<point_xyz>;
-	using gcloud = grid_point_cloud<point_full>;
+	using gcloud = grid_point_cloud<point_xyz>;
 
 	ply_reader ply(argv[1]);
 	std::cout << "Loading from PLY file" << std::endl;
@@ -41,20 +41,10 @@ int main(int argc, const char* argv[]) try {
 	auto cub = pc1.bounding_cuboid();
 	std::cout << cub << std::endl;
 	
-	float c = cub.side_lengths()[0]/12.0;
-	std::cout << "Building Grid" << std::endl;
-	gcloud gpc1(std::move(pc1), Eigen::Vector3f(c, c, c));
-	export_pc("g.ply", gpc1);
-	std::cout << "Verifying..." << std::endl;
-	gpc1.verify();
-	return 0;/*
-
-	
 	std::cout << "Copying" << std::endl;
 	cloud pc2 = pc1;
 	std::cout << "Transforming" << std::endl;
 	pc2.apply_transformation( Eigen::AngleAxisf(0.05*M_PI, Eigen::Vector3f::UnitY()) );
-
 
 	//std::cout << "Finding closest points (Unstructured)" << std::endl;
 	//closest_point_correspondences<cloud, cloud> cor(pc1, pc2);
@@ -84,15 +74,16 @@ int main(int argc, const char* argv[]) try {
 
 
 	std::cout << "Building Grid" << std::endl;
-	gcloud gpc1(std::move(kpc1), Eigen::Vector3f(0.1, 0.1, 0.1));
+	float c = cub.side_lengths()[0] / 30.0;
+	gcloud gpc1(std::move(kpc1), Eigen::Vector3f(c, c, c));
 	export_pc("g.ply", kpc1);
 	std::cout << "Verifying..." << std::endl;
-	//kpc1.verify();
+	gpc1.verify();
 
 
-	//std::cout << "Finding closest points (Kdtree)" << std::endl;
-	//closest_point_correspondences<kcloud, cloud> kcor(kpc1, pc2);
-	//kcor.compute();*/
+	std::cout << "Finding closest points (Grid)" << std::endl;
+	closest_point_correspondences<gcloud, cloud> kcor(gpc1, pc2);
+	kcor.compute();
 
 	
 } catch(const std::exception& ex) {

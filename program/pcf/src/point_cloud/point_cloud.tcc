@@ -22,6 +22,12 @@ void point_cloud<Point, Allocator>::initialize_() {
 }
 
 template<typename Point, typename Allocator>
+const Point& point_cloud<Point, Allocator>::invalid_point_() {	
+	static const Point invalid = Point();
+	return invalid;
+}
+
+template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(std::size_t allocate_size, bool all_val, const Allocator& alloc) :
 	allocator_(alloc),
 	buffer_(allocator_.allocate(allocate_size)),

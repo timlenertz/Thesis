@@ -92,4 +92,26 @@ void grid_point_cloud<Point, Allocator>::verify() const {
 }
 
 
+template<typename Point, typename Allocator>
+bool grid_point_cloud<Point, Allocator>::in_bounds_(const cell_coordinates& c) const {
+	for(std::ptrdiff_t i = 0; i < 3; ++i) if((c[0] < 0) || (c[0] >= number_of_cells_[0])) return false;
+	return true;
+}
+
+
+
+template<typename Point, typename Allocator> template<typename Other_point>
+const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from) const {
+	cell_coordinates c = cell_for_point_(from);
+	if(! in_bounds_(c)) return super::invalid_point_();
+	
+	std::ptrdiff_t i = index_for_cell_(c);
+	const segment& seg = cells_[i];
+	if(seg.empty()) return super::invalid_point_();
+	
+	return super::find_closest_point(from, euclidian_distance_sq, seg.begin(), seg.end());
+}
+
+
+
 }

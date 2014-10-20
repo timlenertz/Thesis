@@ -56,6 +56,7 @@ public:
 	const_iterator cend() const { return end_; }
 	
 	std::size_t size() const { return end_ - begin_; }
+	bool empty() const { return end_ == begin_; }
 };
 
 }

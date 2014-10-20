@@ -27,6 +27,7 @@ private:
 	template<typename Other_point> cell_coordinates cell_for_point_(const Other_point&) const;
 	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
+	bool in_bounds_(const cell_coordinates&) const;
 	void build_grid_();
 
 public:
