@@ -5,13 +5,13 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 kdtree_point_cloud<Point, Allocator>::kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+super(std::forward<Other_cloud>(pc), alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
 	build_tree_();
 }
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 kdtree_point_cloud<Point, Allocator>::kdtree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
-super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+super(std::forward<Other_cloud>(pc)), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
 	build_tree_();
 }
 

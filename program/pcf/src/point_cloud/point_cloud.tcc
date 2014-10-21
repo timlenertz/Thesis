@@ -6,19 +6,14 @@ namespace pcf {
 
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::check_correct_alignment_() const {
-	if((std::uintptr_t)buffer_ % alignof(Point))
+	if((std::uintptr_t)super::begin_ % alignof(Point))
 		throw std::runtime_error("Point cloud data not properly aligned.");
 }
 
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::resize_(std::size_t new_size) {	
 	if(new_size > capacity()) throw std::logic_error("Point cloud new size cannot be greater than capacity.");
-	else buffer_end_ = buffer_ + new_size;
-}
-
-template<typename Point, typename Allocator>
-void point_cloud<Point, Allocator>::initialize_() {	
-	for(Point* p = buffer_; p < buffer_end_; ++p) p->invalidate();
+	else super::end_ = super::begin_ + new_size;
 }
 
 template<typename Point, typename Allocator>
@@ -27,40 +22,42 @@ const Point& point_cloud<Point, Allocator>::invalid_point_() {
 	return invalid;
 }
 
+
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(std::size_t allocate_size, bool all_val, const Allocator& alloc) :
 	allocator_(alloc),
-	buffer_(allocator_.allocate(allocate_size)),
-	buffer_end_(buffer_end_),
 	allocated_size_(allocate_size),
 	all_valid_(all_val)
 {
+	super::begin_ = allocator_.allocate(allocate_size);
+	super::end_ = super::begin_;
 	check_correct_alignment_();
 }
 
+
+
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::~point_cloud() {
-	if(buffer_) allocator_.deallocate(buffer_, allocated_size_);
+	if(super::begin_) allocator_.deallocate(super::begin_, allocated_size_);
 }
 
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(const point_cloud& pc, bool all_val) :
 point_cloud(pc.capacity(), all_val) {
 	resize_(pc.size());
-	std::memcpy((void*)buffer_, (const void*)pc.buffer_, pc.size()*sizeof(Point));
+	std::memcpy((void*)super::begin_, (const void*)pc.begin_, pc.size()*sizeof(Point));
 	
-	if(all_valid_ && pc.all_valid()) erase_invalid_points();
+	if(all_valid_ && !pc.all_valid()) erase_invalid_points();
 }
 
 
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::point_cloud(point_cloud&& pc, bool all_val) :
+super(pc),
 allocator_( std::move(pc.allocator_) ),
-buffer_(pc.buffer_),
-buffer_end_(pc.buffer_end_),
 allocated_size_(pc.allocated_size_),
 all_valid_(all_val) {
-	pc.buffer_ = nullptr;
+	pc.begin_ = nullptr;
 	if(all_valid_ && !pc.all_valid_) erase_invalid_points();
 }
 
@@ -69,11 +66,11 @@ template<typename Point, typename Allocator> template<typename Other_point, type
 point_cloud<Point, Allocator>::point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
 point_cloud(pc.capacity(), all_val, alloc) {
 	resize_(pc.size());
-	Point* o = buffer_;
 	
+	auto o = super::begin();
 	for(auto i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
 	
-	if(all_valid_ && pc.all_valid()) erase_invalid_points();
+	if(all_valid_ && !pc.all_valid()) erase_invalid_points();
 }
 
 
@@ -87,7 +84,7 @@ auto point_cloud<Point, Allocator>::create_from_reader(Reader& reader, bool all_
 template<typename Point, typename Allocator> template<typename Reader> 
 void point_cloud<Point, Allocator>::read(Reader& reader) {
 	resize_(reader.size());
-	reader.template read<Point>(buffer_, size());
+	reader.template read<Point>(super::data(), size());
 }
 
 
@@ -98,7 +95,7 @@ std::size_t point_cloud<Point, Allocator>::number_of_valid_points() const {
 	} else {
 		std::size_t total = 0;
 		#pragma omp parallel for reduction(+:total)
-		for(const Point* p = buffer_; p < buffer_end_; ++p) if(p->valid()) ++total;
+		for(auto p = super::begin(); p < super::end(); ++p) if(p->valid()) ++total;
 		return total;
 	}
 }
@@ -109,7 +106,7 @@ bool point_cloud<Point, Allocator>::contains_invalid_points() const {
 		
 	bool found_invalid = false;
 	#pragma omp parallel for shared(found_invalid)
-	for(const Point* p = buffer_; p < buffer_end_; ++p) {
+	for(auto p = super::begin(); p < super::end(); ++p) {
 		#ifdef _OPENMP
 		if(found_invalid) continue;			
 		else if(! p->valid()) found_invalid = true;
@@ -126,92 +123,24 @@ bool point_cloud<Point, Allocator>::contains_invalid_points() const {
 
 template<typename Point, typename Allocator> template<typename Writer>
 void point_cloud<Point, Allocator>::write(Writer& writer) const {
-	writer.write(buffer_, size());
+	writer.write(super::data(), size());
 }
 
 
 template<typename Point, typename Allocator> template<typename Transformation>
 void point_cloud<Point, Allocator>::apply_transformation(const Transformation& t) {
 	const Eigen::Affine3f affinet(t);
+	
 	#pragma omp parallel for
-	for(Point* p = buffer_; p < buffer_end_; ++p) p->apply_transformation(affinet);
+	for(auto p = super::begin(); p < super::end(); ++p) p->apply_transformation(affinet);
 }
 
-template<typename Point, typename Allocator>
-Eigen::Vector3f point_cloud<Point, Allocator>::center_of_mass() const {
-	Eigen::Vector4f sum = Eigen::Vector4f::Zero();
-	std::size_t total = size();
-	
-	if(all_valid_) {
-		#pragma omp parallel
-		{
-			Eigen::Vector4f sum_part = Eigen::Vector4f::Zero();
-			#pragma omp for
-			for(Point* p = buffer_; p < buffer_end_; ++p) sum_part += p->homogeneous_coordinates;
-		
-			#pragma omp critical
-			{ sum += sum_part; }
-		}
-	} else {
-		#pragma omp parallel
-		{
-			Eigen::Vector4f sum_part = Eigen::Vector4f::Zero();
-			
-			total = 0;
-			#pragma omp for reduction(+:total)
-			for(Point* p = buffer_; p < buffer_end_; ++p) {
-				if(! p->valid()) continue;
-				sum_part += p->homogeneous_coordinates;
-				++total;
-			}
-		
-			#pragma omp critical
-			{ sum += sum_part; }
-		}
-	}
-	
-	return (sum / total).head(3);
-}
-
-template<typename Point, typename Allocator>
-cuboid point_cloud<Point, Allocator>::bounding_cuboid(float ep) const {
-	const float inf = INFINITY;
-	cuboid cub(
-		Eigen::Vector3f(+inf, +inf, +inf),
-		Eigen::Vector3f(-inf, -inf, -inf)
-	);
-	
-	#pragma omp parallel
-	{
-		Eigen::Vector4f mn_part(+inf, +inf, +inf, 0);
-		Eigen::Vector4f mx_part(-inf, -inf, -inf, 0);
-		
-		#pragma omp for
-		for(Point* p = buffer_; p < buffer_end_; ++p) {
-			if(! p->valid()) continue;
-			const Eigen::Vector4f pc = p->homogeneous_coordinates;
-			
-			mn_part = mn_part.cwiseMin(pc);
-			mx_part = mx_part.cwiseMax(pc);
-		}
-		
-		#pragma omp critical
-		{
-			cub.origin = cub.origin.cwiseMin(mn_part.head(3));
-			cub.extremity = cub.extremity.cwiseMax(mx_part.head(3));
-		}
-	}
-		
-	cub.extremity += Eigen::Vector3f(ep, ep, ep);
-	
-	return cub;
-}
 
 template<typename Point, typename Allocator>
 template<typename Other_point, typename Distance_func>
 const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point& from, Distance_func dist, const Point* start, const Point* end) const {
-	if(! start) start = buffer_;
-	if(! end) end = buffer_end_;
+	if(! start) start = super::begin_;
+	if(! end) end = super::end_;
 
 	float minimal_distance = INFINITY;
 	const Point* closest_point = nullptr;
@@ -239,9 +168,9 @@ const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::erase_invalid_points() {
 	if(! all_valid_) {
-		Point* np = buffer_;
-		for(Point* p = buffer_; p < buffer_end_; ++p) if(p->valid()) *(np++) = *p;
-		buffer_end_ = np;
+		super::end_ = std::partition(super::begin(), super::end(), [](const Point& p) {
+			return p.valid();
+		});
 	}
 }
 
@@ -250,7 +179,7 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 	if(invalidate && all_valid_) throw std::invalid_argument("Cannot invalidate points in all valid point cloud.");
 	
 	Random_generator rng;
-	Point* np = buffer_;
+	Point* np = super::begin_;
 	
 	const std::size_t total = number_of_valid_points();
 	const std::size_t expected = ratio * total;
@@ -258,7 +187,7 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 	std::size_t left = total;
 	std::size_t needed = expected;
 	
-	for(Point* p = buffer_; p < buffer_end_; ++p) {
+	for(Point* p = super::begin_; p < super::end_; ++p) {
 		if(! all_valid_) if(! p->valid()) continue;
 		std::uniform_int_distribution<std::size_t> dist(0, left - 1);
 		if(dist(rng) < needed) {
@@ -268,16 +197,8 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 		}
 		--left;
 	}
-	if(! invalidate) buffer_end_ = np;
+	if(! invalidate) super::end_ = np;
 }
 
-
-template<typename Point, typename Allocator> template<typename Compare_func>
-void point_cloud<Point, Allocator>::sort_points(Compare_func func, Point* start, Point* end) {
-	if(! start) start = buffer_;
-	if(! end) end = buffer_end_;
-
-	std::sort(start, end, func);
-}
 
 }

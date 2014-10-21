@@ -10,6 +10,13 @@ super(std::forward<Other_cloud>(pc), true, alloc), cell_size_(cell_sz) {
 }
 
 
+template<typename Point, typename Allocator> template<typename Other_cloud>
+grid_point_cloud<Point, Allocator>::grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz) :
+super(std::forward<Other_cloud>(pc), true), cell_size_(cell_sz) {
+	build_grid_();
+}
+
+
 template<typename Point, typename Allocator> template<typename Other_point>
 auto grid_point_cloud<Point, Allocator>::cell_for_point_(const Other_point& p) const -> cell_coordinates {
 	cell_coordinates c;
@@ -35,13 +42,15 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 	cuboid bounding_cub = super::bounding_cuboid(0.1);
 	origin_ = bounding_cub.origin;
 	
-	Eigen::Vector3f nb_cells = bounding_cub.side_lengths().cwiseQuotient(cell_size_);
-	for(std::ptrdiff_t i = 0; i < 3; ++i) number_of_cells_[i] = std::ceil(nb_cells[i]);
+	Eigen::Vector3f bounding_side_lengths = bounding_cub.side_lengths();
+	for(std::ptrdiff_t i = 0; i < 3; ++i) number_of_cells_[i] = std::ceil(bounding_side_lengths[i] / cell_size_[i]);
 	
 	// First split into X segments
-	auto x_segs = super::make_segments_([this](const Point& p) {
+	std::vector<segment> x_segs(number_of_cells_[0]);
+	super::partition_into_segments([this](const Point& p) {
 		return std::floor( (p[0] - origin_[0]) / cell_size_[0] );
-	}, number_of_cells_[0], super::buffer_, super::buffer_end_);	
+	}, number_of_cells_[0], x_segs.begin());
+
 	
 	// Split each into Y segments
 	std::vector<segment> y_segs(number_of_cells_[0] * number_of_cells_[1]);
@@ -50,9 +59,11 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 	#pragma omp parallel for
 	for(std::ptrdiff_t i = 0; i < x_segs.size(); ++i) {
 		segment& x_seg = x_segs[i];
-		auto y_segs_part = super::make_segments_([this](const Point& p) {
+
+		std::vector<segment> y_segs_part(number_of_cells_[1]);
+		x_seg.partition_into_segments([this](const Point& p) {
 			return std::floor( (p[1] - origin_[1]) / cell_size_[1] );
-		}, number_of_cells_[1], x_seg.begin(), x_seg.end());	
+		}, number_of_cells_[1], y_segs_part.begin());
 
 		#pragma omp critical
 		{
@@ -68,9 +79,11 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 	#pragma omp parallel for
 	for(std::ptrdiff_t i = 0; i < y_segs.size(); ++i) {
 		segment& y_seg = y_segs[i];
-		auto cells_part = super::make_segments_([this](const Point& p) {
+		
+		std::vector<segment> cells_part(number_of_cells_[1]);
+		y_seg.partition_into_segments([this](const Point& p) {
 			return std::floor( (p[2] - origin_[2]) / cell_size_[2] );
-		}, number_of_cells_[2], y_seg.begin(), y_seg.end());	
+		}, number_of_cells_[2], cells_part.begin());
 
 		#pragma omp critical
 		{
@@ -106,7 +119,7 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 	if(! in_bounds_(c)) return super::invalid_point_();
 	
 	std::ptrdiff_t i = index_for_cell_(c);
-	const segment& seg = cells_[i];
+	const segment& seg = cells_.at(i);
 	if(seg.empty()) return super::invalid_point_();
 	
 	return super::find_closest_point(from, euclidian_distance_sq, seg.begin(), seg.end());

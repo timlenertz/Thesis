@@ -5,15 +5,15 @@
 #include <functional>
 #include <memory>
 #include <array>
-#include "segmented_point_cloud.h"
+#include "point_cloud.h"
 #include "../geometry/cuboid.h"
 
 namespace pcf {
 
 template<typename Point, typename Allocator = std::allocator<Point>>
-class grid_point_cloud : public segmented_point_cloud<Point, Allocator> {
-	using super = segmented_point_cloud<Point, Allocator>;
-	using typename super::segment;
+class grid_point_cloud : public point_cloud<Point, Allocator> {
+	using super = point_cloud<Point, Allocator>;
+	using segment = typename super::segment;
 	
 private:
 	using cell_coordinates = std::array<std::ptrdiff_t, 3>;
@@ -31,8 +31,8 @@ private:
 	void build_grid_();
 
 public:
-	template<typename Other_cloud>
-	grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz, const Allocator& alloc = Allocator());
+	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz, const Allocator& alloc);
+	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz);
 	
 	void verify() const;
 	

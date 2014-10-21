@@ -8,7 +8,7 @@
 
 namespace pcf {
 
-class range_image : public asset {
+class range_image {
 private:
 	cv::Mat matrix_;
 

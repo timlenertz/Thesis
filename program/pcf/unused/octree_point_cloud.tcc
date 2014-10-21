@@ -5,14 +5,14 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 octree_point_cloud<Point, Allocator>::octree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+super(std::forward<Other_cloud>(pc), alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
 	build_tree_();
 }
 
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 octree_point_cloud<Point, Allocator>::octree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
-super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
+super(std::forward<Other_cloud>(pc)), leaf_capacity_(leaf_cap), root_node_(super::full_segment_()) {
 	build_tree_();
 }
 
@@ -45,8 +45,6 @@ void octree_point_cloud<Point, Allocator>::build_tree_() {
 				node& nd = it->first;
 				const node_cuboid& cub = it->second;
 				
-				for(Point* p = nd.begin(); p < nd.end(); ++p) assert(cub.contains(*p));
-
 				if(nd.size() < leaf_capacity_) continue;
 		
 				// Split the node
@@ -133,7 +131,6 @@ std::ptrdiff_t octree_point_cloud<Point, Allocator>::node_cuboid::child_for_poin
 	
 	if(! contains(p)) {
 		std::cout << p << " not in" << *this << std::endl;
-		throw 1;
 	}
 	
 	Eigen::Vector3f c = center();

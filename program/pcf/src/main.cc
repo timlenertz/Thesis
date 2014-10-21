@@ -4,8 +4,9 @@
 #include <Eigen/Geometry>
 
 #include "point_cloud/point_cloud.h"
-#include "point_cloud/kdtree_point_cloud.h"
-#include "point_cloud/octree_point_cloud.h"
+#include "point_cloud/tree_point_cloud.h"
+#include "point_cloud/tree_traits/octree_traits.h"
+#include "point_cloud/tree_traits/kdtree_traits.h"
 #include "point_cloud/grid_point_cloud.h"
 #include "util/projection.h"
 #include "registration/point_correspondences.h"
@@ -29,10 +30,11 @@ static void export_pc(const std::string& path, const Cloud& pc) {
 int main(int argc, const char* argv[]) try {
 	std::size_t cap = 100;
 
-	using cloud  = point_cloud<point_xyz>;
-	using ocloud = octree_point_cloud<point_xyz>;
-	using kcloud = kdtree_point_cloud<point_xyz>;
-	using gcloud = grid_point_cloud<point_xyz>;
+	using pt = point_full;
+	using cloud  = point_cloud<point_full>;
+	using ocloud = tree_point_cloud<octree_traits, point_full>;
+	using kcloud = tree_point_cloud<kdtree_traits, point_full>;
+	using gcloud = grid_point_cloud<point_full>;
 
 	ply_reader ply(argv[1]);
 	std::cout << "Loading from PLY file" << std::endl;
@@ -53,37 +55,37 @@ int main(int argc, const char* argv[]) try {
 	std::cout << "Building Octree" << std::endl;
 	ocloud opc1(std::move(pc1), cap);
 	export_pc("o.ply", opc1);
-	//std::cout << "Verifying..." << std::endl;
-	//opc1.verify();
+	std::cout << "Verifying..." << std::endl;
+	std::cout << opc1.verify() << std::endl;
 	
-	//std::cout << "Finding closest points (Octree)" << std::endl;
-	//closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
-	//ocor.compute();
-
+	/*std::cout << "Finding closest points (Octree)" << std::endl;
+	closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
+	ocor.compute();
+*/
 	
 	std::cout << "Building Kdtree" << std::endl;
 	kcloud kpc1(std::move(opc1), cap);
 	export_pc("k.ply", kpc1);
-	//std::cout << "Verifying..." << std::endl;
-	//kpc1.verify();
+	std::cout << "Verifying..." << std::endl;
+	std::cout << kpc1.verify() << std::endl;
 
-
-	//std::cout << "Finding closest points (Kdtree)" << std::endl;
-	//closest_point_correspondences<kcloud, cloud> kcor(kpc1, pc2);
-	//kcor.compute();
+/*
+	std::cout << "Finding closest points (Kdtree)" << std::endl;
+	closest_point_correspondences<kcloud, cloud> kcor(kpc1, pc2);
+	kcor.compute();
 
 
 	std::cout << "Building Grid" << std::endl;
 	float c = cub.side_lengths()[0] / 30.0;
 	gcloud gpc1(std::move(kpc1), Eigen::Vector3f(c, c, c));
-	export_pc("g.ply", kpc1);
+	export_pc("g.ply", gpc1);
 	std::cout << "Verifying..." << std::endl;
 	gpc1.verify();
 
 
 	std::cout << "Finding closest points (Grid)" << std::endl;
-	closest_point_correspondences<gcloud, cloud> kcor(gpc1, pc2);
-	kcor.compute();
+	closest_point_correspondences<gcloud, cloud> gcor(gpc1, pc2);
+	gcor.compute();*/
 
 	
 } catch(const std::exception& ex) {
