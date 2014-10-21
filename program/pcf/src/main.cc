@@ -7,6 +7,7 @@
 #include "point_cloud/tree_point_cloud.h"
 #include "point_cloud/tree_traits/octree_traits.h"
 #include "point_cloud/tree_traits/kdtree_traits.h"
+#include "point_cloud/tree_traits/null_tree_traits.h"
 #include "point_cloud/grid_point_cloud.h"
 #include "util/projection.h"
 #include "registration/point_correspondences.h"
@@ -28,7 +29,7 @@ static void export_pc(const std::string& path, const Cloud& pc) {
 }
 
 int main(int argc, const char* argv[]) try {
-	std::size_t cap = 100;
+	std::size_t cap = 10000;
 
 	using pt = point_full;
 	using cloud  = point_cloud<point_full>;

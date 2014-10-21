@@ -10,6 +10,7 @@ namespace pcf {
 class octree_traits {
 public:
 	static constexpr std::size_t number_of_children = 8;
+	static constexpr std::size_t maximal_depth = -1;
 	
 	struct node_attributes { };
 	

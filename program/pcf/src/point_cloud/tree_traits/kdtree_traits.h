@@ -10,7 +10,8 @@ namespace pcf {
 class kdtree_traits {
 public:
 	static constexpr std::size_t number_of_children = 2;
-	
+	static constexpr std::size_t maximal_depth = -1;
+
 	struct node_attributes {
 		float split_plane;
 	};

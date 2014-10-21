@@ -1,6 +1,8 @@
 #ifndef PCF_TREE_POINT_CLOUD_H_
 #define PCF_TREE_POINT_CLOUD_H_
 
+#include <memory>
+#include <array>
 #include "point_cloud.h"
 
 namespace pcf {

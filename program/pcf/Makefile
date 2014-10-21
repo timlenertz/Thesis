@@ -1,4 +1,4 @@
-DEBUG := 1
+DEBUG := 0
 
 TARGET := pcf
 CXX := g++-4.9
@@ -43,6 +43,6 @@ clean :
 
 mrproper : clean
 	rm -rf pcf
-
+	
 
 -include $(DEP)

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 
 namespace pcf {
 
@@ -72,7 +73,7 @@ void point_cloud_segment<Point>::partition_into_segments(Index_func idx, std::si
 		*(it++) = point_cloud_segment(cur.begin(), split);
 		cur.begin_ = split;
 	}
-	*it = cur;
+	assert(*it == end_);
 }
 
 

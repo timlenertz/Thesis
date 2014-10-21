@@ -29,7 +29,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	todo.emplace_back(root_node_, root_cuboid_);
 	
 	std::size_t depth = 0;
-	while(todo.size()) {
+	while(todo.size() && depth != Traits::maximal_depth) {
 		// todo contains set of nodes at same level.
 
 		// Segments for nodes in todo don't overlap
@@ -42,30 +42,33 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 			for(auto it = todo.cbegin(); it < todo.cend(); ++it) {
 				node& nd = it->first;
 				const cuboid& cub = it->second;
-				
-				std::cout << "depth=" << depth << " node sz " << nd.seg.size() << std::endl;
-				
+								
 				if(nd.seg.size() <= leaf_capacity_) continue;
 		
 				// Split the node
 				// Rearranges data in node's segment into subsegments for children
 				auto child_segments = Traits::split_node(nd.seg, cub, nd, depth);
+				assert(child_segments[0].begin() == nd.seg.begin());
+				assert(child_segments[Traits::number_of_children - 1].end() == nd.seg.end());
 
 				// Create child nodes, and schedule for next iteration
 				for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
 					auto& seg = child_segments[i];
 					if(! seg.empty()) {
-						node* child = new node(seg);
-						nd.children[i].reset(child);
+						//for(Point& p : seg) mark_point(p, std::rand());
+					
+						nd.children[i].reset( new node(seg) );
 						
 						cuboid child_cub = Traits::child_cuboid(i, cub, nd, depth);
-						next_todo_part.emplace_back(*child, child_cub);
+						next_todo_part.emplace_back(*nd.children[i], child_cub);
 					}
 				}
 			}
-			
+
 			#pragma omp critical
-			{ next_todo.insert(next_todo.end(), next_todo_part.cbegin(), next_todo_part.cend()); }
+			{
+				next_todo.insert(next_todo.end(), next_todo_part.cbegin(), next_todo_part.cend());
+			}
 		}
 		
 		todo = next_todo;
