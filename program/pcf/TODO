@@ -1,4 +1,2 @@
-- generalized tree point cloud (instead of octree and kdtree)
-- tree traits
 - k nearest neighbors
 - local TIN mesh

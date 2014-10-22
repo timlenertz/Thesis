@@ -34,7 +34,7 @@ public:
 	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz, const Allocator& alloc);
 	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, const Eigen::Vector3f cell_sz);
 	
-	void verify() const;
+	bool verify() const;
 	
 	template<typename Other_point>
 	const Point& find_closest_point(const Other_point& from) const;

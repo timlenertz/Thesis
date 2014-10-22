@@ -73,20 +73,20 @@ int main(int argc, const char* argv[]) try {
 /*
 	std::cout << "Finding closest points (Kdtree)" << std::endl;
 	closest_point_correspondences<kcloud, cloud> kcor(kpc1, pc2);
-	kcor.compute();
+	kcor.compute();*/
 
 
 	std::cout << "Building Grid" << std::endl;
-	float c = cub.side_lengths()[0] / 30.0;
+	float c = cub.side_lengths()[0] / 20.0;
 	gcloud gpc1(std::move(kpc1), Eigen::Vector3f(c, c, c));
 	export_pc("g.ply", gpc1);
 	std::cout << "Verifying..." << std::endl;
-	gpc1.verify();
+	std::cout << gpc1.verify() << std::endl;
 
 
 	std::cout << "Finding closest points (Grid)" << std::endl;
 	closest_point_correspondences<gcloud, cloud> gcor(gpc1, pc2);
-	gcor.compute();*/
+	gcor.compute();
 
 	
 } catch(const std::exception& ex) {

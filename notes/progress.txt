@@ -7,3 +7,4 @@ since 2 september 	collecting/reading +/- relevant papers
 			experimental ICP, closest point finding
 14 october		ICP, transformation estimation implemented
 17 october		segmented cloud, octree, efficient closest point, kdtree exp
+21 october		generic tree structure

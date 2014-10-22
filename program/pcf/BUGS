@@ -1,2 +1,2 @@
-- octree and kdtree point cloud: fp imprecisions
+- kdtree point cloud: fp imprecisions
 - mmap_allocator boost path on gcc
