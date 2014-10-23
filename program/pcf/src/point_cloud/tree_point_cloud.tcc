@@ -100,4 +100,11 @@ bool tree_point_cloud<Traits, Point, Allocator>::verify() const {
 }
 
 
+template<typename Traits, typename Point, typename Allocator>
+bool tree_point_cloud<Traits, Point, Allocator>::node::is_leaf() const {
+	for(const auto& c : children) if(c) return false;
+	return true;
+}
+
+
 }

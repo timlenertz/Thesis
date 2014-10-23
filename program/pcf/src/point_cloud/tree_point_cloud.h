@@ -20,6 +20,7 @@ private:
 		
 		node() = default;
 		node(const segment& seg) : seg(seg) { }
+		bool is_leaf() const;
 	};
 	
 	const std::size_t leaf_capacity_;
@@ -28,6 +29,7 @@ private:
 
 	void build_tree_();
 	bool verify_(const node&, const cuboid&, std::ptrdiff_t depth) const;
+
 
 public:
 	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator&);

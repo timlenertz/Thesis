@@ -59,3 +59,11 @@ Point Set Registration
 	Error Metrics:
 		Euclidian distance (default)
 		include color data, others
+
+
+User Interface
+	Collect statistics
+	Test procedures on ranges of parameters
+	Visualize (intermediary) data, correspondences, etc
+	Setup workflow (SIP python interface?)
+
