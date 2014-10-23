@@ -1,6 +1,7 @@
 #include "cuboid.h"
 
 #include <cppunit/extensions/HelperMacros.h>
+#include <chrono>
 #include <random>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(pcf::cuboid_test);
@@ -8,7 +9,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(pcf::cuboid_test);
 namespace pcf {
 
 Eigen::Vector3f cuboid_test::random_point_in_cuboid_(const cuboid& cub) {
-	std::default_random_engine gen;
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine gen(seed);
 	std::uniform_real_distribution<float> dist_x(cub.origin[0], cub.extremity[0]);
 	std::uniform_real_distribution<float> dist_y(cub.origin[1], cub.extremity[1]);
 	std::uniform_real_distribution<float> dist_z(cub.origin[2], cub.extremity[2]);
@@ -17,7 +19,8 @@ Eigen::Vector3f cuboid_test::random_point_in_cuboid_(const cuboid& cub) {
 
 
 cuboid cuboid_test::random_cuboid_() {
-	std::default_random_engine gen;
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine gen(seed);
 	std::uniform_real_distribution<float> dist(0.0, 100.0);
 	float o[3] = { dist(gen), dist(gen), dist(gen) };
 	return cuboid(
@@ -39,9 +42,11 @@ void cuboid_test::test_minimal_maximal_cuboid_distance() {
 	int nb_max_cuboids = 10;
 	int nb_points = 100;
 
-	for(int i = 0; i < nb_max_cuboids; ++i) {
+	for(int i = 0; i < nb_max_cuboids; ) {
 		cuboid a = random_cuboid_(), b = random_cuboid_();
+		
 		if(a.contains(b)) continue;
+		else ++i;
 		
 		float mn = cuboid::minimal_distance_sq(a, b);
 		float mx = cuboid::maximal_distance_sq(a, b);

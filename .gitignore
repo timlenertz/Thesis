@@ -2,5 +2,7 @@
 /references.bib
 /program/data
 /program/pcf/build
+/program/pcf/pcf
 /docs
 *.ply
+*.o

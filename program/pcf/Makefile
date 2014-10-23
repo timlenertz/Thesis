@@ -37,7 +37,7 @@ all : $(TARGET)
 
 $(TARGET) : $(OBJ) ./src/main.o
 	mkdir -p lib/
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJ) $(LDLIBS)	
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJ) ./src/main.o $(LDLIBS)	
 
 build/%.o : %.cc
 	mkdir -p $(dir $@) && \
