@@ -26,7 +26,7 @@ DEP := $(patsubst %.cc,build/%.d,$(CPP))
 TEST_CPP := $(shell find ./test -name '*.cc')
 TEST_OBJ := $(patsubst %.cc,%.o,$(TEST_CPP))
 
-TEST_TARGET := test/test
+TEST_TARGET := ./test/test
 TEST_CXXFLAGS := $(CXXFLAGS) $(shell pkg-config --cflags cppunit)
 TEST_LDFLAGS := $(LDFLAGS)
 TEST_LDLIBS := $(LDLIBS) $(shell pkg-config --libs cppunit)

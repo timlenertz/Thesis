@@ -15,19 +15,27 @@ super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_
 
 
 template<typename Traits, typename Point, typename Allocator>
+auto tree_point_cloud<Traits, Point, Allocator>::root_() -> node_handle {
+	return node_handle(root_node_, root_cuboid_, 0);
+}
+
+
+template<typename Traits, typename Point, typename Allocator>
+auto tree_point_cloud<Traits, Point, Allocator>::root_() const -> const_node_handle {
+	return const_node_handle(root_node_, root_cuboid_, 0);
+}
+
+
+template<typename Traits, typename Point, typename Allocator>
 void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	using node_handle_list = std::vector<node_handle>;
 
-	root_handle_.reset(new node_handle(
-		root_node_,
-		Traits::root_cuboid(*this),
-		0
-	));
+	root_cuboid_ = Traits::root_cuboid(*this);
 
 	// Construct tree by breath-first descent.
 	// Creates node tree, and segment point cloud in-place.
 	node_handle_list todo, next_todo; // nodes to split at current and next iteration
-	todo.push_back(*root_handle_);
+	todo.push_back(root_());
 	
 	std::size_t depth = 0;
 	while(todo.size() && depth != Traits::maximal_depth) {
@@ -76,7 +84,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 
 
 template<typename Traits, typename Point, typename Allocator>
-bool tree_point_cloud<Traits, Point, Allocator>::verify_(const node_handle& an) const {
+bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle& an) const {
 	for(const Point& p : an.seg()) if(! an.cub().contains(p)) return false;
 	
 	for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
@@ -89,17 +97,6 @@ bool tree_point_cloud<Traits, Point, Allocator>::verify_(const node_handle& an) 
 	return true;
 }
 
-
-template<typename Traits, typename Point, typename Allocator> template<typename Callback_func, typename Order_func>
-void tree_point_cloud<Traits, Point, Allocator>::depth_first_descent_(Callback_func callback, Order_func order, const node_handle& an) {
-	callback(an);
-}
-
-
-template<typename Traits, typename Point, typename Allocator> template<typename Callback_func, typename Order_func>
-void tree_point_cloud<Traits, Point, Allocator>::breadth_first_descent_(Callback_func callback, Order_func order, const node_handle& an) {
-
-}
 
 
 
@@ -115,35 +112,19 @@ auto tree_point_cloud<Traits, Point, Allocator>::node_locality_(std::size_t k, c
 
 
 template<typename Traits, typename Point, typename Allocator>
-bool tree_point_cloud<Traits, Point, Allocator>::node_handle::has_child(std::ptrdiff_t i) const {
-	return bool(nd_->children[i]);
-}
-
-template<typename Traits, typename Point, typename Allocator>
-bool tree_point_cloud<Traits, Point, Allocator>::node_handle::is_leaf() const {
-	for(const auto& c : nd_->children) if(c) return false;
-	return true;
-}
-
-template<typename Traits, typename Point, typename Allocator>
-auto tree_point_cloud<Traits, Point, Allocator>::node_handle::child(std::ptrdiff_t i) -> node_handle {
-	assert(has_child(i));
-	return node_handle(
-		*(nd_->children[i]),
-		Traits::child_cuboid(i, cub_, attr(), depth_),
-		depth_ + 1
+void tree_point_cloud<Traits, Point, Allocator>::test_ascend(const Point& p) {
+	backtrace bt;
+	auto nd = root_().deepest_child_containing_point(p, bt);
+	nd.ascend(
+		[](const node_handle& nd) {
+			std::cout << nd.cub() << std::endl;
+			return true;
+		},
+		[](const node_handle& a, const node_handle& b) {
+			return true;
+		},
+		bt
 	);
-};
-template<typename Traits, typename Point, typename Allocator>
-auto tree_point_cloud<Traits, Point, Allocator>::node_handle::child(std::ptrdiff_t i) const -> const node_handle {
-	return const_cast<node_handle&>(*this).child(i);
-};
-
-
-template<typename Traits, typename Point, typename Allocator>
-void tree_point_cloud<Traits, Point, Allocator>::node_handle::make_child(std::ptrdiff_t i, const segment& seg) {
-	nd_->children[i].reset( new node(seg) );
 }
-
 
 }

@@ -22,7 +22,7 @@ public:
 	static cuboid root_cuboid(point_cloud_segment<Point>);
 	
 	template<typename Other_point>
-	static std::ptrdiff_t child_for_point(const Other_point& p, const cuboid&, const node_attributes&, std::ptrdiff_t depth);
+	static std::ptrdiff_t child_containing_point(const Other_point& p, const cuboid&, const node_attributes&, std::ptrdiff_t depth);
 	
 	template<typename Point>
 	static std::array<point_cloud_segment<Point>, 2> split_node(point_cloud_segment<Point>, const cuboid&, node_attributes&, std::ptrdiff_t depth);

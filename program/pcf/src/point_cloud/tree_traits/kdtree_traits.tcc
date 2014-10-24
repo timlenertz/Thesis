@@ -16,7 +16,7 @@ cuboid kdtree_traits::root_cuboid(point_cloud_segment<Point> seg) {
 
 
 template<typename Other_point>
-std::ptrdiff_t kdtree_traits::child_for_point(const Other_point& p, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+std::ptrdiff_t kdtree_traits::child_containing_point(const Other_point& p, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	std::ptrdiff_t o = depth % 3;
 	return (p[o] < attr.split_plane ? 0 : 1);
 }

@@ -27,7 +27,7 @@ cuboid octree_traits::root_cuboid(point_cloud_segment<Point> seg) {
 
 
 template<typename Other_point>
-std::ptrdiff_t octree_traits::child_for_point(const Other_point& p, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	Eigen::Vector3f c = cub.center();
 	std::ptrdiff_t i = 0;
 	if(p[0] >= c[0]) i += 1;
@@ -40,7 +40,7 @@ std::ptrdiff_t octree_traits::child_for_point(const Other_point& p, const cuboid
 template<typename Point>
 std::array<point_cloud_segment<Point>, 8> octree_traits::split_node(point_cloud_segment<Point> seg, const cuboid& cub, node_attributes& attr, std::ptrdiff_t depth) {
 	auto idx = [&cub](const Point& p) {
-		return child_for_point(p, cub, node_attributes(), 0);
+		return child_containing_point(p, cub, node_attributes(), 0);
 	};
 	std::array<point_cloud_segment<Point>, 8> child_segs;
 	seg.partition_into_segments(idx, 8, child_segs.begin());

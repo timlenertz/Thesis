@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <array>
+#include <stack>
+#include <vector>
 #include "point_cloud.h"
 
 namespace pcf {
@@ -22,70 +24,88 @@ private:
 		node(const segment& seg) : seg(seg) { }
 	};
 	
-	class node_handle;
+	template<typename> class node_handle_template;
+	using node_handle = node_handle_template<node>;
+	using const_node_handle = node_handle_template<const node>;
+	using backtrace = typename node_handle::backtrace;
+	using const_backtrace = typename const_node_handle::backtrace;
 	
+		
 	const std::size_t leaf_capacity_;
 	node root_node_;
-	std::unique_ptr<node_handle> root_handle_;
+	cuboid root_cuboid_;
 
-	node_handle& root_() { return *root_node_; }
-	const node_handle& root_() const { return *root_node_; }
+	node_handle root_();
+	const_node_handle root_() const;
 
 	void build_tree_();
-	bool verify_(const node_handle&) const;
+	bool verify_(const const_node_handle&) const;
 
 	auto node_locality_(std::size_t k, const node_handle&) const;
-	
-	template<typename Callback_func, typename Order_func>
-	void depth_first_descent_(Callback_func callback, Order_func order, const node_handle&);
-
-	template<typename Callback_func, typename Order_func>
-	void breadth_first_descent_(Callback_func callback, Order_func order, const node_handle&);
 
 public:
 	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator&);
 	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap);
 
-	bool verify() const { return verify_(*root_handle_); }
+	bool verify() const { return verify_(root_()); }
+	
+	void test_ascend(const Point& p);
 };
 
 
 
-template<typename Traits, typename Point, typename Allocator>
-class tree_point_cloud<Traits, Point, Allocator>::node_handle {
+template<typename Traits, typename Point, typename Allocator> template<typename Node>
+class tree_point_cloud<Traits, Point, Allocator>::node_handle_template {
+	static_assert(
+		std::is_same<
+			typename std::remove_const<Node>::type,
+			node
+		>::value,
+		"Template argument Node must be 'node' or 'const node'."
+	);
+	
 private:
-	node* nd_;
+	Node* nd_;
 	cuboid cub_;
 	std::ptrdiff_t depth_;
 
 public:
-	node_handle(node& nd, const cuboid& cub, std::ptrdiff_t d = -1) :
+	using backtrace = std::stack<node_handle_template, std::vector<node_handle_template>>;
+
+	node_handle_template() = default;
+
+	node_handle_template(Node& nd, const cuboid& cub, std::ptrdiff_t d = -1) :
 		nd_(&nd), cub_(cub), depth_(d) { }
+		
+	bool operator==(const node_handle_template& n) const { return (nd_ == n.nd_); }
+	bool operator!=(const node_handle_template& n) const { return (nd_ != n.nd_); }
 	
-	node& operator*() { return *nd_; }
-	const node& operator*() const { return *nd_; }
-	node* operator->() { return nd_; }
-	const node* operator->() const { return nd_; }
+	Node& operator*() const { return *nd_; }
+	Node* operator->() const { return nd_; }
 
 	const cuboid& cub() const { return cub_; }
 	std::ptrdiff_t depth() const { return depth_; }
-	node_attributes& attr() { return *nd_; }
-	const node_attributes& attr() const { return *nd_; }
+	auto& attr() const { return *nd_; }
 
-	const segment& seg() const { return nd_->seg; }
-	segment& seg() { return nd_->seg; }
+	auto& seg() const { return nd_->seg; }
 	
 	bool has_child(std::ptrdiff_t i) const;
 	bool is_leaf() const;
-	const node_handle child(std::ptrdiff_t i) const;
-	node_handle child(std::ptrdiff_t i);
+	node_handle_template child(std::ptrdiff_t i) const;
 	
-	void make_child(std::ptrdiff_t i, const segment& seg);
+	void make_child(std::ptrdiff_t i, const segment& seg) const;
+	
+	template<typename Other_point> std::ptrdiff_t child_containing_point(const Other_point&) const;
+	
+	template<typename Other_point> node_handle_template deepest_child_containing_point(const Other_point&, std::ptrdiff_t max_depth = -1) const;	
+	template<typename Other_point> node_handle_template& deepest_child_containing_point(const Other_point&, backtrace&, std::ptrdiff_t max_depth = -1) const;	
+	
+	template<typename Callback_func, typename Order_func> void ascend(Callback_func, Order_func, backtrace&) const;
 };
-
 
 }
 
+#include "tree_point_cloud_node_handle.tcc"
 #include "tree_point_cloud.tcc"
 
 #endif

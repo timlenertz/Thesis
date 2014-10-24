@@ -24,7 +24,7 @@ public:
 	}
 	
 	template<typename Other_point>
-	static std::ptrdiff_t child_for_point(const Other_point& p, const cuboid&, const node_attributes&, std::ptrdiff_t) {
+	static std::ptrdiff_t child_containing_point(const Other_point& p, const cuboid&, const node_attributes&, std::ptrdiff_t) {
 		return 0;
 	}
 	
