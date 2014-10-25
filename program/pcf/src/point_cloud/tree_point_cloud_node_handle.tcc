@@ -66,39 +66,80 @@ auto tree_point_cloud<Traits, Point, Allocator>::node_handle_template<Node>::dee
 }	
 
 
-
-
 template<typename Traits, typename Point, typename Allocator> template<typename Node>
 template<typename Callback_func, typename Order_func>
-void tree_point_cloud<Traits, Point, Allocator>::node_handle_template<Node>::ascend
+void tree_point_cloud<Traits, Point, Allocator>::node_handle_template<Node>::visit_neighbors
 (Callback_func callback, Order_func order, backtrace& bt) const {
-	node_handle_template last_child = bt.top();
+	auto last_child = bt.top();
 	bt.pop();
 	while(bt.size()) {
-		node_handle_template nd = bt.top();
+		auto nd = bt.top();
 		
 		// Get child node handles other than last_child
 		std::array<node_handle_template, Traits::number_of_children - 1> other_children;
 		std::ptrdiff_t n = 0; // Will after for-loop be number of other_children
 		for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
-			if(nd.has_child(i)) other_children[n] = nd.child(i);
-			if(other_children[n] != last_child) ++n;
+			if(nd.has_child(i)) {
+				other_children[n] = nd.child(i);
+				if(other_children[n] != last_child) ++n;	
+			}
 		}
 		
 		// Order other_children
-		std::array<std::ptrdiff_t, Traits::number_of_children - 1> order; // TODO
-		for(std::ptrdiff_t i = 0; i < n; ++i) order[i] = i;
+		std::sort(other_children.begin(), other_children.begin()+n, order);
 		
 		// Callbacks
 		for(std::ptrdiff_t i = 0; i < n; ++i) {
-			bool can_continue = callback(other_children[order[i]]);
+			bool can_continue = callback(other_children[i]);
 			if(! can_continue) return;
 		}
 		
 		// Ascend further
 		bt.pop();
+		last_child = nd;
 	}	
 };
+
+
+
+template<typename Traits, typename Point, typename Allocator> template<typename Node>
+template<typename Inserter>
+void tree_point_cloud<Traits, Point, Allocator>::node_handle_template<Node>::locality_(std::size_t k, backtrace& bt, Inserter ins) const {
+	auto query_node = bt.top();
+	backtrace bt_copy = bt;
+
+	float prune_dist = 0;	
+	int remaining = k;
+	query_node.visit_neighbors(
+		[&query_node, &ins, &remaining, &prune_dist](const auto& nd) {
+			remaining -= nd.size();
+			*ins = nd;
+			prune_dist = cuboid::maximal_distance_sq(query_node.cub(), nd.cub());
+			return (remaining >= 0);
+		},
+		[&query_node](const auto& a, const auto& b) {
+			float max_dist_a = cuboid::maximal_distance_sq(query_node.cub(), a.cub());
+			float max_dist_b = cuboid::maximal_distance_sq(query_node.cub(), b.cub());
+			return (max_dist_a < max_dist_b);
+		},
+		bt
+	);
+	
+	query_node.visit_neighbors(
+		[&query_node, &ins, prune_dist](const auto& nd) {
+			float min_dist = cuboid::minimal_distance_sq(query_node.cub(), nd.cub());
+			*ins = nd;
+			return (min_dist <= prune_dist);
+		},
+		[&query_node](const auto& a, const auto& b) {
+			float min_dist_a = cuboid::minimal_distance_sq(query_node.cub(), a.cub());
+			float min_dist_b = cuboid::minimal_distance_sq(query_node.cub(), b.cub());
+			return (min_dist_a < min_dist_b);
+		},
+		bt_copy
+	);
+}
+
 
 
 }

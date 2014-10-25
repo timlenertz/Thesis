@@ -1,3 +1,6 @@
+#include <set>
+#include <iterator>
+
 namespace pcf {
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
@@ -98,33 +101,18 @@ bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle
 }
 
 
-
-
 template<typename Traits, typename Point, typename Allocator>
-auto tree_point_cloud<Traits, Point, Allocator>::node_locality_(std::size_t k, const node_handle& an) const {
-	std::vector<std::reference_wrapper<const node>> l;
-	l.reserve(k);
-	
-	
-	
-	return l;
-}
-
-
-template<typename Traits, typename Point, typename Allocator>
-void tree_point_cloud<Traits, Point, Allocator>::test_ascend(const Point& p) {
+void tree_point_cloud<Traits, Point, Allocator>::test(const Point& p) {
 	backtrace bt;
-	auto nd = root_().deepest_child_containing_point(p, bt);
-	nd.ascend(
-		[](const node_handle& nd) {
-			std::cout << nd.cub() << std::endl;
-			return true;
-		},
-		[](const node_handle& a, const node_handle& b) {
-			return true;
-		},
-		bt
-	);
+	auto start_nd = root_().deepest_child_containing_point(p, bt);
+	std::set<node_handle> locality;
+	
+	start_nd.locality_(100, bt, std::inserter(locality, locality.end()));
+	
+	for(const auto& nd : locality) std::cout << nd.cub() << std::endl;
 }
+
+
+
 
 }

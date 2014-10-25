@@ -6,10 +6,9 @@ namespace pcf {
 template<typename Point>
 cuboid point_cloud_segment<Point>::bounding_cuboid(float ep) const {
 	const float inf = INFINITY;
-	cuboid cub(
-		Eigen::Vector3f(+inf, +inf, +inf),
-		Eigen::Vector3f(-inf, -inf, -inf)
-	);
+	Eigen::Vector4f mn(+inf, +inf, +inf, 0);
+	Eigen::Vector4f mx(-inf, -inf, -inf, 0);
+
 	
 	#pragma omp parallel
 	{
@@ -27,14 +26,14 @@ cuboid point_cloud_segment<Point>::bounding_cuboid(float ep) const {
 		
 		#pragma omp critical
 		{
-			cub.origin = cub.origin.cwiseMin(mn_part.head(3));
-			cub.extremity = cub.extremity.cwiseMax(mx_part.head(3));
+			mn = mn.cwiseMin(mn_part);
+			mx = mx.cwiseMax(mx_part);
 		}
 	}
 		
-	cub.extremity += Eigen::Vector3f(ep, ep, ep);
+	mx += Eigen::Vector4f(ep, ep, ep, 0);
 	
-	return cub;
+	return cuboid(mn.head(3), mx.head(3));
 }
 
 

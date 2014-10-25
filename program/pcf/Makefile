@@ -1,8 +1,8 @@
 DEBUG := 0
 
 TARGET := pcf
-#CXX := g++-4.9
-CXX := clang++
+CXX := g++-4.9
+#CXX := clang++
 
 PACKAGES := eigen3 #opencv
 
@@ -35,12 +35,12 @@ TEST_LDLIBS := $(LDLIBS) $(shell pkg-config --libs cppunit)
 all : $(TARGET)
 	
 
-$(TARGET) : $(OBJ) ./src/main.o
+$(TARGET) : $(OBJ) ./build/src/main.o
 	mkdir -p lib/
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJ) ./src/main.o $(LDLIBS)	
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)	
 
 build/%.o : %.cc
-	mkdir -p $(dir $@) && \
+	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c -o $@ $< -MMD
 
 %.s : %.cc
@@ -64,4 +64,4 @@ mrproper : clean
 
 .PHONY : all test clean mrproper
 
--include $(DEP)
+-include $(DEP) ./build/src/main.d

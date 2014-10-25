@@ -41,15 +41,13 @@ private:
 	void build_tree_();
 	bool verify_(const const_node_handle&) const;
 
-	auto node_locality_(std::size_t k, const node_handle&) const;
-
 public:
 	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator&);
 	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap);
 
 	bool verify() const { return verify_(root_()); }
 	
-	void test_ascend(const Point& p);
+	void test(const Point& p);
 };
 
 
@@ -68,10 +66,15 @@ private:
 	Node* nd_;
 	cuboid cub_;
 	std::ptrdiff_t depth_;
-
+	
 public:
 	using backtrace = std::stack<node_handle_template, std::vector<node_handle_template>>;
 
+public:
+	template<typename Inserter>
+	void locality_(std::size_t k, backtrace&, Inserter) const;
+
+public:
 	node_handle_template() = default;
 
 	node_handle_template(Node& nd, const cuboid& cub, std::ptrdiff_t d = -1) :
@@ -79,6 +82,7 @@ public:
 		
 	bool operator==(const node_handle_template& n) const { return (nd_ == n.nd_); }
 	bool operator!=(const node_handle_template& n) const { return (nd_ != n.nd_); }
+	bool operator<(const node_handle_template& n) const { return (nd_ < n.nd_); }
 	
 	Node& operator*() const { return *nd_; }
 	Node* operator->() const { return nd_; }
@@ -88,6 +92,7 @@ public:
 	auto& attr() const { return *nd_; }
 
 	auto& seg() const { return nd_->seg; }
+	std::size_t size() const { return seg().size(); }
 	
 	bool has_child(std::ptrdiff_t i) const;
 	bool is_leaf() const;
@@ -100,7 +105,7 @@ public:
 	template<typename Other_point> node_handle_template deepest_child_containing_point(const Other_point&, std::ptrdiff_t max_depth = -1) const;	
 	template<typename Other_point> node_handle_template& deepest_child_containing_point(const Other_point&, backtrace&, std::ptrdiff_t max_depth = -1) const;	
 	
-	template<typename Callback_func, typename Order_func> void ascend(Callback_func, Order_func, backtrace&) const;
+	template<typename Callback_func, typename Order_func> void visit_neighbors(Callback_func, Order_func, backtrace&) const;
 };
 
 }

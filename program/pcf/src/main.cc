@@ -29,7 +29,7 @@ static void export_pc(const std::string& path, const Cloud& pc) {
 }
 
 int main(int argc, const char* argv[]) try {
-	std::size_t cap = 10000;
+	std::size_t cap = 100;
 
 	using pt = point_full;
 	using cloud  = point_cloud<point_full>;
@@ -59,7 +59,7 @@ int main(int argc, const char* argv[]) try {
 	std::cout << "Verifying..." << std::endl;
 	std::cout << opc1.verify() << std::endl;
 	
-	opc1.test_ascend(opc1[0]);
+	opc1.test(opc1[0]);
 	
 	/*std::cout << "Finding closest points (Octree)" << std::endl;
 	closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
