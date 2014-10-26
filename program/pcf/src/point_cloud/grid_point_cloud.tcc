@@ -72,7 +72,7 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 		}
 	}
 
-	// Split each into final X segments
+	// Split each into final Z segments
 	cells_ = std::vector<segment>(number_of_cells_[0] * number_of_cells_[1] * number_of_cells_[2]);
 	std::size_t cell_off = number_of_cells_[2];
 	

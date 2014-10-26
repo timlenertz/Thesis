@@ -68,11 +68,11 @@ private:
 	std::ptrdiff_t depth_;
 	
 public:
-	using backtrace = std::stack<node_handle_template, std::vector<node_handle_template>>;
+	using backtrace = std::vector<node_handle_template>;
 
 public:
 	template<typename Inserter>
-	void locality_(std::size_t k, backtrace&, Inserter) const;
+	void locality_(std::size_t k, const backtrace&, Inserter) const;
 
 public:
 	node_handle_template() = default;
@@ -105,7 +105,11 @@ public:
 	template<typename Other_point> node_handle_template deepest_child_containing_point(const Other_point&, std::ptrdiff_t max_depth = -1) const;	
 	template<typename Other_point> node_handle_template& deepest_child_containing_point(const Other_point&, backtrace&, std::ptrdiff_t max_depth = -1) const;	
 	
-	template<typename Callback_func, typename Order_func> void visit_neighbors(Callback_func, Order_func, backtrace&) const;
+	template<typename Callback_func, typename Order_func> bool depth_first_descent(Callback_func callback, Order_func order) const;
+
+	template<typename Callback_func, typename Order_func> void visit_neightboring_nodes(Callback_func callback, Order_func order, const backtrace& bt) const;
+	template<typename Callback_func, typename Order_func> void visit_neightboring_leaves(Callback_func callback, Order_func order, const backtrace& bt) const;
+
 };
 
 }

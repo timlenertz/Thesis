@@ -109,7 +109,7 @@ void tree_point_cloud<Traits, Point, Allocator>::test(const Point& p) {
 	
 	start_nd.locality_(100, bt, std::inserter(locality, locality.end()));
 	
-	for(const auto& nd : locality) std::cout << nd.cub() << std::endl;
+	for(const auto& nd : locality) std::cout << cuboid::minimal_distance_sq(nd.cub(), start_nd.cub()) << " -- " << nd.size() << std::endl;
 }
 
 

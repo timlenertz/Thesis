@@ -64,4 +64,14 @@ struct alignas(16) point_xyz {
 
 }
 
+
+namespace std {
+
+template<>
+inline void swap(pcf::point_xyz& a, pcf::point_xyz& b) {
+	a.homogeneous_coordinates.swap(b.homogeneous_coordinates);
+}
+
+}
+
 #endif

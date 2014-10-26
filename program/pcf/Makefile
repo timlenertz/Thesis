@@ -1,8 +1,8 @@
 DEBUG := 0
 
 TARGET := pcf
-CXX := g++-4.9
-#CXX := clang++
+#CXX := g++-4.9
+CXX := clang++
 
 PACKAGES := eigen3 #opencv
 
