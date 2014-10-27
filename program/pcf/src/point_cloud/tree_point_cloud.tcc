@@ -18,13 +18,13 @@ super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_
 
 
 template<typename Traits, typename Point, typename Allocator>
-auto tree_point_cloud<Traits, Point, Allocator>::root_() -> node_handle {
+auto tree_point_cloud<Traits, Point, Allocator>::root() -> node_handle {
 	return node_handle(root_node_, root_cuboid_, 0);
 }
 
 
 template<typename Traits, typename Point, typename Allocator>
-auto tree_point_cloud<Traits, Point, Allocator>::root_() const -> const_node_handle {
+auto tree_point_cloud<Traits, Point, Allocator>::root() const -> const_node_handle {
 	return const_node_handle(root_node_, root_cuboid_, 0);
 }
 
@@ -38,7 +38,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	// Construct tree by breath-first descent.
 	// Creates node tree, and segment point cloud in-place.
 	node_handle_list todo, next_todo; // nodes to split at current and next iteration
-	todo.push_back(root_());
+	todo.push_back(root());
 	
 	std::size_t depth = 0;
 	while(todo.size() && depth != Traits::maximal_depth) {
@@ -99,19 +99,6 @@ bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle
 	
 	return true;
 }
-
-
-template<typename Traits, typename Point, typename Allocator>
-void tree_point_cloud<Traits, Point, Allocator>::test(const Point& p) {
-	backtrace bt;
-	auto start_nd = root_().deepest_child_containing_point(p, bt);
-	std::set<node_handle> locality;
-	
-	start_nd.locality_(100, bt, std::inserter(locality, locality.end()));
-	
-	for(const auto& nd : locality) std::cout << cuboid::minimal_distance_sq(nd.cub(), start_nd.cub()) << " -- " << nd.size() << std::endl;
-}
-
 
 
 

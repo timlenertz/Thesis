@@ -8,18 +8,17 @@ Introduction
 
 3D Documentation	
 	Use cases
-	Mathematical definition of point cloud, range image
-	Operations on point clouds
-	Operations on range images + photos
+	Laser scan practive, introduction
+	Idealized model (continuous surfaces), data (point cloud, range image), form (pt distribution)
+	Operations on point clouds (overview)
+	Operations on range images + photos (overview)
 	Emphasis on registration+merging
 	Terminology used in literature, conventions for this paper
 
-Preliminary math (RANSAC, least squares, homogeneous coords)
-	put where?
+
 
 Registration Methods (State of the art, Survey of litterature/Classifications)
 	Exclude non-rigid
-
 	Branches of existing studies (point set math, range image analysis, geo-informatics, …)
 	General definition of problem (distance minimization)
 	Classification of registration algorithms (by approach, aims, input requirements, use case)
@@ -30,9 +29,19 @@ Registration Methods (State of the art, Survey of litterature/Classifications)
 
 Large model registration
 	Define range/context of problem studied here
-	Experiments using existing algorithms, results
+	Subproblems:
+		Different densities (global model <=> detail)
+		Varying densities (with origin distance)		
+		Large point sets
+		Coarse+fine alignment, with help of photos
+		Alignment of near-planar objects (e.g. engraving)
+		Noise removal (people walking by)
+	Data form (ie distribution of points) is different -> adjustments necessatry for ICP
+	Out-of-core (streaming) VS in-core (pagination)
+	
 
 Methods/Solution
+	3 levels: range image, point set, continuous representation
 	
 
 Implementation

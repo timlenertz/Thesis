@@ -1,8 +1,8 @@
-DEBUG := 0
+DEBUG := 1
 
 TARGET := pcf
-#CXX := g++-4.9
-CXX := clang++
+CXX := g++-4.9
+#CXX := clang++
 
 PACKAGES := eigen3 #opencv
 
@@ -25,11 +25,12 @@ DEP := $(patsubst %.cc,build/%.d,$(CPP))
 
 TEST_CPP := $(shell find ./test -name '*.cc')
 TEST_OBJ := $(patsubst %.cc,%.o,$(TEST_CPP))
+TEST_DEP := $(patsubst %.cc,%.d,$(TEST_CPP))
 
 TEST_TARGET := ./test/test
-TEST_CXXFLAGS := $(CXXFLAGS) $(shell pkg-config --cflags cppunit)
+TEST_CXXFLAGS := $(CXXFLAGS)
 TEST_LDFLAGS := $(LDFLAGS)
-TEST_LDLIBS := $(LDLIBS) $(shell pkg-config --libs cppunit)
+TEST_LDLIBS := $(LDLIBS)
 
 
 all : $(TARGET)
@@ -47,7 +48,7 @@ build/%.o : %.cc
 	$(CXX) $(CXXFLAGS) -S -c -o $@ $<
 
 test/%.o : test/%.cc
-	$(CXX) $(TEST_CXXFLAGS) -c -o $@ $<
+	$(CXX) $(TEST_CXXFLAGS) -c -o $@ $< -MMD
 
 $(TEST_TARGET) : $(TEST_OBJ) $(OBJ)
 	$(CXX) $(TEST_CXXFLAGS) $(TEST_LDFLAGS) -o $@ $(TEST_OBJ) $(OBJ) $(TEST_LDLIBS)
@@ -56,7 +57,7 @@ test : $(TEST_TARGET)
 	./test/test
 
 clean :
-	rm -rf build/ $(TEST_OBJ) $(TEST_TARGET)
+	rm -rf build/ $(TEST_OBJ) $(TEST_DEP) $(TEST_TARGET)
 
 mrproper : clean
 	rm -rf pcf
@@ -64,4 +65,4 @@ mrproper : clean
 
 .PHONY : all test clean mrproper
 
--include $(DEP) ./build/src/main.d
+-include $(DEP) $(TEST_DEP) ./build/src/main.d

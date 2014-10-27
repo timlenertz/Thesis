@@ -67,6 +67,7 @@ void ply_reader::read_header_() {
 		read_line_(line);
 		
 		if(line.substr(0, 8) == "comment ") continue; // Skip comments.
+		if(line.substr(0, 9) == "obj_info ") continue;
 		
 		if(line.substr(0, 8) == "element ") { // Read element definition start.
 			auto pos = line.find(' ', 8);

@@ -58,9 +58,7 @@ int main(int argc, const char* argv[]) try {
 	export_pc("o.ply", opc1);
 	std::cout << "Verifying..." << std::endl;
 	std::cout << opc1.verify() << std::endl;
-	
-	opc1.test(opc1[0]);
-	
+		
 	/*std::cout << "Finding closest points (Octree)" << std::endl;
 	closest_point_correspondences<ocloud, cloud> ocor(opc1, pc2);
 	ocor.compute();
