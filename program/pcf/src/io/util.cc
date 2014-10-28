@@ -4,6 +4,7 @@
 #include <ostream>
 #include <stdexcept>
 #include <type_traits>
+#include <cctype>
 
 namespace pcf {
 
@@ -83,6 +84,20 @@ void flip_endianness(char* data, std::size_t sz) {
 	std::ptrdiff_t i = sz/2 - 1;
 	std::ptrdiff_t o = sz - i - 1;
 	while(i >= 0) std::swap(data[i--], data[o++]);
+}
+
+
+std::string to_lower(const std::string& s_orig) {
+	std::string s(s_orig);
+	for(char& c: s) c = std::tolower(c);
+	return s;
+}
+
+
+std::string to_upper(const std::string& s_orig) {
+	std::string s(s_orig);
+	for(char& c: s) c = std::toupper(c);
+	return s;
 }
 
 

@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <limits>
+#include <string>
 
 namespace pcf {
 
@@ -20,6 +21,9 @@ void write_line(std::ostream&, const std::string&, line_delimitor = default_line
 bool host_is_little_endian();
 
 void flip_endianness(char* data, std::size_t sz);
+
+std::string to_lower(const std::string&);
+std::string to_upper(const std::string&);
 
 
 }

@@ -1,6 +1,5 @@
 #include "ply_reader.h"
 
-#include <boost/algorithm/string.hpp>
 #include <algorithm>
 #include <cctype>
 
@@ -21,7 +20,7 @@ ply_reader::property_type ply_reader::identify_property_type_(const std::string&
 }
 
 ply_reader::property* ply_reader::identify_property_(const std::string& nm_orig) {
-	std::string nm(nm_orig); boost::to_lower(nm);
+	std::string nm = to_lower(nm_orig);
 	if(nm == "x") return &x_;
 	else if(nm == "y") return &y_;
 	else if(nm == "z") return &z_;
