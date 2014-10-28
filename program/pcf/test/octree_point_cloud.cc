@@ -28,7 +28,7 @@ TEST_CASE("Octree Point cloud") {
 		auto l = pc.root().deepest_child_containing_point(p, bt);
 
 		float last_d = 0;
-		l.visit_neightboring_leaves([&last_d, &l](auto&& n) {
+		l.visit_neightboring_nodes([&last_d, &l](auto&& n) {
 			float d = cuboid::minimal_distance_sq(n.cub(), l.cub());
 			REQUIRE(d >= last_d);
 			last_d = d;
@@ -46,7 +46,7 @@ TEST_CASE("Octree Point cloud") {
 		auto l = pc.root().deepest_child_containing_point(p, bt);
 
 		float last_d = 0;
-		l.visit_neightboring_leaves([&last_d, &l](auto&& n) {
+		l.visit_neightboring_nodes([&last_d, &l](auto&& n) {
 			float d = cuboid::maximal_distance_sq(n.cub(), l.cub());
 			REQUIRE(d >= last_d);
 			last_d = d;
