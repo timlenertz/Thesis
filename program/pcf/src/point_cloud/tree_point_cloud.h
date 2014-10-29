@@ -91,7 +91,7 @@ public:
 	Node& attr() const { return *nd_; }
 	Node& nd() const { return *nd_; }
 
-	std::size_t size() const { return seg().size(); }
+	std::size_t size() const { return nd_->segment.size(); }
 	
 	bool has_child(std::ptrdiff_t i) const;
 	bool is_leaf() const;
