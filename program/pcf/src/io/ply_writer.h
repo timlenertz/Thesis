@@ -11,8 +11,8 @@ namespace pcf {
 
 class ply_writer_base {
 protected:
-	constexpr static std::size_t vertex_count_string_length_ = 15;
-	constexpr static line_delimitor line_delimitor_ = line_delimitor::LF;
+	const static std::size_t vertex_count_string_length_ = 15;
+	const static line_delimitor line_delimitor_ = line_delimitor::LF;
 
 	std::ofstream file_;
 	std::ofstream::pos_type vertex_count_string_position_;
@@ -49,7 +49,7 @@ template<typename Point> class ply_writer;
 template<>
 class ply_writer<point_xyz> : public ply_writer_base {
 public:
-	using ply_writer_base::ply_writer_base;
+	explicit ply_writer(const std::string& path) : ply_writer_base(path) { }
 	
 	void write_vertex_properties_definition_() override {
 		write_line_("property float x");
@@ -69,7 +69,7 @@ public:
 template<>
 class ply_writer<point_full> : public ply_writer_base {
 public:
-	using ply_writer_base::ply_writer_base;
+	explicit ply_writer(const std::string& path) : ply_writer_base(path) { }
 	
 	void write_vertex_properties_definition_() override {
 		write_line_("property float x");

@@ -9,7 +9,7 @@
 
 namespace pcf {
 
-template<typename Point, typename Allocator = std::allocator<Point>>
+template<typename Point, typename Allocator = aligned_allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 

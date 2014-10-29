@@ -16,7 +16,7 @@ static bool check_host_little_endian_() {
 
 
 line_delimitor detect_line_delimitor(std::istream& str) {
-	constexpr std::size_t max_counter = 512;
+	const std::size_t max_counter = 512;
 	std::size_t counter = 0;
 	line_delimitor ld = line_delimitor::unknown;
 	auto old_position = str.tellg();
@@ -51,7 +51,7 @@ void read_line(std::istream& str, std::string& line, line_delimitor ld) {
 
 void skip_line(std::istream& str, line_delimitor ld) {
 	if(ld == line_delimitor::unknown) throw std::invalid_argument("Line delimitor not specified");
-	constexpr auto max_count = std::numeric_limits<std::streamsize>::max();
+	const auto max_count = std::numeric_limits<std::streamsize>::max();
 
 	if(ld == line_delimitor::CRLF) {
 		str.ignore(max_count, '\r');

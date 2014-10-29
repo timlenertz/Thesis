@@ -1,12 +1,13 @@
 #include <cmath>
 #include <memory>
 #include <algorithm>
+#include "../util/alignment.h"
 
 namespace pcf {
 
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::check_correct_alignment_() const {
-	if((std::uintptr_t)super::begin_ % alignof(Point))
+	if((std::uintptr_t)super::begin_ % ALIGNOF(Point))
 		throw std::runtime_error("Point cloud data not properly aligned.");
 }
 

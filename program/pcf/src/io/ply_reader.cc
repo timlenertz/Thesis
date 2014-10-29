@@ -1,7 +1,6 @@
 #include "ply_reader.h"
 
 #include <algorithm>
-#include <cctype>
 
 namespace pcf {
 

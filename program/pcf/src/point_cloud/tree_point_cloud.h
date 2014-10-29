@@ -9,10 +9,10 @@
 
 namespace pcf {
 
-template<typename Traits, typename Point, typename Allocator = std::allocator<Point>>
+template<typename Traits, typename Point, typename Allocator = aligned_allocator<Point>>
 class tree_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
-	using typename super::segment;
+	using segment = typename super::segment;
 	using node_attributes = typename Traits::node_attributes;
 
 private:
@@ -88,9 +88,9 @@ public:
 
 	const cuboid& cub() const { return cub_; }
 	std::ptrdiff_t depth() const { return depth_; }
-	auto& attr() const { return *nd_; }
+	Node& attr() const { return *nd_; }
+	Node& nd() const { return *nd_; }
 
-	auto& seg() const { return nd_->seg; }
 	std::size_t size() const { return seg().size(); }
 	
 	bool has_child(std::ptrdiff_t i) const;

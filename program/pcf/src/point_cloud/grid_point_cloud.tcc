@@ -96,7 +96,7 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 
 template<typename Point, typename Allocator>
 bool grid_point_cloud<Point, Allocator>::verify() const {
-	for(std::ptrdiff_t i = 0; i < cells_.size(); ++i) {		
+	for(std::size_t i = 0; i < cells_.size(); ++i) {		
 		bool ok = std::all_of(cells_[i].cbegin(), cells_[i].cend(), [this, i](const Point& p) {
 			return (index_for_cell_(cell_for_point_(p)) == i);
 		});

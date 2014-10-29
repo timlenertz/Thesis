@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cassert>
 
+#include "util/alignment.h"
 #include "rgb_color.h"
 
 namespace pcf {
@@ -15,7 +16,7 @@ namespace pcf {
 Point defined only by X, Y, Z coordinates.
 Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations.
 */
-struct alignas(16) point_xyz {
+struct ALIGNAS(16) point_xyz {
 	/// Homogeneous coordinates of point. When last component is not 1, point is invalid. Hence representation is unique.
 	Eigen::Vector4f homogeneous_coordinates;
 

@@ -11,6 +11,7 @@
 #include <limits>
 #include <utility>
 #include <memory>
+#include <cctype>
 
 #include <iostream>
 
@@ -22,13 +23,13 @@ namespace pcf {
 
 class ply_reader_error : public std::runtime_error {
 public:
-	using std::runtime_error::runtime_error;
+	ply_reader_error(const std::string& str) : std::runtime_error(str) {}
 };
 
 
 class ply_reader {
 private:
-	constexpr static std::size_t maximal_ascii_element_line_length_ = 256;
+	const static std::size_t maximal_ascii_element_line_length_ = 256;
 
 	enum property_type {
 		none, int8, uint8, int16, uint16, int32, uint32, float32, float64, list

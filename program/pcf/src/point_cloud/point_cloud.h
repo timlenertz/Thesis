@@ -13,6 +13,7 @@
 #include <Eigen/Geometry>
 #include "../point.h"
 #include "../geometry/cuboid.h"
+#include "../util/aligned_allocator.h"
 #include "point_cloud_segment.h"
 
 namespace pcf {
@@ -22,7 +23,7 @@ Set of points laid out in memory.
 Allocates to given capacity using provided allocator. Allocated size cannot change, but actual size is variable and can be made smaller. Considers the point cloud as unordered point set, subclasses implement structure by imposing point order.
 Depending on all_valid_ option, may or may not contain invalid points.
 */
-template<typename Point, typename Allocator = std::allocator<Point>>
+template<typename Point, typename Allocator = aligned_allocator<Point>>
 class point_cloud : public point_cloud_segment<Point> {
 	using super = point_cloud_segment<Point>;
 	

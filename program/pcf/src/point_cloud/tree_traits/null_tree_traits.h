@@ -9,8 +9,8 @@ namespace pcf {
 
 class null_tree_traits {
 public:
-	static constexpr std::size_t number_of_children = 1;
-	static constexpr std::size_t maximal_depth = 0;
+	const static std::size_t number_of_children = 1;
+	const static std::size_t maximal_depth = 0;
 
 	struct node_attributes { };
 	

@@ -5,7 +5,7 @@
 
 namespace pcf {
 
-class alignas(32) point_full : public point_xyz {
+class ALIGNAS(32) point_full : public point_xyz {
 public:
 	Eigen::Vector3f normal;
 	rgb_color color;

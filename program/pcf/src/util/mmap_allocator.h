@@ -21,7 +21,6 @@ public:
 	explicit mmap_allocator_base(const std::string& name);
 	
 	mmap_allocator_base(const mmap_allocator_base&) = default;
-	mmap_allocator_base(mmap_allocator_base&&) = default;
 	
 	void* allocate_(std::size_t length, std::size_t align, const void* hint);
 	void deallocate_(void* buf, std::size_t length);
@@ -45,9 +44,7 @@ public:
 		mmap_allocator_base(name) { }
 	
 	mmap_allocator(const mmap_allocator&) = default;
-	mmap_allocator(mmap_allocator&&) = default;
 	mmap_allocator& operator=(const mmap_allocator&) = default;
-	mmap_allocator& operator=(mmap_allocator&&) = default;
 
 	T* allocate(std::size_t n, const T* hint = 0) {
 		return reinterpret_cast<T*>(

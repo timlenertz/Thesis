@@ -52,14 +52,14 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 		
 			#pragma omp for
 			for(auto it = todo.begin(); it < todo.end(); ++it) {								
-				if(it->seg().size() <= leaf_capacity_) continue;
+				if(it->nd().seg.size() <= leaf_capacity_) continue;
 		
 				// Split the node
 				// Rearranges data in node's segment into subsegments for children
-				auto child_segments = Traits::split_node(it->seg(), it->cub(), it->attr(), it->depth());
+				auto child_segments = Traits::split_node(it->nd().seg, it->cub(), it->attr(), it->depth());
 				
-				assert(child_segments[0].begin() == it->seg().begin());
-				assert(child_segments[Traits::number_of_children - 1].end() == it->seg().end());
+				assert(child_segments[0].begin() == it->nd().seg.begin());
+				assert(child_segments[Traits::number_of_children - 1].end() == it->nd().seg.end());
 
 				// Create child nodes, and schedule for next iteration
 				for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
@@ -88,7 +88,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 
 template<typename Traits, typename Point, typename Allocator>
 bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle& an) const {
-	for(const Point& p : an.seg()) if(! an.cub().contains(p)) return false;
+	for(const Point& p : an->seg) if(! an.cub().contains(p)) return false;
 	
 	for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
 		if(! an.has_child(i)) continue;
