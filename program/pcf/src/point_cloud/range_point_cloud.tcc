@@ -1,7 +1,3 @@
-#ifndef PCF_RANGE_POINT_CLOUD_H_
-#error Header not included
-#endif
-
 namespace pcf {
 
 template<typename Point, typename Allocator>

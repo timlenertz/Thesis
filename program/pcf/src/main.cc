@@ -28,7 +28,7 @@ static void export_pc(const std::string& path, const Cloud& pc) {
 	pc.write(ply);
 }
 
-int main(int argc, const char* argv[]) try {
+int UNUSED_main(int argc, const char* argv[]) try {
 	std::size_t cap = 10;
 
 	using pt = point_full;
@@ -41,7 +41,7 @@ int main(int argc, const char* argv[]) try {
 	std::cout << "Loading from PLY file" << std::endl;
 	cloud pc1 = cloud::create_from_reader(ply);
 	
-	auto cub = pc1.bounding_cuboid();
+	auto cub = pc1.box();
 	std::cout << cub << std::endl;
 	
 	std::cout << "Copying" << std::endl;
@@ -78,7 +78,7 @@ int main(int argc, const char* argv[]) try {
 
 	std::cout << "Building Grid" << std::endl;
 	float c = cub.side_lengths()[0] / 20.0;
-	gcloud gpc1(std::move(kpc1), Eigen::Vector3f(c, c, c));
+	gcloud gpc1(std::move(kpc1), c);
 	export_pc("g.ply", gpc1);
 	std::cout << "Verifying..." << std::endl;
 	std::cout << gpc1.verify() << std::endl;

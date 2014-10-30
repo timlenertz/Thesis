@@ -2,7 +2,7 @@
 #define PCF_OCTREE_TRAITS_H_
 
 #include <array>
-#include "../../geometry/cuboid.h"
+#include "../../geometry/bounding_box.h"
 #include "../point_cloud_segment.h"
 
 namespace pcf {
@@ -14,16 +14,16 @@ public:
 	
 	struct node_attributes { };
 	
-	static cuboid child_cuboid(std::ptrdiff_t i, const cuboid&, const node_attributes&, std::ptrdiff_t depth);
+	static bounding_box child_box(std::ptrdiff_t i, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
 
 	template<typename Point>
-	static cuboid root_cuboid(point_cloud_segment<Point>);
+	static bounding_box root_box(point_cloud_segment<Point>);
 	
 	template<typename Other_point>
-	static std::ptrdiff_t child_containing_point(const Other_point& p, const cuboid&, const node_attributes&, std::ptrdiff_t depth);
+	static std::ptrdiff_t child_containing_point(const Other_point& p, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
 	
 	template<typename Point>
-	static std::array<point_cloud_segment<Point>, 8> split_node(point_cloud_segment<Point>, const cuboid&, node_attributes&, std::ptrdiff_t depth);
+	static std::array<point_cloud_segment<Point>, 8> split_node(point_cloud_segment<Point>, const bounding_box&, node_attributes&, std::ptrdiff_t depth);
 };
 
 }

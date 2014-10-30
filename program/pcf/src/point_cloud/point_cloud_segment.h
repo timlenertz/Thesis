@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <Eigen/Eigen>
+#include "../geometry/bounding_box.h"
 
 namespace pcf {
 
@@ -47,7 +48,7 @@ public:
 	std::size_t size() const { return end_ - begin_; }
 	bool empty() const { return end_ == begin_; }
 		
-	cuboid bounding_cuboid(float ep = 0.0) const;
+	bounding_box box(float ep = 0.0) const;
 	Eigen::Vector3f center_of_mass() const;
 	
 	template<typename Index_func, typename Output_iterator>

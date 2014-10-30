@@ -12,7 +12,6 @@
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "../point.h"
-#include "../geometry/cuboid.h"
 #include "../util/aligned_allocator.h"
 #include "point_cloud_segment.h"
 

@@ -22,7 +22,7 @@ auto tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::child(std::
 	assert(has_child(i));
 	return node_handle_(
 		*(nd_->children[i]),
-		Traits::child_cuboid(i, cub_, attr(), depth_),
+		Traits::child_box(i, box_, attr(), depth_),
 		depth_ + 1
 	);
 };
@@ -37,7 +37,7 @@ void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::make_child(
 template<typename Traits, typename Point, typename Allocator> template<typename Node>
 template<typename Other_point>
 std::ptrdiff_t tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::child_containing_point(const Other_point& p) const {
-	return Traits::child_containing_point(p, cub_, attr(), depth_);
+	return Traits::child_containing_point(p, box_, attr(), depth_);
 };
 
 
@@ -91,98 +91,6 @@ bool tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::depth_first
 	
 	return true;
 }
-
-
-template<typename Traits, typename Point, typename Allocator> template<typename Node>
-template<typename Callback_func, typename Order_func>
-void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::visit_neightboring_nodes
-(Callback_func callback, Order_func order, const backtrace& bt) const {
-	if(bt.empty()) return;
-	
-	auto last_it = bt.rbegin();
-
-	bool can_continue = callback(*last_it);
-	if(bt.size() == 1 || !can_continue) return;
-		
-	for(auto it = bt.rbegin() + 1; it != bt.rend(); ++it) {
-		// Get child node handles other than last_child
-		std::array<node_handle_, Traits::number_of_children - 1> other_children;
-		std::ptrdiff_t n = 0; // Will after for-loop be number of other_children
-		for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
-			if(it->has_child(i)) {
-				other_children[n] = it->child(i);
-				if(other_children[n] != *last_it) ++n;	
-			}
-		}
-		
-		// Order other_children
-		std::sort(other_children.begin(), other_children.begin()+n, order);
-		
-		// Callbacks
-		for(std::ptrdiff_t i = 0; i < n; ++i) {
-			can_continue = callback(other_children[i]);
-			if(! can_continue) return;
-		}
-				
-		// Ascend further
-		last_it = it;
-	}
-}
-
-
-template<typename Traits, typename Point, typename Allocator> template<typename Node>
-template<typename Callback_func, typename Order_func>
-void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::visit_neightboring_leaves
-(Callback_func callback, Order_func order, const backtrace& bt) const {
-	auto leaf_callback = [&callback](auto&& l) {
-		if(l.is_leaf()) return callback(l);
-		else return true;
-	};
-
-	visit_neightboring_nodes([&order, &leaf_callback](auto&& n) {
-		return n.depth_first_descent(leaf_callback, order);
-	}, order, bt);
-}
-
-
-
-template<typename Traits, typename Point, typename Allocator> template<typename Node>
-template<typename Inserter>
-void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::locality_(std::size_t k, const backtrace& bt, Inserter ins) const {
-	const auto& query_node = bt.back();
-
-	float prune_dist = 0;	
-	int remaining = k;
-	query_node.visit_neightboring_leaves(
-		[&query_node, &ins, &remaining, &prune_dist](const node_handle_& nd) {
-			remaining -= nd.size();
-			*ins = nd;
-			prune_dist = cuboid::maximal_distance_sq(query_node.cub(), nd.cub());
-			return (remaining >= 0);
-		},
-		[&query_node](const node_handle_& a, const node_handle_& b) {
-			float max_dist_a = cuboid::maximal_distance_sq(query_node.cub(), a.cub());
-			float max_dist_b = cuboid::maximal_distance_sq(query_node.cub(), b.cub());
-			return (max_dist_a < max_dist_b);
-		},
-		bt
-	);
-	
-	query_node.visit_neightboring_leaves(
-		[&query_node, &ins, prune_dist](const node_handle_& nd) {
-			float min_dist = cuboid::minimal_distance_sq(query_node.cub(), nd.cub());
-			*ins = nd;
-			return (min_dist <= prune_dist);
-		},
-		[&query_node](const node_handle_& a, const node_handle_& b) {
-			float min_dist_a = cuboid::minimal_distance_sq(query_node.cub(), a.cub());
-			float min_dist_b = cuboid::minimal_distance_sq(query_node.cub(), b.cub());
-			return (min_dist_a < min_dist_b);
-		},
-		bt
-	);
-}
-
 
 
 }

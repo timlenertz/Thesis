@@ -4,7 +4,7 @@
 namespace pcf {
 
 template<typename Point>
-cuboid point_cloud_segment<Point>::bounding_cuboid(float ep) const {
+bounding_box point_cloud_segment<Point>::box(float ep) const {
 	const float inf = INFINITY;
 	Eigen::Vector4f mn(+inf, +inf, +inf, 0);
 	Eigen::Vector4f mx(-inf, -inf, -inf, 0);
@@ -33,7 +33,7 @@ cuboid point_cloud_segment<Point>::bounding_cuboid(float ep) const {
 		
 	mx += Eigen::Vector4f(ep, ep, ep, 0);
 	
-	return cuboid(mn.head(3), mx.head(3));
+	return bounding_box(mn.head(3), mx.head(3));
 }
 
 

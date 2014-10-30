@@ -1,2 +1,2 @@
 - kdtree point cloud: fp imprecisions
-- mmap_allocator boost path on gcc
+- fixes for VC++

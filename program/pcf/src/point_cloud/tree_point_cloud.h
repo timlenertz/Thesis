@@ -34,7 +34,7 @@ public:
 private:	
 	const std::size_t leaf_capacity_;
 	node root_node_;
-	cuboid root_cuboid_;
+	bounding_box root_box_;
 
 	void build_tree_();
 	bool verify_(const const_node_handle&) const;
@@ -63,21 +63,18 @@ class tree_point_cloud<Traits, Point, Allocator>::node_handle_ {
 	
 private:
 	Node* nd_;
-	cuboid cub_;
+	bounding_box box_;
 	std::ptrdiff_t depth_;
 	
 public:
 	using backtrace = std::vector<node_handle_>;
 
-	template<typename Inserter>
-	void locality_(std::size_t k, const backtrace&, Inserter) const;
-
 	node_handle_() = default;
 	node_handle_(const node_handle_<typename std::remove_const<Node>::type>& n) :
-		nd_(n.nd_), cub_(n.cub_), depth_(n.depth_) { }
+		nd_(n.nd_), box_(n.box_), depth_(n.depth_) { }
 	
-	node_handle_(Node& nd, const cuboid& cub, std::ptrdiff_t d = -1) :
-		nd_(&nd), cub_(cub), depth_(d) { }
+	node_handle_(Node& nd, const bounding_box& cub, std::ptrdiff_t d = -1) :
+		nd_(&nd), box_(cub), depth_(d) { }
 		
 	bool operator==(const node_handle_& n) const { return (nd_ == n.nd_); }
 	bool operator!=(const node_handle_& n) const { return (nd_ != n.nd_); }
@@ -86,7 +83,7 @@ public:
 	Node& operator*() const { return *nd_; }
 	Node* operator->() const { return nd_; }
 
-	const cuboid& cub() const { return cub_; }
+	const bounding_box& box() const { return box_; }
 	std::ptrdiff_t depth() const { return depth_; }
 	Node& attr() const { return *nd_; }
 	Node& nd() const { return *nd_; }
@@ -105,10 +102,6 @@ public:
 	template<typename Other_point> node_handle_& deepest_child_containing_point(const Other_point&, backtrace&, std::ptrdiff_t max_depth = -1) const;	
 	
 	template<typename Callback_func, typename Order_func> bool depth_first_descent(Callback_func callback, Order_func order) const;
-
-	template<typename Callback_func, typename Order_func> void visit_neightboring_nodes(Callback_func callback, Order_func order, const backtrace& bt) const;
-	template<typename Callback_func, typename Order_func> void visit_neightboring_leaves(Callback_func callback, Order_func order, const backtrace& bt) const;
-
 };
 
 }

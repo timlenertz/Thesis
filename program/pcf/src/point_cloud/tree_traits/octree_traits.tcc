@@ -1,6 +1,6 @@
 namespace pcf {
 	
-inline cuboid octree_traits::child_cuboid(std::ptrdiff_t i, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+inline bounding_box octree_traits::child_box(std::ptrdiff_t i, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	Eigen::Vector3f c = cub.center();
 	bool x = (i % 2);
 	bool y = (i % 4 > 1);
@@ -16,18 +16,18 @@ inline cuboid octree_traits::child_cuboid(std::ptrdiff_t i, const cuboid& cub, c
 		y ? cub.extremity[1] : c[1],
 		z ? cub.extremity[2] : c[2]
 	);
-	return cuboid(corigin, cextremity);
+	return bounding_box(corigin, cextremity);
 }
 
 
 template<typename Point>
-cuboid octree_traits::root_cuboid(point_cloud_segment<Point> seg) {
-	return seg.bounding_cuboid(0.1);
+bounding_box octree_traits::root_box(point_cloud_segment<Point> seg) {
+	return seg.box(0.1);
 }
 
 
 template<typename Other_point>
-std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const cuboid& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	Eigen::Vector3f c = cub.center();
 	std::ptrdiff_t i = 0;
 	if(p[0] >= c[0]) i += 1;
@@ -38,7 +38,7 @@ std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const
 
 
 template<typename Point>
-std::array<point_cloud_segment<Point>, 8> octree_traits::split_node(point_cloud_segment<Point> seg, const cuboid& cub, node_attributes& attr, std::ptrdiff_t depth) {
+std::array<point_cloud_segment<Point>, 8> octree_traits::split_node(point_cloud_segment<Point> seg, const bounding_box& cub, node_attributes& attr, std::ptrdiff_t depth) {
 	auto idx = [&cub](const Point& p) {
 		return child_containing_point(p, cub, node_attributes(), 0);
 	};
