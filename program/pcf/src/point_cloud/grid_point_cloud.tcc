@@ -5,6 +5,41 @@
 
 namespace pcf {
 
+
+template<typename Point, typename Allocator> template<typename Other_cloud>
+float grid_point_cloud<Point, Allocator>::optimal_cell_length_for_knn(const Other_cloud& pc, std::size_t k, float alpha) {
+	bounding_box box = pc.box();
+	
+	// Start with cell length such that there could be exactly one point per cell,
+	// if they were uniformly distributed
+	float len = std::cbrt(box.volume() / pc.size());
+	
+	std::size_t nb[3];
+	for(std::ptrdiff_t i = 0; i < 3; ++i) nb[i] = std::ceil(box.side_lengths()[i] / len);
+	std::size_t total_nb = nb[0] * nb[1] * nb[2];
+	
+	// Count how many non-empty cells with that configuration
+	std::size_t nb_filled = 0;
+	std::vector<bool> filled(total_nb, false);
+	for(const Point& p : pc) {
+		cell_coordinates c;
+		for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = std::floor( (p[i] - box.origin[i]) / len );
+		
+		std::ptrdiff_t i = (c[0] * nb[1]*nb[2]) + (c[1] * nb[2]) + c[2];
+		std::vector<bool>::reference f = filled[i];
+		if(! f) {
+			f = true;
+			++nb_filled;
+			if(nb_filled == total_nb) break;
+		}
+	}
+	
+	// Deduce final estimation
+	float density = float(total_nb) / (float(nb_filled) * len*len*len);
+	return alpha * std::cbrt(float(k) / density);
+}
+
+
 template<typename Point, typename Allocator> template<typename Other_cloud>
 grid_point_cloud<Point, Allocator>::grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc) :
 super(std::forward<Other_cloud>(pc), true, alloc), cell_length_(cell_len) {
@@ -132,6 +167,22 @@ bool grid_point_cloud<Point, Allocator>::in_bounds_(const cell_coordinates& c) c
 
 
 template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::full_subspace() -> subspace {
+	return subspace(
+		*this,
+		cell_coordinates(),
+		cell_coordinates(number_of_cells_[0] - 1, number_of_cells_[1] - 1, number_of_cells_[2] - 1)
+	);
+}
+
+
+template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::cell_subspace(const cell_coordinates& c) -> subspace {
+	return subspace(*this, c, c);
+}
+
+
+template<typename Point, typename Allocator>
 std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 	std::size_t n = 0;
 	std::ptrdiff_t b = 0;
@@ -178,10 +229,12 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 
 template<typename Point, typename Allocator> template<typename Callback_func>
 void grid_point_cloud<Point, Allocator>::find_nearest_neighbors(std::size_t k, Callback_func callback) const {	
-	iterate_cells_([](const cell_coordinates& c, std::ptrdiff_t i, const segment& seg) {
-		std::size_t p = 0;
+	iterate_cells_([k](const cell_coordinates& c, std::ptrdiff_t i, const segment& seg) {
 		subspace s = c;
+		std::size_t p = 0;
+		while(s.size() < k && s.expand()) ++p;
 		
+				
 	});
 }
 

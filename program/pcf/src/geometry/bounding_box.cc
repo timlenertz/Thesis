@@ -20,9 +20,13 @@ Eigen::Vector3f bounding_box::side_lengths() const {
 	return (extremity - origin);
 }
 
-float bounding_box::area() const {
+float bounding_box::volume() const {
 	Eigen::Vector3f slen = side_lengths();
 	return slen[0] * slen[1] * slen[2];
+}
+
+void bounding_box::expand_extremity(float ep) {
+	extremity += Eigen::Vector3f(ep, ep, ep);
 }
 
 bool bounding_box::contains(const Eigen::Vector3f& p) const {

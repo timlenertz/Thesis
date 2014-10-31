@@ -23,7 +23,9 @@ struct bounding_box {
 	
 	Eigen::Vector3f center() const;
 	Eigen::Vector3f side_lengths() const;
-	float area() const;
+	float volume() const;
+	
+	void expand_extremity(float ep = 0.1);
 	
 	bool contains(const Eigen::Vector3f&) const;
 	bool contains(const bounding_box&) const;
