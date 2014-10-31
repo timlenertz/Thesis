@@ -14,7 +14,8 @@ file(GLOB_RECURSE CPP_TEST_SRC "./test/*.cc")
 
 include_directories(external/include/)
 
-add_library(pcf SHARED ${CPP_SRC})
+add_library(pcf STATIC ${CPP_SRC})
 
 add_executable(pcf_test ${CPP_TEST_SRC})
+
 target_link_libraries(pcf_test pcf)

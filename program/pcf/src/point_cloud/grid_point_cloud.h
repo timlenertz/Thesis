@@ -11,6 +11,14 @@
 
 namespace pcf {
 
+/**
+Point cloud divided into a regular grid of cubic cells.
+All cells are same size, with side length defined upon construction. Cells are refered to
+by cell coordinates, (0, 0, 0) being the origin starting at the cloud's bounding box origin.
+Data is segmented into one segment per cell. Interface for iterating through points in cell
+or group of cells is provided by grid_point_cloud_subspace.
+Implements kNN algorithm. [Zhao2014]
+*/
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class grid_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
@@ -33,7 +41,7 @@ private:
 	template<typename Other_point> cell_coordinates cell_for_point_(const Other_point&) const;
 	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
-	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true) const;
+	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true);
 	
 	bool in_bounds_(const cell_coordinates&) const;
 	void build_grid_();
@@ -50,8 +58,8 @@ public:
 	template<typename Other_point>
 	const Point& find_closest_point(const Other_point& from) const;
 	
-	template<typename Callback_func>
-	void find_nearest_neighbors(std::size_t k, Callback_func callback) const;
+	template<typename Condition_func, typename Callback_func>
+	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback);
 	
 	std::size_t number_of_cells() const { return cell_offsets_.size(); }
 	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }
@@ -62,15 +70,19 @@ public:
 };
 
 
-
+/**
+Coordinates of a cell in the grid point cloud.
+*/
 template<typename Point, typename Allocator>
 class grid_point_cloud<Point, Allocator>::cell_coordinates {
 private:
 	std::ptrdiff_t c_[3];
 	
 public:
-	cell_coordinates() : c_{0, 0, 0} { }
-	cell_coordinates(std::ptrdiff_t x, std::ptrdiff_t y, std::ptrdiff_t z) : c_{x, y, z} { }
+	cell_coordinates()
+		{ c_[0] = 0; c_[1] = 0; c_[2] = 0; }
+	cell_coordinates(std::ptrdiff_t x, std::ptrdiff_t y, std::ptrdiff_t z)
+		{ c_[0] = x; c_[1] = y; c_[2] = z; }
 	cell_coordinates(const cell_coordinates&) = default;
 	
 	std::ptrdiff_t& operator[](std::ptrdiff_t i) { return c_[i]; }

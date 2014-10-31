@@ -13,8 +13,8 @@ using namespace pcf;
 TEST_CASE("Grid Point cloud") {
 	using cloud = grid_point_cloud<point_xyz>;
 	
-	//float c = cloud::optimal_cell_length_for_knn(bunny_model(), 10, 0.2);
-	cloud pc( bunny_model(), 0.01 );
+	float c = cloud::optimal_cell_length_for_knn(bunny_model(), 10, 0.2);
+	cloud pc( bunny_model(), c );
 	
 	auto random_nonempty_cell = [&pc]() -> cloud::cell_coordinates {
 		for(;;) {
@@ -26,6 +26,15 @@ TEST_CASE("Grid Point cloud") {
 	};
 	
 	SECTION("Size") {
+	}
+	
+	
+	SECTION("k Nearest Neighbors") {
+		pc.find_nearest_neighbors(10, [](auto&& p) {
+			return true;
+		}, [](auto&& p, auto&& knn) {
+			std::cout << knn.size() << std::endl;
+		});
 	}
 	
 	SECTION("Subspace Points") {

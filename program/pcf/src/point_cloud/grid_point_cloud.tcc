@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cassert>
+#include <functional>
 
 namespace pcf {
 
@@ -209,7 +210,7 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 
 
 template<typename Point, typename Allocator> template<typename Callback_func>
-void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool parallel) const {
+void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool parallel) {
 	cell_coordinates c {0, 0, 0};
 	std::ptrdiff_t i = 0;
 	segment seg(super::begin(), super::begin());
@@ -227,14 +228,93 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 	}
 }
 
-template<typename Point, typename Allocator> template<typename Callback_func>
-void grid_point_cloud<Point, Allocator>::find_nearest_neighbors(std::size_t k, Callback_func callback) const {	
-	iterate_cells_([k](const cell_coordinates& c, std::ptrdiff_t i, const segment& seg) {
-		subspace s = c;
-		std::size_t p = 0;
-		while(s.size() < k && s.expand()) ++p;
+
+template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
+void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
+(std::size_t k, Condition_func cond, Callback_func callback) {
+	const float cbrt3 = std::cbrt(3.0f);
+	
+	// For each cell...
+	iterate_cells_([this, k, cbrt3, &cond, &callback](const cell_coordinates& c, std::ptrdiff_t i, const segment& seg) {
+		subspace s_at_least_k = cell_subspace(c); // Smallest cubic subspace around c which contains >= k points
+		subspace s_ultimate = cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
+		std::size_t p = 0; // Number of expansions to form s_at_least_k
 		
-				
+		std::vector<std::reference_wrapper<Point>> knn;
+	
+		// Now iterate through points in this cell
+		for(const Point& pt : seg) {
+			auto cmp = [&pt](const Point& a, const Point& b) {
+				float da = euclidian_distance_sq(pt, a);
+				float db = euclidian_distance_sq(pt, b);
+				return (da < db);
+			};
+		
+			// Ask if kNN of this point should be computed
+			if(! cond(p)) continue;
+			
+			// Clear points array
+			knn.clear();
+						
+			// Subspaces have not yet been formed, do so now
+			// --> on the whole, this is done only once per cell
+			if(p == 0) {
+				while(s_at_least_k.size() < k && s_at_least_k.expand()) ++p;
+				s_ultimate.expand( std::floor(cbrt3*(p + 1)) + 1 );
+			}
+			
+			// Compute dx, dy, dz
+			// largest offsets from point to sides of cell
+			float off[3];
+			for(std::ptrdiff_t i = 0; i < 3; ++i) {
+				float pt_rel = pt[i] - origin_[i];
+				float off_l = pt_rel - (cell_length_ * c[i]);
+				float off_r = (cell_length_ * (c[i]+1)) - pt_rel;
+				off[i] = std::max(off_l, off_r);
+			}
+
+			// Insphere radius
+			float d_short =  std::min({ cell_length_ - off[0], cell_length_ - off[1], cell_length_ - off[2] });
+			float r_in_sq = (cell_length_ * p) + d_short;
+			r_in_sq *= r_in_sq;
+						
+			// Load points inside insphere
+			for(Point& pt2 : s_at_least_k) {
+				float d = euclidian_distance_sq(pt, pt2);
+				if(d <= r_in_sq) knn.emplace_back(pt2);
+			}
+			
+			if(knn.size() == k) {
+				// Exactly k points in insphere: these are kNN
+				callback(pt, knn);
+				continue;
+			} else if(knn.size() > k) {
+				// More than k points in insphere: need to sort out k nearest
+				std::nth_element(knn.begin(), knn.begin()+(k-1), knn.end(), cmp);
+				callback(pt, knn);
+				continue;
+			}
+			
+			// Less than k points in insphere: Need to add some from outsphere
+	
+			// Outsphere radius
+			float r_out_sq = 0;
+			for(std::ptrdiff_t i = 0; i < 3; ++i) {
+				float d = off[i] + (cell_length_ * p);
+				r_out_sq += d * d;
+			}
+			
+			// Add points between insphere and outsphere
+			std::size_t insphere_end = knn.size(); // End of insphere points in knn array
+			for(Point& pt2 : s_ultimate) {
+				float d = euclidian_distance_sq(pt, pt2);
+				if(d > r_in_sq && d <= r_out_sq) knn.emplace_back(pt2);
+			}
+			
+			// Sort these additional points
+			std::nth_element(knn.begin()+insphere_end, knn.begin()+(k-1), knn.end(), cmp);
+			callback(pt, knn);
+		}
 	});
 }
 
