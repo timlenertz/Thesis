@@ -24,6 +24,7 @@ public:
 	const grid_point_cloud& cloud() const { return cloud_; }
 		
 	bool expand();
+	std::size_t expand(std::size_t);
 	std::size_t size() const;
 	bounding_box box() const;
 	
@@ -109,6 +110,14 @@ bool grid_point_cloud<Point, Allocator>::subspace::expand() {
 		if(extremity[i]+1 < cloud_.number_of_cells_[i]) { ++extremity[i]; any_change = true; }
 	}
 	return any_change;
+}
+
+
+template<typename Point, typename Allocator> 
+std::size_t grid_point_cloud<Point, Allocator>::subspace::expand(std::size_t n) {
+	std::size_t expanded_times = 0;
+	while(expanded_times < n && expand()) ++expanded_times;
+	return expanded_times;
 }
 
 

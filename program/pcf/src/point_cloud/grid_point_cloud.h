@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <array>
+#include <ostream>
 #include "point_cloud.h"
 #include "../geometry/bounding_box.h"
 
@@ -79,6 +80,11 @@ public:
 		{ return (c_[0] == c.c_[0]) && (c_[1] == c.c_[1]) && (c_[2] == c.c_[2]); }
 	bool operator!=(const cell_coordinates& c) const
 		{ return (c_[0] != c.c_[0]) || (c_[1] != c.c_[1]) || (c_[2] != c.c_[2]); }
+		
+	friend std::ostream& operator<<(std::ostream& str, const cell_coordinates& c) {
+		str << "(" << c.c_[0] << ", " << c.c_[1] << ", " << c.c_[2] << ")";
+		return str;
+	}
 };
 
 

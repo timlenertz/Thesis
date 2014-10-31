@@ -48,13 +48,10 @@ private:
 	Point* cell_end_;
 	
 	void load_cell_();
+	void load_next_cell_();
 	
 public:
-	explicit iterator(const cell_iterator& cit) :
-		cell_it_(cit) { load_cell_(); }
-	iterator(const cell_iterator& cit, Point* p) :
-		cell_it_(cit) { load_cell_(); current_ = p; }
-		
+	explicit iterator(const cell_iterator& cit);
 	iterator(const iterator&) = default;
 	iterator& operator=(const iterator&) = default;
 	
@@ -74,6 +71,13 @@ public:
 		return old;
 	}
 };
+
+
+template<typename Point, typename Allocator>
+grid_point_cloud<Point, Allocator>::subspace::iterator::iterator(const cell_iterator& cit) :
+cell_it_(cit) {
+	load_cell_();
+}
 
 
 
@@ -96,24 +100,45 @@ auto grid_point_cloud<Point, Allocator>::subspace::cell_iterator::operator++() -
 
 template<typename Point, typename Allocator>
 void grid_point_cloud<Point, Allocator>::subspace::iterator::load_cell_() {
-	std::ptrdiff_t i = cell_it_.cloud().index_for_cell_(*cell_it_);
-	if(i < cell_it_.cloud().cell_offsets_.size()) {
-		auto seg = cell_it_.cloud().segment_for_index_(i);
-		current_ = seg.begin();
-		cell_end_ = seg.end();
-	} else {
-		current_ = cell_it_.cloud().end();
-	}
+	bool continue_to_next_cell;
+	do {
+		continue_to_next_cell = false;
+		
+		// Get index of current cell in cloud
+		std::ptrdiff_t i = cell_it_.cloud().index_for_cell_(*cell_it_);
+
+		if(i < cell_it_.cloud().cell_offsets_.size()) {
+			// Cell still in cloud, load segment start and end
+			auto seg = cell_it_.cloud().segment_for_index_(i);
+			current_ = seg.begin();
+			cell_end_ = seg.end();
+	
+			if(current_ == cell_end_) {
+				// Segment is empty. Need to advance to next cell (recursive)
+				++cell_it_;
+				continue_to_next_cell = true;
+			}
+
+		} else {
+			// Cell beyond cloud end.
+			current_ = cell_it_.cloud().end(); // Corresponds to end iterator
+			cell_end_ = current_ - 1; // avoids endless loop in operator++
+		}
+		
+	} while(continue_to_next_cell);
+}
+
+
+template<typename Point, typename Allocator>
+void grid_point_cloud<Point, Allocator>::subspace::iterator::load_next_cell_() {
+	++cell_it_;
+	load_cell_();
 }
 
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::subspace::iterator::operator++() -> iterator& {
-	++current_;
-	while(current_ == cell_end_) {
-		++cell_it_;
-		load_cell_();
-	}
+	if(++current_ == cell_end_) load_next_cell_();
 	return *this;
 }
 

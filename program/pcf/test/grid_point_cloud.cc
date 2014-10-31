@@ -16,44 +16,40 @@ TEST_CASE("Grid Point cloud") {
 	//float c = cloud::optimal_cell_length_for_knn(bunny_model(), 10, 0.2);
 	cloud pc( bunny_model(), 0.01 );
 	
+	auto random_nonempty_cell = [&pc]() -> cloud::cell_coordinates {
+		for(;;) {
+			cloud::cell_coordinates c;
+			for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = random_integer(pc.number_of_cells(i));
+			bounding_box b = pc.cell_subspace(c).box();
+			for(auto&& p : pc) if(b.contains(p)) return c;
+		}
+	};
+	
 	SECTION("Size") {
 	}
 	
-	SECTION("Subspace") {
-		std::size_t n = 0;
-		std::ptrdiff_t i[3];
-		while(n == 0) {
-			i[0] = random_integer(pc.number_of_cells(0));
-			i[1] = random_integer(pc.number_of_cells(1));
-			i[2] = random_integer(pc.number_of_cells(2));
-		
-			auto s = pc.cell_subspace({i[0], i[1], i[2]});
-		
-			n = 0;
-			for(auto&& p : pc) if(s.box().contains(p)) ++n;
-		}	
-				
-		
-		auto s = pc.cell_subspace({i[0], i[1], i[2]});
-		s.expand();
-		
-		std::cout << "0 = (" << i[0] << ", " << i[1] << ", " << i[2] << ")" << std::endl;
-		std::cout << "(" << s.origin[0] << ", " << s.origin[1] << ", " << s.origin[2] << ") --> ("
-			<< s.extremity[0] << ", " << s.extremity[1] << ", " << s.extremity[2] << ")" << std::endl;
-		
-		
-		
-		n = 0;
-		for(auto&& p : pc) if(s.box().contains(p)) ++n;
-		std::cout << "real in bb: " << n << std::endl;
-		
-		
-		
-		n = 0;
-		for(auto it = s.begin(); it != s.end(); ++it) {
-			if(! s.box().contains(*it)) std::cout << '.' << std::flush;
-			++n;
+	SECTION("Subspace Points") {
+		auto test = [&pc](cloud::subspace s) {
+			bounding_box b = s.box();
+			
+			std::size_t real_n = 0;
+			for(auto&& p : pc) if(b.contains(p)) ++real_n;
+			
+			std::size_t n = 0;
+			for(auto&& p : s) {
+				REQUIRE(b.contains(p));
+				++n;
+			}
+			REQUIRE(n == real_n);
+		};
+	
+		for(std::ptrdiff_t i = 0; i < 10; ++i) {
+			auto c = random_nonempty_cell();
+			auto s = pc.cell_subspace(c);
+			test(s);
+			s.expand(2);
+			test(s);
 		}
-		std::cout << "iterated: " << n << std::endl;
+		test(pc.full_subspace());
 	}
 }
