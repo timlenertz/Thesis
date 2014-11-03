@@ -26,6 +26,8 @@ public:
 	template<typename Other_cloud>
 	range_point_cloud(const Other_cloud&, const camera&, const Allocator& alloc = Allocator());
 
+	range_point_cloud(const range_image&, const Eigen::Projective3f& projection, const Allocator& alloc = Allocator());
+
 	camera& get_camera() { return camera_; }
 	const camera& get_camera() const { return camera_; }
 	

@@ -8,8 +8,8 @@
 namespace pcf {
 
 
-template<typename Point, typename Allocator> template<typename Other_cloud>
-float grid_point_cloud<Point, Allocator>::optimal_cell_length_for_knn(const Other_cloud& pc, std::size_t k, float alpha) {
+template<typename Cloud>
+float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alpha) {
 	bounding_box box = pc.box();
 	
 	// Start with cell length such that there could be exactly one point per cell,
@@ -23,8 +23,8 @@ float grid_point_cloud<Point, Allocator>::optimal_cell_length_for_knn(const Othe
 	// Count how many non-empty cells with that configuration
 	std::size_t nb_filled = 0;
 	std::vector<bool> filled(total_nb, false);
-	for(const Point& p : pc) {
-		cell_coordinates c;
+	for(const typename Cloud::point_type& p : pc) {
+		grid_point_cloud_xyz::cell_coordinates c;
 		for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = std::floor( (p[i] - box.origin[i]) / len );
 		
 		std::ptrdiff_t i = (c[0] * nb[1]*nb[2]) + (c[1] * nb[2]) + c[2];
@@ -222,7 +222,7 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 
 template<typename Point, typename Allocator> template<typename Callback_func>
 void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) {
-	#pragma omp parallel for if(par)
+	#pragma omp parallel for schedule(static, 1)
 	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
 		cell_coordinates c(x, 0, 0);
 		std::ptrdiff_t i = index_for_cell_(c);
@@ -241,7 +241,7 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 
 template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
 void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
-(std::size_t k, Condition_func cond, Callback_func callback) {
+(std::size_t k, Condition_func cond, Callback_func callback, bool parallel) {
 	const float cbrt3 = std::cbrt(3.0f);
 	
 	// For each cell...
@@ -250,13 +250,13 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 		subspace s_ultimate = cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
 		std::size_t p = 0; // Number of expansions to form s_at_least_k
 		
-		std::vector<std::reference_wrapper<Point>> knn;
+		std::vector<Point*> knn;
 	
 		// Now iterate through points in this cell
 		for(const Point& pt : seg) {
-			auto cmp = [&pt](const Point& a, const Point& b) {
-				float da = euclidian_distance_sq(pt, a);
-				float db = euclidian_distance_sq(pt, b);
+			auto cmp = [&pt](const Point* a, const Point* b) {
+				float da = euclidian_distance_sq(pt, *a);
+				float db = euclidian_distance_sq(pt, *b);
 				return (da < db);
 			};
 		
@@ -291,7 +291,7 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 			// Load points inside insphere
 			for(Point& pt2 : s_at_least_k) {
 				float d = euclidian_distance_sq(pt, pt2);
-				if(d <= r_in_sq) knn.emplace_back(pt2);
+				if(d <= r_in_sq) knn.push_back(&pt2);
 			}
 			
 			if(knn.size() == k) {
@@ -318,14 +318,14 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 			std::size_t insphere_end = knn.size(); // End of insphere points in knn array
 			for(Point& pt2 : s_ultimate) {
 				float d = euclidian_distance_sq(pt, pt2);
-				if(d > r_in_sq && d <= r_out_sq) knn.emplace_back(pt2);
+				if(d > r_in_sq && d <= r_out_sq) knn.push_back(&pt2);
 			}
 			
 			// Sort these additional points
 			std::nth_element(knn.begin()+insphere_end, knn.begin()+(k-1), knn.end(), cmp);
 			callback(pt, knn);
 		}
-	});
+	}, parallel);
 }
 
 

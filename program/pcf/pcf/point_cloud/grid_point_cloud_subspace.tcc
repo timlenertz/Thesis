@@ -10,15 +10,28 @@ Provides iterator interface to visit all points contained in subspace. Remains c
 */
 template<typename Point, typename Allocator>
 class grid_point_cloud<Point, Allocator>::subspace {
-private:
-	grid_point_cloud& cloud_;
-
 public:
-	cell_coordinates origin;
-	cell_coordinates extremity;
-
 	class cell_iterator;
 	class iterator;
+
+private:
+	grid_point_cloud& cloud_;
+	cell_coordinates origin_;
+	cell_coordinates extremity_;
+
+	iterator begin_iterator_;
+	iterator end_iterator_;
+	bool need_to_update_iterators_;
+
+public:	
+	subspace(grid_point_cloud& cl, const cell_coordinates& o, const cell_coordinates& e);
+	subspace(const subspace&) = default;
+	subspace& operator=(const subspace&);
+
+	const cell_coordinates& get_origin() const { return origin_; }
+	const cell_coordinates& get_extremity() const { return extremity_; }
+	void set_origin(const cell_coordinates&);
+	void set_extremity(const cell_coordinates&);
 	
 	grid_point_cloud& cloud() { return cloud_; }
 	const grid_point_cloud& cloud() const { return cloud_; }
@@ -37,11 +50,6 @@ public:
 	
 	iterator begin();
 	iterator end();
-
-	subspace(grid_point_cloud& cl, const cell_coordinates& o, const cell_coordinates& e) :
-		cloud_(cl), origin(o), extremity(e) {}
-	subspace(const subspace&) = default;
-	subspace& operator=(const subspace&);
 };
 
 }
@@ -51,44 +59,72 @@ public:
 namespace pcf {
 
 template<typename Point, typename Allocator> 
+grid_point_cloud<Point, Allocator>::subspace::subspace
+(grid_point_cloud& cl, const cell_coordinates& o, const cell_coordinates& e) :
+cloud_(cl), origin_(o), extremity_(e), begin_iterator_(begin_cells()), end_iterator_(end_cells()), need_to_update_iterators_(false) { }
+
+
+
+template<typename Point, typename Allocator> 
 auto grid_point_cloud<Point, Allocator>::subspace::operator=(const subspace& s) -> subspace& {
 	assert(&cloud_ == &s.cloud_);
-	origin = s.origin;
-	extremity = s.extremity;
+	origin_ = s.origin;
+	extremity_ = s.extremity;
+	need_to_update_iterators_ = true;
 	return *this;
 }
 
 
 template<typename Point, typename Allocator> 
 auto grid_point_cloud<Point, Allocator>::subspace::begin_cells() -> cell_iterator {
-	return cell_iterator(*this, origin);
+	return cell_iterator(*this, origin_);
 }
 
 
 template<typename Point, typename Allocator> 
 auto grid_point_cloud<Point, Allocator>::subspace::end_cells() -> cell_iterator {
-	cell_iterator it(*this, extremity);
+	cell_iterator it(*this, extremity_);
 	return ++it;
 }
 
 
 template<typename Point, typename Allocator> 
 auto grid_point_cloud<Point, Allocator>::subspace::begin() -> iterator {
-	return iterator(begin_cells());
+	if(need_to_update_iterators_) {
+		begin_iterator_ = iterator(begin_cells());
+		need_to_update_iterators_ = false;
+	}
+	return begin_iterator_;
 }
 
 
 template<typename Point, typename Allocator> 
 auto grid_point_cloud<Point, Allocator>::subspace::end() -> iterator {
-	return iterator(end_cells());
+	if(need_to_update_iterators_) {
+		end_iterator_ = iterator(end_cells());
+		need_to_update_iterators_ = false;
+	}
+	return end_iterator_;
 }
 
+
+template<typename Point, typename Allocator> 
+void grid_point_cloud<Point, Allocator>::subspace::set_origin(const cell_coordinates& c) {
+	origin_ = c;
+	need_to_update_iterators_ = true;
+}
+
+template<typename Point, typename Allocator> 
+void grid_point_cloud<Point, Allocator>::subspace::set_extremity(const cell_coordinates& c) {
+	extremity_ = c;
+	need_to_update_iterators_ = true;
+}
 
 
 template<typename Point, typename Allocator> 
 std::size_t grid_point_cloud<Point, Allocator>::subspace::number_of_cells() const {
 	std::size_t n = 1;
-	for(std::ptrdiff_t i = 0; i < 3; ++i) n *= extremity[i] + 1 - origin[i];
+	for(std::ptrdiff_t i = 0; i < 3; ++i) n *= extremity_[i] + 1 - origin_[i];
 	return n;
 }
 
@@ -97,7 +133,7 @@ std::size_t grid_point_cloud<Point, Allocator>::subspace::number_of_cells() cons
 template<typename Point, typename Allocator> 
 bool grid_point_cloud<Point, Allocator>::subspace::is_cubic() const {
 	std::ptrdiff_t n[3];
-	for(std::ptrdiff_t i = 0; i < 3; ++i) n[i] = extremity[i] - origin[i];
+	for(std::ptrdiff_t i = 0; i < 3; ++i) n[i] = extremity_[i] - origin_[i];
 	return (n[0] == n[1]) && (n[1] == n[2]);
 }
 
@@ -106,9 +142,10 @@ template<typename Point, typename Allocator>
 bool grid_point_cloud<Point, Allocator>::subspace::expand() {
 	bool any_change = false;
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		if(origin[i] > 0) { --origin[i]; any_change = true; }
-		if(extremity[i]+1 < cloud_.number_of_cells_[i]) { ++extremity[i]; any_change = true; }
+		if(origin_[i] > 0) { --origin_[i]; any_change = true; }
+		if(extremity_[i]+1 < cloud_.number_of_cells_[i]) { ++extremity_[i]; any_change = true; }
 	}
+	if(any_change) need_to_update_iterators_ = true;
 	return any_change;
 }
 
@@ -124,11 +161,11 @@ std::size_t grid_point_cloud<Point, Allocator>::subspace::expand(std::size_t n) 
 template<typename Point, typename Allocator> 
 std::size_t grid_point_cloud<Point, Allocator>::subspace::size() const {
 	std::size_t n = 0;
-	std::ptrdiff_t i = cloud_.index_for_cell_( cell_coordinates{origin[0], extremity[0], 0} );
-	for(std::ptrdiff_t x = origin[0]; x < extremity[0]; ++x) {
-		for(std::ptrdiff_t y = origin[1]; y < extremity[1]; ++y) {
-			std::ptrdiff_t i_begin = i + origin[2] - 1;
-			std::ptrdiff_t i_end = i + extremity[2];
+	std::ptrdiff_t i = cloud_.index_for_cell_( cell_coordinates{origin_[0], extremity_[0], 0} );
+	for(std::ptrdiff_t x = origin_[0]; x < extremity_[0]; ++x) {
+		for(std::ptrdiff_t y = origin_[1]; y < extremity_[1]; ++y) {
+			std::ptrdiff_t i_begin = i + origin_[2] - 1;
+			std::ptrdiff_t i_end = i + extremity_[2];
 			std::ptrdiff_t p_begin = (i_begin == -1 ? 0 : cloud_.cell_offsets_[i_begin]);
 			std::ptrdiff_t p_end = cloud_.cell_offsets_[i_end];
 			n += (p_end - p_begin);
@@ -145,8 +182,8 @@ template<typename Point, typename Allocator>
 bounding_box grid_point_cloud<Point, Allocator>::subspace::box() const {
 	bounding_box b;
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		b.origin[i] = cloud_.origin_[i] + (cloud_.cell_length_ * origin[i]);
-		b.extremity[i] = cloud_.origin_[i] + (cloud_.cell_length_ * (extremity[i]+1));
+		b.origin[i] = cloud_.origin_[i] + (cloud_.cell_length_ * origin_[i]);
+		b.extremity[i] = cloud_.origin_[i] + (cloud_.cell_length_ * (extremity_[i]+1));
 	}
 	return b;
 }

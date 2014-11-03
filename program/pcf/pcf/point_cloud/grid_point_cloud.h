@@ -48,10 +48,7 @@ private:
 	
 	void build_grid_();
 
-public:
-	template<typename Other_cloud>
-	static float optimal_cell_length_for_knn(const Other_cloud& pc, std::size_t k, float alpha);
-	
+public:	
 	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc);
 	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len);
 	
@@ -61,7 +58,7 @@ public:
 	const Point& find_closest_point(const Other_point& from) const;
 	
 	template<typename Condition_func, typename Callback_func>
-	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback);
+	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false);
 	
 	std::size_t number_of_cells() const { return cell_offsets_.size(); }
 	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }
@@ -71,6 +68,9 @@ public:
 	subspace cell_subspace(const cell_coordinates& c);
 };
 
+
+template<typename Cloud>
+float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alpha);
 
 
 /**
@@ -98,6 +98,8 @@ public:
 	}
 };
 
+using grid_point_cloud_xyz = grid_point_cloud<point_xyz>;
+using grid_point_cloud_full = grid_point_cloud<point_full>;
 
 }
 

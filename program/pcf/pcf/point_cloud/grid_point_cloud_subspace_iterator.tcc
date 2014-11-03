@@ -83,14 +83,14 @@ cell_it_(cit) {
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::subspace::cell_iterator::operator++() -> cell_iterator& {
-	if(current_[2] < subspace_.extremity[2]) {
+	if(current_[2] < subspace_.extremity_[2]) {
 		++current_[2];
-	} else if(current_[1] < subspace_.extremity[1]) {
-		current_[2] = subspace_.origin[2];
+	} else if(current_[1] < subspace_.extremity_[1]) {
+		current_[2] = subspace_.origin_[2];
 		++current_[1];
 	} else {
-		current_[2] = subspace_.origin[2];
-		current_[1] = subspace_.origin[1];
+		current_[2] = subspace_.origin_[2];
+		current_[1] = subspace_.origin_[1];
 		++current_[0];
 	}
 	return *this;

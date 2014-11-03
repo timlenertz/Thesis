@@ -20,8 +20,7 @@ Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end) {
 				closest_point_part = it;
 			}
 		}
-		
-		#pragma omp atomic
+				
 		if(min_distance_part < min_distance) {
 			#pragma omp critical
 			{
