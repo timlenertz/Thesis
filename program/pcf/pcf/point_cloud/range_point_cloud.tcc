@@ -15,7 +15,7 @@ super(cam.number_of_pixels(), false, alloc), camera_(cam) {
 
 template<typename Point, typename Allocator> 
 inline std::ptrdiff_t range_point_cloud<Point, Allocator>::offset_(image_coordinates c) const {
-	return c[0] + (width() * c[1]);
+	return (width() * c[1]) + c[0];
 }
 
 
@@ -65,7 +65,9 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() {
 	const Point* p = super::begin_;
 	for(std::ptrdiff_t y = 0; y < height(); ++y) {
 		for(std::ptrdiff_t x = 0; x < width(); ++x) {
-			ri.at(x, y) = camera_.depth(*p);
+			float depth = 0;
+			if(p->valid()) depth = camera_.depth(*p);
+			ri.at(x, y) = depth;
 			++p;
 		}
 	}

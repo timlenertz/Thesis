@@ -8,7 +8,7 @@ pose::pose() {
 }
 
 Eigen::Affine3f pose::view_transformation() const {
-	return Eigen::Translation3f(-position) * orientation.normalized().inverse();
+	return orientation.normalized().inverse() * Eigen::Translation3f(-position);
 }
 
 Eigen::Matrix4f pose::view_matrix() const {

@@ -16,10 +16,9 @@ point_cloud_xyz bunny_model() {
 
 int main(int argc, const char* argv[]) {
 	pose p;
-	p.position = Eigen::Vector3f(0.0, 0.0, 0.0);
-	p.orientation = Eigen::AngleAxisf(0.0*M_PI, Eigen::Vector3f::UnitX());
+	p.position = Eigen::Vector3f(0.0, 0.1, 0.5);
 
-	camera cam(p, 60.0, 0.1, 1000.0, 640, 480);
+	camera cam(p, 30.0, 0.1, 1000.0, 640, 480);
 
 	range_point_cloud_xyz pc(bunny_model(), cam);
 	

@@ -4,7 +4,7 @@
 namespace pcf {
 
 camera::camera(const pose& p, float fov, float znear, float zfar, std::size_t iw, std::size_t ih) :
-pose_(p), projection_( perspective_projection((float)iw/ih, fov, znear, zfar) ), image_width_(iw), image_height_(ih) {
+pose_(p), projection_( perspective_projection(float(iw)/ih, fov, znear, zfar) ), image_width_(iw), image_height_(ih) {
 	update_();
 }
 
