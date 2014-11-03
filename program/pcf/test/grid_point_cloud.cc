@@ -1,9 +1,9 @@
 #include <catch.hpp>
 #include <iostream>
 
-#include "../src/point_cloud/grid_point_cloud.h"
-#include "../src/point.h"
-#include "../src/util/random.h"
+#include "../pcf/point_cloud/grid_point_cloud.h"
+#include "../pcf/point.h"
+#include "../pcf/util/random.h"
 #include "helper.h"
 #include <utility>
 #include <cmath>
@@ -12,11 +12,8 @@ using namespace pcf;
 
 TEST_CASE("Grid Point cloud") {
 	using cloud = grid_point_cloud<point_xyz>;
-	
-	float c = cloud::optimal_cell_length_for_knn(bunny_model(), 10, 0.2);
-	cloud pc( bunny_model(), c );
-	
-	auto random_nonempty_cell = [&pc]() -> cloud::cell_coordinates {
+
+	auto random_nonempty_cell = [](cloud& pc) -> cloud::cell_coordinates {
 		for(;;) {
 			cloud::cell_coordinates c;
 			for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = random_integer(pc.number_of_cells(i));
@@ -30,14 +27,25 @@ TEST_CASE("Grid Point cloud") {
 	
 	
 	SECTION("k Nearest Neighbors") {
-		pc.find_nearest_neighbors(10, [](auto&& p) {
-			return true;
-		}, [](auto&& p, auto&& knn) {
-			std::cout << knn.size() << std::endl;
-		});
+		auto pc1 = example_model("comet");
+		float c = cloud::optimal_cell_length_for_knn(pc1, 10, 0.2);
+		cloud pc(std::move(pc1), c);
+
+		SECTION("Finds >= 10 points each time") {
+			pc.find_nearest_neighbors(10, [](auto&& p) {
+				return true;
+			}, [](auto&& p, auto&& knn) {
+				REQUIRE(knn.size() >= 10);
+			});		
+		}
+		
+		
 	}
 	
+	
 	SECTION("Subspace Points") {
+		cloud pc(example_model("bunny"), 0.05);
+
 		auto test = [&pc](cloud::subspace s) {
 			bounding_box b = s.box();
 			
@@ -53,7 +61,7 @@ TEST_CASE("Grid Point cloud") {
 		};
 	
 		for(std::ptrdiff_t i = 0; i < 10; ++i) {
-			auto c = random_nonempty_cell();
+			auto c = random_nonempty_cell(pc);
 			auto s = pc.cell_subspace(c);
 			test(s);
 			s.expand(2);

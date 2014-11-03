@@ -9,3 +9,4 @@ since 2 september 	collecting/reading +/- relevant papers
 17 october		segmented cloud, octree, efficient closest point, kdtree exp
 21 october		generic tree structure
 28 october		misdist/maxdist, tree node handle, visual c++ support, cmake
+1 november		kNN algorithm in grid pc, tests, installed opencv

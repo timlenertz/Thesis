@@ -1,10 +1,11 @@
 #include "helper.h"
-#include "../src/io/ply_reader.h"
+#include "../pcf/io/ply_reader.h"
+#include <string>
 
 namespace pcf {
 
-point_cloud<point_xyz> bunny_model() {
-	ply_reader ply("../bunny.ply");
+point_cloud<point_xyz> example_model(const char* name) {
+	ply_reader ply(std::string("../") + name + ".ply");
 	return point_cloud<point_xyz>::create_from_reader(ply);
 }
 
