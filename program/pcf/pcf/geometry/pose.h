@@ -13,10 +13,11 @@ public:
 	Eigen::Vector3f position;
 	Eigen::Quaternionf orientation;
 
-
 	pose();
 	pose(const pose&) = default;
-	template<typename Translation, typename Rotation> pose(const Translation& t, const Rotation& r) :
+	
+	template<typename Translation, typename Rotation>
+	pose(const Translation& t, const Rotation& r) :
 		position(t), orientation(r) { }
 	
 	/**

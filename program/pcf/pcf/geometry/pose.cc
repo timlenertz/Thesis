@@ -7,11 +7,11 @@ pose::pose() {
 	orientation.setIdentity();
 }
 
-Eigen::Affine3f pose::transformation() const {
-	return Eigen::Translation3f(position) * orientation;
+Eigen::Affine3f pose::view_transformation() const {
+	return Eigen::Translation3f(-position) * orientation.normalized().inverse();
 }
 
-Eigen::Matrix4f pose::matrix() const {
+Eigen::Matrix4f pose::view_matrix() const {
 	return transformation.matrix();
 }
 

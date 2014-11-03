@@ -17,6 +17,13 @@ void point_cloud<Point, Allocator>::resize_(std::size_t new_size) {
 	else super::end_ = super::begin_ + new_size;
 }
 
+
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::initialize_() {
+	for(Point& p : super) p.invalidate();
+}
+
+
 template<typename Point, typename Allocator>
 const Point& point_cloud<Point, Allocator>::invalid_point_() {	
 	static const Point invalid = Point();

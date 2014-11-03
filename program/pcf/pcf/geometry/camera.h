@@ -31,15 +31,21 @@ public:
 	const Eigen::Projective3f& get_projection() const { return projection_; }
 	std::size_t get_image_width() const { return image_width_; }
 	std::size_t get_image_height() const { return image_height_; }
-	
+		
 	void set_pose(const pose&);
 	void set_projection(const Eigen::Projective3f&);
-	void set_image_size_(std::size_t w, std::size_t h);
-		
-	template<typename Point> image_coordinates project(const Point&) const;
+	void set_image_size(std::size_t w, std::size_t h);
 	
-	template<typename Point> float range(const Point&) const;
-	template<typename Point> float depth(const Point&) const;
+	const Eigen::Affine3f& view_transformation() const { return view_; }
+	const Eigen::Projective3f& view_projection_transformation() const { return view_projection_; }
+	
+	std::size_t number_of_pixels() const { return image_width_ * image_height_; }
+		
+	image_coordinates project(const Eigen::Vector3f&) const;
+	bool in_frustum(const Eigen::Vector3f&) const;
+	
+	float range(const Eigen::Vector3f&) const;
+	float depth(const Eigen::Vector3f&) const;
 };
 
 }

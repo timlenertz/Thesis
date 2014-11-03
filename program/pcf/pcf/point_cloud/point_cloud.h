@@ -36,6 +36,7 @@ protected:
 	point_cloud(std::size_t allocate_size, bool all_valid, const Allocator& alloc = Allocator());
 
 	void resize_(std::size_t new_size);
+	void initialize_();
 
 	static const Point& invalid_point_();
 
@@ -73,6 +74,9 @@ public:
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
 };
+
+using point_cloud_xyz = point_cloud<point_xyz>;
+using point_cloud_full = point_cloud<point_full>;
 
 }
 
