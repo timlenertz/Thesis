@@ -24,7 +24,8 @@ private:
 	void update_();
 
 public:
-	camera(pose p, const Eigen::Projective3f& proj, std::size_t iw, std::size_t ih);
+	camera(const pose& p, float fov, float znear, float zfar, std::size_t iw, std::size_t ih);
+	camera(const pose& p, const Eigen::Projective3f& proj, std::size_t iw, std::size_t ih);
 	camera(const camera&) = default;
 	
 	const pose& get_pose() const { return pose_; }
@@ -34,10 +35,12 @@ public:
 		
 	void set_pose(const pose&);
 	void set_projection(const Eigen::Projective3f&);
+	void set_perspective_projection(float fov, float znear, float zfar);
 	void set_image_size(std::size_t w, std::size_t h);
 	
 	const Eigen::Affine3f& view_transformation() const { return view_; }
 	const Eigen::Projective3f& view_projection_transformation() const { return view_projection_; }
+	float aspect_ratio() const;
 	
 	std::size_t number_of_pixels() const { return image_width_ * image_height_; }
 		

@@ -20,7 +20,7 @@ public:
 private:
 	camera camera_;
 
-	std::ptrdiff_t offset_(image_coordinates);
+	std::ptrdiff_t offset_(image_coordinates) const;
 
 public:
 	template<typename Other_cloud>
@@ -29,10 +29,13 @@ public:
 	camera& get_camera() { return camera_; }
 	const camera& get_camera() const { return camera_; }
 	
-	Point& at(image_coordinates ic) { return super::operator[](offset_(ic.x, ic.y)); }
-	const Point& at(image_coordinates ic) { return super::operator[](offset_(ic.x, ic.y)); }
+	std::size_t width() const { return camera_.get_image_width(); }
+	std::size_t height() const { return camera_.get_image_height(); }
 	
-	bool in_bounds(image_coordinates ic) const;
+	Point& at(image_coordinates c) { return super::operator[](offset_(c)); }
+	const Point& at(image_coordinates c) const { return super::operator[](offset_(c)); }
+	
+	bool in_bounds(image_coordinates) const;
 			
 	template<typename Other_point, typename Distance_func>
 	const Point& find_closest_point(const Other_point& from, Distance_func dist, unsigned neightborhood_radius = 30) const;

@@ -12,7 +12,7 @@ Eigen::Affine3f pose::view_transformation() const {
 }
 
 Eigen::Matrix4f pose::view_matrix() const {
-	return transformation.matrix();
+	return view_transformation().matrix();
 }
 
 }

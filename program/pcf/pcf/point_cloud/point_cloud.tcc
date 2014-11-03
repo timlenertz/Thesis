@@ -20,7 +20,7 @@ void point_cloud<Point, Allocator>::resize_(std::size_t new_size) {
 
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::initialize_() {
-	for(Point& p : super) p.invalidate();
+	for(Point& p : *this) p.invalidate();
 }
 
 

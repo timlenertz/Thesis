@@ -3,7 +3,7 @@
 
 namespace pcf {
 
-Eigen::Projective3f perspective_projection(float fov, float ratio, float zfar, float znear) {
+Eigen::Projective3f perspective_projection(float fov, float ratio, float znear, float zfar) {
 	float x_scale = 1.0f / std::tan(fov / 2);
 	float y_scale = x_scale / ratio;
 	float zdiff = zfar - znear;

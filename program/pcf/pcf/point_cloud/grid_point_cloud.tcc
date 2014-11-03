@@ -172,7 +172,7 @@ bool grid_point_cloud<Point, Allocator>::in_bounds_(const cell_coordinates& c) c
 template<typename Point, typename Allocator>
 void grid_point_cloud<Point, Allocator>::move_into_bounds_(cell_coordinates& c) const {
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		if((c[i] < 0) c[i] = 0;
+		if(c[i] < 0) c[i] = 0;
 		else if(c[i] >= number_of_cells_[i]) c[i] = number_of_cells_[i] - 1;
 	}
 }
@@ -209,7 +209,7 @@ std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_point& ref) const {
-	cell_coordinates c = cell_for_point_(from);
+	cell_coordinates c = cell_for_point_(ref);
 	move_into_bounds_(c);
 	
 	subspace s = cell_subspace(c);
@@ -226,7 +226,7 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
 		cell_coordinates c(x, 0, 0);
 		std::ptrdiff_t i = index_for_cell_(c);
-		segment seg = segment_for_index(i);
+		segment seg = segment_for_index_(i);
 	
 		for(c[1] = 0; c[1] < number_of_cells_[1]; ++c[1]) {
 			for(c[2] = 0; c[2] < number_of_cells_[2]; ++c[2]) {

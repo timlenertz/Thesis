@@ -4,6 +4,7 @@ namespace pcf {
 template<typename Point, typename Allocator> template<typename Other_cloud>
 range_point_cloud<Point, Allocator>::range_point_cloud(const Other_cloud& pc, const camera& cam, const Allocator& alloc) :
 super(cam.number_of_pixels(), false, alloc), camera_(cam) {
+	super::resize_(cam.number_of_pixels());
 	super::initialize_();
 	for(auto it = pc.cbegin(); it < pc.cend(); ++it) {
 		auto c = camera_.project(*it);
@@ -13,15 +14,15 @@ super(cam.number_of_pixels(), false, alloc), camera_(cam) {
 
 
 template<typename Point, typename Allocator> 
-inline std::ptrdiff_t range_point_cloud<Point, Allocator>::offset_(image_coordinates c) {
-	return c[0] + (camera_.get_image_width() * c[1]);
+inline std::ptrdiff_t range_point_cloud<Point, Allocator>::offset_(image_coordinates c) const {
+	return c[0] + (width() * c[1]);
 }
 
 
 template<typename Point, typename Allocator> 
 inline bool range_point_cloud<Point, Allocator>::in_bounds(image_coordinates c) const {
-	return (c[0] >= 0) && (c[0] < camera_.get_image_width())
-		&& (c[1] >= 0) && (c[1] < camera_.get_image_height());
+	return (c[0] >= 0) && (c[0] < width())
+		&& (c[1] >= 0) && (c[1] < height());
 }
 
 
@@ -60,10 +61,10 @@ const Point& range_point_cloud<Point, Allocator>::find_closest_point(const Other
 
 template<typename Point, typename Allocator>
 range_image range_point_cloud<Point, Allocator>::to_range_image() {
-	range_image ri(width_, height_);
+	range_image ri(width(), height());
 	const Point* p = super::begin_;
-	for(std::ptrdiff_t y = 0; y < height_; ++y) {
-		for(std::ptrdiff_t x = 0; x < width_; ++x) {
+	for(std::ptrdiff_t y = 0; y < height(); ++y) {
+		for(std::ptrdiff_t x = 0; x < width(); ++x) {
 			ri.at(x, y) = camera_.depth(*p);
 			++p;
 		}

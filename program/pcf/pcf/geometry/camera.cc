@@ -1,8 +1,14 @@
 #include "camera.h"
+#include "../geometry/projection.h"
 
 namespace pcf {
 
-camera::camera(pose p, const Eigen::Projective3f& proj, std::size_t iw, std::size_t ih) :
+camera::camera(const pose& p, float fov, float znear, float zfar, std::size_t iw, std::size_t ih) :
+pose_(p), projection_( perspective_projection((float)iw/ih, fov, znear, zfar) ), image_width_(iw), image_height_(ih) {
+	update_();
+}
+
+camera::camera(const pose& p, const Eigen::Projective3f& proj, std::size_t iw, std::size_t ih) :
 pose_(p), projection_(proj), image_width_(iw), image_height_(ih) {
 	update_();
 }
@@ -17,10 +23,20 @@ void camera::set_projection(const Eigen::Projective3f& proj) {
 	update_();
 }
 
+
+void camera::set_perspective_projection(float fov, float znear, float zfar) {
+	set_projection( perspective_projection(aspect_ratio(), fov, znear, zfar) );
+}
+
+
 void camera::set_image_size(std::size_t w, std::size_t h) {
 	image_width_ = w;
 	image_height_ = h;
 	update_();
+}
+
+float camera::aspect_ratio() const {
+	return float(image_width_) / image_height_;
 }
 
 void camera::update_() {
@@ -31,7 +47,8 @@ void camera::update_() {
 
 
 camera::image_coordinates camera::project(const Eigen::Vector3f& pt) const {
-	Eigen::Vector3f ipt = view_projection_ * pt;
+	Eigen::Vector4f ipt = view_projection_ * pt.homogeneous();
+	ipt /= ipt[3];
 	return {
 		image_center_[0] + std::ptrdiff_t(ipt[0] * image_width_ / 2.0f),
 		image_center_[1] + std::ptrdiff_t(ipt[1] * image_height_ / 2.0f)
@@ -40,7 +57,8 @@ camera::image_coordinates camera::project(const Eigen::Vector3f& pt) const {
 
 
 bool camera::in_frustum(const Eigen::Vector3f& pt) const {
-	Eigen::Vector3f ipt = view_projection_ * pt;
+	Eigen::Vector4f ipt = view_projection_ * pt.homogeneous();
+	ipt /= ipt[3];
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
 		if(ipt[i] < -1 || ipt[i] > 1) return false;
 	}
@@ -49,13 +67,13 @@ bool camera::in_frustum(const Eigen::Vector3f& pt) const {
 
 
 float camera::range(const Eigen::Vector3f& pt) const {
-	Eigen::Vector3f ipt = view_projection_ * pt;
-	return ipt[2];
+	Eigen::Vector4f ipt = view_projection_ * pt.homogeneous();
+	return ipt[2] / ipt[3];
 }
 
 float camera::depth(const Eigen::Vector3f& pt) const {
-	Eigen::Vector3f ipt = view_ * pt;
-	return ipt.norm();
+	Eigen::Vector3f vpt = view_ * pt;
+	return vpt.norm();
 }
 
 
