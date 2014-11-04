@@ -4,6 +4,7 @@
 #include <opencv2/core/core.hpp>
 #include <cmath>
 #include <string>
+#include <utility>
 
 namespace pcf {
 
@@ -12,13 +13,18 @@ private:
 	cv::Mat matrix_;
 
 public:
-	range_image(std::size_t w, std::size_t h) :
-	matrix_(h, w, CV_32FC1, NAN) { erase(); }
+	range_image(std::size_t w, std::size_t h);
 	
-	void erase() { matrix_ = NAN; }
+	void erase();
+	
+	std::size_t width() const;
+	std::size_t height() const;
+	std::size_t number_of_pixels() const;
 	
 	float& at(std::ptrdiff_t x, std::ptrdiff_t y) { return matrix_.at<float>(y, x); }
-	float at(std::ptrdiff_t x, std::ptrdiff_t y) const { return matrix_.at<float>(y, x); }
+	const float& at(std::ptrdiff_t x, std::ptrdiff_t y) const { return matrix_.at<float>(y, x); }
+	
+	std::pair<float, float> minimum_and_maximum() const;
 	
 	void save_image(const std::string& path);
 };

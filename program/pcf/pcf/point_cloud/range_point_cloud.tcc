@@ -14,6 +14,23 @@ super(cam.number_of_pixels(), false, alloc), camera_(cam) {
 
 
 template<typename Point, typename Allocator> 
+range_point_cloud<Point, Allocator>::range_point_cloud(const range_image& ri, const Eigen::Projective3f& proj, const Allocator& alloc) :
+super(ri.number_of_pixels(), false, alloc), camera_(pose(), proj, ri.width(), ri.height()) {
+	super::resize_(camera_.number_of_pixels());
+	super::initialize_();
+	Point* p = super::begin();
+	camera::image_coordinates c{0, 0};
+	for(c[1] = 0; c[1] < ri.height(); ++c[1]) {
+		for(c[0] = 0; c[0] < ri.width(); ++c[0], ++p) {
+			float d = ri.at(c[0], c[1]);
+			if(d == 0) p->invalidate();
+			else *p = Point( camera_.reverse_project_with_depth(c, d) );
+		}
+	}
+}
+
+
+template<typename Point, typename Allocator> 
 inline std::ptrdiff_t range_point_cloud<Point, Allocator>::offset_(image_coordinates c) const {
 	return (width() * c[1]) + c[0];
 }
@@ -62,13 +79,16 @@ const Point& range_point_cloud<Point, Allocator>::find_closest_point(const Other
 template<typename Point, typename Allocator>
 range_image range_point_cloud<Point, Allocator>::to_range_image() {
 	range_image ri(width(), height());
+	ri.erase();
 	const Point* p = super::begin_;
 	for(std::ptrdiff_t y = 0; y < height(); ++y) {
-		for(std::ptrdiff_t x = 0; x < width(); ++x) {
-			float depth = 0;
-			if(p->valid()) depth = camera_.depth(*p);
-			ri.at(x, y) = depth;
-			++p;
+		for(std::ptrdiff_t x = 0; x < width(); ++x, ++p) {
+			if(! p->valid()) continue;
+			
+			float point_depth = camera_.depth(*p);
+			float& image_depth = ri.at(x, y);
+			
+			if(image_depth == 0.0 || image_depth > point_depth) image_depth = point_depth;
 		}
 	}
 	return ri;

@@ -45,6 +45,7 @@ public:
 	std::size_t number_of_pixels() const { return image_width_ * image_height_; }
 		
 	image_coordinates project(const Eigen::Vector3f&) const;
+	Eigen::Vector3f reverse_project_with_depth(image_coordinates c, float depth) const;
 	bool in_frustum(const Eigen::Vector3f&) const;
 	
 	float range(const Eigen::Vector3f&) const;

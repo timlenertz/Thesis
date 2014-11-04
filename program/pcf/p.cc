@@ -1,5 +1,4 @@
 #include <iostream>
-#include <omp.h>
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
@@ -23,19 +22,27 @@ point_cloud_xyz model() {
 int main(int argc, const char* argv[]) {
 	filename = argv[1];
 
-	/*pose p;
-	p.position = Eigen::Vector3f(0.0, 0.1, 0.5);
+	pose p;
+	p.position = Eigen::Vector3f(-0.01, 0.1, -0.5);
+	p.orientation = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitZ());
 
-	camera cam(p, 30.0, 0.1, 1000.0, 640, 480);
+	camera cam(p, 30.0, 0.1, 1000.0, 800, 600);
 
-	range_point_cloud_xyz pc(bunny_model(), cam);
+	range_point_cloud_xyz pc(model(), cam);
 	
 	range_image ri = pc.to_range_image();
-	ri.save_image("test.png");*/
+	ri.save_image("test.png");
 	
+	range_point_cloud_xyz pc2(ri, cam.get_projection());
+	
+	range_image ri2 = pc2.to_range_image();
+	ri2.save_image("test2.png");
+
+	
+	/*
 	int k = 100;
 	int n = 0;
-	float csz = optimal_grid_cell_length_for_knn(model(), k, 1.0);
+	float csz = optimal_grid_cell_length_for_knn(model(), k, 10.0);
 	std::cout << "cell length: " << csz << std::endl;
 
 	grid_point_cloud_full pc(model(), csz);
@@ -54,6 +61,6 @@ int main(int argc, const char* argv[]) {
 	}, 0);
 	
 	ply_writer<point_full> ply("out.ply");
-	pc.write(ply);
+	pc.write(ply);*/
 }
 

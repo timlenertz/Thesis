@@ -56,6 +56,19 @@ camera::image_coordinates camera::project(const Eigen::Vector3f& pt) const {
 }
 
 
+Eigen::Vector3f camera::reverse_project_with_depth(image_coordinates c, float depth) const {
+	Eigen::Vector3f ic;
+	ic[0] = float(c[0] - image_center_[0]) / (2.0f * image_width_);
+	ic[1] = float(c[1] - image_center_[1]) / (2.0f * image_height_);
+	ic[2] = std::sqrt(depth*depth - ic[0]*ic[0] - ic[1]*ic[1]);
+	
+	Eigen::Vector4f oc = view_projection_.inverse() * ic.homogeneous();
+	oc /= oc[3];
+	
+	return oc.head(3);
+}
+
+
 bool camera::in_frustum(const Eigen::Vector3f& pt) const {
 	Eigen::Vector4f ipt = view_projection_ * pt.homogeneous();
 	ipt /= ipt[3];
