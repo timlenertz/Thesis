@@ -20,6 +20,7 @@ point_cloud_xyz model() {
 
 
 int main(int argc, const char* argv[]) {
+/*
 	filename = argv[1];
 
 	pose p;
@@ -35,11 +36,12 @@ int main(int argc, const char* argv[]) {
 	
 	range_point_cloud_xyz pc2(ri, cam.get_projection());
 	
-	range_image ri2 = pc2.to_range_image();
-	ri2.save_image("test2.png");
+	ply_writer<point_xyz> ply("revproj.ply");
+	pc2.write(ply);
+
 
 	
-	/*
+	
 	int k = 100;
 	int n = 0;
 	float csz = optimal_grid_cell_length_for_knn(model(), k, 10.0);
@@ -63,4 +65,3 @@ int main(int argc, const char* argv[]) {
 	ply_writer<point_full> ply("out.ply");
 	pc.write(ply);*/
 }
-

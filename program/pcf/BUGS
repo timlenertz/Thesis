@@ -1,2 +1,3 @@
 - kdtree point cloud: fp imprecisions
 - fixes for VC++
+- grid pc subspace iterator: sometimes segfault

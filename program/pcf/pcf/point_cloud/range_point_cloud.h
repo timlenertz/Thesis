@@ -9,7 +9,7 @@
 #include "../range_image.h"
 
 namespace pcf {
-
+/*
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
@@ -47,9 +47,9 @@ public:
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;
 using range_point_cloud_full = range_point_cloud<point_full>;
-
+*/
 }
 
-#include "range_point_cloud.tcc"
+//#include "range_point_cloud.tcc"
 
 #endif

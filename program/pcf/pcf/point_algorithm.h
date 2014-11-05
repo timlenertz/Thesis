@@ -8,8 +8,6 @@ namespace pcf {
 template<typename Point, typename Iterator>
 Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end);
 
-
-
 }
 
 #include "point_algorithm.tcc"

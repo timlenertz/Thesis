@@ -131,7 +131,21 @@ bool point_cloud<Point, Allocator>::contains_invalid_points() const {
 
 template<typename Point, typename Allocator> template<typename Writer>
 void point_cloud<Point, Allocator>::write(Writer& writer) const {
-	writer.write(super::data(), size());
+	if(all_valid_) {
+		writer.write(super::data(), size());
+	} else {
+		const Point* segment_start = nullptr;
+		for(const Point* p = super::begin(); p != super::end(); ++p) {
+			bool valid = p->valid();
+			if(!valid && segment_start) {
+				writer.write(segment_start, p - segment_start);
+				segment_start = nullptr;
+			} else if(valid && !segment_start) {
+				segment_start = p;
+			}
+		}
+		if(segment_start) writer.write(segment_start, super::end() - segment_start);
+	}
 }
 
 
