@@ -73,6 +73,30 @@ image_center_{ std::ptrdiff_t(image_size_[0] / 2), std::ptrdiff_t(image_size_[1]
 }
 
 
+template<typename Point, typename Allocator>
+range_point_cloud<Point, Allocator>::range_point_cloud(const range_image& ri, const camera& cam, const Allocator& alloc) :
+super(ri.number_of_pixels(), true, alloc),
+camera_(cam),
+angular_resolution_{ cam.field_of_view_x() / ri.width(), cam.field_of_view_y() / ri.height() },
+image_size_{ ri.width(), ri.height() },
+image_center_{ std::ptrdiff_t(image_size_[0] / 2), std::ptrdiff_t(image_size_[1] / 2) } {
+	super::resize_(super::capacity());
+	super::initialize_();
+
+	Point* p = super::begin();
+	for(std::ptrdiff_t y = 0; y < height(); ++y) {
+		for(std::ptrdiff_t x = 0; x < width(); ++x, ++p) {
+			if(! ri.valid(x, y)) continue;
+			
+			float r = ri.at(x, y);
+			angular_image_coordinates a = to_angular({x, y});
+			spherical_coordinates s(r, a[0], a[1]);
+			
+			*p = Point( camera_.point(s) );
+		}
+	}
+}
+
 template<typename Point, typename Allocator> 
 inline std::ptrdiff_t range_point_cloud<Point, Allocator>::offset_(image_coordinates c) const {
 	return (width() * c[1]) + c[0];

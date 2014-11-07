@@ -24,21 +24,21 @@ int main(int argc, const char* argv[]) {
 	filename = argv[1];
 
 	pose p;
-	p.position = Eigen::Vector3f(-0.01, 0.1, -0.5);
+	p.position = Eigen::Vector3f(-0.01, 0.1, -0.2);
 	p.orientation = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitZ());
 
 	camera cam(p, angle::degrees(60.0), angle::degrees(60.0));
 
-	range_point_cloud_xyz pc(model(), cam, angle::degrees(0.1), angle::degrees(0.1));
+	range_point_cloud_xyz pc(model(), cam, angle::degrees(0.5), angle::degrees(0.5));
 	
 	range_image ri = pc.to_range_image();
 	ri.save_image("test.png");
-/*	
-	range_point_cloud_xyz pc2(ri, cam.get_projection());
+
+	range_point_cloud_xyz pc2(ri, cam);
 	
 	ply_writer<point_xyz> ply("revproj.ply");
 	pc2.write(ply);
-
+/*
 
 	
 	

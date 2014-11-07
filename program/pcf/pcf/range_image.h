@@ -21,6 +21,7 @@ public:
 	std::size_t height() const;
 	std::size_t number_of_pixels() const;
 	
+	bool valid(std::ptrdiff_t x, std::ptrdiff_t y) const { return at(x, y) != 0.0f; }
 	float& at(std::ptrdiff_t x, std::ptrdiff_t y) { return matrix_.at<float>(y, x); }
 	const float& at(std::ptrdiff_t x, std::ptrdiff_t y) const { return matrix_.at<float>(y, x); }
 	

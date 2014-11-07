@@ -36,6 +36,8 @@ public:
 	template<typename Other_cloud>
 	range_point_cloud(const Other_cloud&, const camera&, angle angular_res_x, angle angular_res_y = 0, const Allocator& = Allocator());
 
+	range_point_cloud(const range_image&, const camera&, const Allocator& = Allocator());
+
 	camera& get_camera() { return camera_; }
 	const camera& get_camera() const { return camera_; }
 	
