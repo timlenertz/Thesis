@@ -19,8 +19,8 @@ private:
 	cell_coordinates origin_;
 	cell_coordinates extremity_;
 
-	iterator begin_iterator_;
-	iterator end_iterator_;
+	mutable iterator begin_iterator_;
+	mutable iterator end_iterator_;
 	bool need_to_update_iterators_;
 
 public:	

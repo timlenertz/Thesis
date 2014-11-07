@@ -5,7 +5,7 @@
 
 namespace pcf {
 
-Eigen::Projective3f perspective_projection(float ratio, float fov, float znear, float zfar);
+Eigen::Projective3f perspective_projection(float fov_x, float fov_y, float znear, float zfar);
 
 }
 

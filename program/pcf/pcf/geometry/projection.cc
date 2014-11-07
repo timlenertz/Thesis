@@ -3,9 +3,9 @@
 
 namespace pcf {
 
-Eigen::Projective3f perspective_projection(float ratio, float fov, float znear, float zfar) {
-	float x_scale = 1.0f / std::tan(fov / 2);
-	float y_scale = x_scale / ratio;
+Eigen::Projective3f perspective_projection(float fov_x, float fov_y, float znear, float zfar) {
+	float x_scale = 1.0f / std::tan(fov_x / 2);
+	float y_scale = 1.0f / std::tan(fov_y / 2);
 	float zdiff = zfar - znear;
 	
 	Eigen::Matrix4f mat;

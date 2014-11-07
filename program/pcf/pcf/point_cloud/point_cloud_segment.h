@@ -29,8 +29,11 @@ public:
 	point_cloud_segment(Point* s, Point* e) : begin_(s), end_(e) { }
 	
 	bool in_bounds(std::ptrdiff_t i) const { return i >= 0 && i < size(); }
-	Point& operator[](std::ptrdiff_t i) { assert(in_bounds(i)); return begin_[i]; }
-	const Point& operator[](std::ptrdiff_t i) const { assert(in_bounds(i)); return begin_[i]; }
+	
+	Point& at(std::ptrdiff_t i) { assert(in_bounds(i)); return begin_[i]; }
+	const Point& at(std::ptrdiff_t i) const { assert(in_bounds(i)); return begin_[i]; }
+	Point& operator[](std::ptrdiff_t i) { return at(i); }
+	const Point& operator[](std::ptrdiff_t i) const { return at(i); }
 	
 	Point* data() { return begin_; }
 	const Point* data() const { return begin_; }

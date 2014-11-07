@@ -1,32 +1,75 @@
+#include <cmath>
+
 namespace pcf {
+
+template<typename Point, typename Allocator>
+auto range_point_cloud<Point, Allocator>::to_angular(image_coordinates c) const -> angular_image_coordinates {
+	std::ptrdiff_t dx = std::ptrdiff_t(c[0]) - image_center_[0];
+	std::ptrdiff_t dy = std::ptrdiff_t(c[1]) - image_center_[1];
+	return {
+		angle(angular_resolution_[0] * dx),
+		angle(angular_resolution_[1] * dy)
+	};
+}
+
+
+template<typename Point, typename Allocator>
+auto range_point_cloud<Point, Allocator>::to_image(angular_image_coordinates c) const -> image_coordinates {
+	float dx = c[0] / angular_resolution_[0];
+	float dy = c[1] / angular_resolution_[1];
+	return {
+		std::ptrdiff_t(dx) + image_center_[0],
+		std::ptrdiff_t(dy) + image_center_[1]
+	};
+}
+
+
+template<typename Point, typename Allocator>
+auto range_point_cloud<Point, Allocator>::to_image(const spherical_coordinates& s) const -> image_coordinates {
+	return to_image({ s.azimuth, s.elevation });
+}
+
+
+template<typename Point, typename Allocator>
+std::size_t range_point_cloud<Point, Allocator>::number_of_pixels_for_camera_(angle rx, angle ry, const camera& cam) {
+	std::size_t x = std::ceil( cam.field_of_view_x() / rx );
+	std::size_t y = std::ceil( cam.field_of_view_y() / ry );
+	return x * y;
+}
 
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
-range_point_cloud<Point, Allocator>::range_point_cloud(const Other_cloud& pc, const camera& cam, const Allocator& alloc) :
-super(cam.number_of_pixels(), false, alloc), camera_(cam) {
-	super::resize_(cam.number_of_pixels());
-	super::initialize_();
+void range_point_cloud<Point, Allocator>::project_(const Other_cloud& pc) {
+	std::vector<float> r_buffer(width()*height(), INFINITY);
+	
+	//#pragma omp parallel for shared(r_buffer)
 	for(auto it = pc.cbegin(); it < pc.cend(); ++it) {
-		auto c = camera_.project(*it);
-		if(in_bounds(c)) at(c) = *it;
+		const auto& p = *it;
+		spherical_coordinates s = camera_.to_spherical(p);
+		image_coordinates i = to_image(s);
+		if(! in_bounds(i)) continue;
+		
+		std::ptrdiff_t off = offset_(i);
+		float& closest_r = r_buffer[off];
+		
+		if(s.radius < closest_r) {
+			closest_r = s.radius;
+			super::at(off) = p;
+		}
 	}
 }
 
 
-template<typename Point, typename Allocator> 
-range_point_cloud<Point, Allocator>::range_point_cloud(const range_image& ri, const Eigen::Projective3f& proj, const Allocator& alloc) :
-super(ri.number_of_pixels(), false, alloc), camera_(pose(), proj, ri.width(), ri.height()) {
-	super::resize_(camera_.number_of_pixels());
+template<typename Point, typename Allocator> template<typename Other_cloud>
+range_point_cloud<Point, Allocator>::range_point_cloud(const Other_cloud& pc, const camera& cam, angle rx, angle ry, const Allocator& alloc) :
+super(number_of_pixels_for_camera_(rx, ry, cam), true, alloc),
+camera_(cam),
+angular_resolution_{rx, ry},
+image_size_{ std::size_t(std::ceil(cam.field_of_view_x() / rx)), std::size_t(std::ceil(cam.field_of_view_y() / ry)) },
+image_center_{ std::ptrdiff_t(image_size_[0] / 2), std::ptrdiff_t(image_size_[1] / 2) } {
+	super::resize_(super::capacity());
 	super::initialize_();
-	Point* p = super::begin();
-	camera::image_coordinates c{0, 0};
-	for(c[1] = 0; c[1] < ri.height(); ++c[1]) {
-		for(c[0] = 0; c[0] < ri.width(); ++c[0], ++p) {
-			float d = ri.at(c[0], c[1]);
-			if(d == 0) p->invalidate();
-			else *p = Point( camera_.reverse_project_with_depth(c, d) );
-		}
-	}
+	project_(pc);
 }
 
 
@@ -80,17 +123,17 @@ template<typename Point, typename Allocator>
 range_image range_point_cloud<Point, Allocator>::to_range_image() {
 	range_image ri(width(), height());
 	ri.erase();
+	
 	const Point* p = super::begin_;
 	for(std::ptrdiff_t y = 0; y < height(); ++y) {
 		for(std::ptrdiff_t x = 0; x < width(); ++x, ++p) {
 			if(! p->valid()) continue;
 			
-			float point_depth = camera_.depth(*p);
-			float& image_depth = ri.at(x, y);
-			
-			if(image_depth == 0.0 || image_depth > point_depth) image_depth = point_depth;
+			spherical_coordinates s = camera_.to_spherical(*p);
+			ri.at(x, y) = s.radius;
 		}
 	}
+
 	return ri;
 }
 
