@@ -6,6 +6,7 @@
 #include <cmath>
 #include <Eigen/Eigen>
 
+
 namespace pcf {
 
 /**
@@ -37,8 +38,8 @@ struct bounding_box {
 
 
 
-float minimal_distance_sq(const bounding_box& a, const bounding_box& b);
-float maximal_distance_sq(const bounding_box& a, const bounding_box& b);
+ float minimal_distance_sq(const bounding_box& a, const bounding_box& b);
+ float maximal_distance_sq(const bounding_box& a, const bounding_box& b);
 
 inline float maximal_distance(const bounding_box& a, const bounding_box& b) {
 	return std::sqrt( maximal_distance_sq(a, b) );

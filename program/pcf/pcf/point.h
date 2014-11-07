@@ -6,9 +6,6 @@
 
 namespace pcf {
 
-inline void mark_point(point_xyz&, std::ptrdiff_t m) { }
-void mark_point(point_full&, std::ptrdiff_t m);
-
 inline float euclidian_distance_sq(const point_xyz& a, const point_xyz& b) {
 	return (b.homogeneous_coordinates - a.homogeneous_coordinates).squaredNorm();
 }

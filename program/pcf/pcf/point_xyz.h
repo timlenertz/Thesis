@@ -2,6 +2,7 @@
 #define PCF_POINT_XYZ_H_
 
 #include <Eigen/Eigen>
+
 #include <iosfwd>
 #include <cstdint>
 #include <cmath>

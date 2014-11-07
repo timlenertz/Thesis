@@ -8,6 +8,11 @@
 
 namespace pcf {
 
+
+const line_delimitor default_line_delimitor = line_delimitor::LF;
+const bool host_has_iec559_float = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+
+
 static bool check_host_little_endian_() {
 	unsigned int i = 1;
 	char* c = reinterpret_cast<char*>(&i);

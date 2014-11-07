@@ -9,8 +9,8 @@ namespace pcf {
 
 enum class line_delimitor { unknown, LF, CR, CRLF };
 
-const static line_delimitor default_line_delimitor = line_delimitor::LF;
-const static bool host_has_iec559_float = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+const extern line_delimitor default_line_delimitor;
+const extern bool host_has_iec559_float;
 
 line_delimitor detect_line_delimitor(std::istream&);
 
@@ -24,7 +24,6 @@ void flip_endianness(char* data, std::size_t sz);
 
 std::string to_lower(const std::string&);
 std::string to_upper(const std::string&);
-
 
 }
 
