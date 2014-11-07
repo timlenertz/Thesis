@@ -24,12 +24,12 @@ int main(int argc, const char* argv[]) {
 	filename = argv[1];
 
 	pose p;
-	p.position = Eigen::Vector3f(-0.01, 0.1, -0.2);
+	p.position = Eigen::Vector3f(-0.01, 0.1, -200.0);
 	p.orientation = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitZ());
 
-	camera cam(p, angle::degrees(60.0), angle::degrees(60.0));
+	camera cam(p, angle::degrees(60.0), angle::degrees(40.0));
 
-	range_point_cloud_xyz pc(model(), cam, angle::degrees(0.5), angle::degrees(0.5));
+	range_point_cloud_xyz pc(model(), cam, angle::degrees(0.1), angle::degrees(0.1));
 	
 	range_image ri = pc.to_range_image();
 	ri.save_image("test.png");

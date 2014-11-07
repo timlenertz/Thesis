@@ -20,9 +20,9 @@ public:
 
 private:
 	camera camera_;
-	const std::array<float, 2> angular_resolution_;
-	const std::array<std::size_t, 2> image_size_;
-	const std::array<std::ptrdiff_t, 2> image_center_;
+	std::array<float, 2> angular_resolution_;
+	std::array<std::size_t, 2> image_size_;
+	std::array<std::ptrdiff_t, 2> image_center_;
 
 	std::ptrdiff_t offset_(image_coordinates) const;
 	angular_image_coordinates to_angular(image_coordinates) const;

@@ -1,4 +1,4 @@
 - local TIN mesh
-- angular+projective camera
-- to/from range image
+- ICP
+
 - range image superresolution

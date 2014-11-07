@@ -1,8 +1,9 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "angle.h"
 #include <istream>
 #include <ostream>
-#include <cmath>
-
 
 namespace pcf {
 

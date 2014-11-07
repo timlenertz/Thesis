@@ -32,9 +32,9 @@ TEST_CASE("Grid Point cloud") {
 		cloud pc(std::move(pc1), c);
 
 		SECTION("Finds >= 10 points each time") {
-			pc.find_nearest_neighbors(10, [](auto&& p) {
+			pc.find_nearest_neighbors(10, [](const point_xyz& p) {
 				return true;
-			}, [](auto&& p, auto&& knn) {
+			}, [](const point_xyz& p, std::vector<point_xyz*>& knn) {
 				REQUIRE(knn.size() >= 10);
 			});		
 		}

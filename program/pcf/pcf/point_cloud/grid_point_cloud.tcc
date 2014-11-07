@@ -261,7 +261,7 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 			};
 		
 			// Ask if kNN of this point should be computed
-			if(! cond(p)) continue;
+			if(! cond(pt)) continue;
 			
 			// Clear points array
 			knn.clear();

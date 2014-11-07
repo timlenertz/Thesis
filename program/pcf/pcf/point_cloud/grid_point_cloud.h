@@ -82,8 +82,8 @@ private:
 	std::array<std::ptrdiff_t, 3> c_;
 	
 public:
-	cell_coordinates() : c_{0, 0, 0} { }
-	cell_coordinates(std::ptrdiff_t x, std::ptrdiff_t y, std::ptrdiff_t z) : c_{x, y, z} { }
+	cell_coordinates() { c_ = {0, 0, 0}; }
+	cell_coordinates(std::ptrdiff_t x, std::ptrdiff_t y, std::ptrdiff_t z) { c_ = {x, y, z}; }
 	cell_coordinates(const cell_coordinates&) = default;
 	
 	std::ptrdiff_t& operator[](std::ptrdiff_t i) { return c_[i]; }
