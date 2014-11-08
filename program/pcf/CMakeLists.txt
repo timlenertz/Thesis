@@ -32,5 +32,5 @@ target_link_libraries(p pcflib)
 
 install(TARGETS p pcf_test DESTINATION .)
 if(MSVC)
-	#install(DIRECTORY "./external/win32/x64/vc12/bin/" DESTINATION . FILES_MATCHING PATTERN "*.dll")
+	install(DIRECTORY "./external/win32/x64/vc12/bin/" DESTINATION . FILES_MATCHING PATTERN "*.dll")
 endif()
