@@ -3,21 +3,27 @@
 #include <istream>
 #include <ostream>
 #include <stdexcept>
+#include <cstdint>
 #include <type_traits>
 #include <cctype>
 
 namespace pcf {
 
 
+static bool check_host_little_endian_() {
+	union {
+		std::uint16_t s;
+		std::uint8_t c[2];
+	} d {1};
+	return d.c[0] == 1;
+}
+
+
+
 const line_delimitor default_line_delimitor = line_delimitor::LF;
 const bool host_has_iec559_float = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+const bool host_is_little_endian = check_host_little_endian_();
 
-
-static bool check_host_little_endian_() {
-	unsigned int i = 1;
-	char* c = reinterpret_cast<char*>(&i);
-	return *c;
-}
 
 
 line_delimitor detect_line_delimitor(std::istream& str) {
@@ -27,7 +33,8 @@ line_delimitor detect_line_delimitor(std::istream& str) {
 	auto old_position = str.tellg();
 	while(ld == line_delimitor::unknown) {
 		if(++counter > max_counter) throw std::runtime_error("Could not detect file line ending");
-		char c = str.get();
+		char c;
+		str.get(c);
 		if(c == '\n') ld = line_delimitor::LF;
 		else if(c == '\r') {
 			if(str.peek() == '\n') ld = line_delimitor::CRLF;
@@ -67,8 +74,14 @@ void skip_line(std::istream& str, line_delimitor ld) {
 	}
 }
 
+
 void write_line(std::ostream& str, const std::string& line, line_delimitor ld) {
 	str << line;
+	end_line(str, ld);
+}
+
+
+void end_line(std::ostream& str, line_delimitor ld) {
 	switch(ld) {
 		case line_delimitor::LF: str << '\n'; break;
 		case line_delimitor::CR: str << '\r'; break;
@@ -78,10 +91,6 @@ void write_line(std::ostream& str, const std::string& line, line_delimitor ld) {
 }
 
 
-bool host_is_little_endian() {
-	static bool little_endian = check_host_little_endian_();
-	return little_endian;
-}
 
 
 void flip_endianness(char* data, std::size_t sz) {

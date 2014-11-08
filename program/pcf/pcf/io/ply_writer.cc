@@ -7,8 +7,8 @@
 
 namespace pcf {
 
-ply_writer_base::ply_writer_base(const std::string& path) :
-file_(path, std::ios_base::out | std::ios_base::trunc) {
+ply_writer_base::ply_writer_base(const std::string& path, bool ascii) :
+file_(path, std::ios_base::out | std::ios_base::trunc | std::ios_base::binary), ascii_(ascii) {
 	// Need to defer writing header until subclass is initialized.
 	header_written_ = false;
 }
@@ -18,7 +18,8 @@ void ply_writer_base::write_header_() {
 	header_written_ = true;
 
 	write_line_("ply");
-	if(host_is_little_endian()) write_line_("format binary_little_endian 1.0");
+	if(ascii_) write_line_("format ascii 1.0");
+	else if(host_is_little_endian) write_line_("format binary_little_endian 1.0");
 	else write_line_("format binary_big_endian 1.0");
 	
 	write_line_("comment PLY file generated using pcf::ply_writer");
@@ -51,6 +52,77 @@ void ply_writer_base::overwrite_count_(bool seek_back) {
 }
 
 
+void ply_writer<point_xyz>::write_vertex_properties_definition_() {
+	write_line_("property float x");
+	write_line_("property float y");
+	write_line_("property float z");
+}
+
+
+void ply_writer<point_xyz>::write(const point_xyz* buffer, std::size_t n) {
+	if(! header_written_) write_header_();	
+	count_ += n;
+	while(n--) {
+		assert(buffer->valid());
+		if(ascii_) write_ascii_(*buffer);
+		else write_binary_(*buffer);
+		++buffer;	
+	}
+	overwrite_count_();
+}
+
+
+void ply_writer<point_xyz>::write_binary_(const point_xyz& p) {
+	file_.write(reinterpret_cast<const char*>( p.data() ), 3 * sizeof(float));
+}
+
+
+void ply_writer<point_xyz>::write_ascii_(const point_xyz& p) {
+	file_ << p[0] << ' ' << p[1] << ' ' << p[2];
+	end_line(file_, line_delimitor_);
+}
+
+
+
+void ply_writer<point_full>::write_vertex_properties_definition_() {
+	write_line_("property float x");
+	write_line_("property float y");
+	write_line_("property float z");
+	write_line_("property float nx");
+	write_line_("property float ny");
+	write_line_("property float nz");
+	write_line_("property uchar red");
+	write_line_("property uchar green");
+	write_line_("property uchar blue");
+}
+
+
+void ply_writer<point_full>::write(const point_full* buffer, std::size_t n) {
+	if(! header_written_) write_header_();	
+	count_ += n;
+	while(n--) {
+		assert(buffer->valid());
+		if(ascii_) write_ascii_(*buffer);
+		else write_binary_(*buffer);
+		++buffer;	
+	}
+	overwrite_count_();
+}
+
+
+void ply_writer<point_full>::write_binary_(const point_full& p) {
+	file_.write(reinterpret_cast<const char*>( p.data() ), 3 * sizeof(float));
+	file_.write(reinterpret_cast<const char*>( p.normal.data() ), 3 * sizeof(float));
+	file_.write(reinterpret_cast<const char*>( &p.color ), 3);
+}
+
+
+void ply_writer<point_full>::write_ascii_(const point_full& p) {
+	file_ << p[0] << ' ' << p[1] << ' ' << p[2]
+		<< ' ' << p.normal[0] << ' ' << p.normal[1] << ' ' << p.normal[2]
+		<< ' ' << (unsigned)p.color.r << ' ' << (unsigned)p.color.g << ' ' << (unsigned)p.color.b;
+	end_line(file_, line_delimitor_);
+}
 
 
 }

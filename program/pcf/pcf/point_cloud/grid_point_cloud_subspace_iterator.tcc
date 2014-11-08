@@ -1,4 +1,5 @@
 #include <iterator>
+#include <cassert>
 
 namespace pcf {
 
@@ -16,8 +17,7 @@ public:
 	grid_point_cloud& cloud() { return subspace_.cloud(); }
 	
 	cell_iterator& operator=(const cell_iterator& it) {
-		if(&(it.subspace_) != &subspace_)
-			throw std::invalid_argument("Cannot assign cell iterator associated to different subspace.");
+		assert(it.subspace_ == subspace_);
 		current_ = it.current_;
 		return *this;
 	}

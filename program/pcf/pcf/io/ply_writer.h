@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <string>
-
+#include <cassert>
 #include "../point.h"
 #include "util.h"
 
@@ -19,7 +19,8 @@ protected:
 	std::ofstream::pos_type vertex_data_start_;
 	std::size_t count_ = 0;
 	bool header_written_ = false;
-		
+	const bool ascii_;
+	
 	virtual void write_vertex_properties_definition_() = 0;
 	
 	void write_line_(const std::string& ln) {
@@ -29,13 +30,8 @@ protected:
 	void write_header_();
 	void overwrite_count_(bool seek_back = true);
 	
-	void write_raw_(const char* buffer, std::streamsize sz) {
-		if(! header_written_) write_header_();
-		file_.write(buffer, sz);
-	}
-	
 public:
-	explicit ply_writer_base(const std::string& path);
+	explicit ply_writer_base(const std::string& path, bool ascii);
 	virtual ~ply_writer_base() { }
 	
 	std::size_t size() const { return count_; }
@@ -48,51 +44,30 @@ template<typename Point> class ply_writer;
 
 template<>
 class ply_writer<point_xyz> : public ply_writer_base {
+private:
+	void write_binary_(const point_xyz&);
+	void write_ascii_(const point_xyz&);
+
 public:
-	explicit ply_writer(const std::string& path) : ply_writer_base(path) { }
+	explicit ply_writer(const std::string& path, bool ascii = false) : ply_writer_base(path, ascii) { }
 	
-	void write_vertex_properties_definition_() override {
-		write_line_("property float x");
-		write_line_("property float y");
-		write_line_("property float z");
-	}
-	
-	void write(const point_xyz* buffer, std::size_t n) {
-		count_ += n;
-		while(n--)
-			write_raw_(reinterpret_cast<const char*>( &(buffer++)->homogeneous_coordinates ), 3 * sizeof(float));
-		overwrite_count_();
-	}
+	void write_vertex_properties_definition_() override;
+	void write(const point_xyz* buffer, std::size_t n);
 };
+
 
 
 template<>
 class ply_writer<point_full> : public ply_writer_base {
+private:
+	void write_binary_(const point_full&);
+	void write_ascii_(const point_full&);
+
 public:
-	explicit ply_writer(const std::string& path) : ply_writer_base(path) { }
+	explicit ply_writer(const std::string& path, bool ascii = false) : ply_writer_base(path, ascii) { }
 	
-	void write_vertex_properties_definition_() override {
-		write_line_("property float x");
-		write_line_("property float y");
-		write_line_("property float z");
-		write_line_("property float nx");
-		write_line_("property float ny");
-		write_line_("property float nz");
-		write_line_("property uchar red");
-		write_line_("property uchar green");
-		write_line_("property uchar blue");
-	}
-	
-	void write(const point_full* buffer, std::size_t n) {
-		count_ += n;
-		while(n--) {
-			write_raw_(reinterpret_cast<const char*>( &buffer->homogeneous_coordinates ), 3 * sizeof(float));
-			write_raw_(reinterpret_cast<const char*>( &buffer->normal ), 3 * sizeof(float));
-			write_raw_(reinterpret_cast<const char*>( &buffer->color ), 3);
-			++buffer;
-		}
-		overwrite_count_();
-	}
+	void write_vertex_properties_definition_() override;
+	void write(const point_full* buffer, std::size_t n);
 };
 
 }

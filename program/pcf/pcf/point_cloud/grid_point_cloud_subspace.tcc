@@ -27,6 +27,9 @@ public:
 	subspace(grid_point_cloud& cl, const cell_coordinates& o, const cell_coordinates& e);
 	subspace(const subspace&) = default;
 	subspace& operator=(const subspace&);
+	
+	bool operator==(const subspace&) const;
+	bool operator!=(const subspace&) const;
 
 	const cell_coordinates& get_origin() const { return origin_; }
 	const cell_coordinates& get_extremity() const { return extremity_; }
@@ -72,6 +75,20 @@ auto grid_point_cloud<Point, Allocator>::subspace::operator=(const subspace& s) 
 	extremity_ = s.extremity;
 	need_to_update_iterators_ = true;
 	return *this;
+}
+
+
+template<typename Point, typename Allocator> 
+bool grid_point_cloud<Point, Allocator>::subspace::operator==(const subspace& s) const {
+	assert(&cloud_ == &s.cloud_);
+	return (s.origin_ == origin_) && (s.extremity_ == extremity_);
+}
+
+
+template<typename Point, typename Allocator> 
+bool grid_point_cloud<Point, Allocator>::subspace::operator!=(const subspace& s) const {
+	assert(&cloud_ == &s.cloud_);
+	return (s.origin_ != origin_) || (s.extremity_ != extremity_);
 }
 
 

@@ -62,7 +62,7 @@ void range_point_cloud<Point, Allocator>::project_(const Other_cloud& pc) {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 range_point_cloud<Point, Allocator>::range_point_cloud(const Other_cloud& pc, const camera& cam, angle rx, angle ry, const Allocator& alloc) :
-super(number_of_pixels_for_camera_(rx, ry, cam), true, alloc), camera_(cam) {
+super(number_of_pixels_for_camera_(rx, ry, cam), false, alloc), camera_(cam) {
 	angular_resolution_[0] = rx; angular_resolution_[1] = ry;
 	for(std::ptrdiff_t i = 0; i < 2; ++i) {
 		image_size_[i] = std::ceil(cam.field_of_view(i) / angular_resolution_[i]);
@@ -77,7 +77,7 @@ super(number_of_pixels_for_camera_(rx, ry, cam), true, alloc), camera_(cam) {
 
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(const range_image& ri, const camera& cam, const Allocator& alloc) :
-super(ri.number_of_pixels(), true, alloc), camera_(cam) {
+super(ri.number_of_pixels(), false, alloc), camera_(cam) {
 	image_size_[0] = ri.width(); image_size_[1] = ri.height();
 	angular_resolution_[0] = cam.field_of_view_x() / ri.width(); angular_resolution_[1] = cam.field_of_view_y() / ri.height(); 
 	for(std::ptrdiff_t i = 0; i < 2; ++i) image_center_[i] = std::ptrdiff_t(image_size_[i]) / 2;

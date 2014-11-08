@@ -1,8 +1,6 @@
 project(pcf CXX)
 cmake_minimum_required(VERSION 2.6)
 
-enable_testing()
-
 set(CMAKE_INSTALL_PREFIX ../dist)
 set(MACOSX_RPATH YES)
 
@@ -22,19 +20,17 @@ file(GLOB_RECURSE CPP_TEST_SRC "./test/*.cc")
 
 include_directories(external/include/)
 
-add_library(pcf STATIC ${CPP_PCF_SRC})
+add_library(pcflib STATIC ${CPP_PCF_SRC})
 
 add_executable(pcf_test ${CPP_TEST_SRC})
-add_test(NAME pcf COMMAND pcf_test WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test")
-
 add_executable(p "./p.cc")
 
-target_link_libraries(pcf ${OpenCV_LIBS})
+target_link_libraries(pcflib ${OpenCV_LIBS})
 
-target_link_libraries(pcf_test pcf)
-target_link_libraries(p pcf)
+target_link_libraries(pcf_test pcflib)
+target_link_libraries(p pcflib)
 
-install(TARGETS p pcf DESTINATION .)
+install(TARGETS p pcf_test DESTINATION .)
 if(MSVC)
-	install(DIRECTORY "./external/win32/x64/vc12/bin/" DESTINATION . FILES_MATCHING PATTERN "*.dll")
+	#install(DIRECTORY "./external/win32/x64/vc12/bin/" DESTINATION . FILES_MATCHING PATTERN "*.dll")
 endif()

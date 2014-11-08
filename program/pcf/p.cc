@@ -15,12 +15,12 @@ static const char* filename;
 
 point_cloud_xyz model() {
 	ply_reader ply(filename);
+	std::cout << ply.size() << std::endl;
 	return point_cloud_xyz::create_from_reader(ply);
 }
 
 
 int main(int argc, const char* argv[]) {
-
 	filename = argv[1];
 
 	pose p;
@@ -30,6 +30,11 @@ int main(int argc, const char* argv[]) {
 	camera cam(p, angle::degrees(60.0), angle::degrees(40.0));
 
 	range_point_cloud_xyz pc(model(), cam, angle::degrees(0.1), angle::degrees(0.1));
+	
+	ply_writer<point_xyz> ply1("proj.ply");
+	pc.write(ply1);
+
+
 	
 	range_image ri = pc.to_range_image();
 	ri.save_image("test.png");

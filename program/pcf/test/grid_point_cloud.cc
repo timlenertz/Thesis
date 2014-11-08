@@ -38,8 +38,6 @@ TEST_CASE("Grid Point cloud") {
 				REQUIRE(knn.size() >= 10);
 			});		
 		}
-		
-		
 	}
 	
 	

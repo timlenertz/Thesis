@@ -65,7 +65,7 @@ private:
 	}
 	
 	bool is_host_endian_binary_() const {
-		return (format_ == host_is_little_endian() ? binary_little_endian : binary_big_endian);
+		return (format_ == host_is_little_endian ? binary_little_endian : binary_big_endian);
 	}
 	
 	property* identify_property_(const std::string& nm);
@@ -100,7 +100,8 @@ public:
 
 template<typename Point>
 void ply_reader::read(Point* buffer, std::size_t n) {
-	if(current_element_ + n > number_of_vertices_) throw ply_reader_error("Attempted to read beyond bounds.");
+	if(current_element_ + n > number_of_vertices_)
+		throw ply_reader_error("Attempted to read beyond bounds.");
 	
 	if(is_ascii()) read_ascii_(buffer, n);
 	else read_binary_(buffer, n);
