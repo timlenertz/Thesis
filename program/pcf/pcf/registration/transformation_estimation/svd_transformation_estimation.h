@@ -1,0 +1,21 @@
+#ifndef PCF_SVD_TRANSFORMATION_ESTIMATION_H_
+#define PCF_SVD_TRANSFORMATION_ESTIMATION_H_
+
+#include <Eigen/Eigen>
+#include <Eigen/Geometry>
+
+namespace pcf {
+
+template<typename Correspondences>
+class svd_transformation_estimation : public transformation_estimation<Correspondences> {
+	using super = transformation_estimation<Correspondences>;
+
+public:
+	svd_transformation_estimation(const Correspondences&);
+	
+	Eigen::Affine3f& operator() () const;
+}
+
+#include "svd_transformation_estimation.tcc"
+
+#endif

@@ -22,7 +22,7 @@ point_cloud_xyz model() {
 
 int main(int argc, const char* argv[]) {
 	filename = argv[1];
-
+/*
 	pose p;
 	p.position = Eigen::Vector3f(-0.01, 0.1, -200.0);
 	p.orientation = Eigen::AngleAxisf(M_PI, Eigen::Vector3f::UnitZ());
@@ -43,13 +43,13 @@ int main(int argc, const char* argv[]) {
 	
 	ply_writer<point_xyz> ply("revproj.ply");
 	pc2.write(ply);
-/*
+*/
 
 	
 	
 	int k = 100;
 	int n = 0;
-	float csz = optimal_grid_cell_length_for_knn(model(), k, 10.0);
+	float csz = optimal_grid_cell_length_for_knn(model(), k, 2.0);
 	std::cout << "cell length: " << csz << std::endl;
 
 	grid_point_cloud_full pc(model(), csz);
@@ -57,16 +57,14 @@ int main(int argc, const char* argv[]) {
 	pc.find_nearest_neighbors(k, [&n](const auto&)->bool {
 		return !(++n % 500);
 	}, [k](const auto& p, const auto& nn) {
-		std::cout << (void*)&p << " - " << omp_get_thread_num() << std::endl;
 
 		int i = 0;
-		rgb_color c(random_integer(256), random_integer(256), random_integer(256));
 		for(const auto& p2 : nn) {
 			if(++i == k) return;
-			p2->color = c;
+			p2->color = 0x000000;
 		}
 	}, 0);
 	
 	ply_writer<point_full> ply("out.ply");
-	pc.write(ply);*/
+	pc.write(ply);
 }

@@ -9,6 +9,7 @@ using random_generator = std::mt19937;
 
 random_generator& get_random_generator();
 
+
 template<typename T> T random_integer(T mn, T mx) {
 	std::uniform_int_distribution<T> dist(mn, mx);
 	return dist( get_random_generator() );

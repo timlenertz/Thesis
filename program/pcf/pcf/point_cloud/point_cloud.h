@@ -28,7 +28,7 @@ class point_cloud : public point_cloud_segment<Point> {
 	
 protected:
 	Allocator allocator_; ///< Allocator used to create buffer.
-	const std::size_t allocated_size_; ///< Allocated buffer size.	
+	const std::size_t allocated_size_; ///< Allocated buffer size.
 	const bool all_valid_; ///< If set, all points must be valid.
 	
 	void check_correct_alignment_() const;

@@ -4,6 +4,7 @@
 #ifdef _MSC_VER
 	#include "aligned_allocator.msvc.h"
 #else
+	// Assume C++11 memory alignment support
 	#include <memory>
 	namespace pcf {
 	

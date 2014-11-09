@@ -22,6 +22,10 @@ void end_line(std::ostream&, line_delimitor = default_line_delimitor);
 
 void flip_endianness(char* data, std::size_t sz);
 
+template<typename T> void flip_endianness(T& t) {
+	flip_endianness(reinterpret_cast<char*>(&t), sizeof(T));
+}
+
 std::string to_lower(const std::string&);
 std::string to_upper(const std::string&);
 

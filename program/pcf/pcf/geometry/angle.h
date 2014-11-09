@@ -8,7 +8,7 @@ namespace pcf {
 
 /**
 Angle value, internally represented in radiants.
-Defined I/O in degrees, and conversion. Provides unambiguity in what angles mean.
+Defines I/O in degrees, and conversion. Provides unambiguity in what angles mean.
 TODO: add comparation operators, modulo 2PI operations if needed
 */
 class angle {

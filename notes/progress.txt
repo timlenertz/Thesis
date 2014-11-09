@@ -11,3 +11,4 @@ since 2 september 	collecting/reading +/- relevant papers
 28 october		misdist/maxdist, tree node handle, visual c++ support, cmake
 1 november		kNN algorithm in grid pc, tests, installed opencv
 7 november		camera, spherical coordinates, from/to range image
+8 november		VC++ fixes

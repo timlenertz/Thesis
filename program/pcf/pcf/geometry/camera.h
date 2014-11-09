@@ -11,6 +11,7 @@ namespace pcf {
 
 /**
 Camera at a given pose in space and with perspective projection parameters.
+Handles conversion to and from spherican coordinates, and projection to camera image plane.
 */
 class camera {
 public:	

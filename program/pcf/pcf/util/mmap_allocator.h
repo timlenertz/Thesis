@@ -7,6 +7,10 @@
 
 namespace pcf {
 
+/**
+Non template base class for mmap allocation.
+Implementation in .cc files uses operating system specific API.
+*/
 class mmap_allocator_base {
 private:
 	struct impl;
