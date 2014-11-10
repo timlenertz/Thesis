@@ -5,12 +5,11 @@ namespace pcf {
 
 template<typename Correspondences>
 class transformation_estimation {
-private:
-	void compute_centers_();
-	void compute_correlation_matrix_();
-
 protected:
 	const Correspondences& cor_;
+
+	void compute_centers_();
+	void compute_correlation_matrix_();
 	
 	Eigen::Vector3f fixed_center_;
 	Eigen::Vector3f loose_center_;

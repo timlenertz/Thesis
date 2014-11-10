@@ -2,10 +2,7 @@ namespace pcf {
 
 template<typename Correspondences>
 transformation_estimation<Correspondences>::transformation_estimation(const Correspondences& cor) :
-cor_(cor) {
-	compute_centers_();
-	compute_correlation_matrix_();
-}
+cor_(cor) { }
 
 
 
@@ -20,9 +17,9 @@ void transformation_estimation<Correspondences>::compute_centers_() :
 		Eigen::Vector3f loose_sum_part = Eigen::Vector4f::Zero();
 		
 		#pragma omp for
-		for(auto it = cors_.cbegin(); it < cors_.cend(); ++it) {
-			fixed_sum_part += it->fixed;
-			loose_sum_part += it->loose;
+		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
+			fixed_sum_part += it->fixed();
+			loose_sum_part += it->loose();
 		}
 		
 		#pragma omp critical
@@ -47,10 +44,10 @@ void transformation_estimation<Correspondences>::compute_correlation_matrix_() :
 		Eigen::Matrix3f correlation_part = Eigen::Matrix3f::Zero();
 		
 		#pragma omp for
-		for(auto it = cors_.cbegin(); it < cors_.cend(); ++it) {
+		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
 			correlation_part +=
-				(it->fixed - fixed_center)
-			  * (it->loose - loose_center).transpose();
+				(it->fixed() - fixed_center)
+			  * (it->loose() - loose_center).transpose();
 		}
 		
 		#pragma omp critical

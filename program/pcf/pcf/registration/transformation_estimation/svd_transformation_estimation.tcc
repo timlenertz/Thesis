@@ -1,13 +1,11 @@
 namespace pcf {
 
 template<typename Correspondences>
-Eigen::Affine3f svd_transformation_estimation(const Correspondences& cor) {
-	Eigen::Vector4f fixed_center, loose_center;
-	centers_of_mass_(fixed_center, loose_center);
-
-	Eigen::Matrix3f W = correlation_matrix_(fixed_center, loose_center);
+Eigen::Affine3f svd_transformation_estimation<Correspondences>::operator() () {
+	super::compute_centers_();
+	super::compute_correlation_matrix_();
 	
-	Eigen::JacobiSVD<Eigen::Matrix3f> svd(W, Eigen::ComputeFullU | Eigen::ComputeFullV);
+	Eigen::JacobiSVD<Eigen::Matrix3f> svd(correlation_matrix_, Eigen::ComputeFullU | Eigen::ComputeFullV);
 	Eigen::Matrix3f U = svd.matrixU();
 	Eigen::Matrix3f V = svd.matrixV();
 	if(U.determinant() * V.determinant() < 0) {

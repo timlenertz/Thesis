@@ -4,24 +4,34 @@
 #include <Eigen/Geometry>
 #include "pcf/io/ply_reader.h"
 #include "pcf/io/ply_writer.h"
-#include "pcf/point_cloud/range_point_cloud.h"
-#include "pcf/point_cloud/grid_point_cloud.h"
-#include "pcf/range_image.h"
-#include "pcf/util/random.h"
+#include "pcf/registration/iterative_correspondences_registration.h"
+#include "pcf/registration/correspondences/closest_point_correspondences.h"
+#include "pcf/registration/transformation_estimation/svd_transformation_estimation.h"
 
 using namespace pcf;
 
-static const char* filename;
 
-point_cloud_xyz model() {
+point_cloud_xyz model(const char* filename) {
 	ply_reader ply(filename);
 	std::cout << ply.size() << std::endl;
 	return point_cloud_xyz::create_from_reader(ply);
 }
 
 
-int main(int argc, const char* argv[]) {
-	filename = argv[1];
+int main(int argc, const char* argv[]) {	
+	point_cloud_xyz fixed = model(argv[1]);
+	point_cloud_xyz loose = model(argv[2]);
+	
+	auto cor = make_closest_point_correspondences(
+		fixed, loose,
+		[](const point_xyz&) { return true },
+		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
+	);
+	
+	iterative_correspondences_registration reg(fixed, loose, cor);
+	
+	
+	
 /*
 	pose p;
 	p.position = Eigen::Vector3f(-0.01, 0.1, -200.0);
@@ -43,7 +53,7 @@ int main(int argc, const char* argv[]) {
 	
 	ply_writer<point_xyz> ply("revproj.ply");
 	pc2.write(ply);
-*/
+
 
 	
 	
@@ -66,5 +76,5 @@ int main(int argc, const char* argv[]) {
 	}, 0);
 	
 	ply_writer<point_full> ply("out.ply");
-	pc.write(ply);
+	pc.write(ply);*/
 }

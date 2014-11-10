@@ -11,9 +11,12 @@ class svd_transformation_estimation : public transformation_estimation<Correspon
 	using super = transformation_estimation<Correspondences>;
 
 public:
-	svd_transformation_estimation(const Correspondences&);
+	explicit svd_transformation_estimation(const Correspondences& cor) :
+		super(cor) { }
 	
-	Eigen::Affine3f& operator() () const;
+	Eigen::Affine3f operator() () const;
+}
+
 }
 
 #include "svd_transformation_estimation.tcc"
