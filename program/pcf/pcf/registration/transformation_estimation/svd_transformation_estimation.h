@@ -3,6 +3,7 @@
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
+#include "transformation_estimation.h"
 
 namespace pcf {
 
@@ -15,7 +16,7 @@ public:
 		super(cor) { }
 	
 	Eigen::Affine3f operator() () const;
-}
+};
 
 }
 

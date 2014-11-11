@@ -2,6 +2,7 @@
 #include <memory>
 #include <algorithm>
 #include "../util/alignment.h"
+#include "../point_algorithm.h"
 
 namespace pcf {
 
@@ -192,6 +193,16 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 	}
 	if(! invalidate) super::end_ = np;
 }
+
+
+
+template<typename Point, typename Allocator> template<typename Other_point>
+const Point& point_cloud<Point, Allocator>::find_closest_point(const Other_point& ref) const {
+	auto it = closest_point(ref, super::cbegin(), super::cend());
+	if(it == super::cend()) return invalid_point_();
+	else return *it;
+}
+
 
 
 }

@@ -17,3 +17,5 @@ using point_correspondences = registration_correspondences<
 >;
 
 }
+
+#endif

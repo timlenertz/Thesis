@@ -5,7 +5,7 @@
 #include <string>
 #include <cassert>
 #include "../point.h"
-#include "util.h"
+#include "../util/io.h"
 
 namespace pcf {
 

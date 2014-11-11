@@ -38,12 +38,12 @@ private:
 	std::vector<correspondence> cors_;
 	
 public:
-	using iterator = std::vector<correspondence>::iterator; 
+	using iterator = typename std::vector<correspondence>::const_iterator; 
 	
 	std::size_t size() const { return cors_.size(); }
 	
-	iterator begin() const { cors_.begin(); }	
-	iterator end() const { cors_.end(); }
+	iterator begin() const { return cors_.begin(); }	
+	iterator end() const { return cors_.end(); }
 
 	void clear();
 	correspondence& insert(const correspondence&);

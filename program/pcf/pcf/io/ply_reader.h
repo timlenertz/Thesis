@@ -13,10 +13,8 @@
 #include <memory>
 #include <cctype>
 
-#include <iostream>
-
 #include "../point.h"
-#include "util.h"
+#include "../util/io.h"
 
 namespace pcf {
 

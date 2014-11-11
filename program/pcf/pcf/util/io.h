@@ -1,5 +1,5 @@
-#ifndef PCF_UTIL_H_
-#define PCF_UTIL_H_
+#ifndef PCF_UTIL_IO_H_
+#define PCF_UTIL_IO_H_
 
 #include <iosfwd>
 #include <limits>

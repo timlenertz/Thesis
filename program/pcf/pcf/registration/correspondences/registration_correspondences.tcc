@@ -15,7 +15,7 @@ auto registration_correspondences<Fixed, Loose>::insert(const correspondence& co
 
 template<typename Fixed, typename Loose> template<typename Iterator>
 void registration_correspondences<Fixed, Loose>::insert(Iterator b, Iterator e) {
-	cors_.insert(cors_.end, b, e);
+	cors_.insert(cors_.end(), b, e);
 }
 
 

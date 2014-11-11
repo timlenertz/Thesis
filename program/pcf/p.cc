@@ -3,7 +3,8 @@
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "pcf/io/ply_reader.h"
-#include "pcf/io/ply_writer.h"
+#include "pcf/io/ply_reader.h"
+#include "pcf/point_cloud/point_cloud.h"
 #include "pcf/registration/iterative_correspondences_registration.h"
 #include "pcf/registration/correspondences/closest_point_correspondences.h"
 #include "pcf/registration/transformation_estimation/svd_transformation_estimation.h"
@@ -24,11 +25,11 @@ int main(int argc, const char* argv[]) {
 	
 	auto cor = make_closest_point_correspondences(
 		fixed, loose,
-		[](const point_xyz&) { return true },
+		[](const point_xyz&) { return true; },
 		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
 	);
 	
-	iterative_correspondences_registration reg(fixed, loose, cor);
+	auto reg = make_iterative_correspondences_registration(fixed, loose, cor);
 	
 	
 	

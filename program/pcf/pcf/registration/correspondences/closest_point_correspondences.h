@@ -12,6 +12,7 @@ Point correspondences between closest points from two clouds.
 template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func>
 class closest_point_correspondences : public point_correspondences<Cloud_fixed, Cloud_loose> {
 	using super = point_correspondences<Cloud_fixed, Cloud_loose>;
+	using typename super::correspondence;
 
 private:
 	const Cloud_fixed& fixed_;

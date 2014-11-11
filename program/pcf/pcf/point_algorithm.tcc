@@ -3,14 +3,14 @@
 namespace pcf {
 
 template<typename Point, typename Iterator>
-Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end) {
+Iterator closest_point(const Point& ref, Iterator begin, Iterator end) {
 	float min_distance = INFINITY;
-	Iterator closest_point = nullptr;
+	Iterator closest_point = end;
 	
 	#pragma omp parallel
 	{
 		float min_distance_part = INFINITY;
-		Iterator closest_point_part = nullptr;
+		Iterator closest_point_part = end;
 
 		#pragma omp for
 		for(Iterator it = begin; it < end; ++it) {

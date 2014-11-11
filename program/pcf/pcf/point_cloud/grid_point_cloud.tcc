@@ -215,7 +215,7 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 	subspace s = cell_subspace(c);
 	while(s.size() == 0 && s.expand());
 	
-	auto it = find_closest_point(ref, s.begin(), s.end());
+	auto it = closest_point(ref, s.begin(), s.end());
 	return *it;
 }
 

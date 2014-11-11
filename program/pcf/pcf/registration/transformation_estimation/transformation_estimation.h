@@ -6,7 +6,7 @@ namespace pcf {
 template<typename Correspondences>
 class transformation_estimation {
 protected:
-	const Correspondences& cor_;
+	const Correspondences& cors_;
 
 	void compute_centers_();
 	void compute_correlation_matrix_();

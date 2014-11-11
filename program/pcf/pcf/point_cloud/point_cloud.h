@@ -73,6 +73,9 @@ public:
 		
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
+
+	template<typename Other_point>
+	const Point& find_closest_point(const Other_point&) const;
 };
 
 using point_cloud_xyz = point_cloud<point_xyz>;

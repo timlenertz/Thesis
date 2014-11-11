@@ -3,11 +3,18 @@
 
 #include <Eigen/Geometry>
 #include <cmath>
+#include <utility>
 #include "../util/misc.h"
+#include "transformation_estimation/svd_transformation_estimation.h"
 
 namespace pcf {
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation>
+template<
+	typename Cloud_fixed,
+	typename Cloud_loose,
+	typename Correspondences,
+	typename Transformation_estimation = svd_transformation_estimation<Correspondences>
+>
 class iterative_correspondences_registration {
 private:
 	const Cloud_fixed& fixed_;
@@ -33,6 +40,12 @@ public:
 	void iteration();
 	void run();
 };
+
+
+template<typename... Args>
+iterative_correspondences_registration<Args...> make_iterative_correspondences_registration(Args&&... args) {
+	return iterative_correspondences_registration<Args...>(std::forward<Args>(args)...);
+}
 
 }
 

@@ -1,13 +1,13 @@
 namespace pcf {
 
 template<typename Correspondences>
-transformation_estimation<Correspondences>::transformation_estimation(const Correspondences& cor) :
-cor_(cor) { }
+transformation_estimation<Correspondences>::transformation_estimation(const Correspondences& cors) :
+cors_(cors) { }
 
 
 
 template<typename Correspondences>
-void transformation_estimation<Correspondences>::compute_centers_() :
+void transformation_estimation<Correspondences>::compute_centers_() {
 	fixed_center_.setZero();
 	loose_center_.setZero();
 	
@@ -36,7 +36,7 @@ void transformation_estimation<Correspondences>::compute_centers_() :
 
 
 template<typename Correspondences>
-void transformation_estimation<Correspondences>::compute_correlation_matrix_() :
+void transformation_estimation<Correspondences>::compute_correlation_matrix_() {
 	correlation_matrix_.setZero();
 	
 	#pragma omp parallel
@@ -46,8 +46,8 @@ void transformation_estimation<Correspondences>::compute_correlation_matrix_() :
 		#pragma omp for
 		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
 			correlation_part +=
-				(it->fixed() - fixed_center)
-			  * (it->loose() - loose_center).transpose();
+				(it->fixed() - fixed_center_)
+			  * (it->loose() - loose_center_).transpose();
 		}
 		
 		#pragma omp critical
