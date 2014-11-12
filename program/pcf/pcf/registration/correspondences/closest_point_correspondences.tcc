@@ -2,18 +2,31 @@
 
 namespace pcf {
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Callback_func>
-void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::operator() (const Callback_func& callback, bool par) {
-	#pragma omp parallel for if(par)
-	for(auto it = loose_.cbegin(); it < loose_.cend(); ++it) {
-		const auto& lp = *it;
-		if(!lp.valid() || !selection_func_(lp)) continue;
+
+template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func>
+void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::operator() () {
+	super::clear();
+
+	#pragma omp parallel
+	{
+		std::vector<correspondence> cors_part;
 		
-		const auto& fp = fixed_.find_closest_point(lp);
-		if(!fp.valid()) continue;
+		#pragma omp for
+		for(auto it = loose_.cbegin(); it < loose_.cend(); ++it) {
+			const auto& lp = *it;
+			if(!lp.valid() || !selection_func_(lp)) continue;
+			
+			const auto& fp = fixed_.find_closest_point(lp);
+			if(!fp.valid()) continue;
+			
+			float w = weight_func_(fp, lp);
+			if(w != 0) cors_part.emplace_back(fp, lp, w);
+		}
 		
-		float w = weight_func_(fp, lp);
-		if(w != 0) callback( correspondence_type(fp, lp, w) );
+		#pragma critical
+		{
+			super::insert(cors_part.begin(), cors_part.end());
+		}
 	}
 }
 

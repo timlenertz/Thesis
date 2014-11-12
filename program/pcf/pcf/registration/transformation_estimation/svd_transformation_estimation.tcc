@@ -1,7 +1,7 @@
 namespace pcf {
 
 template<typename Correspondences>
-Eigen::Affine3f svd_transformation_estimation<Correspondences>::operator() () {
+Eigen::Affine3f svd_transformation_estimation<Correspondences>::operator() () const {
 	super::compute_centers_();
 	super::compute_correlation_matrix_();
 	

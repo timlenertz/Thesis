@@ -13,13 +13,13 @@ void transformation_estimation<Correspondences>::compute_centers_() {
 	
 	#pragma omp parallel
 	{
-		Eigen::Vector3f fixed_sum_part = Eigen::Vector3f::Zero();
-		Eigen::Vector3f loose_sum_part = Eigen::Vector3f::Zero();
+		Eigen::Vector3f fixed_sum_part = Eigen::Vector4f::Zero();
+		Eigen::Vector3f loose_sum_part = Eigen::Vector4f::Zero();
 		
 		#pragma omp for
 		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
-			fixed_sum_part += (Eigen::Vector3f) it->fixed();
-			loose_sum_part += (Eigen::Vector3f) it->loose();
+			fixed_sum_part += it->fixed();
+			loose_sum_part += it->loose();
 		}
 		
 		#pragma omp critical
@@ -46,8 +46,8 @@ void transformation_estimation<Correspondences>::compute_correlation_matrix_() {
 		#pragma omp for
 		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
 			correlation_part +=
-				((Eigen::Vector3f)it->fixed() - fixed_center_)
-			  * ((Eigen::Vector3f)it->loose() - loose_center_).transpose();
+				(it->fixed() - fixed_center_)
+			  * (it->loose() - loose_center_).transpose();
 		}
 		
 		#pragma omp critical

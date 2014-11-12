@@ -14,6 +14,7 @@ using namespace pcf;
 
 point_cloud_xyz model(const char* filename) {
 	ply_reader ply(filename);
+	std::cout << ply.size() << std::endl;
 	return point_cloud_xyz::create_from_reader(ply);
 }
 
@@ -28,9 +29,8 @@ int main(int argc, const char* argv[]) {
 		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
 	);
 	
-	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
-		
-	reg.run();
+	auto reg = make_iterative_correspondences_registration(fixed, loose, cor);
+	
 	
 	
 /*
