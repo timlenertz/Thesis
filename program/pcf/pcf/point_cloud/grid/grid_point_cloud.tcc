@@ -255,10 +255,8 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 	while(s.number_of_points() == 0 && s.expand());
 		
 	const_segment_union u = segment_union_for_subspace(s);
-	std::cout << s.number_of_points() << " --  " << u.size() << std::endl;
 	
-	auto it = closest_point(ref, u.begin(), u.end());
-	
+	auto it = closest_point(ref, u.begin(), u.end());	
 	return *it;
 }
 

@@ -58,7 +58,61 @@ public:
 	}
 };
 
-// TODO const_iterator
+
+
+template<typename Point>
+class point_cloud_segment_union<Point>::const_iterator :
+public std::iterator<std::forward_iterator_tag, const Point> {
+private:
+	using segments_set_iterator = typename segments_set::const_iterator;
+	using segment_iterator = typename segment_type::const_iterator;
+	
+	segments_set_iterator segment_current_;
+	segments_set_iterator segment_end_;
+	segment_iterator current_;
+	segment_iterator end_;
+	
+	void load_segment_() {
+		if(segment_current_ == segment_end_) return;
+		current_ = segment_current_->begin();
+		end_ = segment_current_->end();
+	}
+			
+public:
+	const_iterator(segments_set_iterator seg, segments_set_iterator segend) :
+		segment_current_(seg), segment_end_(segend) { load_segment_(); }
+		
+	explicit const_iterator(segment_iterator ed) : current_(ed) { }
+		
+	const_iterator(const const_iterator&) = default;
+	
+	Point& operator*() const { return *current_; }
+	Point* operator->() const { return & operator*(); }
+	
+	bool operator==(const const_iterator& it) const { return (current_ == it.current_); }
+	bool operator!=(const const_iterator& it) const { return (current_ != it.current_); }
+	bool operator<(const const_iterator& it) const { return (current_ < it.current_); }
+	bool operator<=(const const_iterator& it) const { return (current_ <= it.current_); }
+	bool operator>(const const_iterator& it) const { return (current_ > it.current_); }
+	bool operator>=(const const_iterator& it) const { return (current_ >= it.current_); }
+	
+	const_iterator& operator++() {
+		++current_;
+		if(current_ == end_) {
+			++segment_current_;
+			load_segment_();
+		}
+		return *this;
+	}
+	
+	const_iterator operator++(int) {
+		const_iterator old = *this;
+		operator++();
+		return old;
+	}
+};
+
+
 
 
 }

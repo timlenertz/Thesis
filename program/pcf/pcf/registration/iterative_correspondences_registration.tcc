@@ -14,7 +14,9 @@ void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspond
 	});
 	
 	error_ = error_metric();
-	estimated_transformation_ = transformation_estimation();
+	estimated_transformation_ = transformation_estimation().inverse();
+	
+	std::cout << error_ << std::endl;
 }
 
 
