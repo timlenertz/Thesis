@@ -59,7 +59,7 @@ super(std::forward<Other_cloud>(pc), true), cell_length_(cell_len) {
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-auto grid_point_cloud<Point, Allocator>::cell_for_point_(const Other_point& p) const -> cell_coordinates {
+auto grid_point_cloud<Point, Allocator>::cell_for_point(const Other_point& p) const -> cell_coordinates {
 	cell_coordinates c;
 	for(std::ptrdiff_t i = 0; i < 3; ++i)
 		c[i] = std::floor( (p[i] - origin_[i]) / cell_length_ );
@@ -79,6 +79,7 @@ std::ptrdiff_t grid_point_cloud<Point, Allocator>::index_for_cell_(const cell_co
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) -> segment {
+	assert(i >= 0 && i < cell_offsets_.size());
 	return segment(
 		super::begin() + (i == 0 ? 0 : cell_offsets_[i - 1]),
 		super::begin() + cell_offsets_[i]
@@ -88,6 +89,7 @@ auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) ->
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) const -> const_segment {
+	assert(i >= 0 && i < cell_offsets_.size());
 	return const_segment(
 		super::cbegin() + (i == 0 ? 0 : cell_offsets_[i - 1]),
 		super::cbegin() + cell_offsets_[i]
@@ -148,6 +150,8 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 			for(const segment& cell : cells_part) *(out_cell++) = (cell.end() - super::cbegin());
 		}
 	}
+	
+	assert(super::cbegin()+cell_offsets_.back() == super::cend());
 }
 
 
@@ -244,14 +248,17 @@ std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_point& ref) const {
-	cell_coordinates c = cell_for_point_(ref);
+	cell_coordinates c = cell_for_point(ref);
 	move_into_bounds_(c);
 	
 	subspace s = cell_subspace(c);
-	while(s.size() == 0 && s.expand());
-	
+	while(s.number_of_points() == 0 && s.expand());
+		
 	const_segment_union u = segment_union_for_subspace(s);
+	std::cout << s.number_of_points() << " --  " << u.size() << std::endl;
+	
 	auto it = closest_point(ref, u.begin(), u.end());
+	
 	return *it;
 }
 

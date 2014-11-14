@@ -30,8 +30,7 @@ public:
 	class const_iterator;
 
 	point_cloud_segment_union(std::initializer_list<segment_type>);
-	explicit point_cloud_segment_union(const std::vector<segment_type>&);
-	explicit point_cloud_segment_union(std::vector<segment_type>&&);
+	template<typename Container> point_cloud_segment_union(Container&& segs);
 		
 	std::size_t number_of_segments() const { return segments_.size(); }
 	

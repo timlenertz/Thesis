@@ -23,6 +23,12 @@ bool grid_point_cloud<Point, Allocator>::subspace::operator!=(const subspace& s)
 }
 
 
+template<typename Point, typename Allocator> 
+bool grid_point_cloud<Point, Allocator>::subspace::contains(const cell_coordinates& c) const {
+	for(std::ptrdiff_t i = 0; i < 3; ++i) if(c[i] < origin[i] || c[i] > extremity[i]) return false;
+	return true;
+}
+
 
 template<typename Point, typename Allocator> 
 std::size_t grid_point_cloud<Point, Allocator>::subspace::size() const {
@@ -62,20 +68,21 @@ std::size_t grid_point_cloud<Point, Allocator>::subspace::expand(std::size_t n) 
 
 template<typename Point, typename Allocator> 
 std::size_t grid_point_cloud<Point, Allocator>::subspace::number_of_points() const {
-	cell_coordinates c(0, 0, 0);
-	std::size_t sz = 0;
-	std::ptrdiff_t i = 0;
-	for(c[0] = origin[0]; c[0] <= extremity[0]; ++c[0]) for(c[1] = origin[1]; c[1] <= extremity[1]; ++c[1]) {
-		std::ptrdiff_t i_begin = i + origin[2] - 1;
-		std::ptrdiff_t i_end = i + extremity[2];
+	std::size_t n = 0;
+	cell_coordinates c(0, 0, 0);	
+	for(c[0] = origin[0]; c[0] <= extremity[0]; ++c[0]) {
+		for(c[1] = origin[1]; c[1] <= extremity[1]; ++c[1]) {
+			std::ptrdiff_t i = cloud_.index_for_cell_(c);
+		
+			std::ptrdiff_t i_begin = i + origin[2] - 1;
+			std::ptrdiff_t i_end = i + extremity[2];
 
-		std::ptrdiff_t off_begin = (i_begin == -1 ? 0 : cloud_.cell_offsets_[i_begin]);
-		std::ptrdiff_t off_end = cloud_.cell_offsets_[i_end];
-		sz += off_end - off_begin;
-	
-		i += cloud_.number_of_cells_[2];
+			std::ptrdiff_t off_begin = (i_begin == -1 ? 0 : cloud_.cell_offsets_[i_begin]);
+			std::ptrdiff_t off_end = cloud_.cell_offsets_[i_end];
+			n += off_end - off_begin;
+		}
 	}
-	return sz;
+	return n;
 }
 
 
@@ -98,7 +105,9 @@ inline auto grid_point_cloud<Point, Allocator>::subspace::begin() const -> cell_
 
 template<typename Point, typename Allocator>
 inline auto grid_point_cloud<Point, Allocator>::subspace::end() const -> cell_iterator {
-	return cell_iterator(*this, extremity);
+	cell_iterator it = cell_iterator(*this, extremity);
+	++it;
+	return it;
 }
 
 

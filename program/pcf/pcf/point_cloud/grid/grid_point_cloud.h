@@ -42,7 +42,6 @@ private:
 	segment segment_for_index_(std::ptrdiff_t i);
 	const_segment segment_for_index_(std::ptrdiff_t i) const;
 	
-	template<typename Other_point> cell_coordinates cell_for_point_(const Other_point&) const;
 	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
 	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true) const;
@@ -70,6 +69,8 @@ public:
 	
 	subspace full_subspace() const;
 	subspace cell_subspace(const cell_coordinates&) const;
+	
+	template<typename Other_point> cell_coordinates cell_for_point(const Other_point&) const;
 	
 	segment segment_for_cell(const cell_coordinates&);
 	const_segment segment_for_cell(const cell_coordinates&) const;

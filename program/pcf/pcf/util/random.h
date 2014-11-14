@@ -11,7 +11,7 @@ random_generator& get_random_generator();
 
 
 template<typename T> T random_integer(T mn, T mx) {
-	std::uniform_int_distribution<T> dist(mn, mx);
+	std::uniform_int_distribution<T> dist(mn, mx - 1);
 	return dist( get_random_generator() );
 }
 

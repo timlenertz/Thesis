@@ -35,6 +35,8 @@ public:
 	
 	const grid_point_cloud& cloud() const { return cloud_; }
 		
+	bool contains(const cell_coordinates&) const;
+		
 	bool expand();
 	std::size_t expand(std::size_t);
 	std::size_t number_of_points() const; ///< Count number of points in subspace.

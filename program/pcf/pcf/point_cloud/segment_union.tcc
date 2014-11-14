@@ -6,34 +6,42 @@ namespace pcf {
 
 template<typename Point>
 void point_cloud_segment_union<Point>::initialize_() {
-	// The segments are ordered by their beginning address due to std::set
-	// Join or erase segments as needed...
+	// Remove empty segments
+	segments_.erase( std::remove_if(
+		segments_.begin(),
+		segments_.end(),
+		[](const segment_type& seg) { return seg.size() == 0; }
+	), segments_.end() );
+	if(segments_.size() == 0) return;
+	
+	// Sort by start address
 	std::sort(segments_.begin(), segments_.end());
+	
+	// Remove intersections and join neighboring segments
 	bool repeat = true;
-	while(repeat) {
-		typename segments_set::iterator prev = segments_.begin();
-		typename segments_set::iterator seg = prev;
-		for(++seg; seg != segments_.end();) {
+	while(repeat && segments_.size() > 1) {	
+		repeat = false;
+		
+		auto prev = segments_.begin();
+		auto seg = prev; ++seg;
+		while(seg != segments_.end()) {
 			if(prev->contains(*seg)) {
 				// Previous segment contains current one; erase current
-				segments_.erase(seg);
+				seg = segments_.erase(seg);
 				repeat = true;
 			} else if(seg->begin() <= prev->end()){
 				// Segments directly follow one another, or previous contains head of current; join
 				*prev = segment_type(prev->begin(), seg->end());
-				segments_.erase(seg);
-				repeat = true;
-			} else if(seg->begin() == seg->end()) {
-				// Empty segment; erase
-				segments_.erase(seg);
+				seg = segments_.erase(seg);
 				repeat = true;
 			} else {
+				prev = seg;
 				++seg;
 			}
-			prev = seg;
 		}
 	}
 }
+
 
 template<typename Point>
 point_cloud_segment_union<Point>::point_cloud_segment_union(std::initializer_list<segment_type> segs) :
@@ -42,17 +50,12 @@ segments_(segs) {
 }
 
 
-template<typename Point>
-point_cloud_segment_union<Point>::point_cloud_segment_union(const std::vector<segment_type>& segs) :
-segments_(segs) {
+template<typename Point> template<typename Container>
+point_cloud_segment_union<Point>::point_cloud_segment_union(Container&& segs) :
+segments_(std::forward<Container>(segs)) {
 	initialize_();
 }
 
-template<typename Point>
-point_cloud_segment_union<Point>::point_cloud_segment_union(std::vector<segment_type>&& segs) :
-segments_(std::move(segs)) {
-	initialize_();
-}
 
 template<typename Point>
 std::size_t point_cloud_segment_union<Point>::size() const {
@@ -62,27 +65,32 @@ std::size_t point_cloud_segment_union<Point>::size() const {
 }
 
 
+
 template<typename Point>
 auto point_cloud_segment_union<Point>::begin() -> iterator {
-	return iterator(segments_.begin());
+	if(! segments_.empty()) return iterator(segments_.begin(), segments_.end());
+	else return iterator(nullptr);
 }
 
 
 template<typename Point>
 auto point_cloud_segment_union<Point>::end() -> iterator {
-	return iterator(segments_.back().end());
+	if(! segments_.empty()) return iterator(segments_.back().end());
+	else return iterator(nullptr);
 }
 
 
 template<typename Point>
 auto point_cloud_segment_union<Point>::cbegin() const -> const_iterator {
-	return const_iterator(segments_.cbegin());
+	if(! segments_.empty()) return const_iterator(segments_.cbegin(), segments_.cend());
+	else return iterator(nullptr);
 }
 
 
 template<typename Point>
 auto point_cloud_segment_union<Point>::cend() const -> const_iterator {
-	return const_iterator(segments_.back().cend());
+	if(! segments_.empty()) return const_iterator(segments_.back().cend());
+	else return const_iterator(nullptr);
 }
 
 

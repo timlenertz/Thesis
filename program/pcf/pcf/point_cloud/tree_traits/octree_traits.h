@@ -3,7 +3,7 @@
 
 #include <array>
 #include "../../geometry/bounding_box.h"
-#include "../point_cloud_segment.h"
+#include "../segment.h"
 
 namespace pcf {
 

@@ -20,7 +20,7 @@ point_cloud_xyz model(const char* filename) {
 
 
 int main(int argc, const char* argv[]) {	
-	grid_point_cloud_xyz fixed(model(argv[1]), 0.2);
+	grid_point_cloud_xyz fixed(model(argv[1]), 0.005);
 	point_cloud_xyz loose = model(argv[2]);
 	
 	auto cor = make_closest_point_correspondences(
