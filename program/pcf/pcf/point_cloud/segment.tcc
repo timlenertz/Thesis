@@ -4,6 +4,24 @@
 namespace pcf {
 
 template<typename Point>
+bool point_cloud_segment<Point>::contains(const Point& p) const {
+	return (&p >= begin_) && (&p < end_);
+}
+
+
+template<typename Point>
+bool point_cloud_segment<Point>::contains(const point_cloud_segment& seg) const {
+	return contains(*seg.begin_) && contains(*(seg.end_ - 1));
+}
+
+
+template<typename Point>
+bool point_cloud_segment<Point>::intersects(const point_cloud_segment& seg) const {
+	return contains(*seg.begin_) || contains(*(seg.end_ - 1));
+}
+
+
+template<typename Point>
 bounding_box point_cloud_segment<Point>::box(float ep) const {
 	const float inf = INFINITY;
 	Eigen::Vector4f mn(+inf, +inf, +inf, 0);

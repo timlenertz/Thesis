@@ -2,9 +2,10 @@
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
-#include "pcf/io/ply_reader.h"
+#include "pcf/io/ply_writer.h"
 #include "pcf/io/ply_reader.h"
 #include "pcf/point_cloud/point_cloud.h"
+#include "pcf/point_cloud/grid/grid_point_cloud.h"
 #include "pcf/registration/iterative_correspondences_registration.h"
 #include "pcf/registration/correspondences/closest_point_correspondences.h"
 #include "pcf/registration/transformation_estimation/svd_transformation_estimation.h"
@@ -19,7 +20,7 @@ point_cloud_xyz model(const char* filename) {
 
 
 int main(int argc, const char* argv[]) {	
-	point_cloud_xyz fixed = model(argv[1]);
+	grid_point_cloud_xyz fixed(model(argv[1]), 0.2);
 	point_cloud_xyz loose = model(argv[2]);
 	
 	auto cor = make_closest_point_correspondences(
@@ -31,6 +32,10 @@ int main(int argc, const char* argv[]) {
 	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
 		
 	reg.run();
+	
+	ply_writer<point_xyz> ply("registered.ply");
+	loose.write(ply);
+
 	
 	
 /*

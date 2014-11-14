@@ -6,8 +6,8 @@
 #include <memory>
 #include <array>
 #include <ostream>
-#include "point_cloud.h"
-#include "../geometry/bounding_box.h"
+#include "../point_cloud.h"
+#include "../../geometry/bounding_box.h"
 
 namespace pcf {
 
@@ -22,9 +22,13 @@ Implements kNN algorithm. [Zhao2014]
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class grid_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
-	using segment = typename super::segment;
 	
 public:
+	using segment = typename super::segment;
+	using const_segment = typename super::const_segment;
+	using segment_union = typename super::segment_union;
+	using const_segment_union = typename super::const_segment_union;
+
 	class cell_coordinates;
 	class subspace;
 
@@ -36,12 +40,12 @@ private:
 	std::vector<std::ptrdiff_t> cell_offsets_;
 
 	segment segment_for_index_(std::ptrdiff_t i);
-	const segment segment_for_index_(std::ptrdiff_t i) const;
+	const_segment segment_for_index_(std::ptrdiff_t i) const;
 	
 	template<typename Other_point> cell_coordinates cell_for_point_(const Other_point&) const;
 	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
-	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true);
+	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true) const;
 	
 	bool in_bounds_(const cell_coordinates&) const;
 	void move_into_bounds_(cell_coordinates&) const;
@@ -58,14 +62,19 @@ public:
 	const Point& find_closest_point(const Other_point& from) const;
 	
 	template<typename Condition_func, typename Callback_func>
-	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false);
+	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;
 	
 	std::size_t number_of_cells() const { return cell_offsets_.size(); }
 	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }
 	std::size_t number_of_empty_cells() const;
 	
-	subspace full_subspace();
-	subspace cell_subspace(const cell_coordinates& c);
+	subspace full_subspace() const;
+	subspace cell_subspace(const cell_coordinates&) const;
+	
+	segment segment_for_cell(const cell_coordinates&);
+	const_segment segment_for_cell(const cell_coordinates&) const;
+	segment_union segment_union_for_subspace(const subspace&);
+	const_segment_union segment_union_for_subspace(const subspace&) const;
 };
 
 
@@ -103,7 +112,7 @@ using grid_point_cloud_full = grid_point_cloud<point_full>;
 
 }
 
-#include "grid_point_cloud_subspace.tcc"
+#include "subspace.h"
 #include "grid_point_cloud.tcc"
 
 #endif

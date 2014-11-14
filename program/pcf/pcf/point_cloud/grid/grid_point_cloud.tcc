@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <cassert>
 #include <functional>
-#include "../point_algorithm.h"
+#include <vector>
+#include <utility>
+#include "../../point_algorithm.h"
 
 namespace pcf {
 
@@ -85,8 +87,11 @@ auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) ->
 
 
 template<typename Point, typename Allocator>
-auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) const -> const segment {
-	return const_cast<grid_point_cloud&>(*this).segment_for_index_(i);
+auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) const -> const_segment {
+	return const_segment(
+		super::cbegin() + (i == 0 ? 0 : cell_offsets_[i - 1]),
+		super::cbegin() + cell_offsets_[i]
+	);
 }
 
 
@@ -179,7 +184,7 @@ void grid_point_cloud<Point, Allocator>::move_into_bounds_(cell_coordinates& c) 
 
 
 template<typename Point, typename Allocator>
-auto grid_point_cloud<Point, Allocator>::full_subspace() -> subspace {
+auto grid_point_cloud<Point, Allocator>::full_subspace() const -> subspace {
 	return subspace(
 		*this,
 		cell_coordinates(),
@@ -189,8 +194,38 @@ auto grid_point_cloud<Point, Allocator>::full_subspace() -> subspace {
 
 
 template<typename Point, typename Allocator>
-auto grid_point_cloud<Point, Allocator>::cell_subspace(const cell_coordinates& c) -> subspace {
+auto grid_point_cloud<Point, Allocator>::cell_subspace(const cell_coordinates& c) const -> subspace {
 	return subspace(*this, c, c);
+}
+
+
+template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::segment_for_cell(const cell_coordinates& c) -> segment {
+	std::ptrdiff_t i = index_for_cell_(c);
+	return segment_for_index_(i);
+}
+
+
+template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::segment_for_cell(const cell_coordinates& c) const -> const_segment {
+	std::ptrdiff_t i = index_for_cell_(c);
+	return segment_for_index_(i);
+}
+
+
+template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::segment_union_for_subspace(const subspace& s) -> segment_union {
+	std::vector<segment> segs;
+	for(cell_coordinates c : s) segs.push_back( segment_for_cell(c) );
+	return segment_union(std::move(segs));
+}
+
+
+template<typename Point, typename Allocator>
+auto grid_point_cloud<Point, Allocator>::segment_union_for_subspace(const subspace& s) const -> const_segment_union {
+	std::vector<const_segment> segs;
+	for(cell_coordinates c : s) segs.push_back( segment_for_cell(c) );
+	return const_segment_union(std::move(segs));
 }
 
 
@@ -215,23 +250,24 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 	subspace s = cell_subspace(c);
 	while(s.size() == 0 && s.expand());
 	
-	auto it = closest_point(ref, s.begin(), s.end());
+	const_segment_union u = segment_union_for_subspace(s);
+	auto it = closest_point(ref, u.begin(), u.end());
 	return *it;
 }
 
 
 template<typename Point, typename Allocator> template<typename Callback_func>
-void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) {
+void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) const {
+	std::ptrdiff_t i = 0;
 	#pragma omp parallel for schedule(static, 1)
 	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
-		cell_coordinates c(x, 0, 0);
-		std::ptrdiff_t i = index_for_cell_(c);
-		segment seg = segment_for_index_(i);
+		cell_coordinates c(x, 0, 0);		
+		const_segment seg = segment_for_cell(c);
 	
 		for(c[1] = 0; c[1] < number_of_cells_[1]; ++c[1]) {
 			for(c[2] = 0; c[2] < number_of_cells_[2]; ++c[2]) {
 				callback(c, i, seg);
-				seg = segment(seg.end(), super::begin() + cell_offsets_[i]);
+				seg = const_segment(seg.end(), super::begin() + cell_offsets_[i]);
 				++i;
 			}
 		}
@@ -241,7 +277,7 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 
 template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
 void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
-(std::size_t k, Condition_func cond, Callback_func callback, bool parallel) {
+(std::size_t k, Condition_func cond, Callback_func callback, bool parallel) const {
 	const float cbrt3 = std::cbrt(3.0f);
 	
 	// For each cell...

@@ -10,8 +10,10 @@ namespace pcf {
 
 /**
 Segment of a point cloud.
-Interval of points in a point cloud. Does not own the memory. Const access allows only for reading the const Points.
-Non-const access allows non-const access to Points, and reordering operations.
+Interval of points in a point cloud. Does not own the memory. Also used as base class for point cloud. TODO change
+Const-correctness: If template parameter Point is const, it always gives read-only access to points.
+Otherwise, only non-const access to segment gives non-const access to points, and to operations that modify
+points.
 */
 template<typename Point>
 class point_cloud_segment {
@@ -28,12 +30,29 @@ public:
 	point_cloud_segment(const point_cloud_segment&) = default;
 	point_cloud_segment(Point* s, Point* e) : begin_(s), end_(e) { }
 	
+	point_cloud_segment& operator=(const point_cloud_segment&) = default;
+	
 	bool in_bounds(std::ptrdiff_t i) const { return i >= 0 && i < size(); }
 	
 	Point& at(std::ptrdiff_t i) { assert(in_bounds(i)); return begin_[i]; }
 	const Point& at(std::ptrdiff_t i) const { assert(in_bounds(i)); return begin_[i]; }
 	Point& operator[](std::ptrdiff_t i) { return at(i); }
 	const Point& operator[](std::ptrdiff_t i) const { return at(i); }
+	
+	bool operator==(const point_cloud_segment& seg) const {
+		return (begin_ == seg.begin_) && (end_ == seg.end_);
+	}
+	
+	bool operator!=(const point_cloud_segment& seg) const {
+		return (begin_ != seg.begin_) || (end_ != seg.end_);
+	}
+	
+	bool operator<(const point_cloud_segment& seg) const { return (begin_ < seg.begin_); }
+	bool operator>(const point_cloud_segment& seg) const { return (begin_ > seg.begin_); }
+	
+	bool contains(const Point&) const;
+	bool contains(const point_cloud_segment&) const;
+	bool intersects(const point_cloud_segment&) const;
 	
 	Point* data() { return begin_; }
 	const Point* data() const { return begin_; }
@@ -59,6 +78,6 @@ public:
 
 }
 
-#include "point_cloud_segment.tcc"
+#include "segment.tcc"
 
 #endif

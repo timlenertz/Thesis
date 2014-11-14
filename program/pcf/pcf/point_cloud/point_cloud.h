@@ -13,7 +13,8 @@
 #include <Eigen/Geometry>
 #include "../point.h"
 #include "../util/aligned_allocator.h"
-#include "point_cloud_segment.h"
+#include "segment.h"
+#include "segment_union.h"
 
 namespace pcf {
 
@@ -42,6 +43,9 @@ protected:
 
 public:
 	using segment = point_cloud_segment<Point>;
+	using const_segment = point_cloud_segment<const Point>;
+	using segment_union = point_cloud_segment_union<Point>;
+	using const_segment_union = point_cloud_segment_union<const Point>;
 
 	point_cloud() = delete;
 	point_cloud(const point_cloud&, bool all_val = true);
