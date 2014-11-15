@@ -12,3 +12,6 @@ since 2 september 	collecting/reading +/- relevant papers
 1 november		kNN algorithm in grid pc, tests, installed opencv
 7 november		camera, spherical coordinates, from/to range image
 8 november		VC++ fixes
+14 november		refactor, const-correctness, segment/union, generic ICP
+			working ICP in grid point cloud
+

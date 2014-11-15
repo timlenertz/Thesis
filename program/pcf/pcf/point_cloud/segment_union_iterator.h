@@ -37,10 +37,6 @@ public:
 	
 	bool operator==(const iterator& it) const { return (current_ == it.current_); }
 	bool operator!=(const iterator& it) const { return (current_ != it.current_); }
-	bool operator<(const iterator& it) const { return (current_ < it.current_); }
-	bool operator<=(const iterator& it) const { return (current_ <= it.current_); }
-	bool operator>(const iterator& it) const { return (current_ > it.current_); }
-	bool operator>=(const iterator& it) const { return (current_ >= it.current_); }
 	
 	iterator& operator++() {
 		++current_;
@@ -91,10 +87,6 @@ public:
 	
 	bool operator==(const const_iterator& it) const { return (current_ == it.current_); }
 	bool operator!=(const const_iterator& it) const { return (current_ != it.current_); }
-	bool operator<(const const_iterator& it) const { return (current_ < it.current_); }
-	bool operator<=(const const_iterator& it) const { return (current_ <= it.current_); }
-	bool operator>(const const_iterator& it) const { return (current_ > it.current_); }
-	bool operator>=(const const_iterator& it) const { return (current_ >= it.current_); }
 	
 	const_iterator& operator++() {
 		++current_;

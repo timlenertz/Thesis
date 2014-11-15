@@ -9,8 +9,11 @@ void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspond
 	Error_metric error_metric;
 	
 	correspondences_([&](const correspondence_type& cor) {
-		transformation_estimation << cor;
-		error_metric << cor;
+		#pragma omp critical
+		{
+			transformation_estimation << cor;
+			error_metric << cor;
+		}
 	});
 	
 	error_ = error_metric();

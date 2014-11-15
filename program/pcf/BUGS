@@ -1,2 +1,1 @@
 - kdtree point cloud: fp imprecisions
-- grid pc subspace iterator: sometimes segfault

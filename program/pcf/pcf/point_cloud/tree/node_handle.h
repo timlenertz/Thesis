@@ -1,9 +1,66 @@
+#ifndef PCF_TREE_POINT_CLOUD_NODE_HANDLE_H_
+#define PCF_TREE_POINT_CLOUD_NODE_HANDLE_H_
+
 #include <type_traits>
 #include <stack>
 #include <algorithm>
 #include <iostream>
+#include "tree_point_cloud.h"
 
 namespace pcf {
+
+template<typename Traits, typename Point, typename Allocator> template<typename Node>
+class tree_point_cloud<Traits, Point, Allocator>::node_handle_ {
+	static_assert(
+		std::is_same<
+			typename std::remove_const<Node>::type,
+			node
+		>::value,
+		"Template argument Node must be 'node' or 'const node'."
+	);
+	
+private:
+	Node* nd_;
+	bounding_box box_;
+	std::ptrdiff_t depth_;
+	
+public:
+	using backtrace = std::vector<node_handle_>;
+
+	node_handle_() = default;
+	node_handle_(const node_handle_<typename std::remove_const<Node>::type>& n) :
+		nd_(n.nd_), box_(n.box_), depth_(n.depth_) { }
+	
+	node_handle_(Node& nd, const bounding_box& cub, std::ptrdiff_t d = -1) :
+		nd_(&nd), box_(cub), depth_(d) { }
+		
+	bool operator==(const node_handle_& n) const { return (nd_ == n.nd_); }
+	bool operator!=(const node_handle_& n) const { return (nd_ != n.nd_); }
+	bool operator<(const node_handle_& n) const { return (nd_ < n.nd_); }
+	
+	Node& operator*() const { return *nd_; }
+	Node* operator->() const { return nd_; }
+
+	const bounding_box& box() const { return box_; }
+	std::ptrdiff_t depth() const { return depth_; }
+	Node& attr() const { return *nd_; }
+	Node& nd() const { return *nd_; }
+
+	std::size_t size() const { return nd_->segment.size(); }
+	
+	bool has_child(std::ptrdiff_t i) const;
+	bool is_leaf() const;
+	node_handle_ child(std::ptrdiff_t i) const;
+	
+	void make_child(std::ptrdiff_t i, const segment& seg) const;
+	
+	template<typename Other_point> std::ptrdiff_t child_containing_point(const Other_point&) const;
+	
+	template<typename Other_point> node_handle_ deepest_child_containing_point(const Other_point&, std::ptrdiff_t max_depth = -1) const;	
+	template<typename Other_point> node_handle_& deepest_child_containing_point(const Other_point&, backtrace&, std::ptrdiff_t max_depth = -1) const;	
+	
+	template<typename Callback_func, typename Order_func> bool depth_first_descent(Callback_func callback, Order_func order) const;
+};
 
 template<typename Traits, typename Point, typename Allocator> template<typename Node>
 bool tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::has_child(std::ptrdiff_t i) const {
@@ -94,3 +151,5 @@ bool tree_point_cloud<Traits, Point, Allocator>::node_handle_<Node>::depth_first
 
 
 }
+
+#endif

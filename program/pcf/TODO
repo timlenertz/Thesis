@@ -1,3 +1,4 @@
+- resolve const correctness issues
 - ICP
 
 - local TIN mesh

@@ -4,9 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <limits>
-#include "../geometry/camera.h"
-#include "point_cloud.h"
-#include "../range_image.h"
+#include "../../geometry/camera.h"
+#include "../point_cloud.h"
+#include "../../range_image.h"
 
 namespace pcf {
 

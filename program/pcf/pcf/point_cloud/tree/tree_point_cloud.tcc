@@ -1,5 +1,6 @@
 #include <set>
 #include <iterator>
+#include "node_handle.h"
 
 namespace pcf {
 

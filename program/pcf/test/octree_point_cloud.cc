@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
-#include "../pcf/point_cloud/tree_point_cloud.h"
-#include "../pcf/point_cloud/tree_traits/octree_traits.h"
+#include "../pcf/point_cloud/tree/tree_point_cloud.h"
+#include "../pcf/point_cloud/tree/octree_traits.h"
 #include "../pcf/point.h"
 #include "../pcf/util/random.h"
 #include "helper.h"

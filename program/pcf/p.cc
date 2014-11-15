@@ -13,17 +13,34 @@
 using namespace pcf;
 
 
-point_cloud_xyz model(const char* filename) {
+point_cloud_xyz load(const char* filename) {
 	ply_reader ply(filename);
 	return point_cloud_xyz::create_from_reader(ply);
 }
 
+void save(const point_cloud_xyz& pc, const char* filename) {
+	ply_writer<point_xyz> ply(filename);
+	pc.write(ply);
+}
 
-int main(int argc, const char* argv[]) {	
-	grid_point_cloud_xyz fixed(model(argv[1]), 0.005);
-	//point_cloud_xyz fixed = model(argv[1]);
-	point_cloud_xyz loose = model(argv[2]);
+int main(int argc, const char* argv[]) {
+	// Create and save transformed loose
+	point_cloud_xyz loose = load(argv[1]);
+
+	Eigen::Affine3f trans(
+		Eigen::AngleAxisf(0.07*M_PI, Eigen::Vector3f::UnitX()) *
+		Eigen::AngleAxisf(-0.03*M_PI, Eigen::Vector3f::UnitY()) *
+		Eigen::Translation3f( Eigen::Vector3f(0.008, 0.004, -0.001) )
+	);
+	loose.apply_transformation(trans);
 	
+	save(loose, "loose.ply");
+
+	// Load fixed (untransformed) into grid pc
+	grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
+	
+	
+	// Run ICP
 	auto cor = make_closest_point_correspondences(
 		fixed, loose,
 		[](const point_xyz&) { return true; },
@@ -34,8 +51,8 @@ int main(int argc, const char* argv[]) {
 		
 	reg.run();
 	
-	ply_writer<point_xyz> ply("registered.ply");
-	loose.write(ply);
+	// Save registered loose
+	save(loose, "registered.ply");
 
 	
 	
