@@ -37,4 +37,16 @@ correlation_matrix_transformation_estimation& correlation_matrix_transformation_
 }
 
 
+
+correlation_matrix_transformation_estimation& correlation_matrix_transformation_estimation::operator<<
+(const correlation_matrix_transformation_estimation& est) {
+	count_ += est.count_;
+	fixed_sum_ += est.fixed_sum_;
+	loose_sum_ += est.loose_sum_;
+	cors_.insert(cors_.end(), est.cors_.begin(), est.cors_.end());
+	return *this;
+}
+
+
+
 }

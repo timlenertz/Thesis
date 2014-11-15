@@ -20,6 +20,7 @@ protected:
 
 public:
 	correlation_matrix_transformation_estimation& operator<<(const registration_correspondence&);
+	correlation_matrix_transformation_estimation& operator<<(const correlation_matrix_transformation_estimation&);
 };
 
 }

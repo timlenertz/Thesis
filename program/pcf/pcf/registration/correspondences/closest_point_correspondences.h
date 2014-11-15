@@ -31,8 +31,8 @@ public:
 	(const Cloud_fixed& cf, const Cloud_loose& cl, const Selection_func& sel = Selection_func(), const Weight_func& wgh = Weight_func()) :
 		fixed_(cf), loose_(cl), selection_func_(sel), weight_func_(wgh) { }
 	
-	template<typename Callback_func>
-	void operator() (const Callback_func&, bool parallel = true);
+	template<typename Receiver> void find_correspondences(Receiver&);
+	template<typename Receiver> void find_correspondences_parallel(Receiver&);
 };
 
 

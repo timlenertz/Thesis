@@ -5,19 +5,15 @@ namespace pcf {
 
 template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspondences, Transformation_estimation, Error_metric>::iteration() {
+	receiver rec;
+
 	Transformation_estimation transformation_estimation;
 	Error_metric error_metric;
 	
-	correspondences_([&](const correspondence_type& cor) {
-		#pragma omp critical
-		{
-			transformation_estimation << cor;
-			error_metric << cor;
-		}
-	});
+	correspondences_.find_correspondences_parallel(rec);
 	
-	error_ = error_metric();
-	estimated_transformation_ = transformation_estimation().inverse();
+	error_ = rec.error_metric();
+	estimated_transformation_ = rec.transformation_estimation().inverse();
 	
 	std::cout << error_ << std::endl;
 }

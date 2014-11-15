@@ -12,6 +12,7 @@ private:
 
 public:
 	mean_square_error& operator<<(const registration_correspondence&);
+	mean_square_error& operator<<(const mean_square_error&);
 	
 	float operator() () const;
 };

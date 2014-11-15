@@ -27,6 +27,7 @@ int main(int argc, const char* argv[]) {
 	// Create and save transformed loose
 	point_cloud_xyz loose = load(argv[1]);
 
+	std::cout << "Initial transform..." << std::endl;
 	Eigen::Affine3f trans(
 		Eigen::AngleAxisf(0.07*M_PI, Eigen::Vector3f::UnitX()) *
 		Eigen::AngleAxisf(-0.03*M_PI, Eigen::Vector3f::UnitY()) *
@@ -37,6 +38,7 @@ int main(int argc, const char* argv[]) {
 	save(loose, "loose.ply");
 
 	// Load fixed (untransformed) into grid pc
+	std::cout << "Building Grid" << std::endl;
 	grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
 	
 	
@@ -48,7 +50,8 @@ int main(int argc, const char* argv[]) {
 	);
 	
 	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
-		
+	
+	std::cout << "ICP..." << std::endl;
 	reg.run();
 	
 	// Save registered loose

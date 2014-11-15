@@ -22,6 +22,8 @@ class iterative_correspondences_registration {
 private:
 	using correspondence_type = typename Correspondences::correspondence_type;
 
+	class receiver;
+
 	const Cloud_fixed& fixed_;
 	Cloud_loose& loose_;
 	Correspondences correspondences_;
@@ -40,6 +42,28 @@ public:
 
 	void iteration();
 	void run();
+};
+
+
+
+template<typename Cf, typename Cl, typename Cr, typename Transformation_estimation, typename Error_metric>
+class iterative_correspondences_registration<Cf, Cl, Cr, Transformation_estimation, Error_metric>::receiver {
+public:
+	Transformation_estimation transformation_estimation;
+	Error_metric error_metric;
+	
+	receiver& operator<<(const receiver& rec) {
+		transformation_estimation << rec.transformation_estimation;
+		error_metric << rec.error_metric;
+		return *this;			
+	}
+	
+	template<typename Obj>
+	receiver& operator<<(const Obj& obj) {
+		transformation_estimation << obj;
+		error_metric << obj;
+		return *this;
+	}
 };
 
 
