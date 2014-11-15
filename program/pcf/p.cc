@@ -2,12 +2,15 @@
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
+#include "pcf/util/random.h"
 #include "pcf/io/ply_writer.h"
 #include "pcf/io/ply_reader.h"
 #include "pcf/point_cloud/point_cloud.h"
 #include "pcf/point_cloud/grid/grid_point_cloud.h"
 #include "pcf/registration/iterative_correspondences_registration.h"
 #include "pcf/registration/correspondences/closest_point_correspondences.h"
+#include "pcf/registration/correspondences/same_point_correspondences.h"
+#include "pcf/registration/error_metric/mean_square_error.h"
 #include "pcf/registration/transformation_estimation/svd_transformation_estimation.h"
 
 using namespace pcf;
@@ -21,6 +24,13 @@ point_cloud_xyz load(const char* filename) {
 void save(const point_cloud_xyz& pc, const char* filename) {
 	ply_writer<point_xyz> ply(filename);
 	pc.write(ply);
+}
+
+float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
+	same_point_correspondences<point_cloud_xyz, point_cloud_xyz> cor(l, f);
+	mean_square_error err;
+	cor(err);
+	return err();
 }
 
 int main(int argc, const char* argv[]) {
@@ -40,12 +50,14 @@ int main(int argc, const char* argv[]) {
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building Grid" << std::endl;
 	grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
+	std::cout << fixed.number_of_cells() << std::endl;
 	
+	std::cout << "Initial error: " << reg_error(fixed, loose) << std::endl;
 	
 	// Run ICP
 	auto cor = make_closest_point_correspondences(
 		fixed, loose,
-		[](const point_xyz&) { return true; },
+		[](const point_xyz&) { return random_integer(100)<10; },
 		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
 	);
 	
@@ -56,6 +68,9 @@ int main(int argc, const char* argv[]) {
 	
 	// Save registered loose
 	save(loose, "registered.ply");
+	
+	std::cout << "Final error: " << reg_error(fixed, loose) << std::endl;
+	
 
 	
 	

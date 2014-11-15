@@ -7,6 +7,11 @@ namespace pcf {
 
 /**
 Point correspondences between closest points from two clouds.
+Selection_func takes one point from loose cloud as argument. If true is returned, closest point to
+it in fixed cloud is searched. Uses fixed cloud's find_closest_point function for this.
+When corresponding point was found, calls Weight_func with two points (loose's, fixed's) as arguments.
+Function must return weight for the correspondence pair. If 0.0 is returned, correspondence pair is rejected.
+Both functions will be called from different threads concurrently.
 */
 template<
 	typename Cloud_fixed,
@@ -31,8 +36,7 @@ public:
 	(const Cloud_fixed& cf, const Cloud_loose& cl, const Selection_func& sel = Selection_func(), const Weight_func& wgh = Weight_func()) :
 		fixed_(cf), loose_(cl), selection_func_(sel), weight_func_(wgh) { }
 	
-	template<typename Receiver> void find_correspondences(Receiver&);
-	template<typename Receiver> void find_correspondences_parallel(Receiver&);
+	template<typename Receiver> void operator()(Receiver&);
 };
 
 

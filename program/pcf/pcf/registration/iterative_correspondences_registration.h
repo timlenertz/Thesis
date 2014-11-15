@@ -30,10 +30,11 @@ private:
 	
 	float error_;
 	Eigen::Affine3f estimated_transformation_;
-	
-	float minimal_error_ = 0;
-	std::size_t maximal_iterations_ = 10;
-		
+			
+public:
+	float minimal_error = 0.01;
+	std::size_t maximal_iterations = 30;
+
 public:
 	iterative_correspondences_registration(const Cloud_fixed& cf, Cloud_loose& cl, const Correspondences& cor) :
 		fixed_(cf), loose_(cl), correspondences_(cor) { }
@@ -42,28 +43,6 @@ public:
 
 	void iteration();
 	void run();
-};
-
-
-
-template<typename Cf, typename Cl, typename Cr, typename Transformation_estimation, typename Error_metric>
-class iterative_correspondences_registration<Cf, Cl, Cr, Transformation_estimation, Error_metric>::receiver {
-public:
-	Transformation_estimation transformation_estimation;
-	Error_metric error_metric;
-	
-	receiver& operator<<(const receiver& rec) {
-		transformation_estimation << rec.transformation_estimation;
-		error_metric << rec.error_metric;
-		return *this;			
-	}
-	
-	template<typename Obj>
-	receiver& operator<<(const Obj& obj) {
-		transformation_estimation << obj;
-		error_metric << obj;
-		return *this;
-	}
 };
 
 

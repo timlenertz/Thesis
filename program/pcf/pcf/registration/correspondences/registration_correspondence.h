@@ -22,6 +22,11 @@ struct registration_correspondence {
 
 
 
+/**
+Correspondence of points between fixed and loose point cloud.
+Correspondence between to actual points from the clouds. Unlike base registration_correspondence,
+meant to exist temporarily. Contains references to the points.
+*/
 template<typename Point_fixed, typename Point_loose>
 struct point_correspondence : public registration_correspondence {
 	const Point_fixed& fixed_point;

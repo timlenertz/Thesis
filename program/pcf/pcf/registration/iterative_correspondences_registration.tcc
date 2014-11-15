@@ -3,14 +3,32 @@
 
 namespace pcf {
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspondences, Transformation_estimation, Error_metric>::iteration() {
-	receiver rec;
-
+template<typename Cf, typename Cl, typename Cr, typename Transformation_estimation, typename Error_metric>
+class iterative_correspondences_registration<Cf, Cl, Cr, Transformation_estimation, Error_metric>::receiver {
+public:
 	Transformation_estimation transformation_estimation;
 	Error_metric error_metric;
 	
-	correspondences_.find_correspondences_parallel(rec);
+	receiver& operator<<(const receiver& rec) {
+		transformation_estimation << rec.transformation_estimation;
+		error_metric << rec.error_metric;
+		return *this;			
+	}
+	
+	template<typename Obj>
+	receiver& operator<<(const Obj& obj) {
+		transformation_estimation << obj;
+		error_metric << obj;
+		return *this;
+	}
+};
+
+
+
+template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation, typename Error_metric>
+void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspondences, Transformation_estimation, Error_metric>::iteration() {
+	receiver rec;	
+	correspondences_(rec);
 	
 	error_ = rec.error_metric();
 	estimated_transformation_ = rec.transformation_estimation().inverse();
@@ -24,7 +42,7 @@ void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspond
 	iteration();
 	
 	std::size_t iteration_count = 1;	
-	while(iteration_count++ < maximal_iterations_ && error_ > minimal_error_) {
+	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
 		float previous_error = error_;
 		Eigen::Affine3f previous_estimated_transformation = estimated_transformation_;
 	

@@ -2,22 +2,9 @@
 
 namespace pcf {
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Receiver>
-void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::find_correspondences(Receiver& rec) {
-	for(const auto& lp : loose_) {
-		if(!lp.valid() || !selection_func_(lp)) continue;
-		
-		const auto& fp = fixed_.find_closest_point(lp);
-		if(!fp.valid()) continue;
-		
-		float w = weight_func_(fp, lp);
-		if(w != 0) rec << correspondence_type(fp, lp, w);
-	}
-}
-
 
 template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Receiver>
-void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::find_correspondences_parallel(Receiver& rec) {
+void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::operator()(Receiver& rec) {
 	#pragma omp parallel
 	{
 		Receiver rec_part;
