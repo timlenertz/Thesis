@@ -6,14 +6,14 @@ namespace pcf {
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_() {
+super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment()) {
 	build_tree_();
 }
 
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
-super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_() {
+super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_(super::full_segment()) {
 	build_tree_();
 }
 
@@ -96,7 +96,7 @@ closest_point(const Other_point& query, float accepting_distance, float rejectin
 		if(minimal_distance_sq(query, r.box()) >= rejecting_distance) return super::invalid_point_();
 	}
 	auto it = r.closest_point(query, accepting_distance);
-	if(it == r.end()) return *it;
+	if(it != r.end()) return *it;
 	else return super::invalid_point_();
 }
 

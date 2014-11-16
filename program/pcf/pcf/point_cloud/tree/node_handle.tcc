@@ -44,7 +44,26 @@ template<typename Traits, typename Point, typename Allocator> template<bool Cons
 auto tree_point_cloud<Traits, Point, Allocator>::node_handle_<Const>::
 closest_point(const Other_point& query, float accepting_distance) const -> iterator {
 	// If this is a leaf, search in its points
-	if(is_leaf()) return find_closest_point(query, begin(), end());
+	if(is_leaf()) return find_closest_point(query, begin(), end(), accepting_distance);
+	
+	if(Traits::number_of_children == 2) {
+		// Optimization for 2 children (eg KdTree)
+		std::ptrdiff_t ci = Traits::child_box_closer_to_point(query, 0, 1, box_, attr(), depth_);
+		std::ptrdiff_t ci2 = 1 - ci;
+		
+		iterator c_pt = child(ci).closest_point(query);
+		float c_d = distance_sq(*c_pt, query);
+		if(c_d <= accepting_distance) return c_pt;		
+
+		auto c2 = child(ci2);
+		float c2_d = minimal_distance_sq(query, c2.box());
+		if(c2_d < c_d) {
+			iterator c2_pt = c2.closest_point(query);
+			float c2_d = distance_sq(*c2_pt, query);
+			if(c2_d < c_d) return c2_pt;
+		}
+		return c_pt;
+	}
 	
 	// Get child node indices, sorted by ascending minimal distance of the child box to the query point
 	std::array<std::ptrdiff_t, Traits::number_of_children> closest_children;
@@ -85,7 +104,6 @@ closest_point(const Other_point& query, float accepting_distance) const -> itera
 			if(d <= accepting_distance) return pt;	
 		}
 	}
-	
 	
 	return pt;
 }

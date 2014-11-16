@@ -8,6 +8,7 @@
 #include "pcf/point_cloud/point_cloud.h"
 #include "pcf/point_cloud/tree/tree_point_cloud.h"
 #include "pcf/point_cloud/tree/octree_traits.h"
+#include "pcf/point_cloud/tree/kdtree_traits.h"
 #include "pcf/point_cloud/grid/grid_point_cloud.h"
 #include "pcf/registration/iterative_correspondences_registration.h"
 #include "pcf/registration/correspondences/closest_point_correspondences.h"
@@ -39,9 +40,8 @@ int main(int argc, const char* argv[]) {
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building Fixed..." << std::endl;
 	//grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
-	tree_point_cloud<octree_traits, point_xyz> fixed(load(argv[1]), 100);
+	tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
 	//point_cloud_xyz fixed = load(argv[1]);
-
 
 	// Create and save transformed loose
 	point_cloud_xyz loose = fixed;

@@ -25,7 +25,7 @@ public:
 	static std::ptrdiff_t child_containing_point(const Other_point& p, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
 
 	template<typename Other_point>
-	static std::ptrdiff_t child_closer_to_point(const Other_point& p, std::ptrdiff_t a, std::ptrdiff_t b, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
+	static std::ptrdiff_t child_box_closer_to_point(const Other_point& p, std::ptrdiff_t a, std::ptrdiff_t b, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
 	
 	template<typename Point>
 	static std::array<point_cloud_segment<Point>, 2> split_node(point_cloud_segment<Point>, const bounding_box&, node_attributes&, std::ptrdiff_t depth);

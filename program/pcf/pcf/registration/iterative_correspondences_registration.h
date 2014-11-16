@@ -35,8 +35,8 @@ private:
 	Eigen::Affine3f estimated_transformation_;
 			
 public:
-	float minimal_error = 0.005;
-	std::size_t maximal_iterations = 30;
+	float minimal_error = 0;
+	std::size_t maximal_iterations = 10;
 
 public:
 	iterative_correspondences_registration(const Cloud_fixed& cf, Cloud_loose& cl, const Correspondences& cor) :

@@ -10,6 +10,9 @@
 
 namespace pcf {
 
+/**
+Point cloud arranged into tree structure.
+*/
 template<typename Traits, typename Point, typename Allocator = aligned_allocator<Point>>
 class tree_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
@@ -18,9 +21,15 @@ class tree_point_cloud : public point_cloud<Point, Allocator> {
 	using node_attributes = typename Traits::node_attributes;
 
 private:
+	/**
+	Node of the tree.
+	Kept in memory. To minimize size, does not contain node's bounding box or other data that can be 
+	computed while traversing tree. Inherits from node_attributes for empty base optimization.
+	node_handle is used to access and traverse tree.
+	*/
 	struct node : node_attributes {
-		segment seg;
-		std::array<std::unique_ptr<node>, Traits::number_of_children> children;
+		segment seg; ///< Point cloud segment corresponding to this node.
+		std::array<std::unique_ptr<node>, Traits::number_of_children> children; ///< Pointers to child nodes. May be null.
 		
 		node() = default;
 		node(const segment& seg) : seg(seg) { }
