@@ -1,6 +1,7 @@
 #ifndef PCF_CLOSEST_POINT_CORRESPONDENCES_H_
 #define PCF_CLOSEST_POINT_CORRESPONDENCES_H_
 
+#include <cmath>
 #include "registration_correspondence.h"
 
 namespace pcf {
@@ -27,6 +28,9 @@ private:
 	Weight_func weight_func_;
 
 public:
+	float accepting_distance = 0;
+	float rejecting_distance = INFINITY;
+
 	using correspondence_type = point_correspondence<
 		const typename Cloud_fixed::point_type,
 		const typename Cloud_loose::point_type

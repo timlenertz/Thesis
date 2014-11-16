@@ -13,7 +13,7 @@ super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), roo
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
-super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_(*this) {
+super(std::forward<Other_cloud>(pc), true), leaf_capacity_(leaf_cap), root_node_() {
 	build_tree_();
 }
 
@@ -34,7 +34,7 @@ template<typename Traits, typename Point, typename Allocator>
 void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	using node_handle_list = std::vector<node_handle>;
 
-	root_box_ = Traits::root_box(*this);
+	root_box_ = Traits::root_box(super::full_segment());
 
 	// Construct tree by breath-first descent.
 	// Creates node tree, and segment point cloud in-place.

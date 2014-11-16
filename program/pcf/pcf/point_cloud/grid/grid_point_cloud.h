@@ -6,6 +6,7 @@
 #include <memory>
 #include <array>
 #include <ostream>
+#include <cmath>
 #include "../point_cloud.h"
 #include "../../geometry/bounding_box.h"
 
@@ -58,7 +59,7 @@ public:
 	bool verify() const;
 	
 	template<typename Other_point>
-	const Point& closest_point(const Other_point& from) const;
+	const Point& closest_point(const Other_point& from, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 	
 	template<typename Condition_func, typename Callback_func>
 	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;

@@ -67,7 +67,8 @@ int main(int argc, const char* argv[]) {
 		[](const point_xyz&) { return random_integer(100)<10; },
 		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
 	);
-	
+//	cor.accepting_distance = fixed.box().side_lengths()[0]/10.0;
+
 	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
 	
 	std::cout << "ICP..." << std::endl;

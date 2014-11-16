@@ -14,6 +14,7 @@ template<typename Traits, typename Point, typename Allocator = aligned_allocator
 class tree_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 	using segment = typename super::segment;
+	using const_segment = typename super::const_segment;
 	using node_attributes = typename Traits::node_attributes;
 
 private:

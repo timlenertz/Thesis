@@ -9,6 +9,7 @@
 #include <limits>
 #include <cstring>
 #include <random>
+#include <cmath>
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "../point.h"
@@ -24,13 +25,13 @@ Allocates to given capacity using provided allocator. Allocated size cannot chan
 Depending on all_valid_ option, may or may not contain invalid points.
 */
 template<typename Point, typename Allocator = aligned_allocator<Point>>
-class point_cloud : public point_cloud_segment<Point> {
-	using super = point_cloud_segment<Point>;
-	
+class point_cloud {	
 protected:
 	Allocator allocator_; ///< Allocator used to create buffer.
 	const std::size_t allocated_size_; ///< Allocated buffer size.
 	const bool all_valid_; ///< If set, all points must be valid.
+	Point* begin_; ///< Point buffer. Allocated and owned by point cloud.
+	Point* end_; ///< End of point buffer. Can be changed, must be in begin_ + [0; allocated_size_]
 	
 	void check_correct_alignment_() const;
 
@@ -42,11 +43,16 @@ protected:
 	static const Point& invalid_point_();
 
 public:
+	using point_type = Point;
+
 	using segment = point_cloud_segment<Point>;
 	using const_segment = point_cloud_segment<const Point>;
 	using segment_union = point_cloud_segment_union<Point>;
 	using const_segment_union = point_cloud_segment_union<const Point>;
 
+	using iterator = typename segment::iterator;
+	using const_iterator = typename const_segment::iterator;
+	
 	point_cloud() = delete;
 	point_cloud(const point_cloud&, bool all_val = true);
 	point_cloud(point_cloud&&, bool all_val = true);
@@ -66,9 +72,29 @@ public:
 	
 	bool all_valid() const { return all_valid_; }
 	std::size_t capacity() const { return allocated_size_; }
-	std::size_t size() const { return super::size(); }
+	std::size_t size() const { return end_ - begin_; }
+	bool empty() const { return end_ == begin_; }
+	
 	std::size_t number_of_valid_points() const;
 	bool contains_invalid_points() const;
+
+	segment full_segment() { return segment(begin_, end_); }
+	const_segment full_segment() const { return segment(begin_, end_); }	
+
+	Point* data() { return begin_; }
+	const Point* data() const { return begin_; }
+	const Point* cdata() const { return begin_; }
+	
+	iterator begin() { return full_segment().begin(); }
+	const_iterator begin() const { return full_segment().begin(); }
+	const_iterator cbegin() const { return full_segment().begin(); }
+
+	iterator end() { return full_segment().end(); }
+	const_iterator end() const { return full_segment().end(); }
+	const_iterator cend() const { return full_segment().end(); }
+
+	bounding_box box(float ep = 0.0) const { return full_segment().box(ep); }
+	Eigen::Vector3f center_of_mass() const { return full_segment().center_of_mass(); }
 
 	void erase_invalid_points();
 			
@@ -79,7 +105,7 @@ public:
 	void downsample_random(float ratio, bool invalidate = false);
 
 	template<typename Other_point>
-	const Point& find_closest_point(const Other_point&) const;
+	const Point& closest_point(const Other_point&, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 };
 
 using point_cloud_xyz = point_cloud<point_xyz>;

@@ -107,7 +107,7 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 	
 	// First split into X segments
 	std::vector<segment> x_segs(number_of_cells_[0]);
-	super::partition_into_segments([this](const Point& p) {
+	super::full_segment().partition_into_segments([this](const Point& p) {
 		return std::floor( (p[0] - origin_[0]) / cell_length_ );
 	}, number_of_cells_[0], x_segs.begin());
 
@@ -247,7 +247,8 @@ std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-const Point& grid_point_cloud<Point, Allocator>::closest_point(const Other_point& ref) const {
+const Point& grid_point_cloud<Point, Allocator>::
+closest_point(const Other_point& ref, float accepting_distance, float rejecting_distance) const {
 	cell_coordinates c = cell_for_point(ref);
 	move_into_bounds_(c);
 	

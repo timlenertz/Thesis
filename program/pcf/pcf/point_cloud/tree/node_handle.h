@@ -21,7 +21,7 @@ class tree_point_cloud<Traits, Point, Allocator>::node_handle_ {
 public:
 	using node_type = typename std::conditional<Const, const node, node>::type;
 	using point_type = typename std::conditional<Const, const Point, Point>::type;
-	using segment_type = typename std::conditional<Const, const segment, segment>::type;
+	using segment_type = typename std::conditional<Const, const_segment, segment>::type;
 	
 private:
 	node_type* nd_;
@@ -29,7 +29,7 @@ private:
 	std::ptrdiff_t depth_;
 	
 public:
-	using iterator = typename std::conditional<Const, typename segment_type::const_iterator, typename segment_type::iterator>::type;
+	using iterator = typename segment_type::iterator;
 
 	node_handle_() = default;
 	node_handle_(const node_handle_<false>& n) :

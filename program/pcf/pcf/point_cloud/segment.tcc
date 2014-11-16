@@ -82,7 +82,7 @@ Eigen::Vector3f point_cloud_segment<Point>::center_of_mass() const {
 
 
 template<typename Point> template<typename Index_func, typename Output_iterator>
-void point_cloud_segment<Point>::partition_into_segments(Index_func idx, std::size_t n, Output_iterator it) {
+void point_cloud_segment<Point>::partition_into_segments(Index_func idx, std::size_t n, Output_iterator it) const {
 	point_cloud_segment cur = *this;
 	Point* split = nullptr;
 	for(std::size_t i = 0; i < n; ++i) {
