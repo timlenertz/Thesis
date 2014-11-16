@@ -40,6 +40,13 @@ std::ptrdiff_t octree_traits::child_containing_point
 
 
 template<typename Other_point>
+std::ptrdiff_t octree_traits::child_box_closest_to_point
+(const Other_point& p, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+	return child_containing_point(p, cub, attr, depth);
+}
+
+
+template<typename Other_point>
 std::ptrdiff_t octree_traits::child_box_closer_to_point
 (const Other_point& p, std::ptrdiff_t a, std::ptrdiff_t b, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	std::ptrdiff_t c = child_containing_point(p, cub, attr, depth);

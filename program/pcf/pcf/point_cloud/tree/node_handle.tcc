@@ -45,50 +45,42 @@ auto tree_point_cloud<Traits, Point, Allocator>::node_handle_<Const>::
 closest_point(const Other_point& query, float accepting_distance) const -> iterator {
 	// If this is a leaf, search in its points
 	if(is_leaf()) return find_closest_point(query, begin(), end(), accepting_distance);
-	
-	if(Traits::number_of_children == 2) {
-		// Optimization for 2 children (eg KdTree)
-		std::ptrdiff_t ci = Traits::child_box_closer_to_point(query, 0, 1, box_, attr(), depth_);
-		std::ptrdiff_t ci2 = 1 - ci;
-		
-		iterator c_pt = child(ci).closest_point(query);
-		float c_d = distance_sq(*c_pt, query);
-		if(c_d <= accepting_distance) return c_pt;		
 
-		auto c2 = child(ci2);
-		float c2_d = minimal_distance_sq(query, c2.box());
-		if(c2_d < c_d) {
-			iterator c2_pt = c2.closest_point(query);
-			float c2_d = distance_sq(*c2_pt, query);
-			if(c2_d < c_d) return c2_pt;
-		}
-		return c_pt;
+	iterator pt = end();
+	float d = INFINITY;
+
+	// Look child whose box is closest to query (it it exists)
+	std::ptrdiff_t closest_i = Traits::child_box_closest_to_point(query, box_, attr(), depth_);	
+	if(has_child(closest_i)) {	
+		pt = child(closest_i).closest_point(query);
+		d = distance_sq(*pt, query);
+		// If d in accepting radius, take this point
+		if(d <= accepting_distance) return pt;	
 	}
 	
-	// Get child node indices, sorted by ascending minimal distance of the child box to the query point
-	std::array<std::ptrdiff_t, Traits::number_of_children> closest_children;
-	for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) closest_children[i] = i;
-	std::sort(closest_children.begin(), closest_children.end(), [this, &query](std::ptrdiff_t a, std::ptrdiff_t b) {
-		return Traits::child_box_closer_to_point(query, a, b, box_, attr(), depth_);
-	});
+	// Need to look in other children for closer/any points...
+	// Get other child node indices, sorted by ascending minimal distance of the child box to the query point
+	std::array<std::ptrdiff_t, Traits::number_of_children - 1> other_children;
+	if(Traits::number_of_children == 2) {
+		// Just one other child in binary tree
+		other_children[0] = 1 - closest_i;
+	} else {
+		// Sort remaining children by ascending minimal point-to-box distance (slow)
+		std::ptrdiff_t cur = 0;
+		for(std::ptrdiff_t& c : other_children) {
+			if(cur == closest_i) ++cur;
+			c = cur++; 
+		}
+		std::sort(other_children.begin(), other_children.end(), [this, &query](std::ptrdiff_t a, std::ptrdiff_t b) {
+			return Traits::child_box_closer_to_point(query, a, b, box_, attr(), depth_);
+		});
+	}
 	
-	// Get closest existing child node
-	auto ci = closest_children.cbegin();
-	while(! has_child(*ci)) ++ci;
-	
-	// Recursively: take closest point within that child
-	iterator pt = child(*ci).closest_point(query);
-	float d = distance_sq(*pt, query);
-		
-	// Accept current point if distance <= accepting_distance
-	if(d <= accepting_distance) return pt;		
-
-	// A closer point may be in the other children
-	for(; ci != closest_children.cend(); ++ci) {	
-		if(! has_child(*ci)) continue;
+	for(std::ptrdiff_t other_i : other_children) {	
+		if(! has_child(other_i)) continue;
 		
 		// Get minimal distance to box of child c
-		node_handle_ c = child(*ci);
+		node_handle_ c = child(other_i);
 		float min_c_d = minimal_distance_sq(query, c.box());
 		
 		// When it is greater than distance to pt, child can contain no closer point

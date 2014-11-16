@@ -24,6 +24,10 @@ public:
 	template<typename Other_point>
 	static std::ptrdiff_t child_containing_point
 	(const Other_point& p, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
+
+	template<typename Other_point>
+	static std::ptrdiff_t child_box_closest_to_point
+	(const Other_point& p, const bounding_box&, const node_attributes&, std::ptrdiff_t depth);
 	
 	template<typename Other_point>
 	static std::ptrdiff_t child_box_closer_to_point
