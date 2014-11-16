@@ -8,10 +8,12 @@ class iterative_correspondences_registration<Cf, Cl, Cr, Transformation_estimati
 public:
 	Transformation_estimation transformation_estimation;
 	Error_metric error_metric;
+	std::size_t count = 0;
 	
 	receiver& operator<<(const receiver& rec) {
 		transformation_estimation << rec.transformation_estimation;
 		error_metric << rec.error_metric;
+		count += rec.count;
 		return *this;			
 	}
 	
@@ -19,6 +21,7 @@ public:
 	receiver& operator<<(const Obj& obj) {
 		transformation_estimation << obj;
 		error_metric << obj;
+		++count;
 		return *this;
 	}
 };
@@ -33,7 +36,7 @@ void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspond
 	error_ = rec.error_metric();
 	estimated_transformation_ = rec.transformation_estimation().inverse();
 	
-	std::cout << error_ << std::endl;
+	std::cout << error_ << " -- " << rec.count << std::endl;
 }
 
 

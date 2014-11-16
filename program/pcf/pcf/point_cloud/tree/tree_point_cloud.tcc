@@ -92,10 +92,7 @@ template<typename Traits, typename Point, typename Allocator> template<typename 
 const Point& tree_point_cloud<Traits, Point, Allocator>::
 closest_point(const Other_point& query, float accepting_distance, float rejecting_distance) const {
 	auto r = root();
-	if(rejecting_distance != INFINITY) {
-		if(minimal_distance_sq(query, r.box()) >= rejecting_distance) return super::invalid_point_();
-	}
-	auto it = r.closest_point(query, accepting_distance);
+	auto it = r.closest_point(query, accepting_distance, rejecting_distance);
 	if(it != r.end()) return *it;
 	else return super::invalid_point_();
 }

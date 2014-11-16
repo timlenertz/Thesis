@@ -21,8 +21,8 @@ namespace pcf {
 
 /**
 Set of points laid out in memory.
-Allocates to given capacity using provided allocator. Allocated size cannot change, but actual size is variable and can be made smaller. Considers the point cloud as unordered point set, subclasses implement structure by imposing point order.
-Depending on all_valid_ option, may or may not contain invalid points.
+Allocates to given capacity using provided allocator. Allocated size cannot change, but actual size is variable and can be made smaller. Considers the point cloud as unordered point set, subclasses implement structure by imposing point order. Memory is never reallocated, so
+point addresses are constant. Depending on all_valid_ option, may or may not contain invalid points.
 */
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class point_cloud {	
@@ -35,9 +35,22 @@ protected:
 	
 	void check_correct_alignment_() const;
 
+	/**
+	Create empty point cloud.
+	Allocates memory and creates uninitialized point cloud of size 0. Needs to be resized using resize_, and
+	filled with content by subclass constructor.
+	*/
 	point_cloud(std::size_t allocate_size, bool all_valid, const Allocator& alloc = Allocator());
 
+	/**
+	Set size of point cloud.
+	Needs to range from 0 to allocated size. Does not reallocate memory.
+	*/
 	void resize_(std::size_t new_size);
+	
+	/**
+	Initialize all points to invalid point.
+	*/
 	void initialize_();
 
 	static const Point& invalid_point_();

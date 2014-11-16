@@ -39,8 +39,8 @@ float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
 int main(int argc, const char* argv[]) {
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building Fixed..." << std::endl;
-	//grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
-	tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
+	grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
+	//tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
 	//point_cloud_xyz fixed = load(argv[1]);
 
 	// Create and save transformed loose
@@ -52,7 +52,7 @@ int main(int argc, const char* argv[]) {
 	Eigen::Affine3f trans(
 		Eigen::AngleAxisf(0.07*M_PI, Eigen::Vector3f::UnitX()) *
 		Eigen::AngleAxisf(-0.03*M_PI, Eigen::Vector3f::UnitY()) *
-		Eigen::Translation3f( Eigen::Vector3f(0.02, 0.005, -0.01) )
+		Eigen::Translation3f( Eigen::Vector3f(0.52, 0.005, -0.01) )
 	);
 	loose.apply_transformation(trans);
 	
@@ -64,11 +64,11 @@ int main(int argc, const char* argv[]) {
 	// Run ICP
 	auto cor = make_closest_point_correspondences(
 		fixed, loose,
-		[](const point_xyz&) { return random_integer(100)<10; },
-		[](const point_xyz&, const point_xyz&)->float { return 1.0; }
+		[](const point_xyz&) { return true; },
+		[](const point_xyz& a, const point_xyz& b)->float { return 1.0; }
 	);
-	cor.accepting_distance = 0;
-	cor.rejecting_distance = 1.0;
+	cor.accepting_distance = 0.2;
+	cor.rejecting_distance = 4;
 
 	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
 	

@@ -27,7 +27,6 @@ private:
 	
 public:
 	class iterator;
-	class const_iterator;
 
 	point_cloud_segment_union(std::initializer_list<segment_type>);
 	template<typename Container> point_cloud_segment_union(Container&& segs);
@@ -36,12 +35,7 @@ public:
 	std::size_t size() const;
 		
 	iterator begin();
-	const_iterator cbegin() const;
-	const_iterator begin() const { return cbegin(); }
-	
 	iterator end();
-	const_iterator cend() const;
-	const_iterator end() const { return cend(); }
 };
 
 }

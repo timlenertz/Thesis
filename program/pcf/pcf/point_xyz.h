@@ -18,7 +18,10 @@ Point defined only by X, Y, Z coordinates.
 Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations.
 */
 struct ALIGNAS(16) point_xyz {
-	/// Homogeneous coordinates of point. When last component is not 1, point is invalid. Hence representation is unique.
+	/** Homogeneous coordinates of point.
+	When last component is not 1, point is invalid. All invalid values compare as equal, regardless of first 3 components.
+	Representation of valid points is unique.
+	*/
 	Eigen::Vector4f homogeneous_coordinates;
 
 
@@ -71,6 +74,7 @@ namespace std {
 
 template<>
 inline void swap(pcf::point_xyz& a, pcf::point_xyz& b) {
+	// Ensure most efficient swap.
 	a.homogeneous_coordinates.swap(b.homogeneous_coordinates);
 }
 

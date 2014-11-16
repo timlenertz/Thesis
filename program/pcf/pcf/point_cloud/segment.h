@@ -10,7 +10,8 @@ namespace pcf {
 
 /**
 Segment of a point cloud.
-Interval of points in a point cloud. Does not own the memory.
+Interval of points in a point cloud. Does not own the memory. Does not differenciate between const and non-const access.
+However, Point may be a const type. Point clouds provide segment and const_segment typedefs. (I.e. same principle as iterators)
 */
 template<typename Point>
 class point_cloud_segment {

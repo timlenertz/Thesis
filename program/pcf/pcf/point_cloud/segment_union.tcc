@@ -79,19 +79,4 @@ auto point_cloud_segment_union<Point>::end() -> iterator {
 	else return iterator(nullptr);
 }
 
-
-template<typename Point>
-auto point_cloud_segment_union<Point>::cbegin() const -> const_iterator {
-	if(! segments_.empty()) return const_iterator(segments_.cbegin(), segments_.cend());
-	else return iterator(nullptr);
-}
-
-
-template<typename Point>
-auto point_cloud_segment_union<Point>::cend() const -> const_iterator {
-	if(! segments_.empty()) return const_iterator(segments_.back().cend());
-	else return const_iterator(nullptr);
-}
-
-
 }

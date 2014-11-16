@@ -61,7 +61,7 @@ public:
 	void make_child(std::ptrdiff_t i, const segment& seg) const;
 	
 	template<typename Other_point>
-	iterator closest_point(const Other_point&, float accepting_distance = 0) const;
+	iterator closest_point(const Other_point&, float accepting_distance, float rejecting_distance) const;
 };
 
 }
