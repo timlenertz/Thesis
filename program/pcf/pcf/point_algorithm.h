@@ -6,7 +6,7 @@
 namespace pcf {
 
 template<typename Point, typename Iterator>
-Iterator closest_point(const Point& ref, Iterator begin, Iterator end);
+Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end);
 
 }
 

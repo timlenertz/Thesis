@@ -11,7 +11,8 @@ namespace pcf {
 /**
 Cuboid region of cells of a grid point cloud.
 Represented in terms of origin and extremity cell coordinates. If origin=extremity, corresponds to one single cell.
-Provides interator interface to ierate through cell coordinates (not points).
+Provides interator interface to iterate through cell coordinates (not points). Can be converted to const or non-const
+segment union through the grid point cloud.
 */
 template<typename Point, typename Allocator>
 class grid_point_cloud<Point, Allocator>::subspace {

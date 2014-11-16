@@ -53,14 +53,14 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 		
 			#pragma omp for
 			for(auto it = todo.begin(); it < todo.end(); ++it) {								
-				if(it->nd().seg.size() <= leaf_capacity_) continue;
+				if(it->size() <= leaf_capacity_) continue;
 		
 				// Split the node
 				// Rearranges data in node's segment into subsegments for children
-				auto child_segments = Traits::split_node(it->nd().seg, it->box(), it->attr(), it->depth());
+				auto child_segments = Traits::split_node(it->seg(), it->box(), it->attr(), it->depth());
 				
-				assert(child_segments[0].begin() == it->nd().seg.begin());
-				assert(child_segments[Traits::number_of_children - 1].end() == it->nd().seg.end());
+				assert(child_segments[0].begin() == it->begin());
+				assert(child_segments[Traits::number_of_children - 1].end() == it->end());
 
 				// Create child nodes, and schedule for next iteration
 				for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
@@ -87,6 +87,21 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 }
 
 
+
+template<typename Traits, typename Point, typename Allocator> template<typename Other_point>	
+const Point& tree_point_cloud<Traits, Point, Allocator>::
+closest_point(const Other_point& query, float accepting_distance, float rejecting_distance) const {
+	auto r = root();
+	if(rejecting_distance != INFINITY) {
+		if(minimal_distance_sq(query, r.box()) >= rejecting_distance) return super::invalid_point_();
+	}
+	auto it = r.closest_point(query, accepting_distance);
+	if(it == r.end()) return *it;
+	else return super::invalid_point_();
+}
+
+
+
 template<typename Traits, typename Point, typename Allocator>
 bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle& an) const {
 	for(const Point& p : an->seg) if(! an.box().contains(p)) return false;
@@ -100,6 +115,8 @@ bool tree_point_cloud<Traits, Point, Allocator>::verify_(const const_node_handle
 	
 	return true;
 }
+
+
 
 
 

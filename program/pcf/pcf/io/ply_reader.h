@@ -25,6 +25,12 @@ public:
 };
 
 
+/**
+Point cloud reader from PLY files.
+Reads only points (vertices), possibly with RGB color and normal vector data. Supports ASCII and binary
+formats. Detects line ending type from file. File may contains other elements except vertex, but those
+are not read. List-type properties are not supported, and are only tolerated in elements behinds vertex.
+*/
 class ply_reader {
 private:
 	const static std::size_t maximal_ascii_element_line_length_ = 256;

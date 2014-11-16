@@ -142,7 +142,7 @@ auto kdtree_point_cloud<Point, Allocator>::node_containing_point_(const Other_po
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& kdtree_point_cloud<Point, Allocator>::find_closest_point(const Other_point& from) const {
 	const node& nd = node_containing_point_(from, root_node_, root_cuboid_);
-	return super::find_closest_point(from, euclidian_distance_sq, nd.begin(), nd.end());
+	return super::find_closest_point(from, distance_sq, nd.begin(), nd.end());
 }
 
 

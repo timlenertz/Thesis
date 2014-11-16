@@ -16,6 +16,7 @@ protected:
 	std::vector<registration_correspondence> cors_;
 
 protected:
+	correlation_matrix_transformation_estimation() = default;
 	Eigen::Matrix3f correlation_matrix_() const;
 
 public:

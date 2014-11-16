@@ -1,6 +1,7 @@
 namespace pcf {
 	
-inline bounding_box octree_traits::child_box(std::ptrdiff_t i, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+inline bounding_box octree_traits::child_box
+(std::ptrdiff_t i, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	Eigen::Vector3f c = cub.center();
 	bool x = (i % 2);
 	bool y = (i % 4 > 1);
@@ -27,7 +28,8 @@ bounding_box octree_traits::root_box(point_cloud_segment<Point> seg) {
 
 
 template<typename Other_point>
-std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+std::ptrdiff_t octree_traits::child_containing_point
+(const Other_point& p, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
 	Eigen::Vector3f c = cub.center();
 	std::ptrdiff_t i = 0;
 	if(p[0] >= c[0]) i += 1;
@@ -37,8 +39,23 @@ std::ptrdiff_t octree_traits::child_containing_point(const Other_point& p, const
 }
 
 
+template<typename Other_point>
+std::ptrdiff_t octree_traits::child_box_closer_to_point
+(const Other_point& p, std::ptrdiff_t a, std::ptrdiff_t b, const bounding_box& cub, const node_attributes& attr, std::ptrdiff_t depth) {
+	std::ptrdiff_t c = child_containing_point(p, cub, attr, depth);
+	if(c == a || c == b) return c;
+	
+	float da = minimal_distance_sq(p, child_box(a, cub, attr, depth));
+	float db = minimal_distance_sq(p, child_box(b, cub, attr, depth));
+	if(da > db) return a;
+	else return b;
+}
+
+
+
 template<typename Point>
-std::array<point_cloud_segment<Point>, 8> octree_traits::split_node(point_cloud_segment<Point> seg, const bounding_box& cub, node_attributes& attr, std::ptrdiff_t depth) {
+std::array<point_cloud_segment<Point>, 8> octree_traits::split_node
+(point_cloud_segment<Point> seg, const bounding_box& cub, node_attributes& attr, std::ptrdiff_t depth) {
 	auto idx = [&cub](const Point& p) {
 		return child_containing_point(p, cub, node_attributes(), 0);
 	};

@@ -14,7 +14,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 			const auto& lp = *it;
 			if(!lp.valid() || !selection_func_(lp)) continue;
 		
-			const auto& fp = fixed_.find_closest_point(lp);
+			const auto& fp = fixed_.closest_point(lp);
 			if(!fp.valid()) continue;
 		
 			float w = weight_func_(fp, lp);

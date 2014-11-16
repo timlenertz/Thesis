@@ -10,10 +10,7 @@ namespace pcf {
 
 /**
 Segment of a point cloud.
-Interval of points in a point cloud. Does not own the memory. Also used as base class for point cloud. TODO change
-Const-correctness: If template parameter Point is const, it always gives read-only access to points.
-Otherwise, only non-const access to segment gives non-const access to points, and to operations that modify
-points.
+Interval of points in a point cloud. Does not own the memory.
 */
 template<typename Point>
 class point_cloud_segment {

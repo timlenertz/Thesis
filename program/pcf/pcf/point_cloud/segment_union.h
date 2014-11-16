@@ -34,9 +34,7 @@ public:
 		
 	std::size_t number_of_segments() const { return segments_.size(); }
 	std::size_t size() const;
-	
-	//std::vector<point_cloud_segment_union> split(std::size_t n) const;
-	
+		
 	iterator begin();
 	const_iterator cbegin() const;
 	const_iterator begin() const { return cbegin(); }

@@ -177,7 +177,6 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 	
 	const std::size_t total = number_of_valid_points();
 	const std::size_t expected = ratio * total;
-	std::size_t picked = 0;
 	std::size_t left = total;
 	std::size_t needed = expected;
 	

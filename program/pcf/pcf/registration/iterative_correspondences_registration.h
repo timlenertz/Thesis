@@ -11,12 +11,15 @@
 
 namespace pcf {
 
+/**
+Generic implementation of ICP registration algorithm.
+*/
 template<
 	typename Cloud_fixed,
 	typename Cloud_loose,
 	typename Correspondences,
 	typename Transformation_estimation = svd_transformation_estimation,
-	typename Error_metric = mean_square_error
+	typename Error_metric = typename Transformation_estimation::error_metric
 >
 class iterative_correspondences_registration {
 private:
@@ -32,7 +35,7 @@ private:
 	Eigen::Affine3f estimated_transformation_;
 			
 public:
-	float minimal_error = 0.01;
+	float minimal_error = 0.005;
 	std::size_t maximal_iterations = 30;
 
 public:

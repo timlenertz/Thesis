@@ -38,8 +38,11 @@ struct bounding_box {
 
 
 
- float minimal_distance_sq(const bounding_box& a, const bounding_box& b);
- float maximal_distance_sq(const bounding_box& a, const bounding_box& b);
+float minimal_distance_sq(const bounding_box& a, const bounding_box& b);
+float maximal_distance_sq(const bounding_box& a, const bounding_box& b);
+
+float minimal_distance_sq(const Eigen::Vector3f& p, const bounding_box& b);
+float maximal_distance_sq(const Eigen::Vector3f& p, const bounding_box& b);
 
 inline float maximal_distance(const bounding_box& a, const bounding_box& b) {
 	return std::sqrt( maximal_distance_sq(a, b) );
@@ -48,6 +51,16 @@ inline float maximal_distance(const bounding_box& a, const bounding_box& b) {
 inline float minimal_distance(const bounding_box& a, const bounding_box& b) {
 	return std::sqrt( minimal_distance_sq(a, b) );
 }
+
+
+inline float minimal_distance(const Eigen::Vector3f& p, const bounding_box& b) {
+	return std::sqrt( minimal_distance_sq(p, b) );
+}
+
+inline float maximal_distance(const Eigen::Vector3f& p, const bounding_box& b) {
+	return std::sqrt( maximal_distance_sq(p, b) );
+}
+
 
 }
 

@@ -92,6 +92,32 @@ float maximal_distance_sq(const bounding_box& a, const bounding_box& b) {
 }
 
 
+float minimal_distance_sq(const Eigen::Vector3f& p, const bounding_box& b) {
+	float dist = 0;
+	for(std::ptrdiff_t i = 0; i < 3; ++i) {
+		if(p[i] < b.origin[i]) {
+			float d = b.origin[i] - p[i];
+			dist += d * d;
+		} else if(p[i] > b.extremity[i]) {
+			float d = p[i] - b.extremity[i];
+			dist += d * d;
+		}
+	}
+	return dist;
+}
+
+
+float maximal_distance_sq(const Eigen::Vector3f& p, const bounding_box& b) {
+	float max_dist = 0;
+	for(const Eigen::Vector3f& c : b.corners()) {
+		float d = (p - c).squaredNorm();
+		if(d > max_dist) max_dist = d;
+	}
+	return max_dist;
+}
+
+
+
 std::ostream& operator<<(std::ostream& str, const bounding_box& c) {
 	str << "[ (" << c.origin[0] << ", " << c.origin[1] << ", " << c.origin[2] << ");"
 		   " (" << c.extremity[0] << ", " << c.extremity[1] << ", " << c.extremity[2] << ") [";

@@ -58,10 +58,10 @@ public:
 	bool verify() const;
 	
 	template<typename Other_point>
-	const Point& find_closest_point(const Other_point& from) const;
+	const Point& closest_point(const Other_point& from) const;
 	
 	template<typename Condition_func, typename Callback_func>
-	void find_nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;
 	
 	std::size_t number_of_cells() const { return cell_offsets_.size(); }
 	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }

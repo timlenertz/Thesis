@@ -7,6 +7,10 @@
 
 namespace pcf {
 
+/**
+Tree traits for no tree.
+Just a single node emcompassing entire point cloud.
+*/
 class null_tree_traits {
 public:
 	const static std::size_t number_of_children = 1;
@@ -25,6 +29,11 @@ public:
 	
 	template<typename Other_point>
 	static std::ptrdiff_t child_containing_point(const Other_point& p, const bounding_box&, const node_attributes&, std::ptrdiff_t) {
+		return 0;
+	}
+	
+	template<typename Other_point>
+	static std::ptrdiff_t child_closer_to_point(const Other_point& p, std::ptrdiff_t a, std::ptrdiff_t b, const bounding_box&, const node_attributes&, std::ptrdiff_t depth) {
 		return 0;
 	}
 	

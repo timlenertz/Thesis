@@ -247,7 +247,7 @@ std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
-const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_point& ref) const {
+const Point& grid_point_cloud<Point, Allocator>::closest_point(const Other_point& ref) const {
 	cell_coordinates c = cell_for_point(ref);
 	move_into_bounds_(c);
 	
@@ -256,7 +256,7 @@ const Point& grid_point_cloud<Point, Allocator>::find_closest_point(const Other_
 		
 	const_segment_union u = segment_union_for_subspace(s);
 	
-	auto it = closest_point(ref, u.begin(), u.end());	
+	auto it = find_closest_point(ref, u.begin(), u.end());	
 	return *it;
 }
 
@@ -281,7 +281,7 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 
 
 template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
-void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
+void grid_point_cloud<Point, Allocator>::nearest_neighbors
 (std::size_t k, Condition_func cond, Callback_func callback, bool parallel) const {
 	const float cbrt3 = std::cbrt(3.0f);
 	
@@ -296,8 +296,8 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 		// Now iterate through points in this cell
 		for(const Point& pt : seg) {
 			auto cmp = [&pt](const Point* a, const Point* b) {
-				float da = euclidian_distance_sq(pt, *a);
-				float db = euclidian_distance_sq(pt, *b);
+				float da = distance_sq(pt, *a);
+				float db = distance_sq(pt, *b);
 				return (da < db);
 			};
 		
@@ -331,7 +331,7 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 						
 			// Load points inside insphere
 			for(Point& pt2 : s_at_least_k) {
-				float d = euclidian_distance_sq(pt, pt2);
+				float d = distance_sq(pt, pt2);
 				if(d <= r_in_sq) knn.push_back(&pt2);
 			}
 			
@@ -358,7 +358,7 @@ void grid_point_cloud<Point, Allocator>::find_nearest_neighbors
 			// Add points between insphere and outsphere
 			std::size_t insphere_end = knn.size(); // End of insphere points in knn array
 			for(Point& pt2 : s_ultimate) {
-				float d = euclidian_distance_sq(pt, pt2);
+				float d = distance_sq(pt, pt2);
 				if(d > r_in_sq && d <= r_out_sq) knn.push_back(&pt2);
 			}
 			

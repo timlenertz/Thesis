@@ -5,6 +5,7 @@
 #include <array>
 #include <stack>
 #include <vector>
+#include <cmath>
 #include "../point_cloud.h"
 
 namespace pcf {
@@ -25,11 +26,9 @@ private:
 	};
 
 public:
-	template<typename> class node_handle_;
-	using node_handle = node_handle_<node>;
-	using const_node_handle = node_handle_<const node>;
-	using backtrace = typename node_handle::backtrace;
-	using const_backtrace = typename const_node_handle::backtrace;
+	template<bool> class node_handle_;
+	using node_handle = node_handle_<false>;
+	using const_node_handle = node_handle_<true>;
 
 private:	
 	const std::size_t leaf_capacity_;
@@ -47,6 +46,9 @@ public:
 	const_node_handle root() const;
 
 	bool verify() const { return verify_(root()); }
+
+	template<typename Other_point>	
+	const Point& closest_point(const Other_point& query, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 };
 
 }

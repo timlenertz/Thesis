@@ -6,6 +6,8 @@
 #include "pcf/io/ply_writer.h"
 #include "pcf/io/ply_reader.h"
 #include "pcf/point_cloud/point_cloud.h"
+#include "pcf/point_cloud/tree/tree_point_cloud.h"
+#include "pcf/point_cloud/tree/octree_traits.h"
 #include "pcf/point_cloud/grid/grid_point_cloud.h"
 #include "pcf/registration/iterative_correspondences_registration.h"
 #include "pcf/registration/correspondences/closest_point_correspondences.h"
@@ -34,23 +36,28 @@ float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
 }
 
 int main(int argc, const char* argv[]) {
+	// Load fixed (untransformed) into grid pc
+	std::cout << "Building Fixed..." << std::endl;
+	//grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
+	tree_point_cloud<octree_traits, point_xyz> fixed(load(argv[1]), 100);
+	//point_cloud_xyz fixed = load(argv[1]);
+
+
 	// Create and save transformed loose
-	point_cloud_xyz loose = load(argv[1]);
+	point_cloud_xyz loose = fixed;
+
+	std::cout << "No error: " << reg_error(fixed, loose) << std::endl;
 
 	std::cout << "Initial transform..." << std::endl;
 	Eigen::Affine3f trans(
 		Eigen::AngleAxisf(0.07*M_PI, Eigen::Vector3f::UnitX()) *
 		Eigen::AngleAxisf(-0.03*M_PI, Eigen::Vector3f::UnitY()) *
-		Eigen::Translation3f( Eigen::Vector3f(0.008, 0.004, -0.001) )
+		Eigen::Translation3f( Eigen::Vector3f(0.02, 0.005, -0.01) )
 	);
 	loose.apply_transformation(trans);
 	
 	save(loose, "loose.ply");
 
-	// Load fixed (untransformed) into grid pc
-	std::cout << "Building Grid" << std::endl;
-	grid_point_cloud_xyz fixed(load(argv[1]), 2.0);
-	std::cout << fixed.number_of_cells() << std::endl;
 	
 	std::cout << "Initial error: " << reg_error(fixed, loose) << std::endl;
 	
