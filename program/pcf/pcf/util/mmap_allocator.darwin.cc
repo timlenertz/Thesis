@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/mman.h>
+#include <cstdio>
 
 namespace pcf {
 
@@ -46,6 +47,16 @@ std::uintptr_t mmap_allocator_base::key_for_ptr_(const void* ptr) {
 
 
 void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, const void* hint) {
+	// Round length up to system page size
+	int sys_page_size = getpagesize();
+	length /= sys_page_size;
+	length *= (sys_page_size + 1);
+	
+	if(sys_page_size % align != 0)
+		throw std::runtime_error("System page size not a multiple of requested alignment.");
+
+
+	// Generate temporary file with unique name
 	std::unique_ptr<char[]> name_tmp( new char[name_.size() + 8] );
 	
 	std::memcpy(name_tmp.get(), name_.data(), name_.size());
@@ -53,7 +64,12 @@ void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, cons
 	
 	int fd = mkstemp(name_tmp.get());
 	if(fd == -1) throw std::runtime_error("Could not create temporary file.");
+		
+
+	// Make sparse file of requested length
+	ftruncate(fd, length);
 	
+	// Map file to virtual memory
 	void* ptr = mmap(
 		const_cast<void*>(hint),
 		length,
@@ -64,6 +80,7 @@ void* mmap_allocator_base::allocate_(std::size_t length, std::size_t align, cons
 	);
 	if((std::intptr_t)ptr == -1) throw std::runtime_error("Could not create mmap region.");
 
+	// Add to allocations list	
 	std::uintptr_t key = key_for_ptr_(ptr);
 	auto& impl = get_impl_();
 	impl::allocation* alloc = new impl::allocation;

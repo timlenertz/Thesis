@@ -44,7 +44,7 @@ public:
 	using value_type = T;
 
 public:
-	mmap_allocator(const std::string& name = std::string()) :
+	mmap_allocator(const std::string& name = std::string("mmap")) :
 		mmap_allocator_base(name) { }
 	
 	mmap_allocator(const mmap_allocator&) = default;
