@@ -27,6 +27,9 @@ public:
 	template<typename It> class iterator_;
 	using iterator = iterator_<typename data_vector::iterator>;
 	using const_iterator = iterator_<typename data_vector::const_iterator>;
+	
+	using raw_iterator = typename data_vector::iterator;
+	using raw_const_iterator = typename data_vector::const_iterator;
 
 	explicit multi_dimensional_dynarray(const multi_size&);
 	multi_dimensional_dynarray(const multi_size&, T def);
@@ -49,6 +52,14 @@ public:
 	iterator end() { return iterator(sizes_, data_.end()); }
 	const_iterator end() const { return const_iterator(sizes_, data_.cend()); }
 	const_iterator cend() const { return end(); }
+	
+	raw_iterator begin_raw() { return data_.begin(); }
+	raw_const_iterator begin_raw() const { return data_.cbegin(); }
+	raw_const_iterator cbegin_raw() const { return data_.cbegin(); }
+
+	raw_iterator end_raw() { return data_.end(); }
+	raw_const_iterator end_raw() const { return data_.cend(); }
+	raw_const_iterator cend_raw() const { return data_.cend(); }
 };
 
 

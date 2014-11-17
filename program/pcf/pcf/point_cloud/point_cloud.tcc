@@ -139,13 +139,29 @@ void point_cloud<Point, Allocator>::write(Writer& writer) const {
 }
 
 
-template<typename Point, typename Allocator> template<typename Transformation>
-void point_cloud<Point, Allocator>::apply_transformation(const Transformation& t) {
-	const Eigen::Affine3f affinet(t);
-	
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::apply_transformation(const Eigen::Affine3f& t) {	
 	#pragma omp parallel for
-	for(auto p = begin(); p < end(); ++p) p->apply_transformation(affinet);
+	for(auto p = begin(); p < end(); ++p) p->apply_transformation(t);
 }
+
+
+template<typename Point, typename Allocator> template<typename Callback>
+void point_cloud<Point, Allocator>::with_transformation(const Eigen::Affine3f& t, const Callback& callback) {
+	apply_transformation(t);
+	callback(*this);
+	apply_transformation(t.inverse());	
+}
+
+
+template<typename Point, typename Allocator> template<typename Callback>
+void point_cloud<Point, Allocator>::with_transformation(const Eigen::Affine3f& t, const Callback& callback) const {
+	const_cast<point_cloud*>(this)->apply_transformation(t);
+	callback(*this);
+	const_cast<point_cloud*>(this)->apply_transformation(t.inverse());	
+}
+
+
 
 
 template<typename Point, typename Allocator>
@@ -236,7 +252,9 @@ void point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool move, b
 	#pragma omp parallel for
 	for(Point* p = begin_; p < end_; ++p) p->invalidate();
 
-	for(Point* p : cells) if(p) p->revalidate();
+	#pragma omp parallel for
+	for(auto it = cells.begin_raw(); it < cells.end_raw(); ++it)
+		if(*it) (*it)->revalidate();
 
 
 	// If not in invalidate mode: Need to erase invalid from pc

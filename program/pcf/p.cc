@@ -43,6 +43,9 @@ int main(int argc, const char* argv[]) {
 	//tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
 	//point_cloud_xyz fixed = load(argv[1]);
 
+	save(fixed, "fixed.ply");
+
+
 	// Create and save transformed loose
 	point_cloud_xyz loose(fixed, false);
 
@@ -56,7 +59,10 @@ int main(int argc, const char* argv[]) {
 	);
 	loose.apply_transformation(trans);
 	
-	loose.downsample_grid(0.005, true, true);
+	loose.with_transformation(
+		Eigen::Affine3f(Eigen::AngleAxisf(0.25*M_PI, Eigen::Vector3f::UnitZ())),
+		[](point_cloud_xyz& l) { l.downsample_grid(2.0, true, true); }
+	);
 	
 	save(loose, "loose.ply");
 

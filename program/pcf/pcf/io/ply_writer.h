@@ -70,6 +70,10 @@ public:
 	void write(const point_full* buffer, std::size_t n);
 };
 
+
+using ply_writer_xyz = ply_writer<point_xyz>;
+using ply_writer_full = ply_writer<point_full>;
+
 }
 
 #endif

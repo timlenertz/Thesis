@@ -5,7 +5,6 @@
 #include <Eigen/Geometry>
 #include <cmath>
 #include <utility>
-#include "../util/misc.h"
 #include "transformation_estimation/svd_transformation_estimation.h"
 #include "error_metric/mean_square_error.h"
 

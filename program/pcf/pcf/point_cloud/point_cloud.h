@@ -111,8 +111,11 @@ public:
 
 	void erase_invalid_points();
 			
-	template<typename Transformation>
-	void apply_transformation(const Transformation& t);	
+	void apply_transformation(const Eigen::Affine3f&);
+	
+	template<typename Callback> void with_transformation(const Eigen::Affine3f&, const Callback&);
+	template<typename Callback> void with_transformation(const Eigen::Affine3f&, const Callback&) const;
+	
 		
 	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
