@@ -184,47 +184,6 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 
 
 
-template<typename Point, typename Allocator>
-void point_cloud<Point, Allocator>::downsample_grid(float cell_sz, bool move, bool invalidate) {
-	if(invalidate && all_valid_)
-		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
-	
-	bounding_box b = box();
-	std::size_t number_of_cells[3];
-	std::size_t total_number_of_cells = 1;
-	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		number_of_cells[i] = std::ceil(b.side_lengths()[i] / cell_sz);
-		total_number_of_cells *= number_of_cells[i];
-	}
-	
-	std::vector<Point*> candidate(total_number_of_cells, nullptr);
-	
-	auto point_cell_index = [&number_of_cells, &b, &cell_sz](const Point& pt) -> std::ptrdiff_t {
-		Eigen::Vector3f p = pt - b.origin;
-		std::ptrdiff_t c[3];
-		for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = std::floor(p[i] / cell_sz);
-		return
-			c[0] * number_of_cells[1] * number_of_cells[2]
-			+ c[1] * number_of_cells[2]
-			+ c[2];
-	}
-	
-	auto cell_center = [](std::ptrdiff_t idx) -> Eigen::Vector3f {
-		
-	};
-	
-	for(Point* p = begin_; p < end_; ++p) {
-		auto& cand = candidate[ point_cell_index(p) ];
-		if(cand == nullptr) {
-			cand = p;
-		} else {
-			
-		}
-	}
-}
-
-
-
 template<typename Point, typename Allocator> template<typename Other_point>
 const Point& point_cloud<Point, Allocator>::
 closest_point(const Other_point& query, float accepting_distance, float rejecting_distance) const {

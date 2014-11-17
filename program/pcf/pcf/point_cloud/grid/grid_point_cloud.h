@@ -7,7 +7,6 @@
 #include <array>
 #include <ostream>
 #include <cmath>
-#include "../../util/multi_dimensional_array.h"
 #include "../point_cloud.h"
 #include "../../geometry/bounding_box.h"
 
@@ -38,9 +37,6 @@ private:
 	const float cell_length_;
 
 	Eigen::Vector3f origin_;
-	
-	array_3d<std::ptrdiff_t> cell_offsets_;
-	
 	std::size_t number_of_cells_[3];
 	std::vector<std::ptrdiff_t> cell_offsets_;
 
