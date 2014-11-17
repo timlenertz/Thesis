@@ -44,7 +44,7 @@ int main(int argc, const char* argv[]) {
 	//point_cloud_xyz fixed = load(argv[1]);
 
 	// Create and save transformed loose
-	point_cloud_xyz loose = fixed;
+	point_cloud_xyz loose(fixed, false);
 
 	std::cout << "No error: " << reg_error(fixed, loose) << std::endl;
 
@@ -52,9 +52,11 @@ int main(int argc, const char* argv[]) {
 	Eigen::Affine3f trans(
 		Eigen::AngleAxisf(0.07*M_PI, Eigen::Vector3f::UnitX()) *
 		Eigen::AngleAxisf(-0.03*M_PI, Eigen::Vector3f::UnitY()) *
-		Eigen::Translation3f( Eigen::Vector3f(0.52, 0.005, -0.01) )
+		Eigen::Translation3f( Eigen::Vector3f(0.02, 0.005, -0.01) )
 	);
 	loose.apply_transformation(trans);
+	
+	loose.downsample_random(0.99, true);
 	
 	save(loose, "loose.ply");
 
