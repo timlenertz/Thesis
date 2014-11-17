@@ -34,7 +34,6 @@ public:
 	explicit multi_dimensional_dynarray(const multi_size&);
 	multi_dimensional_dynarray(const multi_size&, T def);
 	multi_dimensional_dynarray(const multi_dimensional_dynarray&) = default;
-	multi_dimensional_dynarray(multi_dimensional_dynarray&&) = default;
 	
 	T* data() { return data_.data(); }
 	const T* data() const { return data_.data(); }

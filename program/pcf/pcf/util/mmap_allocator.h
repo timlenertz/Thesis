@@ -3,7 +3,9 @@
 
 #include <string>
 #include <cassert>
+#include <cstdint>
 #include <memory>
+#include "alignment.h"
 
 namespace pcf {
 
@@ -52,7 +54,7 @@ public:
 
 	T* allocate(std::size_t n, const T* hint = 0) {
 		return reinterpret_cast<T*>(
-			allocate_(n * sizeof(T), alignof(T), reinterpret_cast<const void*>(hint))
+			allocate_(n * sizeof(T), ALIGNOF(T), reinterpret_cast<const void*>(hint))
 		);
 	}
 	
