@@ -40,7 +40,7 @@ float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
 int main(int argc, const char* argv[]) {
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building fixed..." << std::endl;
-	using gpc = grid_point_cloud<point_xyz>;
+	using gpc = grid_point_cloud<point_xyz, mmap_allocator<point_xyz>>;
 	gpc fixed(load(argv[1]), 2.0);
 	//tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
 	//point_cloud_xyz fixed = load(argv[1]);
