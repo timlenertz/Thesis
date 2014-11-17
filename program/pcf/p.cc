@@ -56,7 +56,7 @@ int main(int argc, const char* argv[]) {
 	);
 	loose.apply_transformation(trans);
 	
-	loose.downsample_random(0.99, true);
+	loose.downsample_grid(0.005, true, true);
 	
 	save(loose, "loose.ply");
 

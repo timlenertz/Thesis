@@ -48,6 +48,7 @@ struct ALIGNAS(16) point_xyz {
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }
 	void invalidate() { homogeneous_coordinates[3] = 0; }
+	void revalidate() { homogeneous_coordinates[3] = 1; }
 	
 	float& operator[](std::ptrdiff_t i) { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
 	const float& operator[](std::ptrdiff_t i) const { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }

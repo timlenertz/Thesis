@@ -2,6 +2,7 @@
 #include <memory>
 #include <algorithm>
 #include "../util/alignment.h"
+#include "../util/multi_dimensional_dynarray.h"
 #include "../point_algorithm.h"
 
 namespace pcf {
@@ -185,42 +186,61 @@ void point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalida
 
 
 template<typename Point, typename Allocator>
-void point_cloud<Point, Allocator>::downsample_grid(float cell_sz, bool move, bool invalidate) {
+void point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool move, bool invalidate) {
 	if(invalidate && all_valid_)
 		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
 	
+	// Create 3D array storing closest point to center of each cell
+	// or nullptr if no point in that cell
 	bounding_box b = box();
-	std::size_t number_of_cells[3];
-	std::size_t total_number_of_cells = 1;
-	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		number_of_cells[i] = std::ceil(b.side_lengths()[i] / cell_sz);
-		total_number_of_cells *= number_of_cells[i];
-	}
+	std::array<std::size_t, 3> sz;
+	for(std::ptrdiff_t i = 0; i < 3; ++i) sz[i] = std::ceil(b.side_lengths()[i] / cell_len);
 	
-	std::vector<Point*> candidate(total_number_of_cells, nullptr);
+	dynarray3<Point*> cells(sz, nullptr);
+	using cell_index = typename dynarray3<Point*>::multi_index;
 	
-	auto point_cell_index = [&number_of_cells, &b, &cell_sz](const Point& pt) -> std::ptrdiff_t {
-		Eigen::Vector3f p = pt - b.origin;
-		std::ptrdiff_t c[3];
-		for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = std::floor(p[i] / cell_sz);
-		return
-			c[0] * number_of_cells[1] * number_of_cells[2]
-			+ c[1] * number_of_cells[2]
-			+ c[2];
-	}
-	
-	auto cell_center = [](std::ptrdiff_t idx) -> Eigen::Vector3f {
-		
+	auto cell_center = [&b, &cell_len](const cell_index& mi) -> Eigen::Vector3f {
+		Eigen::Vector3f center;
+		for(auto i = 0; i < 3; ++i) center[i] = mi[i] * cell_len;
+		return (center + b.origin);
 	};
 	
+	// For each point: Retain closest point to center of each cell
+	#pragma omp parallel for
 	for(Point* p = begin_; p < end_; ++p) {
-		auto& cand = candidate[ point_cell_index(p) ];
+		cell_index mi;
+		for(auto i = 0; i < 3; ++i) mi[i] = ((*p)[i] - b.origin[i]) / cell_len;
+	
+		auto& cand = cells[mi];
 		if(cand == nullptr) {
 			cand = p;
 		} else {
+			Eigen::Vector3f center = cell_center(mi);
+		
+			float old_d = distance_sq(*cand, center);
+			float new_d = distance_sq(*p, center);
 			
+			if(new_d < old_d) cand = p;
 		}
 	}
+
+
+	// If move: Move points retained for cells to respective cell centers
+	if(move) for(auto cit = cells.begin(); cit != cells.end(); ++cit) {
+		Point* p = *cit;
+		if(p) *p = cell_center(cit.index());
+	}
+	
+	
+	// Invalidate all points, and then revalidate those retained for cells
+	#pragma omp parallel for
+	for(Point* p = begin_; p < end_; ++p) p->invalidate();
+
+	for(Point* p : cells) if(p) p->revalidate();
+
+
+	// If not in invalidate mode: Need to erase invalid from pc
+	if(! invalidate) erase_invalid_points();
 }
 
 
