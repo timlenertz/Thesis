@@ -55,8 +55,25 @@ point_cloud(point_cloud&& pc, bool all_val) :
 	begin_( pc.begin_ ),
 	end_( pc.end_ )
 {
+	check_correct_alignment_();
 	pc.begin_ = nullptr;
 }
+
+
+template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
+point_cloud<Point, Allocator>::
+point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
+	point_cloud(pc.size(), all_val, alloc)
+{
+	Point* buf = begin_;
+	if(all_val && ! pc.all_valid()) {
+		for(const auto& p : pc) if(p.valid())  *(buf++) = Point(p);
+	} else {
+		for(const auto& p : pc) *(buf++) = Point(p);
+	}
+	end_ = buf;
+}
+
 
 
 template<typename Point, typename Allocator>
@@ -87,23 +104,25 @@ bool point_cloud<Point, Allocator>::contains_invalid_points() const {
 }
 
 
-template<typename Point, typename Allocator> template<typename Writer>
-void point_cloud<Point, Allocator>::write(Writer& writer) const {
+
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::export_with(point_cloud_exporter& exp) const {
 	if(all_valid_) {
-		writer.write(data(), size());
+		exp.write(data(), size());
 	} else {
 		const Point* segment_start = nullptr;
 		for(const Point* p = begin(); p != end(); ++p) {
 			bool valid = p->valid();
 			if(!valid && segment_start) {
-				writer.write(segment_start, p - segment_start);
+				exp.write(segment_start, p - segment_start);
 				segment_start = nullptr;
 			} else if(valid && !segment_start) {
 				segment_start = p;
 			}
 		}
-		if(segment_start) writer.write(segment_start, end() - segment_start);
+		if(segment_start) exp.write(segment_start, end() - segment_start);
 	}
+	exp.close();
 }
 
 

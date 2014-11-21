@@ -7,26 +7,14 @@ namespace pcf {
 template<typename Point, typename Allocator>
 unorganized_point_cloud<Point, Allocator>::
 unorganized_point_cloud(const super& pc, bool all_val) :
-	super(pc.capacity(), all_val, pc.get_allocator())
-{
-	super::resize_(pc.size());
-	std::memcpy(
-		(void*)super::begin_,
-		(const void*)pc.data(),
-		pc.size() * sizeof(Point)
-	);
-	
-	if(super::all_valid_ && !pc.all_valid()) erase_invalid_points();
-}
+	super(pc, all_val, pc.get_allocator()) { }
 
 
 template<typename Point, typename Allocator>
 unorganized_point_cloud<Point, Allocator>::
 unorganized_point_cloud(super&& pc, bool all_val) :
 	super(std::move(pc), all_val)
-{
-	if(super::all_valid_ && !pc.all_valid_) erase_invalid_points();
-}
+{ }
 
 
 

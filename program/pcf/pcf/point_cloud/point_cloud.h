@@ -16,6 +16,7 @@
 #include "../util/aligned_allocator.h"
 #include "segment.h"
 #include "segment_union.h"
+#include "../io/point_cloud_exporter.h"
 
 namespace pcf {
 
@@ -42,16 +43,26 @@ protected:
 	Allocates memory and creates uninitialized point cloud of size 0. Needs to be resized using resize_, and
 	filled with content by subclass constructor.
 	*/
-	point_cloud(std::size_t allocate_size, bool all_valid, const Allocator& alloc);
+	point_cloud(std::size_t allocate_size, bool all_val, const Allocator&);
 
 	/**
-	Create point cloud by move construction from other.
+	Create point cloud by move construction from another.
 	Other's buffer is taken, and the other is invalidated so it won't deallocate it. No memory is allocated or copied.
+	If all_val and other is not all-valid, erases invalid points.
 	*/
 	point_cloud(point_cloud&&, bool all_val);
+
+
+	/**
+	Create point cloud by copy construction from another.
+	Allocates using provided allocator to size of other cloud, and copies points.
+	If all_val and other is not all-valid, erases invalid points.
+	*/
+	template<typename Other_point, typename Other_allocator>
+	point_cloud(const point_cloud<Other_point, Other_allocator>&, bool all_val, const Allocator&);
+	
 	
 	point_cloud() = delete; ///< Disallow default construction.
-	point_cloud(const point_cloud&) = delete; ///< Disallow copy construction.
 	point_cloud& operator=(const point_cloud&) = delete; ///< Disallow assignment.
 	
 
@@ -83,7 +94,7 @@ public:
 	
 	const Allocator& get_allocator() const { return allocator_; }
 	
-	template<typename Writer> void write(Writer&) const;
+	void export_with(point_cloud_exporter&) const;
 	
 	bool all_valid() const { return all_valid_; }
 	std::size_t capacity() const { return allocated_size_; }

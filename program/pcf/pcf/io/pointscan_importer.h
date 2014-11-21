@@ -3,7 +3,7 @@
 
 #include "range_point_cloud_importer.h"
 #include <memory>
-#include <istream>
+#include <fstream>
 #include <string>
 
 namespace ps {
@@ -14,18 +14,21 @@ namespace pcf {
 
 class pointscan_importer : public range_point_cloud_importer {
 private:
-	struct ps_data;
+	struct sc_header;
 
 	std::ifstream file_;
-	std::unique_ptr<>
-	std::ifstream::pos_type data_set_starts_[10];
-	std::ifstream::pos_type data_set_positions_[10];
+	std::unique_ptr<sc_header> header_;
 	std::ptrdiff_t current_point_position_;
+	
+	std::ifstream::pos_type coordinates_offset_;
+	bool cartesian_coordinates_;
+	std::ifstream::pos_type color_offset_;
+	std::ifstream::pos_type normal_offset_;
 
 public:
-	explicit pointscan_importer(const char* filename);
-	explicit pointscan_importer(const std::string& filename) :
-		pointscan_importer(filename.c_str()) { }
+	explicit pointscan_importer(const std::string& filename);
+
+	~pointscan_importer();
 
 	std::size_t width() const override;
 	std::size_t height() const override;

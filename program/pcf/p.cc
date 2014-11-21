@@ -5,6 +5,8 @@
 #include "pcf/util/random.h"
 #include "pcf/util/mmap_allocator.h"
 #include "pcf/io/ply_importer.h"
+#include "pcf/io/ply_exporter.h"
+#include "pcf/io/pointscan_importer.h"
 #include "pcf/point_cloud/point_cloud.h"
 #include "pcf/point_cloud/unorganized_point_cloud.h"
 #include "pcf/point_cloud/tree/tree_point_cloud.h"
@@ -27,8 +29,8 @@ unorganized_point_cloud_xyz load(const char* filename) {
 }
 
 void save(const point_cloud_xyz& pc, const char* filename) {
-	//ply_writer<point_xyz> ply(filename);
-	//pc.write(ply);
+	ply_exporter ply(filename);
+	pc.export_with(ply);
 }
 
 float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {

@@ -1,7 +1,7 @@
 #ifndef PCF_RANGE_POINT_CLOUD_IMPORTER_H_
 #define PCF_RANGE_POINT_CLOUD_IMPORTER_H_
 
-#include "../point.h"
+#include "point_cloud_importer.h"
 
 namespace pcf {
 
