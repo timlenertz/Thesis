@@ -1,12 +1,13 @@
 #include "helper.h"
-#include "../pcf/io/ply_reader.h"
+#include "../pcf/io/ply_importer.h"
 #include <string>
 
 namespace pcf {
 
-point_cloud<point_xyz> example_model(const char* name) {
-	ply_reader ply(std::string("../") + name + ".ply");
-	return point_cloud<point_xyz>::create_from_reader(ply);
+unorganized_point_cloud_xyz example_model(const char* name) {
+	ply_importer ply(std::string("../") + name + ".ply");
+	unorganized_point_cloud_xyz pc(ply);
+	return pc;
 }
 
 }

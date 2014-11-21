@@ -45,7 +45,9 @@ public:
 	}
 	
 	bool operator<(const point_cloud_segment& seg) const { return (begin_ < seg.begin_); }
+	bool operator<=(const point_cloud_segment& seg) const { return (begin_ <= seg.begin_); }
 	bool operator>(const point_cloud_segment& seg) const { return (begin_ > seg.begin_); }
+	bool operator>=(const point_cloud_segment& seg) const { return (begin_ >= seg.begin_); }
 	
 	bool contains(const Point&) const;
 	bool contains(const point_cloud_segment&) const;

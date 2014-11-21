@@ -38,6 +38,8 @@ public:
 
 	range_point_cloud(const range_image&, const camera&, const Allocator& = Allocator());
 
+	template<typename Reader> explicit range_point_cloud(Reader&, const Allocator& = Allocator());
+
 	camera& get_camera() { return camera_; }
 	const camera& get_camera() const { return camera_; }
 	

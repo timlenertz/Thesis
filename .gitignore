@@ -3,5 +3,6 @@
 /program/data
 /program/pcf/build
 /program/pcf/dist
+/townhall/
 /docs
 *.o

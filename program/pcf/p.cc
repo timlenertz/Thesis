@@ -4,9 +4,9 @@
 #include <Eigen/Geometry>
 #include "pcf/util/random.h"
 #include "pcf/util/mmap_allocator.h"
-#include "pcf/io/ply_writer.h"
-#include "pcf/io/ply_reader.h"
+#include "pcf/io/ply_importer.h"
 #include "pcf/point_cloud/point_cloud.h"
+#include "pcf/point_cloud/unorganized_point_cloud.h"
 #include "pcf/point_cloud/tree/tree_point_cloud.h"
 #include "pcf/point_cloud/tree/octree_traits.h"
 #include "pcf/point_cloud/tree/kdtree_traits.h"
@@ -20,14 +20,15 @@
 using namespace pcf;
 
 
-point_cloud_xyz load(const char* filename) {
-	ply_reader ply(filename);
-	return point_cloud_xyz::create_from_reader(ply);
+unorganized_point_cloud_xyz load(const char* filename) {
+	ply_importer ply(filename);
+	unorganized_point_cloud_xyz pc(ply);
+	return pc;
 }
 
 void save(const point_cloud_xyz& pc, const char* filename) {
-	ply_writer<point_xyz> ply(filename);
-	pc.write(ply);
+	//ply_writer<point_xyz> ply(filename);
+	//pc.write(ply);
 }
 
 float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
@@ -40,8 +41,8 @@ float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
 int main(int argc, const char* argv[]) {
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building fixed..." << std::endl;
-	using gpc = grid_point_cloud<point_xyz, mmap_allocator<point_xyz>>;
-	gpc fixed(load(argv[1]), 2.0);
+	using gpc = grid_point_cloud<point_xyz>;
+	gpc fixed(load(argv[1]), 10.0);
 	//tree_point_cloud<kdtree_traits, point_xyz> fixed(load(argv[1]), 100);
 	//point_cloud_xyz fixed = load(argv[1]);
 
@@ -49,7 +50,7 @@ int main(int argc, const char* argv[]) {
 
 
 	// Create and save transformed loose
-	point_cloud_xyz loose(fixed, false);
+	unorganized_point_cloud_xyz loose(fixed, false);
 
 	std::cout << "No error: " << reg_error(fixed, loose) << std::endl;
 
@@ -60,12 +61,8 @@ int main(int argc, const char* argv[]) {
 		Eigen::Translation3f( Eigen::Vector3f(0.02, 0.005, -0.01) )
 	);
 	loose.apply_transformation(trans);
-	
-	loose.with_transformation(
-		Eigen::Affine3f(Eigen::AngleAxisf(0.25*M_PI, Eigen::Vector3f::UnitZ())),
-		[](point_cloud_xyz& l) { l.downsample_grid(2.0, true, true); }
-	);
-	
+	loose.downsample_grid(2.0, true, true);
+
 	save(loose, "loose.ply");
 
 	
@@ -80,7 +77,7 @@ int main(int argc, const char* argv[]) {
 	cor.accepting_distance = 0.2;
 	cor.rejecting_distance = 4;
 
-	iterative_correspondences_registration<point_cloud_xyz, point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
+	iterative_correspondences_registration<point_cloud_xyz, unorganized_point_cloud_xyz, decltype(cor)> reg(fixed, loose, cor);
 	
 	std::cout << "ICP..." << std::endl;
 	reg.run();

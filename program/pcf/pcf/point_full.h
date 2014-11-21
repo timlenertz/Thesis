@@ -5,6 +5,9 @@
 
 namespace pcf {
 
+/**
+Point of a cloud, consisting of X, Y, Z coordinates, RGB color information and normal vector.
+*/
 class ALIGNAS(32) point_full : public point_xyz {
 public:
 	Eigen::Vector3f normal;

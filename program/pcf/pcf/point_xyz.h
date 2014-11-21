@@ -14,7 +14,7 @@
 namespace pcf {
 
 /**
-Point defined only by X, Y, Z coordinates.
+Point of a cloud, consisting of X, Y, Z coordinates.
 Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations.
 */
 struct ALIGNAS(16) point_xyz {
