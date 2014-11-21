@@ -27,7 +27,7 @@ private:
 
 
 public:
-	explicit ply_exporter(const std::string& filename, bool full = false, bool ascii = false, line_delimitor ld = line_delimitor::LF);
+	explicit ply_exporter(const std::string& filename, bool full = true, bool ascii = false, line_delimitor ld = line_delimitor::LF);
 	~ply_exporter();
 	
 	void write(const point_xyz*, std::size_t sz) override final;

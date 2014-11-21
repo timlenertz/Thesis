@@ -20,9 +20,9 @@ ply_exporter::ply_exporter(const std::string& filename, bool full, bool ascii, l
 	write_line_("comment PLY file generated using pcf::ply_writer");
 	
 	file_ << "element vertex ";
-	file_ << std::setfill(' ') << std::left << std::setw(vertex_count_string_length_) << 0;
 	file_ << std::flush;
 	vertex_count_string_position_ = file_.tellp();
+	file_ << std::setfill(' ') << std::left << std::setw(vertex_count_string_length_) << 0;
 	write_line_("");
 	
 	write_line_("property float x");
@@ -57,24 +57,43 @@ void ply_exporter::close() {
 
 
 void ply_exporter::write(const point_xyz* buf, std::size_t sz) {
-	while(sz--) {
-		assert(buffer->valid());
-		if(ascii_) write_ascii_(*buf);
-		else write_binary_(*buf);
-		++buf;	
-	}
 	count_ += sz;
+	if(full_) {
+		while(sz--) {
+			assert(buffer->valid());
+			if(ascii_) write_ascii_(point_full(*buf));
+			else write_binary_(point_full(*buf));
+			++buf;	
+		}
+	} else {
+		while(sz--) {
+			assert(buffer->valid());
+			if(ascii_) write_ascii_(*buf);
+			else write_binary_(*buf);
+			++buf;
+		}
+	}
+
 }
 
 
 void ply_exporter::write(const point_full* buf, std::size_t sz) {
-	while(sz--) {
-		assert(buffer->valid());
-		if(ascii_) write_ascii_(*buf);
-		else write_binary_(*buf);
-		++buf;	
-	}
 	count_ += sz;
+	if(full_) {
+		while(sz--) {
+			assert(buffer->valid());
+			if(ascii_) write_ascii_(*buf);
+			else write_binary_(*buf);
+			++buf;	
+		}
+	} else {
+		while(sz--) {
+			assert(buffer->valid());
+			if(ascii_) write_ascii_(*(point_xyz*)buf);
+			else write_binary_(*(point_xyz*)buf);
+			++buf;
+		}
+	}
 }
 
 

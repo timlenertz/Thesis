@@ -41,6 +41,19 @@ float reg_error(const point_cloud_xyz& l, const point_cloud_xyz& f) {
 }
 
 int main(int argc, const char* argv[]) {
+	pointscan_importer file(argv[1]);
+	unorganized_point_cloud_full pc(file);
+	
+	ply_exporter ply("out.ply");
+	pc.export_with(ply);
+	
+
+
+
+
+/*
+
+
 	// Load fixed (untransformed) into grid pc
 	std::cout << "Building fixed..." << std::endl;
 	using gpc = grid_point_cloud<point_xyz>;
