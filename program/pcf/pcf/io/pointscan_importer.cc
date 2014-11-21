@@ -1,6 +1,7 @@
 #include "pointscan_importer.h"
 #include "../util/io.h"
 #include "../geometry/spherical_coordinates.h"
+#include "../geometry/math_constants.h"
 #include <cstdint>
 #include <stdexcept>
 #include <Eigen/Eigen>
@@ -54,15 +55,18 @@ namespace {
 	}
 	
 	inline void read_polar(point_xyz& pt, const sc_polar& data) {
-		float range = data[0], phi = data[1], theta = data[2];		
-		spherical_coordinates s(range, phi, theta + M_PI_2);
-		pt = s.to_cartesian();
+		if(data[0] == 0 && data[1] == 0 && data[2] == 0) {
+			pt.invalidate();
+		} else {
+			float range = data[0], phi = data[1], theta = data[2];	
+			spherical_coordinates s(range, phi, theta - half_pi);
+			pt = s.to_cartesian();
+		}
 	}
 	
 	inline void read_cartesian(point_xyz& pt, const sc_cartesian& data) {
-		pt[0] = data[0];
-		pt[1] = data[1];
-		pt[2] = data[2];
+		if(data[0] == 0 && data[1] == 0 && data[2] == 0) pt.invalidate();
+		else pt = point_xyz(data[0], data[1], data[2]);
 	}
 	
 	inline void read_color(point_full& pt, const sc_color& data) {
@@ -119,7 +123,7 @@ pointscan_importer::pointscan_importer(const std::string& filename) :
 		} else if(type == sc_data_type::normal) {
 			normal_offset_ = offset;
 		}
-		
+				
 		std::size_t sz = element_size(type);
 		offset += total_count * sz;
 	}

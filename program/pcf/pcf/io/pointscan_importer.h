@@ -37,6 +37,9 @@ public:
 	std::ptrdiff_t tell() const override;
 	void read(point_xyz*, std::size_t sz) override;
 	void read(point_full*, std::size_t sz) override;
+	
+	bool has_color() const { return color_offset_; }
+	bool has_normal() const { return normal_offset_; }
 };
 
 }

@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <cmath>
+#include "math_constants.h"
 
 namespace pcf {
 
@@ -18,16 +19,16 @@ private:
 	float radiants_;
 
 public:
-	static angle degrees(float d) { return d * rad_per_deg_; }
+	static angle degrees(float d) { return d * radiant_per_degree; }
 	static angle radiants(float r) { return r; }	
 
 	angle(float r) : radiants_(r) { }
 	angle(const angle&) = default;
 	
 	float get_radiants() const { return radiants_; }
-	float get_degrees() const { return radiants_ / rad_per_deg_; }
+	float get_degrees() const { return radiants_ * degree_per_radiant; }
 	void set_radiants(float r) { radiants_ = r; }
-	void set_degrees(float d) { radiants_ = d * rad_per_deg_; }
+	void set_degrees(float d) { radiants_ = d * radiant_per_degree; }
 	
 	operator float& () { return radiants_; }
 	operator const float& () const { return radiants_; }

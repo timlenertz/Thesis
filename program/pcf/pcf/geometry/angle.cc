@@ -7,8 +7,6 @@
 
 namespace pcf {
 
-const float angle::rad_per_deg_ = M_PI / 180.0;
-
 std::ostream& operator<<(std::ostream& str, angle a) {
 	str << a.get_degrees() << "°";
 	return str;

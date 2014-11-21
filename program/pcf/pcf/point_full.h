@@ -10,6 +10,8 @@ Point of a cloud, consisting of X, Y, Z coordinates, RGB color information and n
 */
 class ALIGNAS(32) point_full : public point_xyz {
 public:
+	static const rgb_color default_color;
+
 	Eigen::Vector3f normal;
 	rgb_color color;
 	std::uint8_t whatever;
@@ -18,6 +20,7 @@ public:
 	using point_xyz::operator=;
 	
 	point_full() = default;
+	point_full(const point_xyz& pt) : normal(Eigen::Vector3f::Zero()), point_xyz(pt), color(default_color) { }
 	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b) :
 	point_xyz(x, y, z), color(r, g, b) { }
 };
