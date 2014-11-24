@@ -9,6 +9,8 @@
 
 namespace pcf {
 
+class frustum;
+
 /**
 Camera at a given pose in space and with perspective projection parameters.
 Handles conversion to and from spherican coordinates, and projection to camera image plane.
@@ -42,6 +44,10 @@ public:
 	angle field_of_view_x() const { return fov_x_; }
 	angle field_of_view_y() const { return fov_y_; }
 	angle field_of_view(std::ptrdiff_t i) const { return (i == 0 ? fov_x_ : fov_y_); }
+	
+	const pose& camera_pose() const { return pose_; }
+	
+	frustum viewing_frustum() const;
 	
 	float distance_sq(const Eigen::Vector3f&) const;
 	float distance(const Eigen::Vector3f&) const;

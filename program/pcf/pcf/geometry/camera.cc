@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "projection.h"
+#include "frustum.h"
 #include <cassert>
 #include <cmath>
 
@@ -15,6 +16,12 @@ pose_(p), fov_x_(fov_x), fov_y_(fov_y) {
 	view_inv_ = view_.inverse();
 	view_projection_ = view_ * proj;
 	view_projection_inv_ = view_projection_.inverse();
+}
+
+
+frustum camera::viewing_frustum() const {
+	frustum fr( view_projection_.matrix() );
+	return fr;
 }
 
 

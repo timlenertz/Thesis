@@ -12,6 +12,11 @@ Used for measuring registration error with known correspondences.
 */
 template<typename Cloud_fixed, typename Cloud_loose>
 class same_point_correspondences {
+public:
+	using fixed_point_cloud_type = Cloud_fixed;
+	using loose_point_cloud_type = Cloud_loose;
+
+
 private:
 	const Cloud_fixed& fixed_;
 	const Cloud_loose& loose_;

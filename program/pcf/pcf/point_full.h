@@ -2,6 +2,7 @@
 #define PCF_POINT_FULL_H_
 
 #include "point.h"
+#include <utility>
 
 namespace pcf {
 
@@ -20,10 +21,23 @@ public:
 	using point_xyz::operator=;
 	
 	point_full() = default;
-	point_full(const point_xyz& pt) : normal(Eigen::Vector3f::Zero()), point_xyz(pt), color(default_color) { }
+	point_full(const point_xyz& pt) : point_xyz(pt), normal(Eigen::Vector3f::Zero()), color(default_color) { }
+
 	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b) :
 	point_xyz(x, y, z), color(r, g, b) { }
 };
+
+}
+
+
+namespace std {
+
+template<>
+inline void swap(pcf::point_full& a, pcf::point_full& b) {
+	a.homogeneous_coordinates.swap(b.homogeneous_coordinates);
+	a.normal.swap(b.normal);
+	std::swap(a.color, b.color);
+}
 
 }
 

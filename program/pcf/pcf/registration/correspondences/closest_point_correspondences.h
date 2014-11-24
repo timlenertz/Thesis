@@ -21,6 +21,10 @@ template<
 	typename Weight_func
 >
 class closest_point_correspondences {
+public:
+	using fixed_point_cloud_type = Cloud_fixed;
+	using loose_point_cloud_type = Cloud_loose;
+
 private:
 	const Cloud_fixed& fixed_;
 	const Cloud_loose& loose_;

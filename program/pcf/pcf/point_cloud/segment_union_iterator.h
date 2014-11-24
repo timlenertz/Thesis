@@ -18,17 +18,11 @@ private:
 	segment_iterator current_;
 	segment_iterator end_;
 	
-	void load_segment_() {
-		if(segment_current_ == segment_end_) return;
-		current_ = segment_current_->begin();
-		end_ = segment_current_->end();
-	}
+	void load_segment_();
 			
 public:
-	iterator(segments_set_iterator seg, segments_set_iterator segend) :
-		segment_current_(seg), segment_end_(segend) { load_segment_(); }
-		
-	explicit iterator(segment_iterator ed) : current_(ed) { }
+	iterator(segments_set_iterator seg, segments_set_iterator segend);
+	explicit iterator(segment_iterator ed);
 		
 	iterator(const iterator&) = default;
 	
@@ -38,22 +32,12 @@ public:
 	bool operator==(const iterator& it) const { return (current_ == it.current_); }
 	bool operator!=(const iterator& it) const { return (current_ != it.current_); }
 	
-	iterator& operator++() {
-		++current_;
-		if(current_ == end_) {
-			++segment_current_;
-			load_segment_();
-		}
-		return *this;
-	}
-	
-	iterator operator++(int) {
-		iterator old = *this;
-		operator++();
-		return old;
-	}
+	iterator& operator++();
+	iterator operator++(int);
 };
 
 }
+
+#include "segment_union_iterator.tcc"
 
 #endif

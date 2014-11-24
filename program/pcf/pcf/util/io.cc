@@ -21,18 +21,20 @@ static bool check_host_little_endian_() {
 
 
 const line_delimitor default_line_delimitor = line_delimitor::LF;
-const bool host_has_iec559_float = std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+
+const bool host_has_iec559_float =
+	std::numeric_limits<float>::is_iec559 && std::numeric_limits<double>::is_iec559;
+
 const bool host_is_little_endian = check_host_little_endian_();
 
 
 
-line_delimitor detect_line_delimitor(std::istream& str) {
-	const std::size_t max_counter = 512;
+line_delimitor detect_line_delimitor(std::istream& str, std::size_t max_offset) {
 	std::size_t counter = 0;
 	line_delimitor ld = line_delimitor::unknown;
 	auto old_position = str.tellg();
 	while(ld == line_delimitor::unknown) {
-		if(++counter > max_counter) throw std::runtime_error("Could not detect file line ending");
+		if(++counter > max_offset) throw std::runtime_error("Could not detect file line ending");
 		char c;
 		str.get(c);
 		if(c == '\n') ld = line_delimitor::LF;

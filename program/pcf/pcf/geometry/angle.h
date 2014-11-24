@@ -14,8 +14,6 @@ TODO: add comparation operators, modulo 2PI operations if needed
 */
 class angle {
 private:
-	static const float rad_per_deg_;
-
 	float radiants_;
 
 public:

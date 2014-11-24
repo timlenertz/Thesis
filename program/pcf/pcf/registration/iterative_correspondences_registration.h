@@ -14,20 +14,21 @@ namespace pcf {
 Generic implementation of ICP registration algorithm.
 */
 template<
-	typename Cloud_fixed,
-	typename Cloud_loose,
-	typename Correspondences,
+	typename Correspondences
 	typename Transformation_estimation = svd_transformation_estimation,
 	typename Error_metric = typename Transformation_estimation::error_metric
 >
 class iterative_correspondences_registration {
-private:
+public:
 	using correspondence_type = typename Correspondences::correspondence_type;
+	using fixed_point_cloud_type = typename Correspondences::fixed_point_cloud_type;
+	using loose_point_cloud_type = typename Correspondences::loose_point_cloud_type;
 
+private:
 	class receiver;
 
-	const Cloud_fixed& fixed_;
-	Cloud_loose& loose_;
+	const fixed_point_cloud_type& fixed_;
+	loose_point_cloud_type& loose_;
 	Correspondences correspondences_;
 	
 	float error_;
@@ -38,7 +39,7 @@ public:
 	std::size_t maximal_iterations = -1;
 
 public:
-	iterative_correspondences_registration(const Cloud_fixed& cf, Cloud_loose& cl, const Correspondences& cor) :
+	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
 		fixed_(cf), loose_(cl), correspondences_(cor) { }
 	
 	float error() const { return error_; }

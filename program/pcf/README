@@ -1,0 +1,11 @@
+pcf/
+	Point cloud fusion library.
+	
+viewer/
+	Add-on library to PCF providing OpenGL based rendering.
+	
+test/
+	Unit tests.
+
+external/
+	Dependencies.

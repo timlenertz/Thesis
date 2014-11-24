@@ -12,7 +12,7 @@ namespace pcf {
 /**
 Aligned memory allocator using Win32 API.
 Visual C++ 2013 does not yet support C++11 memory alignment, and so std::allocator
-does not properly align the memory.
+would not properly align the memory.
 */
 template<typename T>
 class aligned_allocator {

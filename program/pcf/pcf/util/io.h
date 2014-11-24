@@ -13,7 +13,13 @@ const extern line_delimitor default_line_delimitor;
 const extern bool host_has_iec559_float;
 const extern bool host_is_little_endian;
 
-line_delimitor detect_line_delimitor(std::istream&);
+/**
+Detects line delimitor used in given file.
+Reads up to max_offset characters into file until line delimitor is found. Reads from current
+stream position, and rewinds to that starting position afterwards. Throws exception if no
+line ending detected.
+*/
+line_delimitor detect_line_delimitor(std::istream&, std::size_t max_offset = 512);
 
 void read_line(std::istream&, std::string&, line_delimitor = default_line_delimitor);
 void skip_line(std::istream&, line_delimitor = default_line_delimitor);

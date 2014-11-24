@@ -3,8 +3,8 @@
 
 namespace pcf {
 
-template<typename Cf, typename Cl, typename Cr, typename Transformation_estimation, typename Error_metric>
-class iterative_correspondences_registration<Cf, Cl, Cr, Transformation_estimation, Error_metric>::receiver {
+template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
+class iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::receiver {
 public:
 	Transformation_estimation transformation_estimation;
 	Error_metric error_metric;
@@ -28,8 +28,8 @@ public:
 
 
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspondences, Transformation_estimation, Error_metric>::iteration() {
+template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
+void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::iteration() {
 	receiver rec;	
 	correspondences_(rec);
 	
@@ -40,8 +40,8 @@ void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspond
 }
 
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Cloud_fixed, Cloud_loose, Correspondences, Transformation_estimation, Error_metric>::run() {
+template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
+void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run() {
 	iteration();
 	
 	std::size_t iteration_count = 1;	

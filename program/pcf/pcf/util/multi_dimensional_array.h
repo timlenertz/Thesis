@@ -6,6 +6,12 @@
 
 namespace pcf {
 
+/**
+Multi-dimensional data array.
+Unlike multi_dimensional_buffer (base class), it allocates memory and owns its elements.
+Copy/move construction and assignment semantics are different: elements get copied into
+the new array.
+*/
 template<typename T, std::size_t Dim, typename Allocator = aligned_allocator<T>>
 class multi_dimensional_array : public multi_dimensional_buffer<T, Dim> {
 	using super = multi_dimensional_buffer<T, Dim>;
