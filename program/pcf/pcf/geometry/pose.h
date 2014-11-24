@@ -13,6 +13,10 @@ public:
 	Eigen::Vector3f position;
 	Eigen::Quaternionf orientation;
 
+	/**
+	Create identify pose.
+	I.e. no translation and rotation.
+	*/
 	pose();
 	pose(const pose&) = default;
 	

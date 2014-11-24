@@ -7,7 +7,7 @@
 
 namespace pcf {
 
-class bounding_box;
+struct bounding_box;
 
 struct frustum {
 	enum intersection {

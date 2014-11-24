@@ -14,7 +14,7 @@ namespace pcf {
 Generic implementation of ICP registration algorithm.
 */
 template<
-	typename Correspondences
+	typename Correspondences,
 	typename Transformation_estimation = svd_transformation_estimation,
 	typename Error_metric = typename Transformation_estimation::error_metric
 >

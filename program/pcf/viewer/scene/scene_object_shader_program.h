@@ -3,11 +3,14 @@
 
 #include "../shader_program.h"
 #include <pcf/rgb_color.h>
+#include <pcf/geometry/camera.h>
+#include <pcf/geometry/pose.h>
 #include <string>
 
 namespace pcf {
 
 class camera;
+class pose;
 
 class scene_object_shader_program : public shader_program {
 	using super = shader_program;
@@ -24,7 +27,7 @@ private:
 public:
 	explicit scene_object_shader_program(const std::string&);
 	
-	void set_camera(const camera&);
+	void set_camera_and_pose(const camera&, const pose& p = pose());
 	void set_fog(bool enable);
 	void set_fog(bool enable, float distance, rgb_color col);
 };

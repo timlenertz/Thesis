@@ -15,16 +15,14 @@ public:
 
 	Eigen::Vector3f normal;
 	rgb_color color;
-	std::uint8_t whatever;
+	std::uint8_t unused;
 	
-	using point_xyz::point_xyz;
-	using point_xyz::operator=;
-	
-	point_full() = default;
-	point_full(const point_xyz& pt) : point_xyz(pt), normal(Eigen::Vector3f::Zero()), color(default_color) { }
-
-	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b) :
-	point_xyz(x, y, z), color(r, g, b) { }
+	point_full();	
+	point_full(const point_xyz& pt);
+	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b);
+		
+	point_full& operator=(const point_full&) = default;
+	point_full& operator=(const point_xyz&);
 };
 
 }
