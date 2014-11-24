@@ -46,6 +46,8 @@ public:
 	angle field_of_view(std::ptrdiff_t i) const { return (i == 0 ? fov_x_ : fov_y_); }
 	
 	const pose& camera_pose() const { return pose_; }
+	const Eigen::Affine3f view_transformation() const { return view_; }
+	const Eigen::Affine3f view_projection_transformation() const { return view_projection_; }
 	
 	frustum viewing_frustum() const;
 	

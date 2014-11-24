@@ -5,19 +5,11 @@
 
 namespace pcf {
 
-class scene_object : public gl_object {
-private:
-	bool visible_ = true;
-	
-public:
-	virtual ~scene_object() { }
-	
-	bool initialized() const { return initialized_; }
-	
-	virtual void initialize() const { }
-	virtual void draw() const = 0;
-};
+class camera;
 
+class scene_object : public gl_object { };
+public:
+	virtual void updated_camera(const camera&) { }
 }
 
 #endif

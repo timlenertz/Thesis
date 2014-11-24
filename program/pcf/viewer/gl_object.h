@@ -12,8 +12,9 @@ private:
 	bool initialized_ = false;
 
 protected:
-	virtual gl_initialize_() { }
-	virtual gl_draw_() = 0;
+	virtual void gl_initialize_() { }
+	virtual void gl_uninitialize_() { }
+	virtual void gl_draw_() = 0;
 
 public:
 	virtual ~gl_object() { }
@@ -21,6 +22,7 @@ public:
 	bool initialized() const { return initialized_; }
 	
 	void initialize();
+	void uninitialize();
 	void draw();
 };
 
