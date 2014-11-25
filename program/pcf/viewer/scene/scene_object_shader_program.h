@@ -27,7 +27,7 @@ private:
 public:
 	explicit scene_object_shader_program(const std::string&);
 	
-	void set_camera_and_pose(const camera&, const pose& p = pose());
+	void set_camera(const camera&);
 	void set_fog(bool enable);
 	void set_fog(bool enable, float distance, rgb_color col);
 };

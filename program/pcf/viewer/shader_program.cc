@@ -36,6 +36,12 @@ void shader_program::use() const {
 	glUseProgram(id_);
 }
 
+bool shader_program::is_current() const {
+	GLint cur;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &cur);
+	return (cur == id_);
+}
+
 shader_program::shader_program(std::initializer_list<shader> shaders) {
 	id_ = glCreateProgram();
 	for(const shader& sh : shaders) glAttachShader(id_, sh.id());

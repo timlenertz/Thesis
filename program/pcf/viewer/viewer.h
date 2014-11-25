@@ -3,19 +3,25 @@
 
 #include "gl.h"
 #include "scene/scene.h"
-#include <pcf/geometry/camera.h>
+#include <Eigen/Eigen.h>
 
 namespace pcf {
 
 class viewer {
 private:
 	scene scene_;
-	camera camera_;
+	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
+	Eigen::Vector3f view_target_velocity_ = Eigen::Vector3f::Zero();
+		
+	void compute_motion_();
 		
 public:
+	void draw(float time_difference);
+	void tick(float time_difference);
 	
-
-	void draw() const;
+	void set_target_velocity(const Eigen::Vector3f&);
+	
+	scene& get_scene() { return scene_; }
 };
 
 }

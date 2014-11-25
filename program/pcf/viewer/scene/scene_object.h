@@ -6,10 +6,16 @@
 namespace pcf {
 
 class camera;
+class scene;
 
-class scene_object : public gl_object { };
+class scene_object : public gl_object {
+protected:
+	scene& scene_;
+
+	explicit scene_object(scene& sc) : scene_(sc) { }
+
 public:
-	virtual void updated_camera(const camera&) { }
+	virtual void update_camera(const camera&) { }
 }
 
 #endif

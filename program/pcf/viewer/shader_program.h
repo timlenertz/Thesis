@@ -29,6 +29,7 @@ public:
 	GLint uniform_location(const std::string& name);
 
 	void use() const;
+	bool is_current() const;
 };
 
 }
