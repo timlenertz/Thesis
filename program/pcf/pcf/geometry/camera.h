@@ -37,17 +37,25 @@ private:
 	Eigen::Projective3f view_projection_;
 	Eigen::Projective3f view_projection_inv_;
 
+	void compute_transformations_();
+
 public:
 	camera(const pose&, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_);
 	camera(const camera&) = default;
 	
+	const pose& get_pose() const { return pose_; }
+	void set_pose(const pose&);
+	
 	angle field_of_view_x() const { return fov_x_; }
 	angle field_of_view_y() const { return fov_y_; }
 	angle field_of_view(std::ptrdiff_t i) const { return (i == 0 ? fov_x_ : fov_y_); }
-	
-	const pose& camera_pose() const { return pose_; }
+		
+	void set_field_of_view(angle fov_x, angle fov_y);
+			
 	const Eigen::Affine3f& view_transformation() const { return view_; }
+	const Eigen::Affine3f& view_transformation_inverse() const { return view_inv_; }
 	const Eigen::Projective3f& view_projection_transformation() const { return view_projection_; }
+	const Eigen::Projective3f& view_projection_transformation_inverse() const { return view_projection_inv_; }
 	
 	frustum viewing_frustum() const;
 	

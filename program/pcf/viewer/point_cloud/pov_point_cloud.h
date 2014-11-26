@@ -1,5 +1,5 @@
-#ifndef PCF_POV_POINT_CLOUD_H_
-#define PCF_POV_POINT_CLOUD_H_
+#ifndef PCFVW_POV_POINT_CLOUD_H_
+#define PCFVW_POV_POINT_CLOUD_H_
 
 
 #include <pcf/point_cloud/tree_point_cloud.h>

@@ -4,7 +4,33 @@
 
 namespace pcf {
 
+
+angle fov_y_(angle fov_x, std::size_t view_w, std::size_t view_h) {
+	return (float(fov_x) * view_h) / view_w;
+}
+
+
+scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
+	camera_(pose(), fov_x, fov_y_(fov_x, view_w, view_h)) { }	
+
+
 scene::~scene() { }
+	
+void scene::set_camera_parameters(std::size_t view_w, std::size_t view_h, angle fov_x) {
+	camera_.set_field_of_view(fov_x, fov_y_(fov_x, view_w, view_h));
+	update_camera(camera_);
+}
+
+void scene::set_camera_pose(const pose& ps) {
+	camera_.set_pose(ps);
+	update_camera(camera_);
+}
+
+
+const pose& get_camera_pose() const {
+	return camera_.get_pose();
+}
+
 
 void scene::gl_initialize_() {
 	glEnable(GL_DEPTH_TEST);

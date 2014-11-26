@@ -8,7 +8,7 @@ namespace pcf {
 void shader_program::link_() {
 	glLinkProgram(id_);
 	if(! get_parameter(GL_LINK_STATUS))
-		throw std::runtime_error(std::string("Failed to link program. Info log: " + info_log()));
+		throw gl_error(std::string("Failed to link program. Info log: " + info_log()));
 }
 
 std::string shader_program::info_log() const {
