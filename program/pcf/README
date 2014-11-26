@@ -1,9 +1,12 @@
 pcf/
 	Point cloud fusion library.
 	
-viewer/
+pcf_viewer/
 	Add-on library to PCF providing OpenGL based rendering.
 	
+app/
+	User interface consisting of viewer window and console.
+
 test/
 	Unit tests.
 

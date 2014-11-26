@@ -5,7 +5,7 @@ namespace pcf {
 
 namespace {
 	std::chrono::milliseconds maximal_time_step_(100);
-	float 
+	std::chrono::milliseconds time_to_target_velocity_(2000);
 }
 
 
@@ -17,10 +17,10 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 	const camera& cam = scene_.get_camera();
 	Eigen::Vector3f target_velocity = cam.view_transformation_inverse() * view_target_velocity_;
 
-	// 
-	Eigen::Vector3f velocity_difference = target_velocity - velocity_;
-	
-	velocity_ += (velocity_difference / );
+	// Make velocity converge to target velocity
+	Eigen::Vector3f velocity_difference = target_velocity - velocity_;	
+	if(time_to_target_velocity_ <= delta_t) velocity_ = target_velocity_;
+	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
 	
 	// Move camera according to current velocity and time difference
 	const pose& ps = scene_.get_camera_pose();
@@ -53,16 +53,3 @@ void viewer::stop_movement() {
 
 
 }
-
-
-	if(dtime > 0.01) dtime = 0.01;
-			
-	glm::vec3 target_velocity = glm::rotate(glm::inverse(orientation_), view_target_velocity_);
-	target_velocity *= scale_;
-	
-	glm::vec3 velocity_difference = target_velocity - velocity_;
-	velocity_difference /= 20.0;
-	
-	velocity_ += velocity_difference;
-	
-	position_ += velocity_ * dtime;
