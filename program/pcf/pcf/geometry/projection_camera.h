@@ -27,6 +27,10 @@ private:
 public:
 	projection_camera(const pose&, angle fov_x, std::size_t imw, std::size_t imh, float znear = default_z_near_, float zfar = default_z_far_);
 	
+	void set_field_of_view_x(angle fov_x);
+	void set_field_of_view_y(angle fov_y);
+	
+	image_size get_image_size() const;
 	void set_image_size(std::size_t imw, std::size_t imh);
 
 	void adjust_field_of_view(bool keep_x = true);

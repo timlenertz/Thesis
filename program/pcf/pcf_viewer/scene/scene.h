@@ -4,7 +4,7 @@
 #include <set>
 #include <unique_ptr>
 #include <utility>
-#include <pcf/geometry/camera.h>
+#include <pcf/geometry/projection_camera.h>
 #include <pcf/geometry/angle.h>
 #include "gl_object.h"
 #include "scene_object.h"
@@ -22,7 +22,7 @@ Recursively calls its objects' rendering functions. Scene alone handles the comp
 class scene : public gl_object {
 private:
 	std::set<std::unique_ptr<scene_object>> objects_;
-	camera camera_;
+	projection_camera camera_;
 		
 protected:
 	void gl_initialize_() override;
@@ -31,14 +31,13 @@ protected:
 public:
 	scene(std::size_t view_w, std::size_t view_h, angle fov_x);
 	~scene();
-	
-	void set_camera_parameters(std::size_t view_w, std::size_t view_h, angle fov_x);
+			
+	const projection_camera& get_camera();
+	void set_camera(const projection_camera&);
 	
 	void set_camera_pose(const pose&);
-	const pose& get_camera_pose() const;
-	
-	camera& get_camera() { return camera_; }
-	const camera& get_camera() const { return camera_; }
+	void set_camera_image_size(std::size_t w, std::size_t h);
+	void set_camera_field_of_view(angle);
 		
 	template<typename Cloud>
 	scene_point_cloud& add_point_cloud(Cloud&& pc) {

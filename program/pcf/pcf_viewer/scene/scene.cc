@@ -5,15 +5,19 @@
 namespace pcf {
 
 
-
 scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
-	camera_(pose(), fov_x, fov_y_(fov_x, view_w, view_h)) { }	
+	camera_(pose(), fov_x, view_w, view_h) { }	
 
 
 scene::~scene() { }
-	
-void scene::set_camera_parameters(std::size_t view_w, std::size_t view_h, angle fov_x) {
-	camera_.set_field_of_view(fov_x, fov_y_(fov_x, view_w, view_h));
+
+
+const projection_camera& scene::get_camera() {
+	return camera_;
+}
+
+void scene::set_camera(const projection_camera& cam) {
+	camera_ = cam;
 	update_camera(camera_);
 }
 
@@ -22,9 +26,15 @@ void scene::set_camera_pose(const pose& ps) {
 	update_camera(camera_);
 }
 
+void scene::set_camera_image_size(std::size_t w, std::size_t h) {
+	camera_.set_image_size(w, h);
+	camera_.adjust_field_of_view();
+	update_camera(camera_);
+}
 
-const pose& get_camera_pose() const {
-	return camera_.get_pose();
+void scene::set_camera_field_of_view(angle fov_x) {
+	camera_.set_field_of_view_x(fov_x);
+	update_camera(camera_);
 }
 
 

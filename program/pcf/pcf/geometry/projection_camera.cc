@@ -47,6 +47,10 @@ void projection_camera::compute_transformations_using_aspect_ratio_() {
 }
 
 
+projection_camera::image_size projection_camera::get_image_size() const {
+	return image_size_;
+}
+
 void projection_camera::set_image_size(std::size_t imw, std::size_t imh) {
 	image_size_ = image_size { imw, imh };
 	image_center_ = imager_coordinates { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 };
@@ -65,6 +69,19 @@ projection_camera::image_coordinates projection_camera::to_projected(const Eigen
 	
 	return image_coordinates { projected_coordinates[0], projected_coordinates[1] };
 }
+
+
+void projection_camera::set_field_of_view_x(angle fvx) {
+	fov_x_ = fvx;
+	fov_y_ = compute_fov_y_(fvx, image_size_);
+}
+
+
+void projection_camera::set_field_of_view_y(angle fvy) {
+	fov_x_ = compute_fov_x_(fvz, image_size_);
+	fov_y_ = fvy;
+}
+
 
 
 void projection_camera::adjust_field_of_view(bool keep_x) {

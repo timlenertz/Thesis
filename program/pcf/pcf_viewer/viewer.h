@@ -19,7 +19,6 @@ private:
 	using clock = std::chrono::high_resolution_clock;
 
 	scene scene_;
-	std::array<std::size_t, 2> viewport_size_;
 	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
 	Eigen::Vector3f view_target_velocity_ = Eigen::Vector3f::Zero();
 	std::chrono::time_point<clock> last_time_;
@@ -34,6 +33,7 @@ public:
 	viewer& operator=(const viewer&) = delete;
 
 	void resize_viewport(std::size_t w, std::size_t h);
+	std::array<std::size_t, 2> viewport_size() const;
 
 	void draw();
 	void tick();

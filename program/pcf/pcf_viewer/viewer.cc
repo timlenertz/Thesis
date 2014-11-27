@@ -4,6 +4,8 @@
 namespace pcf {
 
 namespace {
+	angle default_fov_ = angle::degrees(60.0f);
+
 	std::chrono::milliseconds maximal_time_step_(100);
 	std::chrono::milliseconds time_to_target_velocity_(2000);
 }
@@ -29,9 +31,18 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 }
 
 
-viewer::viewer(scene& sc) :
-	scene_(sc) { }
-	
+viewer::viewer(std::size_t w, std::size_t h) :
+	scene_(w, h, default_fov_) { }
+
+
+std::array<std::size_t, 2> viewer::viewport_size() const {
+	return scene_.get_camera().get_image_size();
+}
+
+
+void viewer::resize_viewport(std::size_t w, std::size_t h) {
+	scene_.set_camera_image_size(w, h);
+}
 
 
 void viewer::draw(float time_difference) const {

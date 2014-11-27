@@ -50,10 +50,12 @@ float camera::distance(const Eigen::Vector3f& wp) const {
 }
 
 
-bool camera::in_field_of_view(const Eigen::Vector3f& wp) const {
+bool camera::in_field_of_view(const Eigen::Vector3f& wp, bool consider_z_planes) const {
 	Eigen::Vector4f p = view_projection_ * wp.homogeneous();
 	p /= p[3];
-	return (p[0] >= -1) && (p[0] <= 1) && (p[1] >= -1) && (p[1] <= 1);
+	bool inside = (p[0] >= -1) && (p[0] <= 1) && (p[1] >= -1) && (p[1] <= 1);
+	if(inside && consider_z_planes) inside = (p[2] >= -1) && (p[2] <= 1);
+	return inside;
 }
 
 

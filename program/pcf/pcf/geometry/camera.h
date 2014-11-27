@@ -56,7 +56,7 @@ public:
 	
 	float distance_sq(const Eigen::Vector3f&) const;
 	float distance(const Eigen::Vector3f&) const;
-	bool in_field_of_view(const Eigen::Vector3f&) const;
+	bool in_field_of_view(const Eigen::Vector3f&, bool consider_z_planes = false) const;
 	
 	spherical_coordinates to_spherical(const Eigen::Vector3f&) const;
 	Eigen::Vector3f point(const spherical_coordinates&) const;
