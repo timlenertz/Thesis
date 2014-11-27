@@ -15,14 +15,16 @@ if(UNIX)
 elseif(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DNDEBUG /fp:fast /GL /LTCG")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
-	set(OpenCV_DIR "./external/win32")
+	set(OpenCV_DIR "./external/win32/opencv")
 endif()
 
 find_package(OpenCV REQUIRED)
+find_package()
 
 file(GLOB_RECURSE CPP_PCF_SRC "./pcf/*.cc")
 file(GLOB_RECURSE HPP_PCF_SRC "./pcf/*.h")
-file(GLOB_RECURSE CPP_TEST_SRC "./test/*.cc")
+file(GLOB_RECURSE CPP_PCF_TEST_SRC "./test/*.cc")
+
 file(GLOB_RECURSE CPP_POINTSCAN_SRC "./external/pointscan/*.cpp")
 
 include_directories(external/include/)
