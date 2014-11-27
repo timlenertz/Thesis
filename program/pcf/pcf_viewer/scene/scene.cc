@@ -5,10 +5,6 @@
 namespace pcf {
 
 
-angle fov_y_(angle fov_x, std::size_t view_w, std::size_t view_h) {
-	return (float(fov_x) * view_h) / view_w;
-}
-
 
 scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
 	camera_(pose(), fov_x, fov_y_(fov_x, view_w, view_h)) { }	

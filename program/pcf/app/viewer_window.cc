@@ -8,15 +8,29 @@ namespace {
 	const int default_window_height_ = 600;
 }
 
-viewer_window::viewer_window() {
-	window_ = SDL_CreateWindow(
-		"PCF Viewer",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
+viewer_window::viewer_window(scene& sc) :
+viewer_(default_window_width_, default_window_height_) {
+	glfwWindowHint(GLFW_RESIZABLE, 1);
+
+	window_ = glfwCreateWindow(
 		default_window_width_,
 		default_window_height_,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
+		window_title_,
+		NULL,
+		NULL
 	);
+	
+	while(! glfwWindowShouldClose(window_)) {
+		glfwMakeContextCurrent(window_);
+		
+		viewer_.draw();
+		glfwSwapBuffers(window_);
+	}
+}
+
+
+viewer_window::~viewer_window() {
+	glfwDestroyWindow(window_);
 }
 
 }

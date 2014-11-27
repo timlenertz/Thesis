@@ -23,18 +23,16 @@ class scene : public gl_object {
 private:
 	std::set<std::unique_ptr<scene_object>> objects_;
 	camera camera_;
-	
-	static angle fov_y_(angle fov_x, std::size_t view_w, std::size_t view_h);
-	
+		
 protected:
 	void gl_initialize_() override;
 	void gl_draw_() override;
 
 public:
-	scene(std::size_t view_w, std::size_t view_h, angle fov = angle::degrees(60));
+	scene(std::size_t view_w, std::size_t view_h, angle fov_x);
 	~scene();
 	
-	void set_camera_parameters(std::size_t view_w, std::size_t view_h, angle fov);
+	void set_camera_parameters(std::size_t view_w, std::size_t view_h, angle fov_x);
 	
 	void set_camera_pose(const pose&);
 	const pose& get_camera_pose() const;

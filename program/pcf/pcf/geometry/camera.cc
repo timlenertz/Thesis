@@ -1,5 +1,4 @@
 #include "camera.h"
-#include "projection.h"
 #include "frustum.h"
 #include <cassert>
 #include <cmath>
@@ -9,17 +8,28 @@ namespace pcf {
 const float camera::default_z_near_ = 0.01;
 const float camera::default_z_far_ = 100.0;
 
-camera::camera(const pose& p, angle fov_x, angle fov_y, float znear, float zfar) :
-pose_(p), fov_x_(fov_x), fov_y_(fov_y) {
+camera::camera(const pose& p, angle fvx, angle fvy, float znear, float zfar) :
+pose_(p), fov_x_(fvx), fov_y_(fvy), near_z_(znear), far_z_(zfar) {
 	compute_transformations_();
 }
 
 
 void camera::compute_transformations_() {
-	Eigen::Projective3f proj = perspective_projection(fov_x, fov_y, znear, zfar);
 	view_ = pose_.view_transformation();
 	view_inv_ = view_.inverse();
-	view_projection_ = view_ * proj;
+
+	float x_scale = 1.0f / std::tan(fov_x / 2);
+	float y_scale = 1.0f / std::tan(fov_y / 2);
+	float zdiff = far_z_ - near_z_;
+	
+	Eigen::Matrix4f mat;
+	mat <<
+		x_scale, 0, 0, 0,
+		0, y_scale, 0, 0,
+		0, 0, -(zfar + znear)/zdiff, -1,
+		0, 0, -2*znear*zfar/zdiff, 0;
+		
+	view_projection_ = view_ * Eigen::Projective3f(mat);
 	view_projection_inv_ = view_projection_.inverse();
 }
 

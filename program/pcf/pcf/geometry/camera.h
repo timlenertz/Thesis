@@ -13,24 +13,18 @@ struct frustum;
 
 /**
 Camera at a given pose in space and with perspective projection parameters.
-Handles conversion to and from spherican coordinates, and projection to camera image plane.
+Handles conversion to and from spherican coordinates.
 */
 class camera {
-public:	
-	/**
-	Coordinates of a point on image plane after perspective projection.
-	When point in field of view of camera, value is in [-1, 1]. Third coordinate is depth
-	coordinate after projection.
-	*/
-	using projected_coordinates = Eigen::Vector3f;
-
-private:
+protected:
 	static const float default_z_near_;
 	static const float default_z_far_;
 
 	pose pose_;
 	angle fov_x_;
-	angle fov_y_;	
+	angle fov_y_;
+	float near_z_;
+	float far_z_;
 	
 	Eigen::Affine3f view_;
 	Eigen::Affine3f view_inv_;
@@ -38,6 +32,8 @@ private:
 	Eigen::Projective3f view_projection_inv_;
 
 	void compute_transformations_();
+	
+	explicit camera(const pose&);
 
 public:
 	camera(const pose&, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_);
@@ -48,7 +44,6 @@ public:
 	
 	angle field_of_view_x() const { return fov_x_; }
 	angle field_of_view_y() const { return fov_y_; }
-	angle field_of_view(std::ptrdiff_t i) const { return (i == 0 ? fov_x_ : fov_y_); }
 		
 	void set_field_of_view(angle fov_x, angle fov_y);
 			
@@ -64,10 +59,7 @@ public:
 	bool in_field_of_view(const Eigen::Vector3f&) const;
 	
 	spherical_coordinates to_spherical(const Eigen::Vector3f&) const;
-	projected_coordinates to_projected(const Eigen::Vector3f&) const;
-	
 	Eigen::Vector3f point(const spherical_coordinates&) const;
-	Eigen::Vector3f point(const projected_coordinates&) const;	
 };
 
 }

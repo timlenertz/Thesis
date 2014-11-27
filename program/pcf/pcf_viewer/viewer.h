@@ -5,10 +5,9 @@
 #include "scene/scene.h"
 #include <Eigen/Eigen.h>
 #include <chrono>
+#include <array>
 
 namespace pcf {
-
-class scene;
 
 /**
 Viewer for a scene.
@@ -19,7 +18,8 @@ class viewer {
 private:
 	using clock = std::chrono::high_resolution_clock;
 
-	scene& scene_;
+	scene scene_;
+	std::array<std::size_t, 2> viewport_size_;
 	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
 	Eigen::Vector3f view_target_velocity_ = Eigen::Vector3f::Zero();
 	std::chrono::time_point<clock> last_time_;
@@ -27,17 +27,22 @@ private:
 	void compute_motion_(std::chrono::milliseconds delta_t);
 		
 public:
-	explicit viewer(scene& sc);
+	viewer(std::size_t w, std::size_t h);
 	viewer(const viewer&) = delete;
 	~viewer();
 	
 	viewer& operator=(const viewer&) = delete;
+
+	void resize_viewport(std::size_t w, std::size_t h);
 
 	void draw();
 	void tick();
 	
 	void set_target_velocity(const Eigen::Vector3f&);
 	void stop_movement();
+	
+	scene* operator->() { return &scene_; }
+	scene& operator*() { return scene_; }
 };
 
 }
