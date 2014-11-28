@@ -9,7 +9,7 @@ namespace {
 	const int default_window_height_ = 600;
 }
 
-void viewer_window::window_size_(GLFWwindow* win, int w, int h) {
+void viewer_window::window_framebuffer_size_(GLFWwindow* win, int w, int h) {
 	viewer_window* that = (viewer_window*) glfwGetWindowUserPointer(win);
 	
 	that->viewer_.resize_viewport(w, h);
@@ -54,9 +54,13 @@ viewer_(default_window_width_, default_window_height_) {
 	
 	glfwSetWindowUserPointer(window_, (void*)this);
 	
-	glfwSetWindowSizeCallback(window_, viewer_window::window_size_);
+	glfwSetFramebufferSizeCallback(window_, viewer_window::window_framebuffer_size_);
 	glfwSetCursorPosCallback(window_, viewer_window::window_cursor_position_);
 	glfwSetMouseButtonCallback(window_, viewer_window::window_mouse_button_);
+	
+	int w, h;
+	glfwGetFramebufferSize(window_, &w, &h);
+	viewer_.resize_viewport(w, h);
 }
 
 

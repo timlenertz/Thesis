@@ -51,13 +51,6 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	
 	std::function<void(const const_node_handle& nd)> ins;
 	ins = [&](const const_node_handle& nd) {
-		/*
-			if(nd.is_leaf()) queue.push(nd);
-			for(std::ptrdiff_t ci = 0; ci != 8; ++ci)
-				if(nd.has_child(ci)) ins(nd.child(ci));
-			return;
-		*/
-				
 		frustum::intersection inter = fr.contains(nd.box());
 		if(inter == frustum::outside_frustum) {
 			return;
@@ -80,7 +73,7 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		const_node_handle nd = queue.top();
 		queue.pop();
 		
-		float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
+		//float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
 		//std::size_t n = (nd.size() * (max_d - d)) / max_d;
 		//assert(n <= nd.size());
 		//assert(n >= 0);

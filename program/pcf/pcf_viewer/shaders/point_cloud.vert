@@ -11,7 +11,7 @@ uniform bool fog;
 uniform float fog_distance;
 uniform vec3 fog_color;
 
-void main() {		
+void main() {
 	gl_Position = mvp_matrix * vertex_position_homogeneous;
 	
 	if(fog) {

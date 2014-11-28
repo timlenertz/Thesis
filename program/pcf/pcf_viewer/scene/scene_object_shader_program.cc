@@ -29,10 +29,10 @@ void scene_object_shader_program::set_camera(const camera& cam) {
 	assert(is_current());
 	
 	Eigen::Matrix4f v = cam.view_transformation().matrix();
-	glUniformMatrix4fv(mv_matrix_uniform_, 1, GL_FALSE,(const GLfloat*)v.data());
+	glUniformMatrix4fv(mv_matrix_uniform_, 1, GL_TRUE,(const GLfloat*)v.data());
 
 	Eigen::Matrix4f vp = cam.view_projection_transformation().matrix();
-	glUniformMatrix4fv(mvp_matrix_uniform_, 1, GL_FALSE,(const GLfloat*)vp.data());
+	glUniformMatrix4fv(mvp_matrix_uniform_, 1, GL_TRUE,(const GLfloat*)vp.data());
 }
 
 
