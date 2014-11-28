@@ -3,10 +3,12 @@
 #include <vector>
 #include <functional>
 #include <cstring>
+#include "../../pcf/geometry/frustum.h"
+#include "../../pcf/geometry/camera.h"
 
 namespace pcf {
 
-static const leaf_capacity_ = 1000;
+static const std::size_t leaf_capacity_ = 1000;
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 pov_point_cloud<Point, Allocator>::pov_point_cloud(Other_cloud&& pc, const Allocator& alloc) :
@@ -36,8 +38,8 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	// further descending into the nodes.
 
 	auto cmp = [&cam](const const_node_handle& a, const const_node_handle& b) {
-		float da = distance_sq(cam.camera_pose().position, a.attr().center_of_mass);
-		float db = distance_sq(cam.camera_pose().position, b.attr().center_of_mass);
+		float da = distance_sq(cam.get_pose().position, a.attr().center_of_mass);
+		float db = distance_sq(cam.get_pose().position, b.attr().center_of_mass);
 		return (da > db);
 	};
 
@@ -45,23 +47,24 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	std::priority_queue<const_node_handle, std::vector<const_node_handle>, decltype(cmp)> queue(cmp);
 	std::size_t total_size = 0;
 	float max_d = 0;
+	frustum fr = cam.viewing_frustum();
 	
 	std::function<void(const const_node_handle& nd)> ins;
-	ins = [&queue, &cam, &total_size, &ins](const const_node_handle& nd) {
+	ins = [&](const const_node_handle& nd) {
 		frustum::intersection inter = fr.contains(nd.box());
 		if(inter == frustum::outside_frustum) {
 			return;
 		} else if(nd.is_leaf() || inter == frustum::inside_frustum) {
 			total_size += nd.size();
 			queue.push(nd);
-			float d = distance(cam.camera_pose().position, nd.attr().center_of_mass);
+			float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
 			if(d > max_d) max_d = d;
 		} else {
-			for(std::ptrdiff_t ci = 0; ci != Traits::number_of_children; ++ci)
-				if(nd.has_child(ci)) ins(nd.child(i))
+			for(std::ptrdiff_t ci = 0; ci != 8; ++ci)
+				if(nd.has_child(ci)) ins(nd.child(ci));
 		}		
 	};
-	ins(root());
+	ins(super::root());
 	
 	
 	// 2nd step: Extract points in these nodes
@@ -70,7 +73,7 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		const_node_handle nd = queue.top();
 		queue.pop();
 		
-		float d = distance(cam.camera_pose().position, nd.attr().center_of_mass);
+		float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
 		std::size_t n = (nd.size() * (max_d - d)) / max_d;
 		extracted += extract_points_(buffer + extracted, capacity - extracted, nd, n);
 	}
@@ -91,8 +94,6 @@ extract_points_(Point* buffer, std::size_t capacity, const const_node_handle& nd
 	std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
 	return n;
 }
-
-
 
 
 

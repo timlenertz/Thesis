@@ -2,11 +2,11 @@
 #define PCFVW_SCENE_H_
 
 #include <set>
-#include <unique_ptr>
+#include <memory>
 #include <utility>
-#include <pcf/geometry/projection_camera.h>
-#include <pcf/geometry/angle.h>
-#include "gl_object.h"
+#include "../../pcf/geometry/projection_camera.h"
+#include "../../pcf/geometry/angle.h"
+#include "../gl_object.h"
 #include "scene_object.h"
 #include "scene_point_cloud.h"
 
@@ -38,6 +38,8 @@ public:
 	void set_camera_pose(const pose&);
 	void set_camera_image_size(std::size_t w, std::size_t h);
 	void set_camera_field_of_view(angle);
+	
+	void update_camera(const projection_camera&);
 		
 	template<typename Cloud>
 	scene_point_cloud& add_point_cloud(Cloud&& pc) {

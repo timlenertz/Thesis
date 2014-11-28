@@ -19,8 +19,8 @@ private:
 	void link_();
 	
 public:
-	program(std::initializer_list<shader> shaders);
-	~program();
+	shader_program(std::initializer_list<shader> shaders);
+	~shader_program();
 	
 	GLint get_parameter(GLenum par) const;
 	std::string info_log() const; 

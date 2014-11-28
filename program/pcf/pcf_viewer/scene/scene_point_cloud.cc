@@ -1,6 +1,8 @@
 #include "scene_point_cloud.h"
-#include "../shader_program.h"
-#include "../shader.h"
+#include "../../pcf/geometry/projection_camera.h"
+#include "scene_object_shader_program.h"
+#include "scene.h"
+#include "../gl.h"
 #include <cstddef>
 #include <thread>
 #include <mutex>
@@ -14,7 +16,7 @@ namespace pcf {
 class scene_point_cloud::loader {
 public:
 	struct request {
-		camera cam;
+		projection_camera cam;
 		point_full* buffer;
 		std::size_t buffer_capacity;
 	};
@@ -31,11 +33,10 @@ private:
 	std::mutex wake_up_mut_;
 	std::condition_variable wake_up_cv_;
 
-	std::atomic_bool should_wake_up_ = false;
-	std::atomic_bool running_ = false;
+	std::atomic_bool should_wake_up_;
+	std::atomic_bool running_;
 
-	std::mutex accessing_request_mut_;
-	request next_request_;
+	std::atomic<request*> next_request_;
 	
 	bool response_available_ = false;
 	response response_;
@@ -45,6 +46,8 @@ private:
 	
 public:
 	loader(const pov_point_cloud_full&);
+	loader(const loader&) = delete;
+	loader& operator=(const loader&) = delete;
 	
 	void set_next_request(const request&);
 	bool response_available() const;
@@ -53,7 +56,7 @@ public:
 
 
 scene_point_cloud::loader::loader(const pov_point_cloud_full& pc) :
-point_cloud_(pc) {
+point_cloud_(pc), should_wake_up_(false), running_(false), next_request_(nullptr) {
 	thread_ = std::thread(&loader::thread_main_, this);
 }
 	
@@ -67,33 +70,35 @@ void scene_point_cloud::loader::thread_main_() {
 void scene_point_cloud::loader::thread_iteration_() {
 	// Wait until requested to wake up
 	std::unique_lock<std::mutex> lk(wake_up_mut_);
-	wake_up_cv_.wait(lk, []{ return should_wake_up_; });
+	wake_up_cv_.wait(lk, [this]{ return should_wake_up_.load(); });
 	should_wake_up_ = false;
 	running_ = true;
 	
 	// Read request
-	accessing_request_mut_.lock();
-	request req = next_request_;
-	accessing_request_mut_.unlock();
+	request* req = next_request_.exchange(nullptr);
+
+	if(req) {	
+		// Process request using POV point cloud
+		std::size_t sz = point_cloud_.extract(
+			req->buffer,
+			req->buffer_capacity,
+			req->cam
+		);
+		
+		// Make response available
+		response_.size = sz;
+		response_available_ = true;
+		
+		delete req;
+	}
 	
-	// Process request using POV point cloud
-	std::size_t sz = point_cloud_.extract(
-		req.buffer,
-		req.buffer_capacity,
-		req.cam
-	);
-	
-	// Make response available
-	response.size = sz;
-	response_available_ = true;
 	running_ = false;
 }
 
 
 void scene_point_cloud::loader::set_next_request(const request& req) {
-	accessing_request_mut_.lock();
-	next_request_ = req;
-	accessing_request_mut_.unlock();
+	request* old = next_request_.exchange(new request(req));
+	if(old) delete old;
 	
 	should_wake_up_ = true;
 	wake_up_cv_.notify_one();
@@ -110,7 +115,7 @@ bool scene_point_cloud::loader::take_response(response& rsp) {
 	if(running_) return false;
 	if(! response_available_) return false;
 	
-	rsp = repsonse_;
+	rsp = response_;
 	response_available_ = false;
 	return true;
 }
@@ -118,11 +123,11 @@ bool scene_point_cloud::loader::take_response(response& rsp) {
 
 
 
-shader_program* scene_point_cloud::shader_program_ = nullptr;
+scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 
 
 void scene_point_cloud::setup_loader_() {
-	loader_.reset( new loader(point_cloud_s) );
+	loader_.reset( new loader(point_cloud_) );
 }
 
 
@@ -139,7 +144,7 @@ void scene_point_cloud::take_loader_reponse_() {
 			// Swap loader and renderer buffers
 			renderer_point_buffer_size_ = 0;
 			std::swap(loader_point_buffer_, renderer_point_buffer_);
-			renderer_point_buffer_size_ = rep.size;
+			renderer_point_buffer_size_ = rsp.size;
 		} else {
 			// Buffer has become invalid; reinitialize it
 			glDeleteBuffers(1, &loader_point_buffer_);
@@ -207,7 +212,7 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 	glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, stride, reinterpret_cast<const GLvoid*>(color_offset));
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0)
+	glBindVertexArray(0);
 }
 
 
@@ -223,7 +228,7 @@ void scene_point_cloud::gl_uninitialize_() {
 }
 
 
-void scene_point_cloud::gl_draw() {
+void scene_point_cloud::gl_draw_() {
 	// If new data set is available from loader, take it now
 	take_loader_reponse_();
 
@@ -236,14 +241,15 @@ void scene_point_cloud::gl_draw() {
 }
 
 
-void scene_point_cloud::update_camera(const camera& cam) {
+void scene_point_cloud::update_camera(const projection_camera& cam) {
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
-		loader::request req;
-		req.cam = cam;
-		req.buffer = loader_point_buffer_mapping_;
-		req.capacity = point_buffer_capacity_;
+		loader::request req {
+			cam,
+			loader_point_buffer_mapping_,
+			(std::size_t)point_buffer_capacity_
+		};
 		loader_->set_next_request(req);
 	}
 }

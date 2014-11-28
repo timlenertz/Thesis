@@ -2,9 +2,9 @@
 #define PCFVW_SCENE_POINT_CLOUD_H_
 
 #include "scene_object.h"
-#include <pcf/point_cloud/pov/pov_point_cloud.h>
+#include "../point_cloud/pov_point_cloud.h"
+#include "../gl.h"
 #include <utility>
-#include <loader>
 
 namespace pcf {
 
@@ -36,14 +36,14 @@ private:
 protected:
 	void gl_initialize_() override;
 	void gl_uninitialize_() override;
-	void gl_draw() override;
+	void gl_draw_() override;
 
 public:
 	template<typename Cloud>
 	explicit scene_point_cloud(Cloud&& pc) :
 		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
 		
-	void update_camera(const camera&) override;
+	void update_camera(const projection_camera&) override;
 		
 };
 

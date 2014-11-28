@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <array>
-#include <stack>
 #include <vector>
 #include <cmath>
 #include "../point_cloud.h"

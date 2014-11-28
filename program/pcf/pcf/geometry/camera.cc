@@ -18,16 +18,16 @@ void camera::compute_transformations_() {
 	view_ = pose_.view_transformation();
 	view_inv_ = view_.inverse();
 
-	float x_scale = 1.0f / std::tan(fov_x / 2);
-	float y_scale = 1.0f / std::tan(fov_y / 2);
+	float x_scale = 1.0f / std::tan(fov_x_ / 2);
+	float y_scale = 1.0f / std::tan(fov_y_ / 2);
 	float zdiff = far_z_ - near_z_;
 	
 	Eigen::Matrix4f mat;
 	mat <<
 		x_scale, 0, 0, 0,
 		0, y_scale, 0, 0,
-		0, 0, -(zfar + znear)/zdiff, -1,
-		0, 0, -2*znear*zfar/zdiff, 0;
+		0, 0, -(far_z_ + near_z_)/zdiff, -1,
+		0, 0, -2*near_z_*far_z_/zdiff, 0;
 		
 	view_projection_ = view_ * Eigen::Projective3f(mat);
 	view_projection_inv_ = view_projection_.inverse();
@@ -66,8 +66,8 @@ void camera::set_pose(const pose& ps) {
 
 
 void camera::set_field_of_view(angle fov_x, angle fov_y) {
-	fox_x_ = fov_x;
-	fox_y_ = fov_y;
+	fov_x_ = fov_x;
+	fov_y_ = fov_y;
 	compute_transformations_();
 }
 
@@ -78,22 +78,8 @@ spherical_coordinates camera::to_spherical(const Eigen::Vector3f& wp) const {
 }
 
 
-camera::projected_coordinates camera::to_projected(const Eigen::Vector3f& wp) const {
-	Eigen::Vector4f p = view_projection_ * wp.homogeneous();
-	p /= p[3];
-	return p.head(3);
-}
-
-
 Eigen::Vector3f camera::point(const spherical_coordinates& s) const {
 	return view_inv_ * s.to_cartesian();
-}
-
-
-Eigen::Vector3f camera::point(const projected_coordinates& pr) const {
-	Eigen::Vector4f p = view_projection_inv_ * pr.homogeneous();
-	p /= p[3];
-	return p.head(3);
 }
 
 

@@ -5,14 +5,14 @@ namespace pcf {
 
 angle projection_camera::compute_fov_y_(angle fvx, image_size sz) {
 	float x_pr = std::tan(fvx / 2.0f);
-	float y_pr = (float(y_pr) * sz[1]) / sz[0];
+	float y_pr = (float(x_pr) * sz[1]) / sz[0];
 	return std::atan(y_pr / 2.0f);
 }
 
 
-angle projection_camera::compute_fov_y_(angle fvy, image_size sz) {
+angle projection_camera::compute_fov_x_(angle fvy, image_size sz) {
 	float y_pr = std::tan(fvy / 2.0f);
-	float x_pr = (float(x_pr) * sz[0]) / sz[1];
+	float x_pr = (float(y_pr) * sz[0]) / sz[1];
 	return std::atan(x_pr / 2.0f);
 }
 
@@ -21,8 +21,8 @@ projection_camera::projection_camera(const pose& ps, angle fvx, std::size_t imw,
 camera(ps),
 image_size_ {imw, imh},
 image_center_ { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 } {
-	fov_x = fvx;
-	fov_y = fov_y_(fvx, image_size_);
+	fov_x_ = fvx;
+	fov_y_ = compute_fov_y_(fvx, image_size_);
 	compute_transformations_using_aspect_ratio_();
 }
 
@@ -31,19 +31,24 @@ void projection_camera::compute_transformations_using_aspect_ratio_() {
 	view_ = pose_.view_transformation();
 	view_inv_ = view_.inverse();
 
-	float x_scale = 1.0f / std::tan(fov_x / 2);
-	float y_scale = (x_scale * image_height_) / image_width_;
+	float x_scale = 1.0f / std::tan(fov_x_ / 2);
+	float y_scale = (x_scale * image_size_[1]) / image_size_[0];
 	float zdiff = far_z_ - near_z_;
 	
 	Eigen::Matrix4f mat;
 	mat <<
 		x_scale, 0, 0, 0,
 		0, y_scale, 0, 0,
-		0, 0, -(zfar + znear)/zdiff, -1,
-		0, 0, -2*znear*zfar/zdiff, 0;
+		0, 0, -(far_z_ + near_z_)/zdiff, -1,
+		0, 0, -2*near_z_*far_z_/zdiff, 0;
 		
 	view_projection_ = view_ * Eigen::Projective3f(mat);
 	view_projection_inv_ = view_projection_.inverse();
+}
+
+
+float projection_camera::aspect_ratio() const {
+	return float(image_size_[0]) / image_size_[1];
 }
 
 
@@ -53,7 +58,7 @@ projection_camera::image_size projection_camera::get_image_size() const {
 
 void projection_camera::set_image_size(std::size_t imw, std::size_t imh) {
 	image_size_ = image_size { imw, imh };
-	image_center_ = imager_coordinates { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 };
+	image_center_ = image_coordinates { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 };
 	compute_transformations_using_aspect_ratio_();
 }
 
@@ -67,7 +72,10 @@ projection_camera::image_coordinates projection_camera::to_projected(const Eigen
 		projected_coordinates[i] += image_center_[i];
 	}
 	
-	return image_coordinates { projected_coordinates[0], projected_coordinates[1] };
+	return image_coordinates {
+		(std::ptrdiff_t)projected_coordinates[0],
+		(std::ptrdiff_t)projected_coordinates[1]
+	};
 }
 
 
@@ -78,16 +86,15 @@ void projection_camera::set_field_of_view_x(angle fvx) {
 
 
 void projection_camera::set_field_of_view_y(angle fvy) {
-	fov_x_ = compute_fov_x_(fvz, image_size_);
+	fov_x_ = compute_fov_x_(fvy, image_size_);
 	fov_y_ = fvy;
 }
 
 
 
 void projection_camera::adjust_field_of_view(bool keep_x) {
-	float aspect_ratio = float(image_size_[0]) / image_size_[1];
-	if(keep_x) fov_y_ = compute_fov_y_(fov_x, image_size_);
-	else fov_x_ = compute_fov_x_(fov_y, image_size_);
+	if(keep_x) fov_y_ = compute_fov_y_(fov_x_, image_size_);
+	else fov_x_ = compute_fov_x_(fov_y_, image_size_);
 }
 
 

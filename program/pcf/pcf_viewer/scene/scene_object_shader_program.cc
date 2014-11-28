@@ -8,8 +8,8 @@ const std::string scene_object_shader_program::shaders_dir_ = "./shaders/";
 
 scene_object_shader_program::scene_object_shader_program(const std::string& name) :
 	super({
-		shader::from_file(shaders_dir_ + name + ".vert"),
-		shader::from_file(shaders_dir_ + name + ".frag")
+		shader::from_file(GL_VERTEX_SHADER, shaders_dir_ + name + ".vert"),
+		shader::from_file(GL_FRAGMENT_SHADER, shaders_dir_ + name + ".frag")
 	}),
 	mv_matrix_uniform_(uniform_location("mv_matrix")),
 	mvp_matrix_uniform_(uniform_location("mvp_matrix")),
@@ -36,7 +36,7 @@ void scene_object_shader_program::set_camera(const camera& cam) {
 
 void scene_object_shader_program::set_fog(bool enable) {
 	assert(is_current());
-	glUniform1ui(fog_uniform_, (enable ? 1 : 0));
+	glUniform1i(fog_uniform_, (enable ? 1 : 0));
 }
 
 

@@ -46,7 +46,7 @@ void scene::gl_initialize_() {
 }
 
 
-void scene::update_camera(const camera& cam) {
+void scene::update_camera(const projection_camera& cam) {
 	for(const auto& obj : objects_) obj->update_camera(cam);
 }
 
