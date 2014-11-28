@@ -48,7 +48,7 @@ public:
 	const bounding_box& box() const { return box_; }
 	std::ptrdiff_t depth() const { return depth_; }
 	node_type& attr() const { return *nd_; }
-	segment_type& seg() const { return nd_->seg; }
+	segment_type seg() const { return nd_->seg; }
 
 	std::size_t size() const { return nd_->seg.size(); }
 	iterator begin() const { return nd_->seg.begin(); }

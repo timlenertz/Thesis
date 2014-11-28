@@ -19,7 +19,7 @@ void main() {
 		float min_d = fog_distance;
 		float max_d = 6.0 * fog_distance;
 	
-		float fog_factor = (distance - min_d) / (max_d - min_d);
+		float fog_factor = (d - min_d) / (max_d - min_d);
 		fog_factor = clamp(fog_factor, 0.0, 0.8);
 		fragment_color = mix(vertex_color, fog_color, fog_factor);
 	} else {

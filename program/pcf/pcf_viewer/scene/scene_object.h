@@ -10,9 +10,12 @@ class scene;
 
 class scene_object : public gl_object {
 protected:
-	scene& scene_;
-
-	explicit scene_object(scene& sc) : scene_(sc) { }
+	const scene& scene_;
+	
+	scene_object(const scene& sc) : scene_(sc) { }
+	
+	scene_object(const scene_object&) = delete;
+	scene_object& operator=(const scene_object&) = delete;
 
 public:
 	virtual void update_camera(const projection_camera&) { }

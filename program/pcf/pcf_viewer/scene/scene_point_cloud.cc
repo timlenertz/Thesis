@@ -126,8 +126,12 @@ bool scene_point_cloud::loader::take_response(response& rsp) {
 scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 
 
+scene_point_cloud::~scene_point_cloud() {
+	if(loader_) delete loader_;
+}
+
 void scene_point_cloud::setup_loader_() {
-	loader_.reset( new loader(point_cloud_) );
+	loader_ = new loader(point_cloud_);
 }
 
 

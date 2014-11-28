@@ -4,6 +4,7 @@
 #include <set>
 #include <memory>
 #include <utility>
+#include <stdexcept>
 #include "../../pcf/geometry/projection_camera.h"
 #include "../../pcf/geometry/angle.h"
 #include "../gl_object.h"
@@ -32,7 +33,7 @@ public:
 	scene(std::size_t view_w, std::size_t view_h, angle fov_x);
 	~scene();
 			
-	const projection_camera& get_camera();
+	const projection_camera& get_camera() const;
 	void set_camera(const projection_camera&);
 	
 	void set_camera_pose(const pose&);
@@ -43,7 +44,9 @@ public:
 		
 	template<typename Cloud>
 	scene_point_cloud& add_point_cloud(Cloud&& pc) {
-		objects_.emplace(new scene_point_cloud(std::forward<Cloud>(pc)));
+		scene_point_cloud* spc = new scene_point_cloud(*this, std::forward<Cloud>(pc));
+		objects_.emplace(spc);
+		return *spc;
 	}
 };
 

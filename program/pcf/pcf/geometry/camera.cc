@@ -13,6 +13,8 @@ pose_(p), fov_x_(fvx), fov_y_(fvy), near_z_(znear), far_z_(zfar) {
 	compute_transformations_();
 }
 
+camera::camera(const pose& p) :
+pose_(p) { }
 
 void camera::compute_transformations_() {
 	view_ = pose_.view_transformation();

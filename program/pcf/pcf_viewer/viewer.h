@@ -3,7 +3,7 @@
 
 #include "gl.h"
 #include "scene/scene.h"
-#include <Eigen/Eigen.h>
+#include <Eigen/Eigen>
 #include <chrono>
 #include <array>
 

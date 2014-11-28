@@ -20,6 +20,7 @@ public:
 	static angle degrees(float d) { return d * radiant_per_degree; }
 	static angle radiants(float r) { return r; }	
 
+	angle() = default;
 	angle(float r) : radiants_(r) { }
 	angle(const angle&) = default;
 	

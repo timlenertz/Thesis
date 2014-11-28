@@ -18,7 +18,7 @@ private:
 	pov_point_cloud_full point_cloud_;
 	const GLsizei point_buffer_capacity_ = 256 * 1024;	
 
-	std::unique_ptr<loader> loader_;
+	loader* loader_ = nullptr;
 	
 	static scene_object_shader_program* shader_program_;
 		
@@ -40,8 +40,11 @@ protected:
 
 public:
 	template<typename Cloud>
-	explicit scene_point_cloud(Cloud&& pc) :
+	scene_point_cloud(const scene& sc, Cloud&& pc) :
+		scene_object(sc),
 		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
+			
+	~scene_point_cloud();
 		
 	void update_camera(const projection_camera&) override;
 		

@@ -3,7 +3,7 @@
 
 namespace pcf {
 
-const std::string scene_object_shader_program::shaders_dir_ = "./shaders/";
+const std::string scene_object_shader_program::shaders_dir_ = "/Users/timlenertz/Documents/ULB/INFO5\ 2014-2015/Thesis/program/pcf/pcf_viewer/shaders/";
 
 
 scene_object_shader_program::scene_object_shader_program(const std::string& name) :

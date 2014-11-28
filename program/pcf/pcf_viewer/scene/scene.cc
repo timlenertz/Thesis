@@ -12,7 +12,7 @@ scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
 scene::~scene() { }
 
 
-const projection_camera& scene::get_camera() {
+const projection_camera& scene::get_camera() const {
 	return camera_;
 }
 

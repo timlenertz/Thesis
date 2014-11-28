@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 #include <fstream>
+#include "gl.h"
+#include "gl_error.h"
 
 namespace pcf {
 
@@ -41,10 +43,10 @@ shader::~shader() {
 
 std::string shader::info_log() const {
 	GLsizei maxlen = get_parameter(GL_INFO_LOG_LENGTH);
-	GLsizei len;
-	if(len == 0) return "";
-	std::unique_ptr<GLchar[]> log(new GLchar[len]);
+	GLsizei len = 0;
+	std::unique_ptr<GLchar[]> log(new GLchar[maxlen]);
 	glGetShaderInfoLog(id_, maxlen, &len, log.get());
+	if(len == 0) return "";
 	return std::string((char*)log.get(), len);
 }
 

@@ -26,7 +26,7 @@ public:
 	std::string info_log() const; 
 
 	GLuint id() const { return id_; }
-	GLint uniform_location(const std::string& name);
+	GLint uniform_location(const std::string& name) const;
 
 	void use() const;
 	bool is_current() const;
