@@ -24,6 +24,7 @@ class scene : public gl_object {
 private:
 	std::set<std::unique_ptr<scene_object>> objects_;
 	projection_camera camera_;
+	bool should_reset_viewport_ = true;
 		
 protected:
 	void gl_initialize_() override;
@@ -36,6 +37,7 @@ public:
 	const projection_camera& get_camera() const;
 	void set_camera(const projection_camera&);
 	
+	const pose& get_camera_pose() const;
 	void set_camera_pose(const pose&);
 	void set_camera_image_size(std::size_t w, std::size_t h);
 	void set_camera_field_of_view(angle);

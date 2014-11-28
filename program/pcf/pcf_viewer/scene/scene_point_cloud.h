@@ -16,7 +16,7 @@ private:
 	
 private:
 	pov_point_cloud_full point_cloud_;
-	const GLsizei point_buffer_capacity_ = 256 * 1024;	
+	const GLsizei point_buffer_capacity_ = 256 * 1024;
 
 	loader* loader_ = nullptr;
 	

@@ -60,14 +60,12 @@ void ply_exporter::write(const point_xyz* buf, std::size_t sz) {
 	count_ += sz;
 	if(full_) {
 		while(sz--) {
-			assert(buffer->valid());
 			if(ascii_) write_ascii_(point_full(*buf));
 			else write_binary_(point_full(*buf));
 			++buf;	
 		}
 	} else {
 		while(sz--) {
-			assert(buffer->valid());
 			if(ascii_) write_ascii_(*buf);
 			else write_binary_(*buf);
 			++buf;
@@ -81,14 +79,12 @@ void ply_exporter::write(const point_full* buf, std::size_t sz) {
 	count_ += sz;
 	if(full_) {
 		while(sz--) {
-			assert(buffer->valid());
 			if(ascii_) write_ascii_(*buf);
 			else write_binary_(*buf);
 			++buf;	
 		}
 	} else {
 		while(sz--) {
-			assert(buffer->valid());
 			if(ascii_) write_ascii_(*(point_xyz*)buf);
 			else write_binary_(*(point_xyz*)buf);
 			++buf;

@@ -4,10 +4,10 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_INSTALL_PREFIX ../dist)
 set(MACOSX_RPATH YES)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 if(UNIX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG -std=c++1y -Wall -Wno-missing-braces -O3")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wno-missing-braces -O3")
 
 	#set(CMAKE_CXX_COMPILER /usr/local/bin/g++-4.9)	
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -fdiagnostics-color=always")
@@ -19,9 +19,6 @@ elseif(MSVC)
 endif()
 
 add_subdirectory(./pcf "${CMAKE_BINARY_DIR}/pcf")
-
 add_subdirectory(./pcf_test "${CMAKE_BINARY_DIR}/pcf_test")
-
 add_subdirectory(./pcf_viewer "${CMAKE_BINARY_DIR}/pcf_viewer")
-
 add_subdirectory(./app "${CMAKE_BINARY_DIR}/app")

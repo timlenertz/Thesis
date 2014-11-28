@@ -51,6 +51,13 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	
 	std::function<void(const const_node_handle& nd)> ins;
 	ins = [&](const const_node_handle& nd) {
+		
+			if(nd.is_leaf()) queue.push(nd);
+			for(std::ptrdiff_t ci = 0; ci != 8; ++ci)
+				if(nd.has_child(ci)) ins(nd.child(ci));
+			return;
+		
+		
 		frustum::intersection inter = fr.contains(nd.box());
 		if(inter == frustum::outside_frustum) {
 			return;
@@ -66,7 +73,7 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	};
 	ins(super::root());
 	
-	
+
 	// 2nd step: Extract points in these nodes
 	std::size_t extracted = 0;
 	while(!queue.empty() && extracted < capacity) {
@@ -74,7 +81,10 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		queue.pop();
 		
 		float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
-		std::size_t n = (nd.size() * (max_d - d)) / max_d;
+		//std::size_t n = (nd.size() * (max_d - d)) / max_d;
+		//assert(n <= nd.size());
+		//assert(n >= 0);
+		std::size_t n = nd.size();
 		extracted += extract_points_(buffer + extracted, capacity - extracted, nd, n);
 	}
 	
@@ -84,13 +94,12 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 
 
 
-
-
 template<typename Point, typename Allocator>
 std::size_t pov_point_cloud<Point, Allocator>::
 extract_points_(Point* buffer, std::size_t capacity, const const_node_handle& nd, std::size_t max_number) const {
 	std::size_t n = max_number;
 	if(max_number > capacity) n = capacity;
+	assert(n <= nd.size());
 	std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
 	return n;
 }

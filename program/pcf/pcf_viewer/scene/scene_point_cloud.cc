@@ -10,6 +10,8 @@
 #include <atomic>
 #include <stdexcept>
 
+#include <iostream>
+
 namespace pcf {
 
 
@@ -242,10 +244,14 @@ void scene_point_cloud::gl_draw_() {
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
 	glBindVertexArray(0);
+	
+	std::cout << "DRAW " << renderer_point_buffer_size_ << std::endl;
 }
 
 
 void scene_point_cloud::update_camera(const projection_camera& cam) {
+	if(! initialized()) return;
+
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {

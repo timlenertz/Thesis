@@ -32,7 +32,9 @@ int main(int argc, const char* argv[]) {
 	viewer_win.reset( new viewer_window() );
 
 	std::thread ui_thread(user_interface);
+
 	viewer_win->run();	
+	ui_thread.detach();
 
 	std::atexit(glfwTerminate);
 	
