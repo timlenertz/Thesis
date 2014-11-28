@@ -33,10 +33,12 @@ protected:
 
 	void compute_transformations_();
 	
-	explicit camera(const pose&);
+	camera(const pose&, angle fov_x, angle fov_y, float znear, float zfar, bool compute);
 
 public:
-	camera(const pose&, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_);
+	camera(const pose& ps, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_) :
+		camera(ps, fov_x, fov_y, znear, zfar, true) { }
+		
 	camera(const camera&) = default;
 	
 	const pose& get_pose() const { return pose_; }

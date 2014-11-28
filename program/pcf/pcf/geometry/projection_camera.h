@@ -30,6 +30,8 @@ public:
 	void set_field_of_view_x(angle fov_x);
 	void set_field_of_view_y(angle fov_y);
 	
+	void set_pose(const pose&);
+	
 	float aspect_ratio() const;
 	std::size_t image_width() const { return image_size_[0]; }
 	std::size_t image_height() const { return image_size_[1]; }

@@ -7,7 +7,7 @@ pcf_viewer/
 app/
 	User interface consisting of viewer window and console.
 
-test/
+pcf_test/
 	Unit tests.
 
 external/

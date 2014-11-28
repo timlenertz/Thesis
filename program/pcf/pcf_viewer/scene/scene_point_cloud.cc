@@ -37,6 +37,7 @@ private:
 
 	std::atomic_bool should_wake_up_;
 	std::atomic_bool running_;
+	std::atomic_bool should_exit_;
 
 	std::atomic<request*> next_request_;
 	
@@ -50,6 +51,7 @@ public:
 	loader(const pov_point_cloud_full&);
 	loader(const loader&) = delete;
 	loader& operator=(const loader&) = delete;
+	~loader();
 	
 	void set_next_request(const request&);
 	bool response_available() const;
@@ -58,21 +60,30 @@ public:
 
 
 scene_point_cloud::loader::loader(const pov_point_cloud_full& pc) :
-point_cloud_(pc), should_wake_up_(false), running_(false), next_request_(nullptr) {
+point_cloud_(pc), should_wake_up_(false), running_(false), next_request_(nullptr), should_exit_(false) {
 	thread_ = std::thread(&loader::thread_main_, this);
 }
 	
 
+scene_point_cloud::loader::~loader() {
+	should_exit_ = true;
+	should_wake_up_ = true;
+	wake_up_cv_.notify_one();
+	thread_.join();
+}
+
 
 void scene_point_cloud::loader::thread_main_() {
-	for(;;) thread_iteration_();
+	while(! should_exit_) thread_iteration_();
 }
 
 
 void scene_point_cloud::loader::thread_iteration_() {
 	// Wait until requested to wake up
 	std::unique_lock<std::mutex> lk(wake_up_mut_);
-	wake_up_cv_.wait(lk, [this]{ return should_wake_up_.load(); });
+	wake_up_cv_.wait(lk, [this]{ return should_wake_up_ || should_exit_; });
+	if(should_exit_) return;
+	
 	should_wake_up_ = false;
 	running_ = true;
 	

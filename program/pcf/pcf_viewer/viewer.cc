@@ -78,9 +78,6 @@ void viewer::rotate_camera(angle horizontal, angle vertical) {
 	pose ps = scene_.get_camera_pose();
 	ps.orientation = transformation * ps.orientation;
 	scene_.set_camera_pose(ps);
-	
-	
-	std::cout << ps.orientation.matrix() << std::endl;
 }
 
 void viewer::set_target_velocity(const Eigen::Vector3f& vw_vel) {
