@@ -1,11 +1,10 @@
 #ifndef PCF_POINT_CLOUD_ALGORITHM_H_
 #define PCF_POINT_CLOUD_ALGORITHM_H_
 
-#include "point_cloud.h"
-
 namespace pcf {
 
-
+template<typename Cloud>
+float estimate_median_closest_point_distance(const Cloud&, std::size_t samples = 100);
 
 }
 

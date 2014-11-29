@@ -15,7 +15,7 @@ class pov_point_cloud : public tree_point_cloud<pov_octree_traits, Point, Alloca
 	using typename super::const_node_handle;
 	
 private:
-	static const std::size_t leaf_capacity_ = 1000;
+	static const std::size_t leaf_capacity_ = 500;
 	float extra_split_side_length_ = 2.0;
 
 	void prepare_tree_();	

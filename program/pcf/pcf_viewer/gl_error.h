@@ -8,8 +8,13 @@ namespace pcf {
 
 class gl_error_category : public std::error_category {
 public:
+	#ifdef _MSC_VER
+	const char* name() const { return "opengl"; }
+	std::string message(int condition) const { return ""; }
+	#else
 	const char* name() const noexcept { return "opengl"; }
 	std::string message(int condition) const noexcept { return ""; }
+	#endif
 };
 
 

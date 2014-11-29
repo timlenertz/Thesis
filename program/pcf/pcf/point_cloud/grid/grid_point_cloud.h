@@ -54,8 +54,7 @@ private:
 	void build_grid_();
 
 public:	
-	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc);
-	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len);
+	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc = Allocator());
 	
 	bool verify() const;
 	

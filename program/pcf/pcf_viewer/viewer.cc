@@ -21,16 +21,21 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 	
 	// Transform target velocity vector to world space
 	const camera& cam = scene_.get_camera();
-	Eigen::Vector3f target_velocity = cam.view_transformation_inverse() * view_target_velocity_;
-
+	
+	Eigen::Vector4f view_target_velocity_h;
+	view_target_velocity_h.head(3) = view_target_velocity_;
+	view_target_velocity_h[3] = 0;
+	
+	Eigen::Vector3f target_velocity = (cam.view_transformation_inverse() * view_target_velocity_h).head(3);
+	
 	// Make velocity converge to target velocity
 	Eigen::Vector3f velocity_difference = target_velocity - velocity_;	
-	if(1||time_to_target_velocity_ <= delta_t) velocity_ = target_velocity;
+	if(true || delta_t > time_to_target_velocity_) velocity_ = target_velocity;
 	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
 		
 	// Move camera according to current velocity and time difference
 	pose ps = scene_.get_camera_pose();
-	//ps.position += velocity_;// * delta_t.count();
+	ps.position += velocity_ * delta_t.count();
 	scene_.set_camera_pose(ps); // Information propagates to scene objects
 }
 

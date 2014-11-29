@@ -19,9 +19,9 @@ angle projection_camera::compute_fov_x_(angle fvy, image_size sz) {
 
 
 projection_camera::projection_camera(const pose& ps, angle fvx, std::size_t imw, std::size_t imh, float znear, float zfar) :
-camera(ps, fvx, compute_fov_y_(fvx, {imw, imh}), znear, zfar, false),
-image_size_ {imw, imh},
-image_center_ { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 } {
+camera(ps, fvx, compute_fov_y_(fvx, image_size({imw, imh})), znear, zfar, false),
+image_size_({ imw, imh }),
+image_center_({ std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 }) {
 	compute_transformations_using_aspect_ratio_();
 }
 
@@ -41,8 +41,10 @@ void projection_camera::compute_transformations_using_aspect_ratio_() {
 		0, 0, -(far_z_ + near_z_)/zdiff, -1,
 		0, 0, -2*near_z_*far_z_/zdiff, 0;
 		
-	view_projection_ = view_ * Eigen::Projective3f(mat);
+	view_projection_ = Eigen::Projective3f(mat) * view_;
 	view_projection_inv_ = view_projection_.inverse();
+	
+	std::cout << view_projection_.matrix() << std::endl;
 }
 
 void projection_camera::set_pose(const pose& ps) {

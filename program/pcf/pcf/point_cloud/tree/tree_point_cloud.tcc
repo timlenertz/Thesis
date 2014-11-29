@@ -11,13 +11,6 @@ super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), roo
 }
 
 
-template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
-tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap) :
-super(std::forward<Other_cloud>(pc), true, pc.get_allocator()), leaf_capacity_(leaf_cap), root_node_(super::full_segment()) {
-	build_tree_();
-}
-
-
 template<typename Traits, typename Point, typename Allocator>
 auto tree_point_cloud<Traits, Point, Allocator>::root() -> node_handle {
 	return node_handle(root_node_, root_box_, 0);

@@ -64,7 +64,10 @@ public:
 
 
 scene_point_cloud::loader::loader(const pov_point_cloud_full& pc) :
-point_cloud_(pc), should_wake_up_(false), running_(false), next_request_(nullptr), should_exit_(false) {
+point_cloud_(pc), next_request_(nullptr) {
+	running_.store(false);
+	should_wake_up_.store(false);
+	should_exit_.store(false);
 	thread_ = std::thread(&loader::thread_main_, this);
 }
 	

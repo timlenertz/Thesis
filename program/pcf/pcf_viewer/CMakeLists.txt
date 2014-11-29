@@ -11,6 +11,7 @@ include_directories(${OpenGL_INCLUDE_DIRS})
 
 add_library(pcfviewerlib STATIC ${CPP_SRC})
 
+target_link_libraries(pcfviewerlib ${GLEW_LIBS})
 target_link_libraries(pcfviewerlib ${OpenGL_LIBS})
 target_link_libraries(pcfviewerlib pcflib)
 

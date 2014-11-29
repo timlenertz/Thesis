@@ -15,7 +15,13 @@ if(UNIX)
 elseif(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DNDEBUG /fp:fast /GL")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
-	set(OpenCV_DIR "./external/win32/opencv")
+
+	set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/external/win32/opencv")
+	include_directories(${CMAKE_SOURCE_DIR}/external/win32/glew/include SYSTEM)
+	
+	set(GLEW_LIBS "")
+	list(APPEND GLEW_LIBS "${CMAKE_SOURCE_DIR}/external/win32/glew/64/glew32s.lib")
+	
 endif()
 
 add_subdirectory(./pcf "${CMAKE_BINARY_DIR}/pcf")

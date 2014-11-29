@@ -7,6 +7,7 @@
 #include "../../pcf/geometry/frustum.h"
 #include "../../pcf/geometry/camera.h"
 #include "../../pcf/util/random.h"
+#include "../../pcf/point_cloud_algorithm.h"
 
 namespace pcf {
 
@@ -54,8 +55,8 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	};
 	
 	auto node_w = [&cam](const const_node_handle& nd)->float {
-		float d = distance(cam.get_pose().position, nd.attr().center_of_mass);
-		return 1.0f / (std::pow(d, 0.2f) + 1.0f);
+		float d_sq = distance_sq(cam.get_pose().position, nd.attr().center_of_mass);
+		return 1.0f / std::pow(d_sq, 1.8);
 	};
 
 	// Priority queue ordered by distance of nodes' center of mass to camera origin
@@ -88,31 +89,33 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 
 	// 2nd step: Extract points in these nodes
 	bool downsample = (total_size > capacity);
-	std::size_t extracted = 0, remaining_capacity = capacity;
+	std::size_t extracted = 0, remaining_capacity = capacity, remaining_size = total_size;
 	Point* buf = buffer;
 	while(!queue.empty() && extracted < capacity) {
 		const_node_handle nd = queue.top();
 		queue.pop();
 		
-		float w = node_w(nd);
-
 		std::size_t n = nd.size();
-		if(downsample) {
-			float distance_weight = w / w_sum;
-			
+		if(downsample) {		
+			float w = node_w(nd);
+			//std::size_t suggested_n = (w * nd.size() * remaining_capacity) / w_sum;
 		
-			n = (w * remaining_capacity) / w_sum;
-
+			std::size_t suggested_n = (nd.size() * remaining_capacity) / remaining_size;
+		
+			n = suggested_n;
 			if(n > nd.size()) n = nd.size();
 			if(n > remaining_capacity) n = remaining_capacity;
 		}
 
 		extract_points_(buf, n, nd);
-		
+				
 		buf += n;
 		extracted += n;
 		remaining_capacity -= n;
+		remaining_size -= nd.size();
 	}
+			
+	//std::cout << "took " << extracted << " from " << capacity << std::endl;
 		
 	return extracted;
 }
@@ -129,13 +132,14 @@ extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const
 	std::size_t ndsize = nd.size();
 	assert(n <= ndsize);
 	
-	std::size_t skip_tolerance = ndsize / 9;
-		
-	if(n == ndsize) {
+	std::size_t skip_tolerance = ndsize / 15;
+	std::size_t small_n_tolerance = ndsize / 1000;
+	
+	if(n == ndsize || nd.is_leaf()) {
 		// Copy all points
 		std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
 		
-	} else if(ndsize % n < skip_tolerance) {
+	} else if(n < small_n_tolerance || ndsize % n < skip_tolerance) {
 		// Copy every k-th point (k constant).
 		std::ptrdiff_t k = ndsize / n;
 		

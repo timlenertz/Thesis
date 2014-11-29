@@ -13,9 +13,10 @@ file(GLOB_RECURSE CPP_SRC "./*.cc")
 
 include_directories(../external/include/)
 
-
 add_executable(pcfapp ${CPP_SRC})
 
 target_link_libraries(pcfapp glfw ${GLFW_LIBRARIES})
 target_link_libraries(pcfapp pcflib)
 target_link_libraries(pcfapp pcfviewerlib)
+
+install(TARGETS pcfapp DESTINATION .)

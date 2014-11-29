@@ -51,12 +51,6 @@ super(std::forward<Other_cloud>(pc), true, alloc), cell_length_(cell_len) {
 }
 
 
-template<typename Point, typename Allocator> template<typename Other_cloud>
-grid_point_cloud<Point, Allocator>::grid_point_cloud(Other_cloud&& pc, float cell_len) :
-super(std::forward<Other_cloud>(pc), true), cell_length_(cell_len) {
-	build_grid_();
-}
-
 
 template<typename Point, typename Allocator> template<typename Other_point>
 auto grid_point_cloud<Point, Allocator>::cell_for_point(const Other_point& p) const -> cell_coordinates {

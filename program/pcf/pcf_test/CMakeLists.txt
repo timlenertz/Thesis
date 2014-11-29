@@ -7,7 +7,8 @@ file(GLOB_RECURSE CPP_SRC "./*.cc")
 
 include_directories(../external/include/)
 
-
 add_executable(pcftest ${CPP_SRC})
 
 target_link_libraries(pcftest pcflib)
+
+install(TARGETS pcftest DESTINATION .)

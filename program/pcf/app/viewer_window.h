@@ -1,7 +1,7 @@
 #ifndef PCFAPP_VIEWER_WINDOW_H_
 #define PCFAPP_VIEWER_WINDOW_H_
 
-#include <GLFW/glfw3.h>
+#include "glfw.h"
 #include "../pcf_viewer/viewer.h"
 #include <mutex>
 
