@@ -14,11 +14,12 @@ public:
 	};
 
 	template<typename Point>
-	static std::array<point_cloud_segment<Point>, 8> split_node
-	(point_cloud_segment<Point> seg, const bounding_box& box, node_attributes& attr, std::ptrdiff_t depth) {
+	static node_attributes initialize_node_attributes
+	(point_cloud_segment<Point> seg, const bounding_box& box, std::ptrdiff_t depth) {
+		node_attributes attr;
 		attr.center_of_mass = seg.center_of_mass();
-		return super::split_node(seg, box, attr, depth);
-	}
+		return attr;
+	}	
 };
 
 }

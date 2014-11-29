@@ -20,4 +20,9 @@ Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, floa
 }
 
 
+template<typename Iterator>
+void set_unique_color(Iterator begin, Iterator end, rgb_color col) {
+	for(Iterator it = begin; it != end; ++it) it->color = col;
+}
+
 }

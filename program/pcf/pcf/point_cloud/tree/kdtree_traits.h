@@ -32,6 +32,10 @@ public:
 	
 	template<typename Point>
 	static std::array<point_cloud_segment<Point>, 2> split_node(point_cloud_segment<Point>, const bounding_box&, node_attributes&, std::ptrdiff_t depth);
+	
+	template<typename Point>
+	static node_attributes initialize_node_attributes
+	(point_cloud_segment<Point>, const bounding_box&, std::ptrdiff_t depth);
 };
 
 }

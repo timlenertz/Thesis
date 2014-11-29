@@ -9,11 +9,15 @@
 #include <condition_variable>
 #include <atomic>
 #include <stdexcept>
+#include <chrono>
 
 #include <iostream>
 
 namespace pcf {
 
+namespace {
+	std::chrono::milliseconds loader_period_(100);
+}
 
 class scene_point_cloud::loader {
 public:
@@ -74,7 +78,10 @@ scene_point_cloud::loader::~loader() {
 
 
 void scene_point_cloud::loader::thread_main_() {
-	while(! should_exit_) thread_iteration_();
+	while(! should_exit_) {
+		thread_iteration_();
+		std::this_thread::sleep_for(loader_period_);
+	}
 }
 
 
@@ -255,8 +262,6 @@ void scene_point_cloud::gl_draw_() {
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
 	glBindVertexArray(0);
-	
-	std::cout << "DRAW " << renderer_point_buffer_size_ << std::endl;
 }
 
 

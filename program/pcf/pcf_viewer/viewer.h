@@ -39,7 +39,7 @@ public:
 	void tick();
 	
 	void rotate_camera(angle horizontal, angle vertical);
-	void set_target_velocity(const Eigen::Vector3f&);
+	void set_target_velocity(const Eigen::Vector3f& vel);
 	void stop_movement();
 	
 	scene* operator->() { return &scene_; }

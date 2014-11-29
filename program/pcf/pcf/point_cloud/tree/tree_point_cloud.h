@@ -31,7 +31,8 @@ private:
 		std::array<std::unique_ptr<node>, Traits::number_of_children> children; ///< Pointers to child nodes. May be null.
 		
 		node() = default;
-		node(const segment& seg) : seg(seg) { }
+		explicit node(const segment& seg) :
+			seg(seg) { }
 	};
 
 public:

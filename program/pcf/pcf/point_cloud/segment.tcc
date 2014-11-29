@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 namespace pcf {
 
@@ -58,25 +59,11 @@ bounding_box point_cloud_segment<Point>::box(float ep) const {
 template<typename Point>
 Eigen::Vector3f point_cloud_segment<Point>::center_of_mass() const {
 	Eigen::Vector4f sum = Eigen::Vector4f::Zero();
-	std::size_t total = size();
-	
-	#pragma omp parallel
-	{
-		Eigen::Vector4f sum_part = Eigen::Vector4f::Zero();
-		
-		total = 0;
-		#pragma omp for reduction(+:total)
-		for(Point* p = begin_; p < end_; ++p) {
-			if(! p->valid()) continue;
-			sum_part += p->homogeneous_coordinates;
-			++total;
-		}
-	
-		#pragma omp critical
-		{ sum += sum_part; }
+	for(auto&& p : *this) {
+		if(! p.valid()) continue;
+		sum += p.homogeneous_coordinates;
 	}
-
-	return (sum / total).head(3);
+	return (sum / size()).head(3);
 }
 
 

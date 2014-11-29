@@ -20,6 +20,11 @@ Eigen::Vector3f bounding_box::side_lengths() const {
 	return (extremity - origin);
 }
 
+float bounding_box::side_length(std::ptrdiff_t i) const {
+	return (extremity[i] - origin[i]);
+}
+
+
 float bounding_box::volume() const {
 	Eigen::Vector3f slen = side_lengths();
 	return slen[0] * slen[1] * slen[2];

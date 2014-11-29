@@ -72,6 +72,12 @@ std::array<point_cloud_segment<Point>, 8> octree_traits::split_node
 }
 
 
+template<typename Point>
+octree_traits::node_attributes octree_traits::initialize_node_attributes
+(point_cloud_segment<Point> seg, const bounding_box& cub, std::ptrdiff_t depth) {
+	return node_attributes();
+}
+
 
 }
 

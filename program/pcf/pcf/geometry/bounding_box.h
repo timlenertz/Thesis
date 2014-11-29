@@ -24,6 +24,7 @@ struct bounding_box {
 	
 	Eigen::Vector3f center() const;
 	Eigen::Vector3f side_lengths() const;
+	float side_length(std::ptrdiff_t i = 0) const;
 	float volume() const;
 	
 	void expand_extremity(float ep = 0.1);

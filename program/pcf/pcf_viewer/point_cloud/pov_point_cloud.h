@@ -11,11 +11,15 @@ class camera;
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class pov_point_cloud : public tree_point_cloud<pov_octree_traits, Point, Allocator> {
 	using super = tree_point_cloud<pov_octree_traits, Point, Allocator>;
+	using typename super::node_handle;
 	using typename super::const_node_handle;
 	
 private:
-	void prepare_tree_();
-	std::size_t extract_points_(Point* buffer, std::size_t capacity, const const_node_handle&, std::size_t max_number) const;
+	static const std::size_t leaf_capacity_ = 1000;
+	float extra_split_side_length_ = 2.0;
+
+	void prepare_tree_();	
+	void extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const;
 	
 public:
 	template<typename Other_cloud> pov_point_cloud(Other_cloud&&, const Allocator&);

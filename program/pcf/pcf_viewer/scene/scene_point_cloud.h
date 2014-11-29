@@ -47,7 +47,11 @@ public:
 	~scene_point_cloud();
 		
 	void update_camera(const projection_camera&) override;
-		
+	
+	pov_point_cloud_full& operator*() { return point_cloud_; }
+	const pov_point_cloud_full& operator*() const { return point_cloud_; }
+	pov_point_cloud_full* operator->() { return &point_cloud_; }
+	const pov_point_cloud_full* operator->() const { return &point_cloud_; }
 };
 
 }

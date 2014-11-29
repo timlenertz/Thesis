@@ -52,7 +52,9 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 			node_handle_list next_todo_part;
 		
 			#pragma omp for
-			for(auto it = todo.begin(); it < todo.end(); ++it) {								
+			for(auto it = todo.begin(); it < todo.end(); ++it) {
+				it->initialize_attributes();
+													
 				if(it->size() <= leaf_capacity_) continue;
 		
 				// Split the node

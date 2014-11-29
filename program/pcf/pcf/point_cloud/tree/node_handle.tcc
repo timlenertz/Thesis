@@ -34,10 +34,15 @@ child(std::ptrdiff_t i) const -> node_handle_ {
 
 template<typename Traits, typename Point, typename Allocator> template<bool Const>
 void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Const>::
+initialize_attributes() {
+	attr() = Traits::initialize_node_attributes(seg(), box_, depth_);
+}
+
+template<typename Traits, typename Point, typename Allocator> template<bool Const>
+void tree_point_cloud<Traits, Point, Allocator>::node_handle_<Const>::
 make_child(std::ptrdiff_t i, const segment& seg) const {
 	nd_->children[i].reset( new node(seg) );
 }
-
 
 	
 template<typename Traits, typename Point, typename Allocator> template<bool Const> template<typename Other_point>

@@ -2,6 +2,7 @@
 #include <memory>
 #include <algorithm>
 #include "../util/alignment.h"
+#include "../util/random.h"
 #include "../util/multi_dimensional_array.h"
 #include "../point_algorithm.h"
 
@@ -96,6 +97,12 @@ std::size_t point_cloud<Point, Allocator>::number_of_valid_points() const {
 	}
 }
 
+
+template<typename Point, typename Allocator>
+std::size_t point_cloud<Point, Allocator>::number_of_invalid_points() const {
+	return size() - number_of_valid_points();
+}
+
 template<typename Point, typename Allocator>
 bool point_cloud<Point, Allocator>::contains_invalid_points() const {
 	if(all_valid_) return false;
@@ -123,6 +130,21 @@ void point_cloud<Point, Allocator>::export_with(point_cloud_exporter& exp) const
 		if(segment_start) exp.write(segment_start, end() - segment_start);
 	}
 	exp.close();
+}
+
+
+
+template<typename Point, typename Allocator>
+const Point& point_cloud<Point, Allocator>::random_point() const {
+	std::ptrdiff_t i = random_integer<std::ptrdiff_t>(size() - 1);
+	return *(begin_ + i);
+}
+
+
+template<typename Point, typename Allocator>
+Point& point_cloud<Point, Allocator>::random_point() {
+	std::ptrdiff_t i = random_integer<std::ptrdiff_t>(size() - 1);
+	return *(begin_ + i);
 }
 
 

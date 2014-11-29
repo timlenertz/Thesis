@@ -102,10 +102,11 @@ public:
 	bool empty() const { return end_ == begin_; }
 	
 	std::size_t number_of_valid_points() const;
+	std::size_t number_of_invalid_points() const;
 	bool contains_invalid_points() const;
 
 	segment full_segment() { return segment(begin_, end_); }
-	const_segment full_segment() const { return segment(begin_, end_); }	
+	const_segment full_segment() const { return const_segment(begin_, end_); }	
 
 	Point* data() { return begin_; }
 	const Point* data() const { return begin_; }
@@ -118,6 +119,9 @@ public:
 	iterator end() { return end_; }
 	const_iterator end() const { return end_; }
 	const_iterator cend() const { return end_; }
+	
+	const Point& random_point() const;
+	Point& random_point();
 
 	bounding_box box(float ep = 0.0) const { return full_segment().box(ep); }
 	Eigen::Vector3f center_of_mass() const { return full_segment().center_of_mass(); }

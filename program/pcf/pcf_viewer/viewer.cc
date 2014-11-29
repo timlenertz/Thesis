@@ -1,6 +1,7 @@
 #include "viewer.h"
 #include "gl.h"
 #include <Eigen/Geometry>
+#include <iostream>
 
 namespace pcf {
 
@@ -24,12 +25,12 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 
 	// Make velocity converge to target velocity
 	Eigen::Vector3f velocity_difference = target_velocity - velocity_;	
-	if(time_to_target_velocity_ <= delta_t) velocity_ = target_velocity;
+	if(1||time_to_target_velocity_ <= delta_t) velocity_ = target_velocity;
 	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
-	
+		
 	// Move camera according to current velocity and time difference
-	pose ps = scene_.get_camera().get_pose();
-	ps.position += velocity_ * delta_t.count();
+	pose ps = scene_.get_camera_pose();
+	//ps.position += velocity_;// * delta_t.count();
 	scene_.set_camera_pose(ps); // Information propagates to scene objects
 }
 
@@ -82,6 +83,7 @@ void viewer::rotate_camera(angle horizontal, angle vertical) {
 
 void viewer::set_target_velocity(const Eigen::Vector3f& vw_vel) {
 	view_target_velocity_ = vw_vel;
+	std::cout << view_target_velocity_ << std::endl;
 }
 
 

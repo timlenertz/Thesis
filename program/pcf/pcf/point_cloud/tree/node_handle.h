@@ -22,7 +22,8 @@ public:
 	using node_type = typename std::conditional<Const, const node, node>::type;
 	using point_type = typename std::conditional<Const, const Point, Point>::type;
 	using segment_type = typename std::conditional<Const, const_segment, segment>::type;
-	
+	using node_attributes_type = typename std::conditional<Const, const typename Traits::node_attributes, typename Traits::node_attributes>::type;
+
 private:
 	node_type* nd_;
 	bounding_box box_;
@@ -47,7 +48,7 @@ public:
 
 	const bounding_box& box() const { return box_; }
 	std::ptrdiff_t depth() const { return depth_; }
-	node_type& attr() const { return *nd_; }
+	node_attributes_type& attr() const { return *nd_; }
 	segment_type seg() const { return nd_->seg; }
 
 	std::size_t size() const { return nd_->seg.size(); }
@@ -58,6 +59,7 @@ public:
 	bool is_leaf() const;
 	node_handle_ child(std::ptrdiff_t i) const;
 	
+	void initialize_attributes();
 	void make_child(std::ptrdiff_t i, const segment& seg) const;
 	
 	template<typename Other_point>
