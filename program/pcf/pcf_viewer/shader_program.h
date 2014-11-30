@@ -3,8 +3,10 @@
 
 #include "gl.h"
 #include "shader.h"
+#include "shader_program_uniform.h"
 
 #include <string>
+#include <map>
 #include <initializer_list>
 
 namespace pcf {
@@ -15,7 +17,8 @@ OpenGL program composed of shaders.
 class shader_program {
 private:
 	GLuint id_;
-	
+	std::map<std::string, GLint> uniform_locations_;
+		
 	void link_();
 	
 public:
@@ -26,7 +29,11 @@ public:
 	std::string info_log() const; 
 
 	GLuint id() const { return id_; }
-	GLint uniform_location(const std::string& name) const;
+	
+	shader_program_uniform uniform(const std::string& name, bool cache = false);
+	shader_program_uniform operator[](const std::string& name) {
+		return uniform(name, true);
+	}
 
 	void use() const;
 	bool is_current() const;

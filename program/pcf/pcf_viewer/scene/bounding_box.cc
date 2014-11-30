@@ -1,5 +1,5 @@
-#include "scene_bounding_box.h"
-#include "scene_object_shader_program.h"
+#include "bounding_box.h"
+#include "shader_program.h"
 #include "scene.h"
 
 namespace pcf {
@@ -47,6 +47,7 @@ return;
 void scene_bounding_box::gl_draw_() {
 	shader_program_->use();
 	shader_program_->set_camera(scene_.get_camera());
+	(*shader_program_)["color"] = color_;
 	
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_LINES, 0, 24);

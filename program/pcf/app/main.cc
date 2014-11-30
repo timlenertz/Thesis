@@ -7,6 +7,7 @@
 #include "../pcf/point_algorithm.h"
 #include "../pcf/io/ply_importer.h"
 #include "../pcf/io/pointscan_importer.h"
+#include "../pcf_viewer/scene/bounding_box.h"
 
 using namespace pcf;
 
@@ -33,7 +34,8 @@ void user_interface() {
 		auto& pc = sc.add_point_cloud(dragon);
 		set_unique_color(pc->begin(), pc->end(), rgb_color::green);
 		
-		sc.add_bounding_box(dragon.box());
+		auto& bb = sc.add_bounding_box(dragon.box());
+		bb.set_color(rgb_color::green);
 
 		Eigen::Affine3f t ( Eigen::AngleAxisf(0.1*M_PI, Eigen::Vector3f::UnitX()) );
 		dragon.apply_transformation(t);

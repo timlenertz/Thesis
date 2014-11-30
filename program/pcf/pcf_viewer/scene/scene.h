@@ -8,8 +8,8 @@
 #include "../../pcf/geometry/projection_camera.h"
 #include "../../pcf/geometry/angle.h"
 #include "../gl_object.h"
-#include "scene_object.h"
-#include "scene_point_cloud.h"
+#include "object.h"
+#include "point_cloud.h"
 
 namespace pcf {
 

@@ -27,8 +27,14 @@ GLint shader_program::get_parameter(GLenum par) const {
 }
 
 
-GLint shader_program::uniform_location(const std::string& name) const {
-	return glGetUniformLocation(id_, name.c_str());
+shader_program_uniform shader_program::uniform(const std::string& name, bool cache) {
+	if(cache) {
+		auto it = uniform_locations_.find(name);
+		if(it != uniform_locations_.end()) return shader_program_uniform(it->second);
+	}
+	GLint id = glGetUniformLocation(id_, name.c_str());
+	if(cache) uniform_locations_[name] = id;
+	return shader_program_uniform(id);
 }
 
 

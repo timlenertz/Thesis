@@ -1,7 +1,7 @@
 #ifndef PCFVW_SCENE_POINT_CLOUD_H_
 #define PCFVW_SCENE_POINT_CLOUD_H_
 
-#include "scene_object.h"
+#include "object.h"
 #include "../point_cloud/pov_point_cloud.h"
 #include "../gl.h"
 #include <utility>

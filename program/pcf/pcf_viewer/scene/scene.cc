@@ -1,7 +1,7 @@
 #include "scene.h"
-#include "scene_object.h"
-#include "scene_object_shader_program.h"
-#include "scene_bounding_box.h"
+#include "object.h"
+#include "shader_program.h"
+#include "bounding_box.h"
 
 
 namespace pcf {

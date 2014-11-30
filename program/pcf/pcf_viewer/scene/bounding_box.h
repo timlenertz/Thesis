@@ -1,7 +1,7 @@
 #ifndef PCFVW_SCENE_BOUNDING_BOX_H_
 #define PCFVW_SCENE_BOUNDING_BOX_H_
 
-#include "scene_object.h"
+#include "object.h"
 #include "../../pcf/geometry/bounding_box.h"
 #include "../../pcf/rgb_color.h"
 #include "../gl.h"
@@ -29,6 +29,9 @@ protected:
 public:
 	scene_bounding_box(const scene& sc, const bounding_box& box);			
 	~scene_bounding_box();
+	
+	const rgb_color& get_color() const { return color_; }
+	void set_color(const rgb_color& col) { color_ = col; }
 };
 
 }

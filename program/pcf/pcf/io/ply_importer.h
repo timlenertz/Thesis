@@ -62,7 +62,8 @@ private:
 	}
 	
 	bool is_host_endian_binary_() const {
-		return (format_ == host_is_little_endian ? binary_little_endian : binary_big_endian);
+		if(host_is_little_endian) return (format_ == binary_little_endian);
+		else return (format_ == binary_big_endian);
 	}
 	
 	property* identify_property_(const std::string& nm);

@@ -18,11 +18,11 @@ class scene_object_shader_program : public shader_program {
 private:
 	static const std::string shaders_dir_;
 
-	GLint mv_matrix_uniform_;
-	GLint mvp_matrix_uniform_;
-	GLint fog_uniform_;
-	GLint fog_distance_uniform_;
-	GLint fog_color_uniform_;
+	shader_program_uniform mv_matrix_uniform_;
+	shader_program_uniform mvp_matrix_uniform_;
+	shader_program_uniform fog_uniform_;
+	shader_program_uniform fog_distance_uniform_;
+	shader_program_uniform fog_color_uniform_;
 
 public:
 	explicit scene_object_shader_program(const std::string&);
