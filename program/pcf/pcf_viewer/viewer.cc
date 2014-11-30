@@ -10,7 +10,7 @@ namespace {
 
 	std::chrono::milliseconds maximal_time_step_(100);
 	std::chrono::milliseconds minimal_time_step_(5);
-	std::chrono::milliseconds time_to_target_velocity_(2000);
+	std::chrono::milliseconds time_to_target_velocity_(1000);
 }
 
 
@@ -30,7 +30,7 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 	
 	// Make velocity converge to target velocity
 	Eigen::Vector3f velocity_difference = target_velocity - velocity_;	
-	if(true || delta_t > time_to_target_velocity_) velocity_ = target_velocity;
+	if(delta_t > time_to_target_velocity_) velocity_ = target_velocity;
 	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
 		
 	// Move camera according to current velocity and time difference
@@ -78,17 +78,17 @@ void viewer::draw() {
 
 void viewer::rotate_camera(angle horizontal, angle vertical) {
 	auto transformation =
-		Eigen::AngleAxisf(horizontal, Eigen::Vector3f::UnitY()) *
-		Eigen::AngleAxisf(vertical, Eigen::Vector3f::UnitX());
+		Eigen::AngleAxisf(-horizontal, Eigen::Vector3f::UnitY()) *
+		Eigen::AngleAxisf(-vertical, Eigen::Vector3f::UnitX());
 	
 	pose ps = scene_.get_camera_pose();
 	ps.orientation = transformation * ps.orientation;
 	scene_.set_camera_pose(ps);
 }
 
+
 void viewer::set_target_velocity(const Eigen::Vector3f& vw_vel) {
 	view_target_velocity_ = vw_vel;
-	std::cout << view_target_velocity_ << std::endl;
 }
 
 

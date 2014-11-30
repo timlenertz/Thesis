@@ -1,6 +1,7 @@
 #include <utility>
 #include <cstring>
 #include "../io/point_cloud_importer.h"
+#include "../util/random.h"
 
 namespace pcf {
 
@@ -63,12 +64,12 @@ void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {
 	});
 }
 
-template<typename Point, typename Allocator> template<typename Random_generator>
+template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalidate) {
 	if(invalidate && super::all_valid_)
 		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
 	
-	Random_generator rng;
+	random_generator& rng = get_random_generator();
 	Point* np = super::begin_;
 	
 	const std::size_t total = super::number_of_valid_points();

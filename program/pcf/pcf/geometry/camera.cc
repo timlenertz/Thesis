@@ -6,8 +6,8 @@
 
 namespace pcf {
 
-const float camera::default_z_near_ = 0.01;
-const float camera::default_z_far_ = 100.0;
+const float camera::default_z_near_ = 0.001;
+const float camera::default_z_far_ = 10000.0;
 
 camera::camera(const pose& ps, angle fvx, angle fvy, float znear, float zfar, bool compute) :
 pose_(ps), fov_x_(fvx), fov_y_(fvy), near_z_(znear), far_z_(zfar) {
@@ -19,24 +19,24 @@ void camera::compute_transformations_() {
 	view_ = pose_.view_transformation();
 	view_inv_ = view_.inverse();
 
-	float x_scale = 1.0f / std::tan(fov_x_ / 2);
-	float y_scale = 1.0f / std::tan(fov_y_ / 2);
-	float zdiff = far_z_ - near_z_;
-		
+	float dz = far_z_ - near_z_;	
+	float tanx = std::tan(fov_x_ / 2);
+	float tany = std::tan(fov_x_ / 2);
+
 	Eigen::Matrix4f mat;
 	mat <<
-		x_scale, 0, 0, 0,
-		0, y_scale, 0, 0,
-		0, 0, -(far_z_ + near_z_)/zdiff, -1,
-		0, 0, -2*near_z_*far_z_/zdiff, 0;
+		tanx, 0, 0, 0,
+		0, tany, 0, 0,
+		0, 0, -(far_z_ + near_z_)/dz, (-2.0f*near_z_*far_z_)/dz,
+		0, 0, -1, 0;
 				
-	view_projection_ = view_ * Eigen::Projective3f(mat);
+	view_projection_ = Eigen::Projective3f(mat) * view_;
 	view_projection_inv_ = view_projection_.inverse();
 }
 
 
 frustum camera::viewing_frustum() const {
-	frustum fr( view_projection_.matrix() );
+	frustum fr( view_projection_.matrix().transpose() );
 	return fr;
 }
 

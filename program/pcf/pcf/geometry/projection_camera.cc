@@ -7,14 +7,14 @@ namespace pcf {
 angle projection_camera::compute_fov_y_(angle fvx, image_size sz) {
 	float x_pr = std::tan(fvx / 2.0f);
 	float y_pr = (float(x_pr) * sz[1]) / sz[0];
-	return std::atan(y_pr / 2.0f);
+	return std::atan(y_pr) * 2.0f;
 }
 
 
 angle projection_camera::compute_fov_x_(angle fvy, image_size sz) {
 	float y_pr = std::tan(fvy / 2.0f);
 	float x_pr = (float(y_pr) * sz[0]) / sz[1];
-	return std::atan(x_pr / 2.0f);
+	return std::atan(x_pr) * 2.0f;
 }
 
 
@@ -30,21 +30,19 @@ void projection_camera::compute_transformations_using_aspect_ratio_() {
 	view_ = pose_.view_transformation();
 	view_inv_ = view_.inverse();
 
-	float x_scale = 1.0f / std::tan(fov_x_ / 2);
-	float y_scale = (x_scale * image_size_[1]) / image_size_[0];
-	float zdiff = far_z_ - near_z_;
-	
+	float dz = far_z_ - near_z_;	
+	float tanx = std::tan(fov_x_ / 2);
+	float r = float(image_size_[0]) / image_size_[1];
+
 	Eigen::Matrix4f mat;
 	mat <<
-		x_scale, 0, 0, 0,
-		0, y_scale, 0, 0,
-		0, 0, -(far_z_ + near_z_)/zdiff, -1,
-		0, 0, -2*near_z_*far_z_/zdiff, 0;
-		
+		tanx, 0, 0, 0,
+		0, r * tanx, 0, 0,
+		0, 0, -(far_z_ + near_z_)/dz, (-2.0f*near_z_*far_z_)/dz,
+		0, 0, -1, 0;
+				
 	view_projection_ = Eigen::Projective3f(mat) * view_;
 	view_projection_inv_ = view_projection_.inverse();
-	
-	std::cout << view_projection_.matrix() << std::endl;
 }
 
 void projection_camera::set_pose(const pose& ps) {

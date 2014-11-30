@@ -22,8 +22,7 @@ private:
 	void extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const;
 	
 public:
-	template<typename Other_cloud> pov_point_cloud(Other_cloud&&, const Allocator&);
-	template<typename Other_cloud> explicit pov_point_cloud(Other_cloud&&);
+	template<typename Other_cloud> pov_point_cloud(Other_cloud&&, const Allocator& = Allocator());
 
 	std::size_t extract(Point* buffer, std::size_t capacity, const camera&) const;
 };

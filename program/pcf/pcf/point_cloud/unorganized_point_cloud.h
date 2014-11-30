@@ -35,7 +35,6 @@ public:
 	
 	void apply_transformation(const Eigen::Affine3f&);
 
-	template<typename Random_generator = std::default_random_engine>
 	void downsample_random(float ratio, bool invalidate = false);
 	
 	void downsample_grid(float cell_sz, bool move = true, bool invalidate = false);

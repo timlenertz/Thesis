@@ -18,12 +18,6 @@ super(std::forward<Other_cloud>(pc), leaf_capacity_, alloc) {
 }
 
 
-template<typename Point, typename Allocator> template<typename Other_cloud>
-pov_point_cloud<Point, Allocator>::pov_point_cloud(Other_cloud&& pc) :
-super(std::forward<Other_cloud>(pc), leaf_capacity_) {
-	prepare_tree_();
-}
-
 
 template<typename Point, typename Allocator>
 void pov_point_cloud<Point, Allocator>::prepare_tree_() {
@@ -53,17 +47,11 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		float db = distance_sq(cam.get_pose().position, b.attr().center_of_mass);
 		return (da > db);
 	};
-	
-	auto node_w = [&cam](const const_node_handle& nd)->float {
-		float d_sq = distance_sq(cam.get_pose().position, nd.attr().center_of_mass);
-		return 1.0f / std::pow(d_sq, 1.8);
-	};
 
 	// Priority queue ordered by distance of nodes' center of mass to camera origin
 	std::priority_queue<const_node_handle, std::vector<const_node_handle>, decltype(cmp)> queue(cmp);
 	std::size_t total_size = 0;
 	
-	float w_sum = 0;
 	
 	frustum fr = cam.viewing_frustum();
 	
@@ -75,9 +63,6 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		} else if(nd.is_leaf() || (inter == frustum::inside_frustum && nd.box().side_length() < extra_split_side_length_)) {
 			total_size += nd.size();
 			queue.push(nd);
-			
-			float w = node_w(nd);
-			w_sum += w;
 
 		} else {
 			for(std::ptrdiff_t ci = 0; ci != 8; ++ci)
@@ -85,28 +70,23 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		}		
 	};
 	ins(super::root());
-	
 
 	// 2nd step: Extract points in these nodes
 	bool downsample = (total_size > capacity);
 	std::size_t extracted = 0, remaining_capacity = capacity, remaining_size = total_size;
 	Point* buf = buffer;
-	while(!queue.empty() && extracted < capacity) {
+	while(!queue.empty() && remaining_capacity) {
 		const_node_handle nd = queue.top();
 		queue.pop();
 		
 		std::size_t n = nd.size();
 		if(downsample) {		
-			float w = node_w(nd);
-			//std::size_t suggested_n = (w * nd.size() * remaining_capacity) / w_sum;
+			n = (nd.size() * remaining_capacity) / remaining_size;
 		
-			std::size_t suggested_n = (nd.size() * remaining_capacity) / remaining_size;
-		
-			n = suggested_n;
 			if(n > nd.size()) n = nd.size();
 			if(n > remaining_capacity) n = remaining_capacity;
 		}
-
+		
 		extract_points_(buf, n, nd);
 				
 		buf += n;
@@ -115,8 +95,6 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		remaining_size -= nd.size();
 	}
 			
-	//std::cout << "took " << extracted << " from " << capacity << std::endl;
-		
 	return extracted;
 }
 

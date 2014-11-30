@@ -26,9 +26,9 @@ unorganized_point_cloud_xyz load_ply(const char* filename) {
 
 void user_interface() {
 	viewer_win->access_scene([&](scene& sc) {
-		//sc.add_point_cloud( load_pointscan("../../../townhall/Scan_042_2.scan") );
+		sc.add_point_cloud( load_pointscan("../../../townhall/Scan_042_2.scan") );
 		
-		unorganized_point_cloud_xyz dragon = load_ply("../../data/dragon.ply");
+		/*unorganized_point_cloud_xyz dragon = load_ply("../../data/dragon.ply");
 		
 		auto& pc = sc.add_point_cloud(dragon);
 		//set_unique_color(pc->begin(), pc->end(), rgb_color::green);

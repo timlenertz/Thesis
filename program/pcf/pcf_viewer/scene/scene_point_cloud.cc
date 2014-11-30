@@ -198,7 +198,6 @@ void scene_point_cloud::gl_initialize_() {
 	// Load shaders for point cloud, if not done so yet
 	if(! shader_program_) shader_program_ = new scene_object_shader_program("point_cloud");
 
-
 	// Allocate point buffers
 	glGenBuffers(1, &loader_point_buffer_);
 	glBindBuffer(GL_ARRAY_BUFFER, loader_point_buffer_);
@@ -210,12 +209,10 @@ void scene_point_cloud::gl_initialize_() {
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	renderer_point_buffer_size_ = 0;
-	
-	
+		
 	// Setup vertex array object
 	glGenVertexArrays(1, &vertex_array_object_);
 	update_vertex_array_object_buffer_();
-
 
 	// Map loader buffer
 	glBindBuffer(GL_ARRAY_BUFFER, loader_point_buffer_);

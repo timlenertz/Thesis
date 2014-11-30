@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_INSTALL_PREFIX ../dist)
 set(MACOSX_RPATH YES)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 if(UNIX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wno-missing-braces -O3")
@@ -15,6 +15,7 @@ if(UNIX)
 elseif(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DNDEBUG /fp:fast /GL")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
+	set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
 
 	set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/external/win32/opencv")
 	include_directories(${CMAKE_SOURCE_DIR}/external/win32/glew/include SYSTEM)
