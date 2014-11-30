@@ -26,20 +26,22 @@ unorganized_point_cloud_xyz load_ply(const char* filename) {
 
 void user_interface() {
 	viewer_win->access_scene([&](scene& sc) {
-		sc.add_point_cloud( load_pointscan("../../../townhall/Scan_042_2.scan") );
+		//sc.add_point_cloud( load_pointscan("../../../townhall/Scan_042_2.scan") );
 		
-		/*unorganized_point_cloud_xyz dragon = load_ply("../../data/dragon.ply");
+		unorganized_point_cloud_xyz dragon = load_ply("../../data/dragon.ply");
 		
 		auto& pc = sc.add_point_cloud(dragon);
-		//set_unique_color(pc->begin(), pc->end(), rgb_color::green);
-		/*
+		set_unique_color(pc->begin(), pc->end(), rgb_color::green);
+		
+		sc.add_bounding_box(dragon.box());
+
 		Eigen::Affine3f t ( Eigen::AngleAxisf(0.1*M_PI, Eigen::Vector3f::UnitX()) );
-		
 		dragon.apply_transformation(t);
-		
 		sc.add_point_cloud(dragon);
-	*/
-		std::cout << "added pc" << std::endl;
+
+		sc.add_bounding_box(dragon.box());
+
+		std::cout << "added objects" << std::endl;
 	});
 	
 	for(;;) {

@@ -14,7 +14,6 @@ class scene_point_cloud : public scene_object {
 private:
 	class loader;
 	
-private:
 	pov_point_cloud_full point_cloud_;
 	const GLsizei point_buffer_capacity_ = 256 * 1024;
 

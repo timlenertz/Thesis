@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <array>
 #include <cmath>
+#include <utility>
 #include <Eigen/Eigen>
 
 
@@ -15,6 +16,8 @@ Represented using origin and extremity coordinates.
 Point is inside iff for every coordinate i, origin_i <= p_i < extremity_i.
 */
 struct bounding_box {
+	using edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
+
 	Eigen::Vector3f origin;
 	Eigen::Vector3f extremity;
 	
@@ -33,6 +36,7 @@ struct bounding_box {
 	bool contains(const bounding_box&) const;
 	
 	std::array<Eigen::Vector3f, 8> corners() const;
+	std::array<edge, 12> edges() const;
 		
 	friend std::ostream& operator<<(std::ostream&, const bounding_box&);
 };

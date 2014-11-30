@@ -10,7 +10,8 @@ namespace {
 
 	std::chrono::milliseconds maximal_time_step_(100);
 	std::chrono::milliseconds minimal_time_step_(5);
-	std::chrono::milliseconds time_to_target_velocity_(1000);
+	std::chrono::milliseconds time_to_target_velocity_(500);
+	float minimal_movement_(0.01);
 }
 
 
@@ -34,9 +35,14 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
 		
 	// Move camera according to current velocity and time difference
-	pose ps = scene_.get_camera_pose();
-	ps.position += velocity_ * delta_t.count();
-	scene_.set_camera_pose(ps); // Information propagates to scene objects
+	Eigen::Vector3f position_difference = velocity_ * delta_t.count();
+	if(position_difference.norm() > minimal_movement_) {
+		pose ps = scene_.get_camera_pose();
+		ps.position += velocity_ * delta_t.count();
+		scene_.set_camera_pose(ps); // Information propagates to scene objects
+	} else if(view_target_velocity_.isZero()) {
+		velocity_.setZero();
+	}
 }
 
 

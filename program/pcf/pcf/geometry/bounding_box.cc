@@ -53,14 +53,41 @@ bool bounding_box::contains(const bounding_box& cub) const {
 
 std::array<Eigen::Vector3f, 8> bounding_box::corners() const {
 	return {
+		// Left cube
 		Eigen::Vector3f(origin[0], origin[1], origin[2]),
 		Eigen::Vector3f(origin[0], origin[1], extremity[2]),
 		Eigen::Vector3f(origin[0], extremity[1], origin[2]),
 		Eigen::Vector3f(origin[0], extremity[1], extremity[2]),
+		
+		// Right cube
 		Eigen::Vector3f(extremity[0], origin[1], origin[2]),
 		Eigen::Vector3f(extremity[0], origin[1], extremity[2]),
 		Eigen::Vector3f(extremity[0], extremity[1], origin[2]),
 		Eigen::Vector3f(extremity[0], extremity[1], extremity[2])
+	};
+}
+
+
+std::array<bounding_box::edge, 12> bounding_box::edges() const {
+	auto corn = corners();
+	return {
+		// Left cube
+		edge(corn[0], corn[1]),
+		edge(corn[1], corn[3]),
+		edge(corn[3], corn[2]),
+		edge(corn[2], corn[0]),
+		
+		// Right cube
+		edge(corn[0+4], corn[1+4]),
+		edge(corn[1+4], corn[3+4]),
+		edge(corn[3+4], corn[2+4]),
+		edge(corn[2+4], corn[0+4]),
+		
+		// Joining edges
+		edge(corn[0], corn[0+4]),
+		edge(corn[1], corn[1+4]),
+		edge(corn[2], corn[2+4]),
+		edge(corn[3], corn[3+4])
 	};
 }
 

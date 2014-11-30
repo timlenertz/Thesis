@@ -1,8 +1,9 @@
 #version 330 core
-layout(location = 0) in vec4 vertex_position_homogeneous;
-layout(location = 1) in vec3 vertex_color;
+layout(location = 0) in vec3 vertex_position;
 
 out vec3 fragment_color;
+
+uniform vec3 color;
 
 uniform mat4 mv_matrix;
 uniform mat4 mvp_matrix;
@@ -12,6 +13,8 @@ uniform float fog_distance;
 uniform vec3 fog_color;
 
 void main() {
+	vec4 vertex_position_homogeneous = vec4(vertex_position.xyz, 1.0);
+
 	gl_Position = mvp_matrix * vertex_position_homogeneous;
 	
 	if(fog) {
@@ -21,8 +24,8 @@ void main() {
 	
 		float fog_factor = (d - min_d) / (max_d - min_d);
 		fog_factor = clamp(fog_factor, 0.0, 0.8);
-		fragment_color = mix(vertex_color, fog_color, fog_factor);
+		fragment_color = mix(color, fog_color, fog_factor);
 	} else {
-		fragment_color = vertex_color;
+		fragment_color = color;
 	} 
 }

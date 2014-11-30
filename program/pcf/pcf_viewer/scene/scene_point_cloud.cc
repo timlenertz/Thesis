@@ -1,5 +1,6 @@
 #include "scene_point_cloud.h"
 #include "../../pcf/geometry/projection_camera.h"
+#include "../../pcf/util/random.h"
 #include "scene_object_shader_program.h"
 #include "scene.h"
 #include "../gl.h"
@@ -60,6 +61,7 @@ public:
 	void set_next_request(const request&);
 	bool response_available() const;
 	bool take_response(response&);
+	void exit();
 };
 
 
@@ -73,17 +75,22 @@ point_cloud_(pc), next_request_(nullptr) {
 	
 
 scene_point_cloud::loader::~loader() {
+	exit();
+}
+
+
+void scene_point_cloud::loader::exit() {
 	should_exit_ = true;
 	should_wake_up_ = true;
 	wake_up_cv_.notify_one();
-	thread_.join();
+	if(thread_.joinable()) thread_.join();
 }
 
 
 void scene_point_cloud::loader::thread_main_() {
 	while(! should_exit_) {
 		thread_iteration_();
-		std::this_thread::sleep_for(loader_period_);
+		std::this_thread::sleep_for( loader_period_ );
 	}
 }
 
@@ -160,7 +167,7 @@ void scene_point_cloud::setup_loader_() {
 
 void scene_point_cloud::take_loader_reponse_() {
 	loader::response rsp;
-	if(loader_->take_response(rsp)) {
+	if(loader_->take_response(rsp)) {	
 		// Loader has outputted new point set into loader buffer.
 		glBindBuffer(GL_ARRAY_BUFFER, loader_point_buffer_);
 		
@@ -169,7 +176,6 @@ void scene_point_cloud::take_loader_reponse_() {
 		
 		if(valid) {
 			// Swap loader and renderer buffers
-			renderer_point_buffer_size_ = 0;
 			std::swap(loader_point_buffer_, renderer_point_buffer_);
 			renderer_point_buffer_size_ = rsp.size;
 		} else {
@@ -180,7 +186,7 @@ void scene_point_cloud::take_loader_reponse_() {
 			glBufferData(GL_ARRAY_BUFFER, point_buffer_capacity_*sizeof(point_full), NULL, GL_DYNAMIC_DRAW);
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		
+
 		// Assign new renderer buffer to VOA.
 		update_vertex_array_object_buffer_();
 		
@@ -241,6 +247,7 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 
 
 void scene_point_cloud::gl_uninitialize_() {
+return;
 	glBindBuffer(GL_ARRAY_BUFFER, loader_point_buffer_);
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -262,6 +269,7 @@ void scene_point_cloud::gl_draw_() {
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 

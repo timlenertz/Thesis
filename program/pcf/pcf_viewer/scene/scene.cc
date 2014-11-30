@@ -1,6 +1,8 @@
 #include "scene.h"
 #include "scene_object.h"
 #include "scene_object_shader_program.h"
+#include "scene_bounding_box.h"
+
 
 namespace pcf {
 
@@ -44,6 +46,13 @@ void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 void scene::set_camera_field_of_view(angle fov_x) {
 	camera_.set_field_of_view_x(fov_x);
 	update_camera(camera_);
+}
+
+
+scene_bounding_box& scene::add_bounding_box(const bounding_box& box) {
+	scene_bounding_box* sobj = new scene_bounding_box(*this, box);
+	objects_.emplace(sobj);
+	return *sobj;
 }
 
 

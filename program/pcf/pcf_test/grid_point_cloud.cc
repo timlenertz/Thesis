@@ -31,8 +31,7 @@ TEST_CASE("Grid Point cloud") {
 	
 	
 	SECTION("k Nearest Neighbors") {
-	/*
-		auto pc1 = example_model("comet");
+		/*auto pc1 = example_model("comet");
 		float c = optimal_grid_cell_length_for_knn(pc1, 10, 0.2);
 		cloud pc(std::move(pc1), c);
 

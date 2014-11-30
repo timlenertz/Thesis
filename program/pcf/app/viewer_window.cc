@@ -91,6 +91,11 @@ viewer_window::viewer_window() :
 viewer_(default_window_width_, default_window_height_) {
 	for(std::ptrdiff_t i = 0; i < 3; ++i) movement_directions_[i] = stop;
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	glfwWindowHint(GLFW_RESIZABLE, 1);
 
 	window_ = glfwCreateWindow(
