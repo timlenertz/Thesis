@@ -7,6 +7,7 @@
 namespace pcf {
 
 class program;
+class viewer_window;
 
 class shell {
 private:
@@ -15,21 +16,31 @@ private:
 		std::string name;
 	};
 
-	std::vector<program_entry> programs_;
+	static viewer_window* viewer_win_;
+
+	static void run_program_(program&);
+	
+	static std::vector<program_entry>& programs_vector_();
 
 public:
-	static shell& get();
-
+	template<class T> static T read_from_string(const std::string& str);
+	template<class T> static T read_from_string(const std::string& str, const T& def);
+	template<class T> static T read_from_input(const std::string& prompt);
+	template<class T> static T read_from_input(const std::string& prompt, const T& def);
+	static std::string read_line(const std::string& prompt, const std::string& def = std::string(""));
+	
+	static void set_viewer_window(viewer_window&);
+	static viewer_window& get_viewer_window();
+	static bool has_viewer_window();
+	
 	template<typename Program>
-	program* instanciate_program(const std::string& name) {
-		program* pr = new Program;
-		programs_.push_back({pr, name});
-		return pr;
-	}
+	static program* instanciate_program(const std::string& name);
 
-	void main();
+	static void main();
 };
 
 }
+
+#include "shell.tcc"
 
 #endif

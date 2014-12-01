@@ -56,6 +56,11 @@ scene_bounding_box& scene::add_bounding_box(const bounding_box& box) {
 }
 
 
+void scene::clear() {
+	objects_.clear();
+}
+
+
 void scene::gl_initialize_() {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

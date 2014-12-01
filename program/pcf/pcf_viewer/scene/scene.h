@@ -43,7 +43,9 @@ public:
 	void set_camera_field_of_view(angle);
 	
 	void update_camera(const projection_camera&);
-		
+	
+	void clear();
+	
 	template<typename Cloud>
 	scene_point_cloud& add_point_cloud(Cloud&& pc) {
 		scene_point_cloud* spc = new scene_point_cloud(*this, std::forward<Cloud>(pc));

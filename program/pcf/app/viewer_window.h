@@ -3,7 +3,6 @@
 
 #include "glfw.h"
 #include "../pcf_viewer/viewer.h"
-#include <mutex>
 
 namespace pcf {
 
@@ -13,9 +12,10 @@ class viewer_window {
 private:
 	GLFWwindow* window_;
 	viewer viewer_;
-	std::mutex scene_access_mut_;
 	double drag_position_x_, drag_position_y_;
 	enum { stop, positive, negative } movement_directions_[3];
+	bool closed_ = false;
+	std::mutex access_viewer_mutex_;
 
 	void update_movement_velocity_();
 
@@ -28,14 +28,15 @@ public:
 	explicit viewer_window();
 	~viewer_window();
 	
-	template<class Callback>
-	void access_scene(Callback cb) {
-		scene_access_mut_.lock();
-		cb(*viewer_);
-		scene_access_mut_.unlock();
-	}
-	
 	void run();
+	bool was_closed() const { return closed_; }
+	
+	template<typename Callback>
+	void access_viewer(const Callback& cb) {
+		access_viewer_mutex_.lock();
+		cb(viewer_);
+		access_viewer_mutex_.unlock();
+	}
 };
 
 }

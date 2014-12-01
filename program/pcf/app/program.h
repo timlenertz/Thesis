@@ -3,15 +3,24 @@
 
 #include <string>
 #include "shell.h"
+#include "viewer_window.h"
 
 #define PCF_PROGRAM(Name) \
 	class program_ ## Name; \
-	const static program* program_instance_ ## Name = shell::get().instanciate_program<program_ ## Name>(#Name); \
+	const static program* program_instance_ ## Name = shell::instanciate_program<program_ ## Name>(#Name); \
 	class program_ ## Name : public program
 
 namespace pcf {
 
-class program {	
+class program {
+protected:
+	template<typename Callback>
+	bool access_viewer_(const Callback& cb) {
+		if(! shell::has_viewer_window()) return false;
+		shell::get_viewer_window().access_viewer(cb);
+		return true;
+	}
+	
 public:
 	virtual ~program() { }
 	

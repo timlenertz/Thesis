@@ -121,15 +121,16 @@ viewer_(default_window_width_, default_window_height_) {
 
 void viewer_window::run() {	
 	while(! glfwWindowShouldClose(window_)) {
-		if(scene_access_mut_.try_lock()) {	
+		if(access_viewer_mutex_.try_lock()) {	
 			glfwMakeContextCurrent(window_);
 			viewer_.draw();
-			scene_access_mut_.unlock();		
+			access_viewer_mutex_.unlock();		
 			glfwSwapBuffers(window_);
 		}
 		
 		glfwPollEvents();
 	}
+	closed_ = true;
 }
 
 
