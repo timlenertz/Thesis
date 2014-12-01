@@ -59,7 +59,7 @@ namespace {
 			pt.invalidate();
 		} else {
 			float range = data[0], phi = data[1], theta = data[2];	
-			spherical_coordinates s(range, phi, theta - half_pi);
+			spherical_coordinates s(range, phi, theta + half_pi);
 			pt = s.to_cartesian();
 		}
 	}
@@ -177,10 +177,23 @@ void pointscan_importer::read(point_xyz* buf, std::size_t sz) {
 
 
 void pointscan_importer::read(point_full* buf, std::size_t sz) {
-	read((point_xyz*)buf, sz);
-
 	point_full* buf_end = buf + sz;
-	
+
+	file_.seekg(coordinates_offset_);
+	if(cartesian_coordinates_) {
+		for(point_full* p = buf; p != buf_end; ++p) {
+			sc_cartesian data;
+			file_.read( (char*)data, sizeof(sc_cartesian) );
+			read_cartesian(*p, data);
+		}
+	} else {
+		for(point_full* p = buf; p != buf_end; ++p) {
+			sc_polar data;
+			file_.read( (char*)data, sizeof(sc_polar) );
+			read_polar(*p, data);
+		}	
+	}
+		
 	if(color_offset_) {
 		file_.seekg(color_offset_);
 		for(point_full* p = buf; p != buf_end; ++p) {
@@ -189,6 +202,8 @@ void pointscan_importer::read(point_full* buf, std::size_t sz) {
 			read_color(*p, data);
 		}
 	}
+	
+	current_point_position_ += sz;
 }
 
 

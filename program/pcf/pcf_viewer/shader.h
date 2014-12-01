@@ -6,6 +6,9 @@
 
 namespace pcf {
 
+/**
+OpenGL shader.
+*/
 class shader {
 private:
 	GLuint id_;

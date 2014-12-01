@@ -7,7 +7,7 @@ namespace pcf {
 
 /**
 RGB color.
-3 bytes composed of red, green, blue components.
+3 bytes composed of red, green, blue components. POD type intended for raw memory access.
 */
 struct rgb_color {
 	static const rgb_color black;

@@ -17,7 +17,7 @@
 namespace pcf {
 
 namespace {
-	std::chrono::milliseconds loader_period_(100);
+	std::chrono::milliseconds loader_period_(50);
 }
 
 class scene_point_cloud::loader {
@@ -152,9 +152,11 @@ bool scene_point_cloud::loader::take_response(response& rsp) {
 
 
 
+/////////////////////////////
+
 
 scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
-
+const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 scene_point_cloud::~scene_point_cloud() {
 	if(loader_) delete loader_;

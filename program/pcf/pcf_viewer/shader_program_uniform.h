@@ -7,6 +7,9 @@
 
 namespace pcf {
 
+/**
+Uniform variable of OpenGL shader program.
+*/
 class shader_program_uniform {
 private:
 	const GLint id_;

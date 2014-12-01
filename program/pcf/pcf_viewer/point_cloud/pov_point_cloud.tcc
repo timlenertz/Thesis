@@ -13,9 +13,18 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 pov_point_cloud<Point, Allocator>::pov_point_cloud(Other_cloud&& pc, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), leaf_capacity_, alloc) {
+super(std::forward<Other_cloud>(pc), compute_leaf_capacity_(pc), alloc) {
 	prepare_tree_();
 }
+
+
+template<typename Point, typename Allocator> template<typename Other_cloud>
+std::size_t pov_point_cloud<Point, Allocator>::compute_leaf_capacity_(const Other_cloud& pc) {
+	std::size_t cap = pc.size() / 100000;
+	if(cap < 1000) cap = 1000;
+	return cap;
+}
+
 
 
 
@@ -109,15 +118,13 @@ extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const
 	
 	std::size_t ndsize = nd.size();
 	assert(n <= ndsize);
-	
-	std::size_t skip_tolerance = ndsize / 15;
-	std::size_t small_n_tolerance = ndsize / 1000;
-	
+		
 	if(n == ndsize || nd.is_leaf()) {
 		// Copy all points
 		std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
-		
-	} else if(n < small_n_tolerance || ndsize % n < skip_tolerance) {
+	
+	/*	
+	} else if(ndsize % n < skip_tolerance) {
 		// Copy every k-th point (k constant).
 		std::ptrdiff_t k = ndsize / n;
 		
@@ -129,7 +136,8 @@ extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const
 			*(out++) = *in;
 			in += k;
 		}
-
+	*/
+	
 	} else {
 		// Apply Bresenham's line algorithm to select well distributed subset of points
 		Point* out = buffer;

@@ -35,8 +35,8 @@ public:
 	void resize_viewport(std::size_t w, std::size_t h);
 	std::array<std::size_t, 2> viewport_size() const;
 
-	void draw();
 	void tick();
+	void draw();
 	
 	void rotate_camera(angle horizontal, angle vertical);
 	void set_target_velocity(const Eigen::Vector3f& vel);

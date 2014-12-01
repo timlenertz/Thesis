@@ -7,7 +7,7 @@
 namespace pcf {
 
 /**
-Point of a cloud, consisting of X, Y, Z coordinates, RGB color information and normal vector.
+Point of a cloud, consisting of X, Y, Z coordinates, RGB color information and normal vector. Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers.
 */
 class ALIGNAS(32) point_full : public point_xyz {
 public:

@@ -5,6 +5,10 @@
 
 namespace pcf {
 
+/**
+Oriented plane in 3D space.
+Represented using normal vector and distance value. When normalized, representations are unique and distance is from origin to plane.
+*/
 struct plane {
 	Eigen::Vector3f normal = Eigen::Vector3f::Zero();
 	float distance = 0;

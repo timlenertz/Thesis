@@ -8,6 +8,10 @@ namespace pcf {
 
 class camera;
 
+/**
+Point cloud structured for fast extraction of points visible from given point of view.
+Uses octree point cloud. Performs view frustum culling and online random downsampling.
+*/
 template<typename Point, typename Allocator = aligned_allocator<Point>>
 class pov_point_cloud : public tree_point_cloud<pov_octree_traits, Point, Allocator> {
 	using super = tree_point_cloud<pov_octree_traits, Point, Allocator>;
@@ -15,8 +19,10 @@ class pov_point_cloud : public tree_point_cloud<pov_octree_traits, Point, Alloca
 	using typename super::const_node_handle;
 	
 private:
-	static const std::size_t leaf_capacity_ = 500;
 	float extra_split_side_length_ = 2.0;
+
+	template<typename Other_cloud>
+	static std::size_t compute_leaf_capacity_(const Other_cloud&);
 
 	void prepare_tree_();	
 	void extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const;

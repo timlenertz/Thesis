@@ -9,6 +9,10 @@ namespace pcf {
 
 struct bounding_box;
 
+/**
+Pyramid frustum, clipped by near and far planes.
+Used to represent viewing frustum of a camera. Stored using its 6 planes, can be generated from view-projection matrix. Provides test for intersection with bounding box.
+*/
 struct frustum {
 	enum intersection {
 		outside_frustum = 0,

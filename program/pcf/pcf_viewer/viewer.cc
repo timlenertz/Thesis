@@ -74,21 +74,18 @@ void viewer::tick() {
 
 
 void viewer::draw() {
-	tick();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+	tick();	
 	scene_.draw();
 }
 
 
 void viewer::rotate_camera(angle horizontal, angle vertical) {
 	auto transformation =
-		Eigen::AngleAxisf(-horizontal, Eigen::Vector3f::UnitY()) *
-		Eigen::AngleAxisf(-vertical, Eigen::Vector3f::UnitX());
+		Eigen::AngleAxisf(-vertical, Eigen::Vector3f::UnitX()) *
+		Eigen::AngleAxisf(-horizontal, Eigen::Vector3f::UnitY());
 	
 	pose ps = scene_.get_camera_pose();
-	ps.orientation = transformation * ps.orientation;
+	ps.orientation = ps.orientation * transformation;
 	scene_.set_camera_pose(ps);
 }
 
