@@ -1,5 +1,6 @@
 #include "frustum.h"
 #include "bounding_box.h"
+#include <iostream>
 
 namespace pcf {
 
@@ -12,22 +13,21 @@ planes ({
 	plane(m(0,3) - m(0,0), m(1,3) - m(1,0), m(2,3) - m(2,0), m(3,3) - m(3,0)), // right_plane
 	plane(m(0,3) + m(0,1), m(1,3) + m(1,1), m(2,3) + m(2,1), m(3,3) + m(3,1)), // bottom_plane
 	plane(m(0,3) - m(0,1), m(1,3) - m(1,1), m(2,3) - m(2,1), m(3,3) - m(3,1))  // top_plane
-}) { }
+}) {
+	std::cout << "----" << std::endl;
+	std::ptrdiff_t i = 0;
+	std::cout << "near_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+	std::cout << "far_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+	std::cout << "left_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+	std::cout << "right_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+	std::cout << "bottom_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+	std::cout << "top_plane: d=" << planes[i].distance << " ; normal=(" << planes[i].normal[0] << ", " << planes[i].normal[1] << ", " << planes[i++].normal[2] << ")" << std::endl;
+}
 
 
 bool frustum::contains(const Eigen::Vector3f& pt) const {
 	for(const plane& pl : planes) if(signed_distance(pt, pl) < 0) return false;
 	return true;
-}
-
-
-float frustum::far_plane_distance() const {
-	return planes[far_plane].distance;
-}
-
-
-float frustum::near_plane_distance() const {
-	return planes[near_plane].distance;
 }
 
 

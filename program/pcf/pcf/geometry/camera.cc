@@ -41,6 +41,53 @@ frustum camera::viewing_frustum() const {
 }
 
 
+std::array<Eigen::Vector3f, 8> camera::frustum_corners() const {
+	float nx = std::tan(fov_x_ / 2) * near_z_;
+	float ny = std::tan(fov_x_ / 2) * near_z_;
+	float fx = std::tan(fov_x_ / 2) * far_z_;
+	float fy = std::tan(fov_x_ / 2) * far_z_;
+	std::array<Eigen::Vector3f, 8> corn {
+		// Near
+		Eigen::Vector3f(-nx, -ny, near_z_),
+		Eigen::Vector3f(nx, -ny, near_z_),
+		Eigen::Vector3f(nx, ny, near_z_),
+		Eigen::Vector3f(-nx, ny, near_z_),
+		
+		// Far
+		Eigen::Vector3f(-fx, -fy, far_z_),
+		Eigen::Vector3f(fx, -fy, far_z_),
+		Eigen::Vector3f(fx, fy, far_z_),
+		Eigen::Vector3f(-fx, fy, far_z_)
+	};
+	for(Eigen::Vector3f& c : corn) c = view_inv_ * c;
+	return corn;
+}
+
+
+std::array<camera::frustum_edge, 12> camera::frustum_edges() const {
+	auto corn = frustum_corners();
+	return {
+		// Near Plane
+		frustum_edge(corn[0], corn[1]),
+		frustum_edge(corn[1], corn[2]),
+		frustum_edge(corn[2], corn[3]),
+		frustum_edge(corn[3], corn[0]),
+		
+		// Far Plane
+		frustum_edge(corn[0+4], corn[1+4]),
+		frustum_edge(corn[1+4], corn[2+4]),
+		frustum_edge(corn[2+4], corn[3+4]),
+		frustum_edge(corn[3+4], corn[0+4]),
+		
+		// Connecting
+		frustum_edge(corn[0], corn[0+4]),
+		frustum_edge(corn[1], corn[1+4]),
+		frustum_edge(corn[2], corn[2+4]),
+		frustum_edge(corn[3], corn[3+4])
+	};
+}
+
+
 float camera::distance_sq(const Eigen::Vector3f& wp) const {
 	return (view_ * wp).squaredNorm();
 }

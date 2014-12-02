@@ -2,6 +2,7 @@
 #define PCF_POINT_FULL_H_
 
 #include "point.h"
+#include "rgb_color.h"
 #include <utility>
 
 namespace pcf {
@@ -11,13 +12,14 @@ Point of a cloud, consisting of X, Y, Z coordinates, RGB color information and n
 */
 class ALIGNAS(32) point_full : public point_xyz {
 public:
-	static const rgb_color default_color;
+	static rgb_color default_color();
 
 	Eigen::Vector3f normal;
 	rgb_color color;
 	std::uint8_t unused;
 	
-	point_full();	
+	point_full();
+	point_full(const point_full&) = default;
 	point_full(const point_xyz& pt);
 	point_full(float x, float y, float z, std::uint8_t r, std::uint8_t g, std::uint8_t b);
 		

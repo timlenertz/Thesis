@@ -36,6 +36,8 @@ protected:
 	camera(const pose&, angle fov_x, angle fov_y, float znear, float zfar, bool compute);
 
 public:
+	using frustum_edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
+
 	camera(const pose& ps, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_) :
 		camera(ps, fov_x, fov_y, znear, zfar, true) { }
 		
@@ -55,7 +57,9 @@ public:
 	const Eigen::Projective3f& view_projection_transformation_inverse() const { return view_projection_inv_; }
 	
 	frustum viewing_frustum() const;
-	
+	std::array<Eigen::Vector3f, 8> frustum_corners() const;	
+	std::array<frustum_edge, 12> frustum_edges() const;
+
 	float distance_sq(const Eigen::Vector3f&) const;
 	float distance(const Eigen::Vector3f&) const;
 	bool in_field_of_view(const Eigen::Vector3f&, bool consider_z_planes = false) const;

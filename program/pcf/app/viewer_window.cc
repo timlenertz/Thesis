@@ -1,6 +1,7 @@
 #include "viewer_window.h"
 #include "../pcf/geometry/math_constants.h"
 #include <Eigen/Eigen>
+#include <stdexcept>
 
 namespace pcf {
 
@@ -105,6 +106,7 @@ viewer_(default_window_width_, default_window_height_) {
 		NULL,
 		NULL
 	);
+	if(window_ == NULL) throw std::runtime_error("Could not create GLFW window.");
 	
 	glfwSetWindowUserPointer(window_, (void*)this);
 	
@@ -135,7 +137,7 @@ void viewer_window::run() {
 
 
 viewer_window::~viewer_window() {
-	glfwDestroyWindow(window_);
+	if(window_) glfwDestroyWindow(window_);
 }
 
 }

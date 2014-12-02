@@ -4,5 +4,6 @@
 /program/pcf/build
 /program/pcf/dist
 /townhall/
+/townhall_ply/
 /docs
 *.o

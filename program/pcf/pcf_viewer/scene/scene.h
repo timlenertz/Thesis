@@ -15,6 +15,7 @@ namespace pcf {
 
 class scene_object_shader_program;
 class scene_bounding_box;
+class scene_camera;
 
 /**
 Scene composed of camera and scene objects.
@@ -54,6 +55,7 @@ public:
 	}
 	
 	scene_bounding_box& add_bounding_box(const bounding_box&);
+	scene_camera& add_camera(const camera&);
 };
 
 }

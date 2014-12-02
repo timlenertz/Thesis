@@ -9,6 +9,8 @@
 #include "../../pcf/util/random.h"
 #include "../../pcf/point_cloud_algorithm.h"
 
+#include <iostream>
+
 namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
@@ -68,6 +70,8 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	
 	
 	frustum fr = cam.viewing_frustum();
+	
+	std::cout << "NEAR = " << distance(cam.get_pose().position, fr.planes[frustum::near_plane]);
 	
 	std::function<void(const const_node_handle& nd)> ins;
 	ins = [&](const const_node_handle& nd) {

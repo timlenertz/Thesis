@@ -1,4 +1,5 @@
 #include "glfw.h"
+#include <iostream>
 #include <cstdlib>
 #include <thread>
 #include "viewer_window.h"
@@ -6,7 +7,12 @@
 
 using namespace pcf;
 
+static void glfw_error_(int code, const char* description) {
+	std::cerr << "GLFW Error " << code << ": " << description << std::endl;
+}
+
 int main(int argc, const char* argv[]) {
+	glfwSetErrorCallback(&glfw_error_);
 	glfwInit();
 	std::atexit(glfwTerminate);
 	

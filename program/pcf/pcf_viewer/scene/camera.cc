@@ -1,19 +1,19 @@
-#include "bounding_box.h"
+#include "camera.h"
 #include "shader_program.h"
 #include "scene.h"
 
 namespace pcf {
 
-scene_object_shader_program* scene_bounding_box::shader_program_ = nullptr;
+scene_object_shader_program* scene_camera::shader_program_ = nullptr;
 
-void scene_bounding_box::gl_initialize_() {
-	if(! shader_program_) shader_program_ = new scene_object_shader_program("bounding_box");
+void scene_camera::gl_initialize_() {
+	if(! shader_program_) shader_program_ = new scene_object_shader_program("camera");
 
 	// Setup vertices (two points per line of bounding box)
 	GLfloat vertices[12][2][3];
-	auto edges = box_.edges();
+	auto edges = camera_.frustum_edges();
 	for(std::ptrdiff_t e = 0; e < 12; ++e) {
-		const bounding_box::edge& edge = edges[e];
+		const camera::frustum_edge& edge = edges[e];
 		for(std::ptrdiff_t i = 0; i < 3; ++i) {
 			vertices[e][0][i] = edge.first[i];
 			vertices[e][1][i] = edge.second[i];
@@ -37,13 +37,13 @@ void scene_bounding_box::gl_initialize_() {
 }
 
 
-void scene_bounding_box::gl_uninitialize_() {
+void scene_camera::gl_uninitialize_() {
 	glDeleteBuffers(1, &vertex_buffer_);	
 	glDeleteVertexArrays(1, &vertex_array_object_);
 }
 
 
-void scene_bounding_box::gl_draw_() {
+void scene_camera::gl_draw_() {
 	shader_program_->use();
 	shader_program_->set_camera(scene_.get_camera());
 	(*shader_program_)["color"] = color_;
@@ -55,11 +55,11 @@ void scene_bounding_box::gl_draw_() {
 }
 
 
-scene_bounding_box::scene_bounding_box(const scene& sc, const bounding_box& box) :
-scene_object(sc), box_(box) { }
+scene_camera::scene_camera(const scene& sc, const camera& cam) :
+scene_object(sc), camera_(cam) { }
 
 		
-scene_bounding_box::~scene_bounding_box() { }
+scene_camera::~scene_camera() { }
 
 
 }

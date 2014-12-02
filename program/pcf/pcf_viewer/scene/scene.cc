@@ -2,6 +2,7 @@
 #include "object.h"
 #include "shader_program.h"
 #include "bounding_box.h"
+#include "camera.h"
 
 
 namespace pcf {
@@ -55,6 +56,11 @@ scene_bounding_box& scene::add_bounding_box(const bounding_box& box) {
 	return *sobj;
 }
 
+scene_camera& scene::add_camera(const camera& cam) {
+	scene_camera* sobj = new scene_camera(*this, cam);
+	objects_.emplace(sobj);
+	return *sobj;
+}
 
 void scene::clear() {
 	objects_.clear();

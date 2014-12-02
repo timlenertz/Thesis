@@ -249,7 +249,6 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 
 
 void scene_point_cloud::gl_uninitialize_() {
-return;
 	glBindBuffer(GL_ARRAY_BUFFER, loader_point_buffer_);
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

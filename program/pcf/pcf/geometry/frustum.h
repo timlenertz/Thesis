@@ -34,10 +34,7 @@ struct frustum {
 	frustum() = default;
 	frustum(const frustum&) = default;
 	explicit frustum(const Eigen::Matrix4f& mvp);
-	
-	float far_plane_distance() const;
-	float near_plane_distance() const;
-	
+			
 	bool contains(const Eigen::Vector3f&) const;
 	intersection contains(const bounding_box&) const;
 };
