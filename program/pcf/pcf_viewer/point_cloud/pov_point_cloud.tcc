@@ -34,13 +34,18 @@ void pov_point_cloud<Point, Allocator>::prepare_tree_() {
 	shuffle_leaves = [this, &shuffle_leaves](const node_handle& nd) {
 		if(nd.is_leaf()) {
 			auto seg = nd.seg();
+			#pragma omp task
 			std::shuffle(seg.begin(), seg.end(), get_random_generator());
 		} else {
 			for(std::ptrdiff_t ci = 0; ci != 8; ++ci)
 				if(nd.has_child(ci)) shuffle_leaves(nd.child(ci));
 		}
 	};
-	shuffle_leaves(super::root());
+	
+	#pragma omp parallel
+	{
+		shuffle_leaves(super::root());
+	}
 }
 
 

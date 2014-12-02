@@ -9,9 +9,4 @@
 	#define ALIGNOF(t) alignof(t)
 #endif
 
-
-namespace pcf {
-
-}
-
 #endif

@@ -1,0 +1,5 @@
+INCLUDE(CMakeForceCompiler)
+
+set(CMAKE_SYSTEM_NAME Darwin)
+CMAKE_FORCE_CXX_COMPILER(/usr/local/bin/g++-4.9 GNU)
+CMAKE_FORCE_C_COMPILER(/usr/local/bin/gcc-4.9 GNU)

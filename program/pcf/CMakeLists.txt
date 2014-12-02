@@ -8,9 +8,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 if(UNIX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wno-missing-braces -O3")
-
-	#set(CMAKE_CXX_COMPILER /usr/local/bin/g++-4.9)	
-	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -fdiagnostics-color=always")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -fdiagnostics-color=always")
 
 elseif(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DNDEBUG /fp:fast /GL")

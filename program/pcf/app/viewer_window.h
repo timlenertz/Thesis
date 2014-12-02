@@ -2,6 +2,7 @@
 #define PCFAPP_VIEWER_WINDOW_H_
 
 #include "glfw.h"
+#include <mutex>
 #include "../pcf_viewer/viewer.h"
 
 namespace pcf {
