@@ -14,8 +14,3 @@ add_library(pcfviewerlib STATIC ${CPP_SRC})
 target_link_libraries(pcfviewerlib ${GLEW_LIBS})
 target_link_libraries(pcfviewerlib ${OpenGL_LIBS})
 target_link_libraries(pcfviewerlib pcflib)
-
-#install(TARGETS p pcf_test DESTINATION .)
-#if(MSVC)
-#	install(DIRECTORY "./external/win32/x64/vc12/bin/" DESTINATION . FILES_MATCHING PATTERN "*.dll")
-#endif()
