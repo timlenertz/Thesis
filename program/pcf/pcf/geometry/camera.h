@@ -6,10 +6,9 @@
 #include "angle.h"
 #include "pose.h"
 #include "spherical_coordinates.h"
+#include "frustum.h"
 
 namespace pcf {
-
-struct frustum;
 
 /**
 Camera at a given pose in space and with perspective projection parameters.
@@ -26,18 +25,13 @@ protected:
 	float near_z_;
 	float far_z_;
 	
-	Eigen::Affine3f view_;
-	Eigen::Affine3f view_inv_;
-	Eigen::Projective3f view_projection_;
-	Eigen::Projective3f view_projection_inv_;
+	frustum viewing_frustum_;
 
-	void compute_transformations_();
+	void compute_frustum_();
 	
 	camera(const pose&, angle fov_x, angle fov_y, float znear, float zfar, bool compute);
 
 public:
-	using frustum_edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
-
 	camera(const pose& ps, angle fov_x, angle fov_y, float znear = default_z_near_, float zfar = default_z_far_) :
 		camera(ps, fov_x, fov_y, znear, zfar, true) { }
 		
@@ -51,14 +45,12 @@ public:
 		
 	void set_field_of_view(angle fov_x, angle fov_y);
 			
-	const Eigen::Affine3f& view_transformation() const { return view_; }
-	const Eigen::Affine3f& view_transformation_inverse() const { return view_inv_; }
-	const Eigen::Projective3f& view_projection_transformation() const { return view_projection_; }
-	const Eigen::Projective3f& view_projection_transformation_inverse() const { return view_projection_inv_; }
+	Eigen::Affine3f view_transformation() const;
+	Eigen::Affine3f view_transformation_inverse() const;
+	Eigen::Projective3f view_projection_transformation() const;
+	Eigen::Projective3f view_projection_transformation_inverse() const;
 	
-	frustum viewing_frustum() const;
-	std::array<Eigen::Vector3f, 8> frustum_corners() const;	
-	std::array<frustum_edge, 12> frustum_edges() const;
+	const frustum& viewing_frustum() const;
 
 	float distance_sq(const Eigen::Vector3f&) const;
 	float distance(const Eigen::Vector3f&) const;

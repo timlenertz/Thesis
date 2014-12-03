@@ -2,7 +2,7 @@
 #include "object.h"
 #include "shader_program.h"
 #include "bounding_box.h"
-#include "camera.h"
+#include "frustum.h"
 
 
 namespace pcf {
@@ -56,8 +56,8 @@ scene_bounding_box& scene::add_bounding_box(const bounding_box& box) {
 	return *sobj;
 }
 
-scene_camera& scene::add_camera(const camera& cam) {
-	scene_camera* sobj = new scene_camera(*this, cam);
+scene_frustum& scene::add_frustum(const frustum& fr) {
+	scene_frustum* sobj = new scene_frustum(*this, fr);
 	objects_.emplace(sobj);
 	return *sobj;
 }

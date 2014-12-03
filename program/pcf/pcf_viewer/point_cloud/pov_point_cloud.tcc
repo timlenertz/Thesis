@@ -69,13 +69,11 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	std::size_t total_size = 0;
 	
 	
-	frustum fr = cam.viewing_frustum();
-	
-	std::cout << "NEAR = " << distance(cam.get_pose().position, fr.planes[frustum::near_plane]);
-	
+	frustum_planes fr = cam.viewing_frustum().planes();
+		
 	std::function<void(const const_node_handle& nd)> ins;
 	ins = [&](const const_node_handle& nd) {
-		frustum::intersection inter = fr.contains(nd.box());
+		frustum::intersection inter = frustum::contains(fr, nd.box());
 		if(inter == frustum::outside_frustum) {
 			return;
 		} else if(nd.is_leaf() || (inter == frustum::inside_frustum && nd.box().side_length() < extra_split_side_length_)) {

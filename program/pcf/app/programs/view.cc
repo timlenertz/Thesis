@@ -8,7 +8,7 @@
 #include "../../pcf/io/ply_importer.h"
 #include "../../pcf/point_cloud/unorganized_point_cloud.h"
 #include "../../pcf_viewer/scene/bounding_box.h"
-#include "../../pcf_viewer/scene/camera.h"
+#include "../../pcf_viewer/scene/frustum.h"
 
 using namespace pcf;
 
@@ -34,8 +34,8 @@ PCF_PROGRAM(view) {
 		std::cout << "Adding to scene..." << std::endl;
 		access_viewer_([&pc](viewer& vw) {
 			vw->add_point_cloud(pc);
-			//vw->add_bounding_box(pc.box());
-			vw->add_camera( vw->get_camera() );
+			vw->add_bounding_box(pc.box());
+			vw->add_frustum( vw->get_camera().viewing_frustum() );
 		});
 		
 		std::cout << "Done." << std::endl;

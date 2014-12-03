@@ -22,32 +22,29 @@ projection_camera::projection_camera(const pose& ps, angle fvx, std::size_t imw,
 camera(ps, fvx, compute_fov_y_(fvx, image_size({imw, imh})), znear, zfar, false),
 image_size_({ imw, imh }),
 image_center_({ std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 }) {
-	compute_transformations_using_aspect_ratio_();
+	compute_frustum_using_aspect_ratio_();
 }
 
 
-void projection_camera::compute_transformations_using_aspect_ratio_() {
-	view_ = pose_.view_transformation();
-	view_inv_ = view_.inverse();
-
+void projection_camera::compute_frustum_using_aspect_ratio_() {
 	float dz = far_z_ - near_z_;	
 	float tanx = std::tan(fov_x_ / 2);
-	float r = float(image_size_[0]) / image_size_[1];
+	float tany = std::tan(fov_x_ / 2);
 
-	Eigen::Matrix4f mat;
-	mat <<
+	Eigen::Matrix4f projection_matrix;
+	projection_matrix <<
 		tanx, 0, 0, 0,
-		0, r * tanx, 0, 0,
+		0, tany, 0, 0,
 		0, 0, -(far_z_ + near_z_)/dz, (-2.0f*near_z_*far_z_)/dz,
 		0, 0, -1, 0;
 				
-	view_projection_ = Eigen::Projective3f(mat) * view_;
-	view_projection_inv_ = view_projection_.inverse();
+	Eigen::Matrix4f view_projection_matrix = projection_matrix * pose_.view_transformation().matrix();
+	viewing_frustum_ = frustum(view_projection_matrix);
 }
 
 void projection_camera::set_pose(const pose& ps) {
 	pose_ = ps;
-	compute_transformations_using_aspect_ratio_();
+	compute_frustum_using_aspect_ratio_();
 }
 
 float projection_camera::aspect_ratio() const {
@@ -62,12 +59,12 @@ projection_camera::image_size projection_camera::get_image_size() const {
 void projection_camera::set_image_size(std::size_t imw, std::size_t imh) {
 	image_size_ = image_size { imw, imh };
 	image_center_ = image_coordinates { std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 };
-	compute_transformations_using_aspect_ratio_();
+	compute_frustum_using_aspect_ratio_();
 }
 
 
 projection_camera::image_coordinates projection_camera::to_projected(const Eigen::Vector3f& p) const {
-	Eigen::Vector4f projected_coordinates = view_projection_ * p.homogeneous();
+	Eigen::Vector4f projected_coordinates = view_projection_transformation() * p.homogeneous();
 	projected_coordinates /= projected_coordinates[3];
 	
 	for(std::ptrdiff_t i = 0; i < 2; ++i) {
@@ -123,7 +120,7 @@ Eigen::Vector3f projection_camera::point(const image_coordinates& ic, float z) c
 		projected_coordinates[i] /= 0.5f * image_size_[i];
 	}
 
-	Eigen::Vector4f world_coordinates = view_projection_inv_ * projected_coordinates.homogeneous();
+	Eigen::Vector4f world_coordinates = view_projection_transformation_inverse() * projected_coordinates.homogeneous();
 	world_coordinates /= world_coordinates[3];
 	return world_coordinates.head(3);	
 }

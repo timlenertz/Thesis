@@ -22,7 +22,7 @@ private:
 	static angle compute_fov_y_(angle fov_x, image_size);
 	static angle compute_fov_x_(angle fov_y, image_size);
 
-	void compute_transformations_using_aspect_ratio_();
+	void compute_frustum_using_aspect_ratio_();
 
 public:
 	projection_camera(const pose&, angle fov_x, std::size_t imw, std::size_t imh, float znear = default_z_near_, float zfar = default_z_far_);

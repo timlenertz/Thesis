@@ -3,15 +3,19 @@
 
 #include "plane.h"
 #include <Eigen/Eigen>
+#include <Eigen/Geometry>
 #include <array>
+#include <utility>
 
 namespace pcf {
 
 struct bounding_box;
 
+using frustum_planes = std::array<plane, 6>;
+
 /**
 Pyramid frustum, clipped by near and far planes.
-Used to represent viewing frustum of a camera. Stored using its 6 planes, can be generated from view-projection matrix. Provides test for intersection with bounding box.
+Represented using the view projection matrix. Provides extraction of the 6 planes, the corners and edges, and intersection test with bounding box.
 */
 struct frustum {
 	enum intersection {
@@ -20,23 +24,28 @@ struct frustum {
 		partially_inside_frustum
 	};
 	
-	enum {
-		near_plane = 0,
-		far_plane,
-		left_plane,
-		right_plane,
-		bottom_plane,
-		top_plane
-	};
+	using edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
 	
-	std::array<plane, 6> planes;
+	Eigen::Matrix4f view_projection_matrix;
+
+	plane near_plane() const;
+	plane far_plane() const;
+	plane left_plane() const;
+	plane right_plane() const;
+	plane bottom_plane() const;
+	plane top_plane() const;
 	
+	frustum_planes planes() const;
+	std::array<Eigen::Vector3f, 8> corners() const;
+	std::array<edge, 12> edges() const;
+		
 	frustum() = default;
 	frustum(const frustum&) = default;
 	explicit frustum(const Eigen::Matrix4f& mvp);
-			
-	bool contains(const Eigen::Vector3f&) const;
+				
+	bool contains(const Eigen::Vector3f&, bool consider_z_planes = true) const;
 	intersection contains(const bounding_box&) const;
+	static intersection contains(const frustum_planes&, const bounding_box&);
 };
 
 }
