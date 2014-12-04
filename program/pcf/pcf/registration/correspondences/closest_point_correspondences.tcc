@@ -10,7 +10,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 		Receiver rec_part;
 		
 		#pragma omp for
-		for(auto it = loose_.cbegin(); it < loose_.cend(); ++it) {
+		for(auto it = loose_.begin_transform(); it < loose_.end_transform(); ++it) {
 			const auto& lp = *it;
 			if(!lp.valid() || !selection_func_(lp)) continue;
 		
@@ -18,7 +18,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 			if(!fp.valid()) continue;
 		
 			float w = weight_func_(fp, lp);
-			if(w != 0) rec_part << correspondence_type(fp, lp, w);
+			if(w != 0) rec_part << correspondence_type(fp, lp, it.real_point(), w);
 		}
 		
 		#pragma omp critical

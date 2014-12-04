@@ -6,16 +6,8 @@
 namespace pcf {
 
 class asset {
-protected:
-	pose pose_;
-	
-	asset() = default;
-	explicit asset(const pose& ps) : pose_(ps) { }
-
 public:
-	const pose& get_pose() const;
-	void set_pose(const pose&);
-	void clear_pose();
+	pose absolute_pose;
 };
 
 }

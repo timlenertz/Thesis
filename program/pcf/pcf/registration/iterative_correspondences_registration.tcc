@@ -30,11 +30,11 @@ public:
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::iteration() {
-	receiver rec;	
+	receiver rec;
 	correspondences_(rec);
 	
 	error_ = rec.error_metric();
-	estimated_transformation_ = rec.transformation_estimation().inverse();
+	estimated_transformation_ = rec.transformation_estimation();
 	
 	std::cout << error_ << " -- " << rec.count << std::endl;
 }
@@ -48,12 +48,14 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
 		float previous_error = error_;
 		Eigen::Affine3f previous_estimated_transformation = estimated_transformation_;
+		pose previous_pose = loose_.absolute_pose;
 	
-		loose_.apply_transformation(estimated_transformation_);
+		loose_.absolute_pose.transform( previous_estimated_transformation.inverse() );
+	
 		iteration();
 		
 		if(error_ > previous_error) {
-			loose_.apply_transformation(previous_estimated_transformation.inverse());
+			loose_.absolute_pose = previous_pose;
 			break;
 		}
 		

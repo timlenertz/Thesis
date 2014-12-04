@@ -85,7 +85,9 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 				if(nd.has_child(ci)) ins(nd.child(ci));
 		}		
 	};
-	ins(super::root());
+	//ins(super::root());
+	queue.push(super::root());
+	total_size = super::root().size();
 
 	// 2nd step: Extract points in these nodes
 	bool downsample = (total_size > capacity);

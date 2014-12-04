@@ -6,7 +6,7 @@ find_package(OpenGL REQUIRED)
 file(GLOB_RECURSE CPP_SRC "./*.cc")
 file(GLOB_RECURSE HPP_SRC "./*.h")
 
-include_directories(../external/include/)
+include_directories(SYSTEM ../external/include/)
 include_directories(${OpenGL_INCLUDE_DIRS})
 
 add_library(pcfviewerlib STATIC ${CPP_SRC})

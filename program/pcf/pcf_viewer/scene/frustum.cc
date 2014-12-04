@@ -45,7 +45,7 @@ void scene_frustum::gl_uninitialize_() {
 
 void scene_frustum::gl_draw_() {
 	shader_program_->use();
-	shader_program_->set_camera(scene_.get_camera());
+	shader_program_->set_mvp(scene_.get_camera());
 	(*shader_program_)["color"] = color_;
 	
 	glBindVertexArray(vertex_array_object_);

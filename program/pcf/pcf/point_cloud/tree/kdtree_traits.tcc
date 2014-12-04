@@ -60,7 +60,7 @@ split_node(point_cloud_segment<Point> seg, const bounding_box& cub, node_attribu
 
 
 template<typename Point>
-octree_traits::node_attributes kdtree_traits::initialize_node_attributes
+kdtree_traits::node_attributes kdtree_traits::initialize_node_attributes
 (point_cloud_segment<Point> seg, const bounding_box& cub, std::ptrdiff_t depth) {
 	return node_attributes();
 }

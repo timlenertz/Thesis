@@ -148,4 +148,17 @@ Point& point_cloud<Point, Allocator>::random_point() {
 }
 
 
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::begin_transform() const -> transform_iterator {
+	return transform_iterator(begin_, absolute_pose.view_transformation_inverse());
+}
+
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::end_transform() const -> transform_iterator {
+	return transform_iterator(end_, absolute_pose.view_transformation_inverse());
+}
+
+
+
+
 }

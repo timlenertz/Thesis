@@ -32,8 +32,8 @@ endif()
 
 file(GLOB_RECURSE CPP_SRC "./*.cc")
 
-include_directories(../external/include/)
-include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(SYSTEM ../external/include/)
+include_directories(SYSTEM ${GLFW_INCLUDE_DIRS})
 
 add_executable(pcfapp ${CPP_SRC})
 

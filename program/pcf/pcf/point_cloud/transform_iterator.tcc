@@ -9,7 +9,7 @@ void point_transform_iterator<Point>::load_transformed_point_() const {
 
 
 template<typename Point>
-point_transform_iterator<Point>::point_transform_iterator(const Eigen::Affine3f& t, Point* p) :
+point_transform_iterator<Point>::point_transform_iterator(Point* p, const Eigen::Affine3f& t) :
 transformation_(t), point_(p), should_load_transformed_point_(true) {
 	load_transformed_point_();
 }
@@ -17,13 +17,38 @@ transformation_(t), point_(p), should_load_transformed_point_(true) {
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator==(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
 	return (point_ == it.point_);
 }
 
+template<typename Point>
+bool point_transform_iterator<Point>::operator!=(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
+	return (point_ != it.point_);
+}
 
 template<typename Point>
-bool point_transform_iterator<Point>::operator!=(const point_transform_iterator& it) const{
-	return (point_ != it.point_);
+bool point_transform_iterator<Point>::operator<(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
+	return (point_ < it.point_);
+}
+
+template<typename Point>
+bool point_transform_iterator<Point>::operator<=(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
+	return (point_ <= it.point_);
+}
+
+template<typename Point>
+bool point_transform_iterator<Point>::operator>(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
+	return (point_ > it.point_);
+}
+
+template<typename Point>
+bool point_transform_iterator<Point>::operator>=(const point_transform_iterator& it) const {
+	assert(transformation_ == it.transformation_);
+	return (point_ >= it.point_);
 }
 
 
@@ -50,10 +75,67 @@ auto point_transform_iterator<Point>::operator++() -> point_transform_iterator& 
 
 
 template<typename Point>
+auto point_transform_iterator<Point>::operator--() -> point_transform_iterator& {
+	--point_;
+	should_load_transformed_point_ = true;
+	return *this;
+}
+
+
+template<typename Point>
 auto point_transform_iterator<Point>::operator++(int) -> point_transform_iterator {
 	point_transform_iterator old = *this;
 	operator++();
 	return old;
 }
+
+
+template<typename Point>
+auto point_transform_iterator<Point>::operator--(int) -> point_transform_iterator {
+	point_transform_iterator old = *this;
+	operator--();
+	return old;
+}
+
+
+template<typename Point>
+auto point_transform_iterator<Point>::operator+=(std::ptrdiff_t d) -> point_transform_iterator& {
+	point_ += d;
+	should_load_transformed_point_ = true;
+	return *this;
+}
+
+
+template<typename Point>
+auto point_transform_iterator<Point>::operator-=(std::ptrdiff_t d) -> point_transform_iterator& {
+	point_ -= d;
+	should_load_transformed_point_ = true;
+	return *this;
+}
+
+
+template<typename Point>
+auto point_transform_iterator<Point>::operator+(std::ptrdiff_t d) const -> point_transform_iterator {
+	point_transform_iterator it = *this;
+	return (it += d);
+}
+
+template<typename Point>
+auto point_transform_iterator<Point>::operator-(std::ptrdiff_t d) const -> point_transform_iterator {
+	point_transform_iterator it = *this;
+	return (it -= d);
+}
+
+template<typename Point>
+std::ptrdiff_t point_transform_iterator<Point>::operator-(const point_transform_iterator& it) const {
+	return (point_ - it.point_);
+}
+
+
+template<typename Point>
+Point& point_transform_iterator<Point>::operator[](std::ptrdiff_t d) const {
+	return point_[d];
+}
+
 
 }

@@ -12,7 +12,7 @@ Provides read-only access to the point.
 */
 template<typename Point>
 class point_transform_iterator :
-public std::iterator<std::forward_iterator_tag, Point> {
+public std::iterator<std::random_access_iterator_tag, Point> {
 private:
 	const Eigen::Affine3f transformation_;
 	Point* point_;
@@ -23,19 +23,39 @@ private:
 	void load_transformed_point_() const;
 	
 public:
-	point_transform_iterator(const Eigen::Affine3f&, Point*);
+	point_transform_iterator(Point*, const Eigen::Affine3f&);
 	point_transform_iterator(const point_transform_iterator&) = default;
 	
 	point_transform_iterator& operator=(const point_transform_iterator&) = default;
 	
 	bool operator==(const point_transform_iterator&) const;
 	bool operator!=(const point_transform_iterator&) const;
+	bool operator<(const point_transform_iterator&) const;
+	bool operator<=(const point_transform_iterator&) const;
+	bool operator>(const point_transform_iterator&) const;
+	bool operator>=(const point_transform_iterator&) const;
 	
 	const Point& operator*() const;
 	const Point* operator->() const;
+	
+	const Point& real_point() const { return *point_; }
+	Point& real_point() { return *point_; }
 
 	point_transform_iterator& operator++();
+	point_transform_iterator& operator--();
 	point_transform_iterator operator++(int);
+	point_transform_iterator operator--(int);
+	
+	point_transform_iterator& operator+=(std::ptrdiff_t);
+	point_transform_iterator& operator-=(std::ptrdiff_t);
+	
+	point_transform_iterator operator+(std::ptrdiff_t) const;
+	point_transform_iterator operator-(std::ptrdiff_t) const;
+	
+	std::ptrdiff_t operator-(const point_transform_iterator&) const;
+	
+	Point& operator[](std::ptrdiff_t) const;
+	
 };
 
 }

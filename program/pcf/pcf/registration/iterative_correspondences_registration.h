@@ -31,8 +31,8 @@ private:
 	loose_point_cloud_type& loose_;
 	Correspondences correspondences_;
 	
-	float error_;
 	Eigen::Affine3f estimated_transformation_;
+	float error_;
 			
 public:
 	float minimal_error = 0;

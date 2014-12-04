@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 
 file(GLOB_RECURSE CPP_SRC "./*.cc")
 
-include_directories(../external/include/)
+include_directories(SYSTEM ../external/include/)
 
 add_executable(pcftest ${CPP_SRC})
 

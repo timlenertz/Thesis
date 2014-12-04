@@ -35,7 +35,6 @@ PCF_PROGRAM(view) {
 		access_viewer_([&pc](viewer& vw) {
 			vw->add_point_cloud(pc);
 			vw->add_bounding_box(pc.box());
-			vw->add_frustum( vw->get_camera().viewing_frustum() );
 		});
 		
 		std::cout << "Done." << std::endl;

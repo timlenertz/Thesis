@@ -13,7 +13,6 @@ scene_object_shader_program::scene_object_shader_program(const std::string& name
 		shader::from_file(GL_VERTEX_SHADER, shaders_dir_ + name + ".vert"),
 		shader::from_file(GL_FRAGMENT_SHADER, shaders_dir_ + name + ".frag")
 	}),
-	mv_matrix_uniform_(uniform("mv_matrix")),
 	mvp_matrix_uniform_(uniform("mvp_matrix")),
 	fog_uniform_(uniform("fog")),
 	fog_distance_uniform_(uniform("fog_distance")),
@@ -25,10 +24,10 @@ scene_object_shader_program::scene_object_shader_program(const std::string& name
 
 
 
-void scene_object_shader_program::set_camera(const camera& cam) {
-	assert(is_current());	
-	mv_matrix_uniform_ = cam.view_transformation().matrix();
-	mvp_matrix_uniform_ = cam.view_projection_transformation().matrix();
+void scene_object_shader_program::set_mvp(const camera& cam, const pose& ps) {
+	assert(is_current());
+	Eigen::Matrix4f mvp = ps.view_transformation().matrix() * cam.view_projection_transformation().matrix();;
+	mvp_matrix_uniform_ = mvp;
 }
 
 

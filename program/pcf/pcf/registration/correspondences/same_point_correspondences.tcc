@@ -13,10 +13,10 @@ same_point_correspondences<Cloud_fixed, Cloud_loose>::same_point_correspondences
 template<typename Cloud_fixed, typename Cloud_loose> template<typename Receiver>
 void same_point_correspondences<Cloud_fixed, Cloud_loose>::operator()(Receiver& rec) {
 	auto f = fixed_.cbegin();
-	auto l = loose_.cbegin();
-	for(; l < loose_.cend(); ++f, ++l) {
+	auto l = loose_.begin_transform();
+	for(; l < loose_.end_transform(); ++f, ++l) {
 		if(!f->valid() || !l->valid()) continue;
-		rec << correspondence_type(*f, *l, 1.0);
+		rec << correspondence_type(*f, *l, l.real_point(), 1.0);
 	}
 }
 

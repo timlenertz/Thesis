@@ -265,7 +265,7 @@ void scene_point_cloud::gl_draw_() {
 	take_loader_reponse_();
 
 	shader_program_->use();
-	shader_program_->set_camera(scene_.get_camera());
+	shader_program_->set_mvp(scene_.get_camera());
 	
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);

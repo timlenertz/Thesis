@@ -64,10 +64,12 @@ template<typename Point, typename Allocator> template<typename Other_cloud>
 range_point_cloud<Point, Allocator>::range_point_cloud(const Other_cloud& pc, const camera& cam, angle rx, angle ry, const Allocator& alloc) :
 super(number_of_pixels_for_camera_(rx, ry, cam), false, alloc), camera_(cam) {
 	angular_resolution_[0] = rx; angular_resolution_[1] = ry;
-	for(std::ptrdiff_t i = 0; i < 2; ++i) {
-		image_size_[i] = std::ceil(cam.field_of_view(i) / angular_resolution_[i]);
-		image_center_[i] = std::ptrdiff_t(image_size_[i]) / 2;
-	}
+
+	image_size_[0] = std::ceil(cam.field_of_view_x() / angular_resolution_[0]);
+	image_size_[1] = std::ceil(cam.field_of_view_y() / angular_resolution_[1]);
+	image_center_[0] = std::ptrdiff_t(image_size_[0]) / 2;
+	image_center_[1] = std::ptrdiff_t(image_size_[1]) / 2;
+
 
 	super::resize_(super::capacity());
 	super::initialize_();
