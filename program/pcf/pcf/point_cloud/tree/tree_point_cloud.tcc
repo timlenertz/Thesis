@@ -1,12 +1,16 @@
 #include <set>
 #include <iterator>
 #include "node_handle.h"
+#include "../../util/alignment.h"
+
 
 namespace pcf {
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc), leaf_capacity_(leaf_cap), root_node_(super::full_segment()) {
+super(std::forward<Other_cloud>(pc), true, alloc),
+leaf_capacity_(round_up_to_fit_system_page_size<Point>(leaf_cap)),
+root_node_(super::full_segment()) {
 	build_tree_();
 }
 

@@ -20,7 +20,7 @@ Data is segmented into one segment per cell. Interface for iterating through poi
 or group of cells is provided by grid_point_cloud_subspace.
 Implements kNN algorithm. [Zhao2014]
 */
-template<typename Point, typename Allocator = aligned_allocator<Point>>
+template<typename Point, typename Allocator = default_allocator<Point>>
 class grid_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 	

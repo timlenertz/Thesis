@@ -34,6 +34,7 @@ public:
 	void erase_invalid_points();	
 	
 	void apply_transformation(const Eigen::Affine3f&);
+	void apply_pose();
 
 	void downsample_random(float ratio, bool invalidate = false);
 	

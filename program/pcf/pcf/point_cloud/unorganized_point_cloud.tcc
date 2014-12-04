@@ -53,6 +53,12 @@ void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen
 }
 
 
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::apply_pose() {	
+	apply_transformation(super::pose_);
+	super::clear_pose();
+}
+
 
 
 template<typename Point, typename Allocator>

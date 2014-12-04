@@ -10,8 +10,7 @@
 	#include <memory>
 	namespace pcf {
 	
-	//template<typename T> using aligned_allocator = std::allocator<T>;
-	template<typename T> using aligned_allocator = mmap_allocator<T>;
+	template<typename T> using aligned_allocator = std::allocator<T>;
 	
 	}
 #endif

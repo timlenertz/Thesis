@@ -7,6 +7,7 @@ namespace pcf {
 
 /**
 Position and orientation in space.
+Defines an orthonormal coordinate system. May be in world space, or relative to another pose. Represented using origin position vector and orientation quaternion.
 */
 class pose {
 public:
@@ -15,9 +16,9 @@ public:
 
 	/**
 	Create identify pose.
-	I.e. no translation and rotation.
 	*/
 	pose();
+	
 	pose(const pose&) = default;
 	
 	template<typename Translation, typename Rotation>
@@ -25,15 +26,9 @@ public:
 		position(t), orientation(r) { }
 	
 	/**
-	Affine transformation into view space at this pose.
+	Affine transformation into coordinate system of this pose.
 	*/
-	
 	Eigen::Affine3f view_transformation() const;
-	
-	/**
-	Homogeneous 4x4 transformation matrix.
-	*/
-	Eigen::Matrix4f view_matrix() const;
 };
 
 }

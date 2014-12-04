@@ -12,7 +12,7 @@ namespace pcf {
 /**
 Point cloud arranged into tree structure.
 */
-template<typename Traits, typename Point, typename Allocator = aligned_allocator<Point>>
+template<typename Traits, typename Point, typename Allocator = default_allocator<Point>>
 class tree_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 	using segment = typename super::segment;

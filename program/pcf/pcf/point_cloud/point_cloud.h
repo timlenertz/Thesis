@@ -13,10 +13,12 @@
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "../point.h"
-#include "../util/aligned_allocator.h"
+#include "../asset.h"
+#include "../util/default_allocator.h"
 #include "segment.h"
 #include "segment_union.h"
 #include "../io/point_cloud_exporter.h"
+#include "transform_iterator.h"
 
 namespace pcf {
 
@@ -24,8 +26,8 @@ namespace pcf {
 Base class for point clouds.
 Allocates to given capacity using provided allocator. Allocated size cannot change, but actual size is variable and can be made smaller. Memory is never reallocated, so point addresses are constant. Gives const-correct access to the points. Depending on all_valid_ option, may or may not contain invalid points. Cannot be instanciated, instead subclasses are used.
 */
-template<typename Point, typename Allocator = aligned_allocator<Point>>
-class point_cloud {	
+template<typename Point, typename Allocator = default_allocator<Point>>
+class point_cloud : public asset {	
 protected:
 	Allocator allocator_; ///< Allocator used to create buffer.
 	const std::size_t allocated_size_; ///< Allocated buffer size.
@@ -89,6 +91,8 @@ public:
 
 	using iterator = Point*;
 	using const_iterator = const Point*;
+
+	using transform_iterator = point_transform_iterator<Point>;
 	
 	~point_cloud();
 	
@@ -119,6 +123,9 @@ public:
 	iterator end() { return end_; }
 	const_iterator end() const { return end_; }
 	const_iterator cend() const { return end_; }
+	
+	transform_iterator begin_transform() const { return transform_iterator(begin_, pose_); }
+	transform_iterator end_transform() const { return transform_iterator(end_, pose_); }
 	
 	const Point& random_point() const;
 	Point& random_point();
