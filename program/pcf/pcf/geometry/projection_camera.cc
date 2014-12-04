@@ -29,12 +29,11 @@ image_center_({ std::ptrdiff_t(imw)/2, std::ptrdiff_t(imh)/2 }) {
 void projection_camera::compute_frustum_using_aspect_ratio_() {
 	float dz = far_z_ - near_z_;	
 	float tanx = std::tan(fov_x_ / 2);
-	float tany = std::tan(fov_x_ / 2);
 
 	Eigen::Matrix4f projection_matrix;
 	projection_matrix <<
-		tanx, 0, 0, 0,
-		0, tany, 0, 0,
+		1.0 / tanx, 0, 0, 0,
+		0, aspect_ratio() / tanx, 0, 0,
 		0, 0, -(far_z_ + near_z_)/dz, (-2.0f*near_z_*far_z_)/dz,
 		0, 0, -1, 0;
 				

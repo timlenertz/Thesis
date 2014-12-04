@@ -18,12 +18,12 @@ pose_(ps), fov_x_(fvx), fov_y_(fvy), near_z_(znear), far_z_(zfar) {
 void camera::compute_frustum_() {
 	float dz = far_z_ - near_z_;	
 	float tanx = std::tan(fov_x_ / 2);
-	float tany = std::tan(fov_x_ / 2);
+	float tany = std::tan(fov_y_ / 2);
 
 	Eigen::Matrix4f projection_matrix;
 	projection_matrix <<
-		tanx, 0, 0, 0,
-		0, tany, 0, 0,
+		1.0 / tanx, 0, 0, 0,
+		0, 1.0 / tany, 0, 0,
 		0, 0, -(far_z_ + near_z_)/dz, (-2.0f*near_z_*far_z_)/dz,
 		0, 0, -1, 0;
 				

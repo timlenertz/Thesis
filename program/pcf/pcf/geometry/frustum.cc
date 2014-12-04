@@ -10,32 +10,32 @@ frustum::frustum(const Eigen::Matrix4f& m) :
 
 
 plane frustum::near_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) + m(0,2), m(1,3) + m(1,2), m(2,3) + m(2,2), m(3,3) + m(3,2));
 }
 
 plane frustum::far_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) - m(0,2), m(1,3) - m(1,2), m(2,3) - m(2,2), m(3,3) - m(3,2));
 }
 
 plane frustum::left_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) + m(0,0), m(1,3) + m(1,0), m(2,3) + m(2,0), m(3,3) + m(3,0));
 }
 
 plane frustum::right_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) - m(0,0), m(1,3) - m(1,0), m(2,3) - m(2,0), m(3,3) - m(3,0));
 }
 
 plane frustum::bottom_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) + m(0,1), m(1,3) + m(1,1), m(2,3) + m(2,1), m(3,3) + m(3,1));
 }
 
 plane frustum::top_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix;
+	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
 	return plane(m(0,3) - m(0,1), m(1,3) - m(1,1), m(2,3) - m(2,1), m(3,3) - m(3,1));
 }
 

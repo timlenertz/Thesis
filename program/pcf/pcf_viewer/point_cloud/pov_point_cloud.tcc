@@ -22,7 +22,7 @@ super(std::forward<Other_cloud>(pc), compute_leaf_capacity_(pc), alloc) {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 std::size_t pov_point_cloud<Point, Allocator>::compute_leaf_capacity_(const Other_cloud& pc) {
-	std::size_t cap = pc.size() / 100000;
+	std::size_t cap = pc.number_of_valid_points() / 100000;
 	if(cap < 1000) cap = 1000;
 	return cap;
 }
@@ -85,9 +85,9 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 				if(nd.has_child(ci)) ins(nd.child(ci));
 		}		
 	};
-	//ins(super::root());
-	queue.push(super::root());
-	total_size = super::root().size();
+	ins(super::root());
+	//queue.push(super::root());
+	//total_size = super::root().size();
 
 	// 2nd step: Extract points in these nodes
 	bool downsample = (total_size > capacity);

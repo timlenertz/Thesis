@@ -9,6 +9,7 @@ namespace {
 	const char window_title_[] = "PCF Viewer";
 	const int default_window_width_ = 800;
 	const int default_window_height_ = 600;
+	const angle rotation_per_cursor_pixel_ = pi / 500.0;
 }
 
 
@@ -22,15 +23,13 @@ void viewer_window::window_framebuffer_size_(GLFWwindow* win, int w, int h) {
 void viewer_window::window_cursor_position_(GLFWwindow* win, double x, double y) {
 	viewer_window* that = (viewer_window*) glfwGetWindowUserPointer(win);
 	
-	if( glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ) {
-		double factor = pi / 500.0;
-	
+	if( glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS ) {	
 		double diff_x = x - that->drag_position_x_;
 		double diff_y = y - that->drag_position_y_;
 		that->drag_position_x_ = x;
 		that->drag_position_y_ = y;
 		
-		that->viewer_.rotate_camera(diff_x * factor, diff_y * factor);
+		that->viewer_.rotate_camera(diff_x * rotation_per_cursor_pixel_, diff_y * rotation_per_cursor_pixel_);
 	}
 }
 

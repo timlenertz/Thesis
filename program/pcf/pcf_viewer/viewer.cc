@@ -6,7 +6,7 @@
 namespace pcf {
 
 namespace {
-	angle default_fov_ = angle::degrees(60.0f);
+	angle default_fov_ = angle::degrees(60);
 
 	std::chrono::milliseconds maximal_time_step_(100);
 	std::chrono::milliseconds minimal_time_step_(5);

@@ -6,7 +6,9 @@ set(MACOSX_RPATH YES)
 
 set(CMAKE_BUILD_TYPE Release)
 
-if(MSVC)
+if(UNIX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wno-missing-braces -Wno-unknown-pragmas -O3 -fopenmp -fdiagnostics-color=always")
+elseif(MSVC)
 	set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/external/win32/opencv")
 	include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/external/win32/glew/include)
 	

@@ -14,4 +14,5 @@ since 2 september 	collecting/reading +/- relevant papers
 8 november		VC++ fixes
 14 november		refactor, const-correctness, segment/union, generic ICP
 			working ICP in grid point cloud
-
+4 december		hotel de ville data,
+			built user interface, visualizer, ICP toolkit

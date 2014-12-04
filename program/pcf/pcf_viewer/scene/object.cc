@@ -11,7 +11,7 @@ scene_(sc), pose_(ps) {
 
 void scene_object::compute_mvp_matrix_() {
 	const auto& cam = scene_.get_camera();
-	mvp_matrix_ = cam.view_projection_transformation().matrix() * pose_.view_transformation().matrix();
+	mvp_matrix_ = cam.view_projection_transformation().matrix() * pose_.view_transformation_inverse().matrix();
 }
 
 
