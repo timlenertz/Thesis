@@ -30,10 +30,7 @@ public:
 
 	GLuint id() const { return id_; }
 	
-	shader_program_uniform uniform(const std::string& name, bool cache = false);
-	shader_program_uniform operator[](const std::string& name) {
-		return uniform(name, true);
-	}
+	shader_program_uniform uniform(const std::string& name, bool cache = true);
 
 	void use() const;
 	bool is_current() const;

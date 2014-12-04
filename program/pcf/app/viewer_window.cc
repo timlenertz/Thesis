@@ -9,7 +9,6 @@ namespace {
 	const char window_title_[] = "PCF Viewer";
 	const int default_window_width_ = 800;
 	const int default_window_height_ = 600;
-	float movement_speed_ = 0.1f;
 }
 
 

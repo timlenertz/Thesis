@@ -13,22 +13,10 @@ class camera;
 class pose;
 
 class scene_object_shader_program : public shader_program {
-	using super = shader_program;
-
-private:
-	static const std::string shaders_dir_;
-
-	shader_program_uniform mvp_matrix_uniform_;
-	shader_program_uniform fog_uniform_;
-	shader_program_uniform fog_distance_uniform_;
-	shader_program_uniform fog_color_uniform_;
-
 public:
+	shader_program_uniform mvp_matrix;
+
 	explicit scene_object_shader_program(const std::string&);
-	
-	void set_mvp(const camera&, const pose& = pose());
-	void set_fog(bool enable);
-	void set_fog(bool enable, float distance, rgb_color col);
 };
 
 }

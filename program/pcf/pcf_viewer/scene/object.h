@@ -12,14 +12,27 @@ class scene;
 class scene_object : public gl_object {
 protected:
 	const scene& scene_;
+	pose pose_;
+	Eigen::Matrix4f mvp_matrix_;
 	
-	scene_object(const scene& sc) : scene_(sc) { }
-	
+	explicit scene_object(const scene&, const pose& = pose());	
 	scene_object(const scene_object&) = delete;
 	scene_object& operator=(const scene_object&) = delete;
+	
+	/**
+	Called when scene camera and/or object's pose was changed.
+	Can be called while not in OpenGL context.
+	*/
+	virtual void updated_camera_or_pose_();
+	
+private:
+	void compute_mvp_matrix_();
 
 public:
-	virtual void update_camera(const projection_camera&) { }
+	void updated_camera_or_pose();
+	
+	const pose& get_pose();
+	void set_pose(const pose&);
 };
 
 }

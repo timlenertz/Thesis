@@ -43,7 +43,7 @@ public:
 	void set_camera_image_size(std::size_t w, std::size_t h);
 	void set_camera_field_of_view(angle);
 	
-	void update_camera(const projection_camera&);
+	void updated_camera();
 	
 	void clear();
 	

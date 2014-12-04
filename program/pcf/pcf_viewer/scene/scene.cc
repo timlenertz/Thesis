@@ -22,13 +22,13 @@ const projection_camera& scene::get_camera() const {
 
 void scene::set_camera(const projection_camera& cam) {
 	camera_ = cam;
-	update_camera(camera_);
+	updated_camera();
 }
 
 
 void scene::set_camera_pose(const pose& ps) {
 	camera_.set_pose(ps);
-	update_camera(camera_);
+	updated_camera();
 }
 
 
@@ -41,12 +41,12 @@ void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 	camera_.set_image_size(w, h);
 	camera_.adjust_field_of_view();
 	should_reset_viewport_ = true;
-	update_camera(camera_);
+	updated_camera();
 }
 
 void scene::set_camera_field_of_view(angle fov_x) {
 	camera_.set_field_of_view_x(fov_x);
-	update_camera(camera_);
+	updated_camera();
 }
 
 
@@ -75,8 +75,8 @@ void scene::gl_initialize_() {
 }
 
 
-void scene::update_camera(const projection_camera& cam) {
-	for(const auto& obj : objects_) obj->update_camera(cam);
+void scene::updated_camera() {
+	for(const auto& obj : objects_) obj->updated_camera_or_pose();
 }
 
 

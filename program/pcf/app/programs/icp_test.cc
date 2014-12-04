@@ -23,10 +23,10 @@ PCF_PROGRAM(icp_test) {
 		std::cout << "Adding to scene..." << std::endl;
 		access_viewer_([&loose, &fixed, &scene_loose](viewer& vw) {
 			auto& scf = vw->add_point_cloud(fixed);
-			set_unique_color(scf->begin(), scf->end(), rgb_color::red);
+			set_unique_color(scf->begin(), scf->end(), rgb_color::yellow);
 			
 			auto& scl = vw->add_point_cloud(loose);
-			set_unique_color(scl->begin(), scl->end(), rgb_color::blue);
+			set_unique_color(scl->begin(), scl->end(), rgb_color::green);
 			
 			scene_loose = &scl;
 		});
@@ -39,6 +39,13 @@ PCF_PROGRAM(icp_test) {
 		
 		iterative_correspondences_registration<decltype(cor)> icp(fixed, loose, cor);
 		
-		icp.run();
+		for(;;) {
+			icp.iteration();
+			loose.absolute_pose.transform( icp.last_estimated_transformation().inverse() );
+			
+			access_viewer_([&loose, &fixed, &scene_loose](viewer& vw) {
+				scene_loose->set_pose(loose.absolute_pose);
+			});
+		}
 	}
 };

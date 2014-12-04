@@ -46,13 +46,13 @@ protected:
 public:
 	template<typename Cloud>
 	scene_point_cloud(const scene& sc, Cloud&& pc, GLsizei cap = default_point_buffer_capacity_) :
-		scene_object(sc),
+		scene_object(sc, pc.absolute_pose),
 		point_buffer_capacity_(cap),
 		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
 			
 	~scene_point_cloud();
 		
-	void update_camera(const projection_camera&) override;
+	void updated_camera_or_pose_() override;
 	
 	pov_point_cloud_full& operator*() { return point_cloud_; }
 	const pov_point_cloud_full& operator*() const { return point_cloud_; }

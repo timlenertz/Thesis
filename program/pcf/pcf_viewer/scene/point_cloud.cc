@@ -265,7 +265,7 @@ void scene_point_cloud::gl_draw_() {
 	take_loader_reponse_();
 
 	shader_program_->use();
-	shader_program_->set_mvp(scene_.get_camera());
+	shader_program_->mvp_matrix = mvp_matrix_;
 	
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
@@ -274,14 +274,14 @@ void scene_point_cloud::gl_draw_() {
 }
 
 
-void scene_point_cloud::update_camera(const projection_camera& cam) {
+void scene_point_cloud::updated_camera_or_pose_() {
 	if(! initialized()) return;
 
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
 		loader::request req {
-			cam,
+			scene_.get_camera(),
 			loader_point_buffer_mapping_,
 			(std::size_t)point_buffer_capacity_
 		};

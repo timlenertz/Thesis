@@ -42,7 +42,8 @@ public:
 	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
 		fixed_(cf), loose_(cl), correspondences_(cor) { }
 	
-	float error() const { return error_; }
+	float last_error() const { return error_; }
+	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
 
 	void iteration();
 	void run();

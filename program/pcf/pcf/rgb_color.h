@@ -15,6 +15,9 @@ struct rgb_color {
 	static const rgb_color red;
 	static const rgb_color green;
 	static const rgb_color blue;
+	static const rgb_color yellow;
+	static const rgb_color magenta;
+	static const rgb_color cyan;
 
 	std::uint8_t r, g, b;
 	
