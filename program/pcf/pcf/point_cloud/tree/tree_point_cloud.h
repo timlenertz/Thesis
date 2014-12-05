@@ -49,7 +49,8 @@ private:
 	bool verify_(const const_node_handle&) const;
 
 public:
-	template<typename Other_cloud> tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, const Allocator& = Allocator());
+	template<typename Other_cloud>
+	tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, bool round_up_to_page_size = true, const Allocator& = Allocator());
 
 	node_handle root();
 	const_node_handle root() const;

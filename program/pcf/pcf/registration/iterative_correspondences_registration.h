@@ -5,6 +5,7 @@
 #include <Eigen/Geometry>
 #include <cmath>
 #include <utility>
+#include <functional>
 #include "transformation_estimation/svd_transformation_estimation.h"
 #include "error_metric/mean_square_error.h"
 
@@ -39,6 +40,8 @@ public:
 	std::size_t maximal_iterations = -1;
 
 public:
+	using iteration_callback = std::function<void(const Eigen::Affine3f& est_trans, float err)>;
+
 	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
 		fixed_(cf), loose_(cl), correspondences_(cor) { }
 	
@@ -46,7 +49,7 @@ public:
 	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
 
 	void iteration();
-	void run();
+	void run(const iteration_callback& = iteration_callback());
 };
 
 

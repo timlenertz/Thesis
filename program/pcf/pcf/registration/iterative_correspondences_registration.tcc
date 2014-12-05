@@ -35,13 +35,11 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 	
 	error_ = rec.error_metric();
 	estimated_transformation_ = rec.transformation_estimation();
-	
-	std::cout << error_ << " -- " << rec.count << std::endl;
 }
 
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run() {
+void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run(const iteration_callback& cb) {
 	iteration();
 	
 	std::size_t iteration_count = 1;	
@@ -51,6 +49,8 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 		pose previous_pose = loose_.absolute_pose;
 	
 		loose_.absolute_pose.transform( previous_estimated_transformation.inverse() );
+		
+		if(cb) cb(estimated_transformation_, error_);
 	
 		iteration();
 		

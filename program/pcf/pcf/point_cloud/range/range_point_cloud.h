@@ -4,11 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <limits>
-#include "../../geometry/camera.h"
+#include "../../geometry/projection_camera.h"
 #include "../point_cloud.h"
 #include "../../range_image.h"
 
 namespace pcf {
+
+class range_point_cloud_importer;
 
 template<typename Point, typename Allocator = default_allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
@@ -19,7 +21,7 @@ public:
 	using angular_image_coordinates = std::array<angle, 2>;
 
 private:
-	camera camera_;
+	projection_camera camera_;
 	std::array<float, 2> angular_resolution_;
 	std::array<std::size_t, 2> image_size_;
 	std::array<std::ptrdiff_t, 2> image_center_;
@@ -38,7 +40,7 @@ public:
 
 	range_point_cloud(const range_image&, const camera&, const Allocator& = Allocator());
 
-	template<typename Reader> explicit range_point_cloud(Reader&, const Allocator& = Allocator());
+	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 
 	camera& get_camera() { return camera_; }
 	const camera& get_camera() const { return camera_; }

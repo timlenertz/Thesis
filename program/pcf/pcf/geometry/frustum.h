@@ -42,10 +42,14 @@ struct frustum {
 	frustum() = default;
 	frustum(const frustum&) = default;
 	explicit frustum(const Eigen::Matrix4f& mvp);
+	
+	float projected_depth(const Eigen::Vector3f&, bool clip = false) const;
 				
 	bool contains(const Eigen::Vector3f&, bool consider_z_planes = true) const;
 	intersection contains(const bounding_box&) const;
 	static intersection contains(const frustum_planes&, const bounding_box&);
+	
+	void transform(const Eigen::Affine3f&);
 };
 
 }

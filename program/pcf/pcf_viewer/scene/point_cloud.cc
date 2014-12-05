@@ -23,7 +23,7 @@ namespace {
 class scene_point_cloud::loader {
 public:
 	struct request {
-		projection_camera cam;
+		frustum fr;
 		point_full* buffer;
 		std::size_t buffer_capacity;
 	};
@@ -112,7 +112,7 @@ void scene_point_cloud::loader::thread_iteration_() {
 		std::size_t sz = point_cloud_.extract(
 			req->buffer,
 			req->buffer_capacity,
-			req->cam
+			req->fr
 		);
 		
 		// Make response available
@@ -280,8 +280,10 @@ void scene_point_cloud::updated_camera_or_pose_() {
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
+		frustum fr = scene_.get_camera().viewing_frustum();
+		fr.transform(pose_.view_transformation_inverse());
 		loader::request req {
-			scene_.get_camera(),
+			fr,
 			loader_point_buffer_mapping_,
 			(std::size_t)point_buffer_capacity_
 		};

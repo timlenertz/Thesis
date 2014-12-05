@@ -15,7 +15,7 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 pov_point_cloud<Point, Allocator>::pov_point_cloud(Other_cloud&& pc, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), compute_leaf_capacity_(pc), alloc) {
+super(std::forward<Other_cloud>(pc), compute_leaf_capacity_(pc), true, alloc) {
 	prepare_tree_();
 }
 
@@ -53,14 +53,14 @@ void pov_point_cloud<Point, Allocator>::prepare_tree_() {
 
 template<typename Point, typename Allocator>
 std::size_t pov_point_cloud<Point, Allocator>::
-extract(Point* buffer, std::size_t capacity, const camera& cam) const {
+extract(Point* buffer, std::size_t capacity, const frustum& fr) const {
 	// 1st step: Put set of non-overlapping set of nodes that are inside of frustum in queue.
 	// These will be extracted, with a given level of downsampling for each of them; without
 	// further descending into the nodes.
 
-	auto cmp = [&cam](const const_node_handle& a, const const_node_handle& b) {
-		float da = distance_sq(cam.get_pose().position, a.attr().center_of_mass);
-		float db = distance_sq(cam.get_pose().position, b.attr().center_of_mass);
+	auto cmp = [&fr](const const_node_handle& a, const const_node_handle& b) {
+		float da = fr.projected_depth(a.attr().center_of_mass, true);
+		float db = fr.projected_depth(b.attr().center_of_mass, true);
 		return (da > db);
 	};
 
@@ -69,11 +69,11 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 	std::size_t total_size = 0;
 	
 	
-	frustum_planes fr = cam.viewing_frustum().planes();
+	frustum_planes frp = fr.planes();
 		
 	std::function<void(const const_node_handle& nd)> ins;
 	ins = [&](const const_node_handle& nd) {
-		frustum::intersection inter = frustum::contains(fr, nd.box());
+		frustum::intersection inter = frustum::contains(frp, nd.box());
 		if(inter == frustum::outside_frustum) {
 			return;
 		} else if(nd.is_leaf() || (inter == frustum::inside_frustum && nd.box().side_length() < extra_split_side_length_)) {
@@ -86,8 +86,7 @@ extract(Point* buffer, std::size_t capacity, const camera& cam) const {
 		}		
 	};
 	ins(super::root());
-	//queue.push(super::root());
-	//total_size = super::root().size();
+
 
 	// 2nd step: Extract points in these nodes
 	bool downsample = (total_size > capacity);

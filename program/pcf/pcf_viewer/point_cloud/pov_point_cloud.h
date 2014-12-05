@@ -6,7 +6,7 @@
 
 namespace pcf {
 
-class camera;
+class frustum;
 
 /**
 Point cloud structured for fast extraction of points visible from given point of view.
@@ -30,7 +30,7 @@ private:
 public:
 	template<typename Other_cloud> pov_point_cloud(Other_cloud&&, const Allocator& = Allocator());
 
-	std::size_t extract(Point* buffer, std::size_t capacity, const camera&) const;
+	std::size_t extract(Point* buffer, std::size_t capacity, const frustum&) const;
 };
 
 using pov_point_cloud_xyz = pov_point_cloud<point_xyz>;

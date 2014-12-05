@@ -116,6 +116,18 @@ frustum::intersection frustum::contains(const bounding_box& box) const {
 }
 
 
+float frustum::projected_depth(const Eigen::Vector3f& world_point, bool clip) const {
+	Eigen::Vector4f projected_point = view_projection_matrix * world_point.homogeneous();
+	float d = projected_point[2] / projected_point[3];
+	if(clip) {
+		if(d > 1.0f) d = INFINITY;
+		else if(d < -1.0f) d = -INFINITY; 
+	}
+	return d;
+}
+
+
+
 frustum::intersection frustum::contains(const frustum_planes& fr_planes, const bounding_box& box) {
 	const Eigen::Vector3f& a = box.origin;
 	const Eigen::Vector3f& b = box.extremity;
@@ -136,5 +148,9 @@ frustum::intersection frustum::contains(const frustum_planes& fr_planes, const b
 	return (c2 == 6) ? inside_frustum : partially_inside_frustum;
 }
 
+
+void frustum::transform(const Eigen::Affine3f& t) {
+	view_projection_matrix = view_projection_matrix * t.matrix();
+}
 
 }
