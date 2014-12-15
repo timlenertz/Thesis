@@ -24,12 +24,14 @@ Eigen::Vector3f spherical_coordinates::to_cartesian() const {
 
 
 bool spherical_coordinates::operator==(const spherical_coordinates& s) const {
-	return (radius == s.radius) && (azimuth == s.azimuth) && (elevation == s.elevation);
+	if(valid() && s.valid()) return (radius == s.radius) && (azimuth == s.azimuth) && (elevation == s.elevation);
+	else return (valid() == s.valid());
 }
 
 
 bool spherical_coordinates::operator!=(const spherical_coordinates& s) const {
-	return (radius != s.radius) || (azimuth != s.azimuth) || (elevation != s.elevation);
+	if(valid() && s.valid()) return (radius != s.radius) || (azimuth != s.azimuth) || (elevation != s.elevation);
+	else return (valid() != s.valid());
 }
 
 

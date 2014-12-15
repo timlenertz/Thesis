@@ -105,6 +105,13 @@ super(ri.number_of_pixels(), false, alloc), camera_(cam) {
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importer& imp, const Allocator& alloc) :
 super(imp.size(), false, alloc), camera_() {
+	image_size_[0] = imp.width();
+	image_size_[1] = imp.height();
+
+	super::resize_(super::capacity());
+	for(Point* buf = super::begin_; buf < super::end_; buf += image_size_[0])
+		imp.read_row(buf);
+	
 	
 }
 

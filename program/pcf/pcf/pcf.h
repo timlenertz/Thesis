@@ -35,7 +35,7 @@
 #include "point_cloud/unorganized_point_cloud.h"
 #include "point_cloud/grid/grid_point_cloud.h"
 #include "point_cloud/grid/subspace.h"
-#include "point_cloud/range/range_point_cloud.h"
+//#include "point_cloud/range/range_point_cloud.h"
 #include "point_cloud/tree/kdtree_traits.h"
 #include "point_cloud/tree/node_handle.h"
 #include "point_cloud/tree/null_tree_traits.h"

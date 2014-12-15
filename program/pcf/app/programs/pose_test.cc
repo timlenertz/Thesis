@@ -35,9 +35,9 @@ PCF_PROGRAM(pose_test) {
 		auto b = pc.box();
 		access_viewer_([&pc, &b](viewer& vw) {
 			pose p;
-			for(std::ptrdiff_t x = -1; x < 1; ++x) { p.position[0] = b.side_lengths()[0] * 2.5 * x;
-			for(std::ptrdiff_t y = -1; y < 1; ++y) { p.position[1] = b.side_lengths()[1] * 2.5 * y;
-			for(std::ptrdiff_t z = -1; z < 1; ++z) { p.position[2] = b.side_lengths()[2] * 2.5 * z;
+			for(std::ptrdiff_t x = -1; x <= 1; ++x) { p.position[0] = b.side_lengths()[0] * 2.5 * x;
+			for(std::ptrdiff_t y = -1; y <= 1; ++y) { p.position[1] = b.side_lengths()[1] * 2.5 * y;
+			for(std::ptrdiff_t z = -1; z <= 1; ++z) { p.position[2] = b.side_lengths()[2] * 2.5 * z;
 				p.orientation =
 					Eigen::AngleAxisf(random_real(-pi * 0.3, pi * 0.3), Eigen::Vector3f::UnitX()) *
 					Eigen::AngleAxisf(random_real(-pi * 0.3, pi * 0.3), Eigen::Vector3f::UnitY()) *

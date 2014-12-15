@@ -2,6 +2,8 @@
 #define PCF_FRUSTUM_H_
 
 #include "plane.h"
+#include "angle.h"
+#include "pose.h"
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include <array>
@@ -15,7 +17,7 @@ using frustum_planes = std::array<plane, 6>;
 
 /**
 Pyramid frustum, clipped by near and far planes.
-Represented using the view projection matrix. Provides extraction of the 6 planes, the corners and edges, and intersection test with bounding box.
+Represented using the view projection matrix. Encodes both intrinsic (shape or frustum) and extrinsic (pose) parameters. Provides extraction of the 6 planes, the corners and edges, and intersection test with bounding box.
 */
 struct frustum {
 	enum intersection {
@@ -26,7 +28,7 @@ struct frustum {
 	
 	using edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
 	
-	Eigen::Matrix4f view_projection_matrix;
+	Eigen::Matrix4f matrix;
 
 	plane near_plane() const;
 	plane far_plane() const;
@@ -42,14 +44,14 @@ struct frustum {
 	frustum() = default;
 	frustum(const frustum&) = default;
 	explicit frustum(const Eigen::Matrix4f& mvp);
-	
-	float projected_depth(const Eigen::Vector3f&, bool clip = false) const;
+		
+	float projected_depth(const Eigen::Vector3f&, bool clip = true) const;
 				
 	bool contains(const Eigen::Vector3f&, bool consider_z_planes = true) const;
 	intersection contains(const bounding_box&) const;
 	static intersection contains(const frustum_planes&, const bounding_box&);
 	
-	void transform(const Eigen::Affine3f&);
+	frustum transform(const Eigen::Affine3f&) const;
 };
 
 }

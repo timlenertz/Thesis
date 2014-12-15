@@ -10,15 +10,18 @@ namespace pcf {
 /**
 Spherical coordinates.
 Let O be origin, P be subject point. Radius is distance OP.
-Elevation is angle between OP and reference plane.
-In cartesian space, reference plane is Y=0. Azimuth is angle between OP and +Z, when projected on plane given by elevation.
+Azimuth is angle between -Z and the projection of OP on Y=0.
+Elevation is (polar) angle between OP and reference plane Y=0. Or equivalently angle between OP and zenith axis +Y, plus pi.
+Both azimuth and elevation are in [-pi, pi].
 */
 class spherical_coordinates {
 public:
-	float radius;
+	float radius = 0;
 	angle azimuth;
 	angle elevation;
 	
+	spherical_coordinates() = default;
+	spherical_coordinates(const spherical_coordinates&) = default;
 	spherical_coordinates(float r, angle az, angle el) :
 		radius(r), azimuth(az), elevation(el) { }
 	
@@ -27,6 +30,10 @@ public:
 	
 	bool operator==(const spherical_coordinates&) const;
 	bool operator!=(const spherical_coordinates&) const;
+	
+	void invalidate() { radius = 0; }
+	bool valid() const { return (radius != 0); }
+	explicit operator bool () const { return valid(); }
 };
 
 std::ostream& operator<<(std::ostream&, const spherical_coordinates&);

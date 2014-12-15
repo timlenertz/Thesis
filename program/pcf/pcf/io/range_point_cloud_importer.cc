@@ -3,7 +3,7 @@
 namespace pcf {
 
 std::size_t range_point_cloud_importer::size() const {
-	return this->width() * this->height();
+	return this->rows() * this->columns();
 }
 
 
@@ -13,14 +13,18 @@ bool range_point_cloud_importer::all_valid() const {
 
 
 void range_point_cloud_importer::read_row(point_xyz* buf) {
-	this->read(buf, this->width());
+	this->read(buf, this->columns());
 }
 
 
 void range_point_cloud_importer::read_row(point_full* buf) {
-	this->read(buf, this->width());
+	this->read(buf, this->columns());
 }
 
+
+void range_point_cloud_importer::read_row_spherical(spherical_coordinates* buf) {
+	this->read_spherical(buf, this->columns());
+}
 
 
 }

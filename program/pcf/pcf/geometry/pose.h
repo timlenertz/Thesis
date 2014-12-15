@@ -2,6 +2,7 @@
 #define PCF_POSE_H_
 
 #include <Eigen/Geometry>
+#include <iostream>
 
 namespace pcf {
 

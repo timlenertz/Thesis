@@ -4,7 +4,6 @@
 
 namespace pcf {
 
-
 frustum::frustum(const Eigen::Matrix4f& m) :
 	view_projection_matrix(m) { }
 
@@ -149,8 +148,8 @@ frustum::intersection frustum::contains(const frustum_planes& fr_planes, const b
 }
 
 
-void frustum::transform(const Eigen::Affine3f& t) {
-	view_projection_matrix = view_projection_matrix * t.matrix();
+frustum frustum::transform(const Eigen::Affine3f& t) const {
+	return frustum(f.matrix * t.matrix());
 }
 
 }

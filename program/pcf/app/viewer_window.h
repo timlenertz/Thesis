@@ -16,7 +16,7 @@ private:
 	double drag_position_x_, drag_position_y_;
 	enum { stop, positive, negative } movement_directions_[3];
 	bool closed_ = false;
-	float movement_speed_ = 0.05;
+	float movement_speed_ = 0.005;
 	std::mutex access_viewer_mutex_;
 
 	void update_movement_velocity_();
