@@ -7,20 +7,28 @@
 
 namespace pcf {
 
+namespace {
+	pose initial_pose_ = pose();
+}
 
 scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
-	camera_(pose(), fov_x, view_w, view_h) { }	
+	camera_(
+		initial_pose_,
+		projection_frustum::symmetric_perspective_fov_x(fov_x, float(view_w)/view_h),
+		view_w,
+		view_h
+	) { }	
 
 
 scene::~scene() { }
 
 
-const projection_camera& scene::get_camera() const {
+const projection_image_camera& scene::get_camera() const {
 	return camera_;
 }
 
 
-void scene::set_camera(const projection_camera& cam) {
+void scene::set_camera(const projection_image_camera& cam) {
 	camera_ = cam;
 	updated_camera();
 }
@@ -39,13 +47,8 @@ const pose& scene::get_camera_pose() const {
 
 void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 	camera_.set_image_size(w, h);
-	camera_.adjust_field_of_view();
+	camera_.adjust_field_of_view_y();
 	should_reset_viewport_ = true;
-	updated_camera();
-}
-
-void scene::set_camera_field_of_view(angle fov_x) {
-	camera_.set_field_of_view_x(fov_x);
 	updated_camera();
 }
 
@@ -69,14 +72,17 @@ void scene::clear() {
 
 void scene::gl_initialize_() {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	
+	auto bg = background_color_.to_float();
+	glClearColor(bg[0], bg[1], bg[2], 1.0f);
 
-	for(const auto& obj : objects_) if(! obj->initialized()) obj->initialize();
+	for(auto& obj : objects_)
+		if(! obj->initialized()) obj->initialize();
 }
 
 
 void scene::updated_camera() {
-	for(const auto& obj : objects_) obj->updated_camera_or_pose();
+	for(auto& obj : objects_) obj->updated_camera_or_pose();
 }
 
 
@@ -88,7 +94,7 @@ void scene::gl_draw_() {
 		
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for(const auto& obj : objects_) obj->draw();    
+	for(auto& obj : objects_) obj->draw();    
 }
 
 

@@ -2,9 +2,6 @@
 #define PCFVW_SCENE_OBJECT_SHADER_PROGRAM_H_
 
 #include "../shader_program.h"
-#include "../../pcf/rgb_color.h"
-#include "../../pcf/geometry/camera.h"
-#include "../../pcf/geometry/pose.h"
 #include <string>
 
 namespace pcf {

@@ -5,36 +5,36 @@
 namespace pcf {
 
 frustum::frustum(const Eigen::Matrix4f& m) :
-	view_projection_matrix(m) { }
+	matrix(m) { }
 
 
 plane frustum::near_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) + m(0,2), m(1,3) + m(1,2), m(2,3) + m(2,2), m(3,3) + m(3,2));
 }
 
 plane frustum::far_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) - m(0,2), m(1,3) - m(1,2), m(2,3) - m(2,2), m(3,3) - m(3,2));
 }
 
 plane frustum::left_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) + m(0,0), m(1,3) + m(1,0), m(2,3) + m(2,0), m(3,3) + m(3,0));
 }
 
 plane frustum::right_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) - m(0,0), m(1,3) - m(1,0), m(2,3) - m(2,0), m(3,3) - m(3,0));
 }
 
 plane frustum::bottom_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) + m(0,1), m(1,3) + m(1,1), m(2,3) + m(2,1), m(3,3) + m(3,1));
 }
 
 plane frustum::top_plane() const {
-	const Eigen::Matrix4f& m = view_projection_matrix.transpose();
+	Eigen::Matrix4f m = matrix.transpose();
 	return plane(m(0,3) - m(0,1), m(1,3) - m(1,1), m(2,3) - m(2,1), m(3,3) - m(3,1));
 }
 
@@ -52,7 +52,7 @@ frustum_planes frustum::planes() const {
 
 
 std::array<Eigen::Vector3f, 8> frustum::corners() const {
-	Eigen::Matrix4f view_projection_inv = view_projection_matrix.inverse();
+	Eigen::Matrix4f view_projection_inv = matrix.inverse();
 	
 	std::array<Eigen::Vector3f, 8> corn {
 		Eigen::Vector3f(-1, -1, -1),
@@ -101,7 +101,7 @@ std::array<frustum::edge, 12> frustum::edges() const {
 
 
 bool frustum::contains(const Eigen::Vector3f& world_point, bool consider_z_planes) const {
-	Eigen::Vector4f projected_point = view_projection_matrix * world_point.homogeneous();
+	Eigen::Vector4f projected_point = matrix * world_point.homogeneous();
 	projected_point /= projected_point[3];
 	if(projected_point[0] < -1 || projected_point[0] > 1) return false;
 	if(projected_point[1] < -1 || projected_point[1] > 1) return false;
@@ -116,7 +116,7 @@ frustum::intersection frustum::contains(const bounding_box& box) const {
 
 
 float frustum::projected_depth(const Eigen::Vector3f& world_point, bool clip) const {
-	Eigen::Vector4f projected_point = view_projection_matrix * world_point.homogeneous();
+	Eigen::Vector4f projected_point = matrix * world_point.homogeneous();
 	float d = projected_point[2] / projected_point[3];
 	if(clip) {
 		if(d > 1.0f) d = INFINITY;
@@ -149,7 +149,7 @@ frustum::intersection frustum::contains(const frustum_planes& fr_planes, const b
 
 
 frustum frustum::transform(const Eigen::Affine3f& t) const {
-	return frustum(f.matrix * t.matrix());
+	return frustum(matrix * t.matrix());
 }
 
 }

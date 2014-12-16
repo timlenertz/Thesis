@@ -3,13 +3,28 @@
 
 namespace pcf {
 
+range_camera::range_camera(const pose& ps, angle width, angle height) :
+	camera(ps),
+	azimuth_limits_({ -width/2.0f, +width/2.0f }),
+	elevation_limits_({ -height/2.0f, +height/2.0f }) { }	
 
-angle range_camera::field_of_view_x() const {
+
+range_camera::range_camera(const pose& ps, std::array<angle, 2> x_limits, std::array<angle, 2> y_limits) :
+	camera(ps),
+	azimuth_limits_(x_limits),
+	elevation_limits_(y_limits) { }
+
+
+range_camera::range_camera(const camera& cam) :
+	range_camera(cam.get_pose(), cam.field_of_view_limits_x(), cam.field_of_view_limits_y()) { }
+
+
+angle range_camera::field_of_view_width() const {
 	return azimuth_limits_[1] - azimuth_limits_[0];
 }
 
 
-angle range_camera::field_of_view_y() const {
+angle range_camera::field_of_view_height() const {
 	return elevation_limits_[1] - elevation_limits_[0];
 }
 
@@ -32,14 +47,14 @@ bool range_camera::in_field_of_view(const Eigen::Vector3f& p) const {
 
 
 bool range_camera::has_viewing_frustum() const {
-	return (field_of_view_x() < pi) && (field_of_view_y() < pi);
+	return (field_of_view_width() < pi) && (field_of_view_height() < pi);
 }
 
 
 projection_frustum range_camera::relative_viewing_frustum() const {
 	return projection_frustum::asymmetric_perspective_fov(
 		field_of_view_limits_x(),
-		field_of_view_limits_y(),
+		field_of_view_limits_y()
 	);
 }
 

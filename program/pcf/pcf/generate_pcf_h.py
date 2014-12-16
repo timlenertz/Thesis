@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os
 import glob
 
@@ -17,7 +19,8 @@ f.writelines([
 ])
 
 for h in headers:
-	f.write("#include \"" + h + "\"\n")
+	if(h != "pcf.h"):
+		f.write("#include \"" + h + "\"\n")
 
 f.writelines([
 	"\n",

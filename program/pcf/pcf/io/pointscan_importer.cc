@@ -167,11 +167,6 @@ std::size_t pointscan_importer::columns() const {
 }
 
 
-projection_camera pointscan_importer::estimate_camera() const {
-
-}
-
-
 void pointscan_importer::rewind() {
 	current_point_position_ = 0;
 }

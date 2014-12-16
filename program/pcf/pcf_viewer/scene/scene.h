@@ -5,8 +5,9 @@
 #include <memory>
 #include <utility>
 #include <stdexcept>
-#include "../../pcf/geometry/projection_camera.h"
+#include "../../pcf/camera/projection_image_camera.h"
 #include "../../pcf/geometry/angle.h"
+#include "../../pcf/rgb_color.h"
 #include "../gl_object.h"
 #include "object.h"
 #include "point_cloud.h"
@@ -24,7 +25,9 @@ Recursively calls its objects' rendering functions. Scene alone handles the comp
 class scene : public gl_object {
 private:
 	std::set<std::unique_ptr<scene_object>> objects_;
-	projection_camera camera_;
+	projection_image_camera camera_;
+	rgb_color background_color_ = rgb_color::black;
+	
 	bool should_reset_viewport_ = true;
 		
 protected:
@@ -35,13 +38,12 @@ public:
 	scene(std::size_t view_w, std::size_t view_h, angle fov_x);
 	~scene();
 			
-	const projection_camera& get_camera() const;
-	void set_camera(const projection_camera&);
+	const projection_image_camera& get_camera() const;
+	void set_camera(const projection_image_camera&);
 	
 	const pose& get_camera_pose() const;
 	void set_camera_pose(const pose&);
 	void set_camera_image_size(std::size_t w, std::size_t h);
-	void set_camera_field_of_view(angle);
 	
 	void updated_camera();
 	

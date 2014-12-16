@@ -29,9 +29,9 @@ Eigen::Affine3f camera::view_transformation() const {
 Eigen::Projective3f camera::view_projection_transformation() const {
 	return this->projection_transformation() * view_transformation();
 }
-		
-const pose& camera::camera_pose() const {
-	return pose_;
+
+Eigen::Vector3f camera::view_ray_direction() const {
+	return pose_.orientation * Eigen::Vector3f(0, 0, -1);
 }
 
 float camera::depth_sq(const Eigen::Vector3f& p) const {

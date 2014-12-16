@@ -1,5 +1,4 @@
 #include "point_cloud.h"
-#include "../../pcf/geometry/projection_camera.h"
 #include "../../pcf/util/random.h"
 #include "shader_program.h"
 #include "scene.h"

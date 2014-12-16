@@ -1,4 +1,5 @@
 #include "projection_camera.h"
+#include <cmath>
 
 namespace pcf {
 
@@ -7,47 +8,64 @@ projection_camera::projection_camera(const pose& ps, const projection_frustum& f
 
 
 projection_camera::projection_camera(const camera& cam) :
-	camera(cam.pose_), frustum_(cam.relative_viewing_frustum()) { }
+	camera(cam), frustum_(cam.relative_viewing_frustum()) { }
 
 
-angle projection_camera::angle_on_near_plane_between_(const Eigen::Vector2f& a, const Eigen::Vector2f& b) const {
-	Eigen::Vector4f pa(a[0], a[1], -1, 1), pb(b[0], b[1], -1, 1);
-	Eigen::Projective3f inv_mat = projection_transformation().inverse();
-	pa = inv_mat * pa; pa /= pa[3];
-	pb = inv_mat * pb; pb /= pb[3];
-	return std::acos( pa.head(3).dot(pb.head(3)) );
+angle projection_camera::angle_between_(const Eigen::Vector3f& v, const Eigen::Vector3f& u) {
+	float dot_product = (v / v.norm()).dot(u / u.norm());
+	return std::acos(dot_product);
 }
 
 
-angle projection_camera::field_of_view_x() const {
-	return angle_on_near_plane_between_(Eigen::Vector2f(-1, 0), Eigen::Vector2f(+1, 0));
+angle projection_camera::angle_between_(const Eigen::Vector4f& v, const Eigen::Vector4f& u) {
+	return angle_between_(
+		Eigen::Vector3f( (v / v[3]).head(3) ),
+		Eigen::Vector3f( (u / u[3]).head(3) )
+	);
 }
 
 
-angle projection_camera::field_of_view_y() const {
-	return angle_on_near_plane_between_(Eigen::Vector2f(0, -1), Eigen::Vector2f(0, +1));
+angle projection_camera::field_of_view_width() const {
+	Eigen::Projective3f inv_proj = projection_transformation().inverse();
+	return angle_between_(
+		inv_proj * Eigen::Vector4f(+1, 0, -1, 1),
+		inv_proj * Eigen::Vector4f(-1, 0, -1, 1)
+	);
+}
+
+
+angle projection_camera::field_of_view_height() const {
+	Eigen::Projective3f inv_proj = projection_transformation().inverse();
+	return angle_between_(
+		inv_proj * Eigen::Vector4f(0, +1, -1, 1),
+		inv_proj * Eigen::Vector4f(0, -1, -1, 1)
+	);
 }
 
 
 std::array<angle, 2> projection_camera::field_of_view_limits_x() const {
+	Eigen::Projective3f inv_proj = projection_transformation().inverse();
+	Eigen::Vector4f view_ray = view_ray_direction().homogeneous();
 	return {
-		angle_on_near_plane_between_(Eigen::Vector2f(0, 0), Eigen::Vector2f(-1, 0)),
-		angle_on_near_plane_between_(Eigen::Vector2f(+1, 0), Eigen::Vector2f(0, 0))
+		angle_between_(inv_proj * Eigen::Vector4f(-1, 0, -1, 1), view_ray),
+		angle_between_(inv_proj * Eigen::Vector4f(+1, 0, -1, 1), view_ray)
 	};
 }
 
 std::array<angle, 2> projection_camera::field_of_view_limits_y() const {
+	Eigen::Projective3f inv_proj = projection_transformation().inverse();
+	Eigen::Vector4f view_ray = view_ray_direction().homogeneous();
 	return {
-		angle_on_near_plane_between_(Eigen::Vector2f(0, 0), Eigen::Vector2f(0, -1)),
-		angle_on_near_plane_between_(Eigen::Vector2f(0, +1), Eigen::Vector2f(0, 0))
+		angle_between_(inv_proj * Eigen::Vector4f(0, -1, -1, 1), view_ray),
+		angle_between_(inv_proj * Eigen::Vector4f(0, +1, -1, 1), view_ray)
 	};
 }
 
 
-bool projection_camera::in_field_of_view(const Eigen::Vector3f& p) const {
-	Eigen::Vector4f p = view_projection_transformation() * p.homogeneous();
+bool projection_camera::in_field_of_view(const Eigen::Vector3f& wp) const {
+	Eigen::Vector4f p = view_projection_transformation() * wp.homogeneous();
 	p /= p[3];
-	for(std::ptrdiff_i = 0; i < 3; ++i) if(p[i] < -1 || p[i] > 1) return false;
+	for(std::ptrdiff_t i = 0; i < 3; ++i) if(p[i] < -1 || p[i] > 1) return false;
 	return true;
 }
 
@@ -62,13 +80,19 @@ projection_frustum projection_camera::relative_viewing_frustum() const {
 }
 
 
+void projection_camera::set_relative_viewing_frustum(const projection_frustum& fr) {
+	frustum_ = fr;
+}
+
+
+
 Eigen::Projective3f projection_camera::projection_transformation() const {
 	return Eigen::Projective3f(frustum_.matrix);
 }
 
 
-float projection_camera::projected_depth(const Eigen::Vector3f&) const {
-	Eigen::Vector4f projected = view_projection_transformation() * p.homogeneous();
+float projection_camera::projected_depth(const Eigen::Vector3f& wp) const {
+	Eigen::Vector4f projected = view_projection_transformation() * wp.homogeneous();
 	return projected[2] / projected[3];
 }
 

@@ -8,7 +8,7 @@
 #include <cmath>
 #include <cassert>
 
-#include "util/alignment.h"
+#include "util/memory.h"
 #include "rgb_color.h"
 
 namespace pcf {

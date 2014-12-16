@@ -27,7 +27,7 @@ void viewer::compute_motion_(std::chrono::milliseconds delta_t) {
 	view_target_velocity_h.head(3) = view_target_velocity_;
 	view_target_velocity_h[3] = 0;
 	
-	Eigen::Vector3f target_velocity = (cam.view_transformation_inverse() * view_target_velocity_h).head(3);
+	Eigen::Vector3f target_velocity = (cam.view_transformation().inverse() * view_target_velocity_h).head(3);
 	
 	// Make velocity converge to target velocity
 	Eigen::Vector3f velocity_difference = target_velocity - velocity_;	
@@ -53,7 +53,7 @@ viewer::viewer(std::size_t w, std::size_t h) :
 viewer::~viewer() { }
 
 std::array<std::size_t, 2> viewer::viewport_size() const {
-	return scene_.get_camera().get_image_size();
+	return { scene_.get_camera().image_width(), scene_.get_camera().image_height() };
 }
 
 

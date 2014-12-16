@@ -1,7 +1,7 @@
 #include <cmath>
 #include <memory>
 #include <algorithm>
-#include "../util/alignment.h"
+#include "../util/memory.h"
 #include "../util/random.h"
 #include "../util/multi_dimensional_array.h"
 #include "../point_algorithm.h"

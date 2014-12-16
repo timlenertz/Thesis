@@ -5,7 +5,6 @@
 #include <cstring>
 #include <algorithm>
 #include "../../pcf/geometry/frustum.h"
-#include "../../pcf/geometry/camera.h"
 #include "../../pcf/util/random.h"
 #include "../../pcf/point_cloud_algorithm.h"
 

@@ -30,6 +30,15 @@ public:
 	static projection_frustum asymmetric_perspective_fov(std::array<angle, 2> near_x, std::array<angle, 2> near_y, float near_z = default_z_near_, float far_z = default_z_far_);
 	
 	float aspect_ratio() const;
+	bool is_symmetric_x() const;
+	bool is_symmetric_y() const;
+	bool is_symmetric() const;
+	
+	float near_z() const;
+	float far_z() const;
+	
+	void adjust_fov_x_to_aspect_ratio(float aspect_ratio);
+	void adjust_fov_y_to_aspect_ratio(float aspect_ratio);
 };
 
 }

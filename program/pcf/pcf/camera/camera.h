@@ -37,7 +37,10 @@ public:
 	Eigen::Affine3f view_transformation() const;
 	Eigen::Projective3f view_projection_transformation() const;
 			
-	const pose& camera_pose() const;
+	const pose& get_pose() const { return pose_; }
+	pose& get_pose() { return pose_; }
+	void set_pose(const pose& ps) { pose_ = ps; } 
+	Eigen::Vector3f view_ray_direction() const;
 
 	float depth_sq(const Eigen::Vector3f&) const;
 	float depth(const Eigen::Vector3f&) const;	

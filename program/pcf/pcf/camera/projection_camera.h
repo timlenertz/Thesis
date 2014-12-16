@@ -10,10 +10,11 @@ Camera representing projection to a planar image space.
 Represented using its viewing frustum matrix. Can not have fields of view larger than 180 deg.
 */
 class projection_camera : public camera {
-private:
+protected:
 	projection_frustum frustum_;
 
-	angle angle_on_near_plane_between_(const Eigen::Vector2f&, const Eigen::Vector2f&) const;
+	static angle angle_between_(const Eigen::Vector3f&, const Eigen::Vector3f&);
+	static angle angle_between_(const Eigen::Vector4f&, const Eigen::Vector4f&);
 
 public:
 	projection_camera(const pose&, const projection_frustum&);
@@ -27,6 +28,7 @@ public:
 
 	bool has_viewing_frustum() const override;
 	projection_frustum relative_viewing_frustum() const override;
+	void set_relative_viewing_frustum(const projection_frustum&);
 	
 	Eigen::Projective3f projection_transformation() const override;
 

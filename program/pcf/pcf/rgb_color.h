@@ -2,6 +2,7 @@
 #define PCF_RGB_COLOR_H_
 
 #include <cstdint>
+#include <array>
 
 namespace pcf {
 
@@ -24,6 +25,8 @@ struct rgb_color {
 	rgb_color() = default;
 	rgb_color(std::uint8_t nr, std::uint8_t ng, std::uint8_t nb) : r(nr), g(ng), b(nb) { }
 	rgb_color(std::uint32_t rgb) : r(rgb >> 16), g(rgb >> 8), b(rgb) { }
+	
+	std::array<float, 3> to_float() const;
 };
 
 }

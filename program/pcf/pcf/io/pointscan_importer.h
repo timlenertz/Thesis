@@ -40,7 +40,6 @@ public:
 
 	std::size_t rows() const override;
 	std::size_t columns() const override;
-	projection_camera estimate_camera() const override;
 	
 	void rewind() override;
 	std::ptrdiff_t tell() const override;

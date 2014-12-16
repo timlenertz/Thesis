@@ -1,7 +1,7 @@
 #include <set>
 #include <iterator>
 #include "node_handle.h"
-#include "../../util/alignment.h"
+#include "../../util/memory.h"
 
 
 namespace pcf {

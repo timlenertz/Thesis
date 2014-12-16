@@ -9,7 +9,7 @@ namespace pcf {
 const float projection_frustum::default_z_near_ = 0.01;
 const float projection_frustum::default_z_far_ = 1000.0;
 
-projection_frustum(const Eigen::Matrix4f& mat) :
+projection_frustum::projection_frustum(const Eigen::Matrix4f& mat) :
 	frustum(mat) { }
 
 
@@ -98,8 +98,46 @@ projection_frustum projection_frustum::asymmetric_perspective_fov(std::array<ang
 
 
 float projection_frustum::aspect_ratio() const {
-	return matrix(1,1) / matrix(0,0);
+	return matrix(1, 1) / matrix(0, 0);
 }
+
+
+bool projection_frustum::is_symmetric_x() const {
+	return (matrix(0, 2) == 0);
+}
+
+
+bool projection_frustum::is_symmetric_y() const {
+	return (matrix(1, 2) == 0);
+}
+
+
+bool projection_frustum::is_symmetric() const {
+	return is_symmetric_x() && is_symmetric_y();
+}
+
+
+float projection_frustum::near_z() const {
+	return matrix(2, 3) / (matrix(2, 2) - 1);
+}
+
+
+float projection_frustum::far_z() const {
+	return matrix(2, 3) / (matrix(2, 2) + 1);
+}
+
+
+void projection_frustum::adjust_fov_x_to_aspect_ratio(float aspect_ratio) {
+	if(! is_symmetric()) throw std::logic_error("Cannot adjust frustum to image size when it is not symmetric.");
+	matrix(0, 0) = matrix(1, 1) / aspect_ratio;
+}
+
+void projection_frustum::adjust_fov_y_to_aspect_ratio(float aspect_ratio) {
+	if(! is_symmetric()) throw std::logic_error("Cannot adjust frustum to image size when it is not symmetric.");
+	matrix(1, 1) = matrix(0, 0) * aspect_ratio;
+}
+
+
 
 
 }

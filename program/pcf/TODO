@@ -1,6 +1,6 @@
+- camera pose from brussels scans
+- project and backproject to/from range image
+- mask interface
 
-- ICP
-
-- local TIN mesh
 
 - range image superresolution
