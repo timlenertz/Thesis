@@ -10,6 +10,7 @@
 	const static program* program_instance_ ## Name = shell::instanciate_program<program_ ## Name>(#Name); \
 	class program_ ## Name : public program
 
+
 namespace pcf {
 
 class program {

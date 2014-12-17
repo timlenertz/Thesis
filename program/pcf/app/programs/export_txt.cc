@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <fstream>
 
-#include "../../pcf/pcf.h"
+#include "../lib.h"
 
 using namespace pcf;
 

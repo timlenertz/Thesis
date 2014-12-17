@@ -14,6 +14,8 @@ protected:
 public:
 	std::size_t width() const;
 	std::size_t height() const;
+	
+	void flip(bool vertical, bool horizontal);
 };
 
 }

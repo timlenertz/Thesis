@@ -16,4 +16,15 @@ std::size_t image::height() const {
 }
 
 
+void image::flip(bool vertical, bool horizontal) {
+	int code;
+	if(vertical && horizontal) code = -1;
+	else if(vertical) code = 0;
+	else if(horizontal) code = 1;
+	else return;
+	
+	cv::flip(matrix_, matrix_, code);
+}
+
+
 }

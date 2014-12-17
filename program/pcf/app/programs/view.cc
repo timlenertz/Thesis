@@ -4,11 +4,7 @@
 #include <memory>
 #include <stdexcept>
 
-#include "../../pcf/io/pointscan_importer.h"
-#include "../../pcf/io/ply_importer.h"
-#include "../../pcf/point_cloud/unorganized_point_cloud.h"
-#include "../../pcf_viewer/scene/bounding_box.h"
-#include "../../pcf_viewer/scene/frustum.h"
+#include "../lib.h"
 
 using namespace pcf;
 

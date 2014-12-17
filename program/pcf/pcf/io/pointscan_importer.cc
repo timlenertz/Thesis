@@ -84,8 +84,8 @@ namespace {
 
 
 struct pointscan_importer::sc_header {
-	std::int32_t rows;
 	std::int32_t columns;
+	std::int32_t rows;
 	std::uint32_t number_of_data_sets;
 	sc_data_type subsequent_data_set_types[10];
 	float pose[16];

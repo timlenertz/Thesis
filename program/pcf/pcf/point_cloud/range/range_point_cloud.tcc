@@ -37,13 +37,13 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() const {
 
 
 template<typename Point, typename Allocator>
-color_image range_point_cloud<Point, Allocator>::to_color_image() const {
+color_image range_point_cloud<Point, Allocator>::to_color_image(rgb_color bg) const {
 	color_image ci(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
 		rgb_color& col = ci.at(ind[0], ind[1]);
 		if(it->valid()) col = it->color;
-		else col = rgb_color::black;
+		else col = bg;
 	}
 	return ci;
 }

@@ -25,7 +25,7 @@ public:
 	angle(double r) : radiants_(r) { }
 	angle(const angle&) = default;
 	
-	float get_radiants() const { return radiants_; }
+	const float& get_radiants() const { return radiants_; }
 	float get_degrees() const { return radiants_ * degree_per_radiant; }
 	void set_radiants(float r) { radiants_ = r; }
 	void set_degrees(float d) { radiants_ = d * radiant_per_degree; }
@@ -38,6 +38,8 @@ public:
 	
 	bool operator==(angle a) const { return radiants_ == a.radiants_; }
 	bool operator!=(angle a) const { return radiants_ != a.radiants_; }
+	
+	static angle smallest_between(angle a, angle b);
 };
 
 

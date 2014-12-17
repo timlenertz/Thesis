@@ -3,9 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "../../pcf/io/pointscan_importer.h"
-#include "../../pcf/io/ply_exporter.h"
-#include "../../pcf/point_cloud/unorganized_point_cloud.h"
+#include "../lib.h"
 
 using namespace pcf;
 

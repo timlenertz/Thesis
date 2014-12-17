@@ -1,9 +1,8 @@
 #include "../program.h"
 #include <Eigen/Geometry>
 #include <iostream>
-#include "../../pcf/pcf.h"
-#include "lib.h"
-#include "../../pcf_viewer/scene/point_cloud.h"
+
+#include "../lib.h"
 
 using namespace pcf;
 

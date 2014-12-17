@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 
-#include "../../pcf/pcf.h"
+#include "../lib.h"
 
 using namespace pcf;
 

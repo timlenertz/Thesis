@@ -2,6 +2,7 @@
 #include <cmath>
 
 #include "angle.h"
+#include "math_constants.h"
 #include <istream>
 #include <ostream>
 
@@ -17,6 +18,13 @@ std::istream& operator>>(std::istream& str, angle& a) {
 	str >> deg;
 	a.set_degrees(deg);
 	return str;
+}
+
+angle angle::smallest_between(angle a, angle b) {
+	float diff = rb - ra;
+	while(diff < -pi) diff += pi;
+	while(diff > +pi) diff -= pi;
+	return diff;
 }
 
 }

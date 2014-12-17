@@ -7,3 +7,5 @@
 /townhall_ply/
 /docs
 *.o
+*.dat
+octave-workspace
