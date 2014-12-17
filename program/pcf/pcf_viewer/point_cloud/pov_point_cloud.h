@@ -6,7 +6,7 @@
 
 namespace pcf {
 
-class frustum;
+struct frustum;
 
 /**
 Point cloud structured for fast extraction of points visible from given point of view.

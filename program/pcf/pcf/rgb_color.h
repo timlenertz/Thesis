@@ -26,6 +26,7 @@ struct rgb_color {
 	rgb_color(std::uint8_t nr, std::uint8_t ng, std::uint8_t nb) : r(nr), g(ng), b(nb) { }
 	rgb_color(std::uint32_t rgb) : r(rgb >> 16), g(rgb >> 8), b(rgb) { }
 	
+	/// Get color as 3 float values in [0, 1].
 	std::array<float, 3> to_float() const;
 };
 

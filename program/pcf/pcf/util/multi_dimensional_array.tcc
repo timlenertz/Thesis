@@ -5,7 +5,7 @@ namespace pcf {
 template<typename T, std::size_t Dim, typename Allocator>
 multi_dimensional_array<T, Dim, Allocator>::
 multi_dimensional_array(const multi_size& sz, const Allocator& alloc) :
-	super(sz, nullptr),
+	super(sz, nullptr, nullptr),
 	allocator_(alloc)
 {
 	std::size_t n = super::to_size_(sz);

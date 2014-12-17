@@ -8,6 +8,12 @@ namespace pcf {
 class image {
 protected:
 	cv::Mat matrix_;
+
+	image(std::size_t w, std::size_t h, int type);
+	
+public:
+	std::size_t width() const;
+	std::size_t height() const;
 };
 
 }

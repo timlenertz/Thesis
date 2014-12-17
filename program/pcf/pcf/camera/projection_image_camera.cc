@@ -10,10 +10,9 @@ projection_image_camera::projection_image_camera(const pose& ps, const projectio
 
 auto projection_image_camera::to_image(const Eigen::Vector3f& p) const -> image_coordinates {
 	Eigen::Vector2f proj = to_projected(p);
-	return image_coordinates({
-		((proj[0] + 1.0f) * image_width_) / 2.0f,
-		((proj[1] + 1.0f) * image_height_) / 2.0f
-	});
+	std::ptrdiff_t x = ((proj[0] + 1.0f) * image_width_) / 2.0f;
+	std::ptrdiff_t y = ((proj[1] + 1.0f) * image_height_) / 2.0f;
+	return image_coordinates({x, y});
 }
 
 

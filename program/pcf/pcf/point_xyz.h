@@ -18,10 +18,11 @@ Point of a cloud, consisting of X, Y, Z coordinates.
 Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations. POD type intended for raw memory access. (E.g. could be written into file or OpenGL buffer).
 */
 struct ALIGNAS(16) point_xyz {
-	/** Homogeneous coordinates of point.
-	When last component is not 1, point is invalid. All invalid values compare as equal, regardless of first 3 components.
-	Representation of valid points is unique.
-	*/
+	
+
+	/// Homogeneous coordinates of point.
+	/// When last component is not 1, point is invalid. All invalid values compare as equal, regardless of first 3 components.
+	/// Representation of valid points is unique.
 	Eigen::Vector4f homogeneous_coordinates;
 
 
@@ -49,7 +50,7 @@ struct ALIGNAS(16) point_xyz {
 	explicit operator bool () const { return valid(); }
 	void invalidate() { homogeneous_coordinates[3] = 0; }
 	void revalidate() { homogeneous_coordinates[3] = 1; }
-	
+		
 	float& operator[](std::ptrdiff_t i) { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
 	const float& operator[](std::ptrdiff_t i) const { assert(valid() && i >= 0 && i <= 2); return homogeneous_coordinates[i]; }
 	

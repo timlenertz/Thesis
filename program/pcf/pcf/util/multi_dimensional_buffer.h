@@ -39,7 +39,7 @@ public:
 	using raw_iterator = T*;
 	using raw_const_iterator = const T*;
 
-	multi_dimensional_buffer(const multi_size&, T* data);
+	multi_dimensional_buffer(const multi_size&, T* data, T* data_end);
 	multi_dimensional_buffer(const multi_dimensional_buffer&) = default;
 		
 	T* data() { return begin_; }

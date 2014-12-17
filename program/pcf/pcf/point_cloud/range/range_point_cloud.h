@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <limits>
+#include "../../image/range_image.h"
+#include "../../image/color_image.h"
 #include "../point_cloud.h"
 #include "../../camera/range_image_camera.h"
 #include "../../util/multi_dimensional_buffer.h"
@@ -28,6 +30,9 @@ public:
 	std::size_t height() const;
 	
 	range_image_camera estimate_camera() const;
+	
+	range_image to_range_image() const;
+	color_image to_color_image() const;
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

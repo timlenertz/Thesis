@@ -17,37 +17,37 @@ transformation_(t), point_(p), should_load_transformed_point_(true) {
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator==(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ == it.point_);
 }
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator!=(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ != it.point_);
 }
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator<(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ < it.point_);
 }
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator<=(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ <= it.point_);
 }
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator>(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ > it.point_);
 }
 
 template<typename Point>
 bool point_transform_iterator<Point>::operator>=(const point_transform_iterator& it) const {
-	assert(transformation_ == it.transformation_);
+	assert(transformation_.matrix() == it.transformation_.matrix());
 	return (point_ >= it.point_);
 }
 

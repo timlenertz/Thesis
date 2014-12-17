@@ -19,10 +19,9 @@ auto range_image_camera::to_image(const Eigen::Vector3f& p) const -> image_coord
 	spherical_coordinates s = to_spherical(p);
 	s.azimuth -= azimuth_limits_[0];
 	s.elevation -= elevation_limits_[0];
-	return image_coordinates({
-		(s.azimuth * image_width_) / field_of_view_width(),
-		(s.elevation * image_height_) / field_of_view_height()
-	});
+	std::ptrdiff_t x = (s.azimuth * image_width_) / field_of_view_width();
+	std::ptrdiff_t y = (s.elevation * image_height_) / field_of_view_height();
+	return image_coordinates({x, y});
 }
 
 Eigen::Vector3f range_image_camera::point(image_coordinates, float depth) const {

@@ -29,8 +29,8 @@ auto multi_dimensional_buffer<T, Dim>::to_offset_(const multi_index& mi) const -
 
 
 template<typename T, std::size_t Dim>
-multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const multi_size& sz, T* data) :
-	sizes_(sz), begin_(data), end_(data + total_size()) { }
+multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const multi_size& sz, T* data, T* data_end) :
+	sizes_(sz), begin_(data), end_(data_end) { }
 
 
 

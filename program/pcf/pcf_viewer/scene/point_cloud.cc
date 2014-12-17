@@ -231,8 +231,12 @@ void scene_point_cloud::gl_initialize_() {
 
 void scene_point_cloud::update_vertex_array_object_buffer_() {
 	std::size_t stride = sizeof(point_full);
+	
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Winvalid-offsetof"
 	std::ptrdiff_t color_offset = offsetof(point_full, color);
-
+	#pragma GCC diagnostic pop
+	
 	glBindVertexArray(vertex_array_object_);
 	glBindBuffer(GL_ARRAY_BUFFER, renderer_point_buffer_);
 	
