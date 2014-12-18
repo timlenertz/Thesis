@@ -29,8 +29,8 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() const {
 	range_image ri(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
-		/*if(it->valid()) 
-		else ri.invalidate(ind[0], ind[1]);*/
+		if(it->valid()) ri.at(ind[0], ind[1]) = it->coordinates().norm();
+		else ri.invalidate(ind[0], ind[1]);
 	}
 	return ri;
 }

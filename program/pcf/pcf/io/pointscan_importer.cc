@@ -58,7 +58,9 @@ namespace {
 		if(data[0] == 0 && data[1] == 0 && data[2] == 0) {
 			s.invalidate();
 		} else {
-			float range = data[0], phi = data[1], theta = data[2];	
+			float range = data[0], phi = data[1], theta = data[2];
+			if(phi > two_pi) phi += two_pi;
+			theta = pi - theta;
 			s = spherical_coordinates(range, phi, theta);
 		}
 	}
@@ -84,8 +86,8 @@ namespace {
 
 
 struct pointscan_importer::sc_header {
-	std::int32_t columns;
 	std::int32_t rows;
+	std::int32_t columns;
 	std::uint32_t number_of_data_sets;
 	sc_data_type subsequent_data_set_types[10];
 	float pose[16];
@@ -131,6 +133,18 @@ pointscan_importer::pointscan_importer(const std::string& filename) :
 		throw std::runtime_error("No cartesian or spherical coordinates in pointscan file.");
 }
 
+
+
+bool pointscan_importer::has_camera_pose() const {
+	return true;
+}
+
+
+pose pointscan_importer::camera_pose() const {
+	using file_pose_type = Eigen::Matrix<float, 4, 4, Eigen::ColMajor>;
+	Eigen::Matrix4f mat = Eigen::Map<const file_pose_type>(header_.pose);
+	return Eigen::Affine3f(mat);
+}
 
 
 void pointscan_importer::seek_to_cartesian_coordinates_() {

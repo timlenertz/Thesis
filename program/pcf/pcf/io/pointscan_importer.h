@@ -38,6 +38,9 @@ public:
 	explicit pointscan_importer(const std::string& filename);
 	~pointscan_importer();
 
+	bool has_camera_pose() const override;
+	pose camera_pose() const override;
+
 	std::size_t rows() const override;
 	std::size_t columns() const override;
 	

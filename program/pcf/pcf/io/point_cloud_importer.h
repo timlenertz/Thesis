@@ -2,6 +2,7 @@
 #define PCF_POINT_CLOUD_IMPORTER_H_
 
 #include "../point.h"
+#include "../geometry/pose.h"
 
 namespace pcf {
 
@@ -16,6 +17,9 @@ public:
 	
 	virtual std::size_t size() const = 0;
 	virtual bool all_valid() const = 0;
+	
+	virtual bool has_camera_pose() const;
+	virtual pose camera_pose() const;
 	
 	virtual void rewind() = 0;
 	virtual std::ptrdiff_t tell() const = 0;

@@ -21,7 +21,7 @@ std::istream& operator>>(std::istream& str, angle& a) {
 }
 
 angle angle::smallest_between(angle a, angle b) {
-	float diff = rb - ra;
+	float diff = b - a;
 	while(diff < -pi) diff += pi;
 	while(diff > +pi) diff -= pi;
 	return diff;

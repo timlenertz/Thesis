@@ -12,38 +12,36 @@ Represented in terms of a position, and orientation in world space. The orientat
 */
 class pose {
 public:
-	Eigen::Vector3f position; ///< Position vector.
-	Eigen::Quaternionf orientation; ///< Orientation quaternion. Must be kept normalized.
+	/// Position vector.
+	Eigen::Vector3f position;
+	
+	/// Orientation quaternion. Must be kept normalized.
+	Eigen::Quaternionf orientation;
 
 	/// Create identity pose.
-	pose() :
-		position(Eigen::Vector3f::Zero()),
-		orientation(Eigen::Quaternionf::Identity()) { }
-	
+	pose();
+		
 	/// Copy-construct pose.
 	pose(const pose&) = default;
 	
+	/// Construct pose from affine transformation.
+	/// Assumes that the transformation consists only of translation and rotation.
+	pose(const Eigen::Affine3f&);
+	
+	// Construct pose with given translation and rotation.
 	template<typename Translation, typename Rotation>
 	pose(const Translation& t, const Rotation& r) :
 		position(t),
-		orientation(r) { }
-	
+		orientation(r) { }	
 	
 	/// Affine transformation from world space to pose coordinate system.
-	Eigen::Affine3f view_transformation() const {
-		return orientation.conjugate() * Eigen::Translation3f(-position);
-	}
+	Eigen::Affine3f view_transformation() const;
 
 	/// Affine transformation from pose coordinate system to world space.
-	Eigen::Affine3f view_transformation_inverse() const {
-		return Eigen::Translation3f(position) * orientation;
-	}
+	Eigen::Affine3f view_transformation_inverse() const;
 	
 	/// Apply affine transformation to pose.
-	void transform(const Eigen::Affine3f& t) {
-		position += t.translation();
-		orientation = orientation * t.rotation();
-	}
+	void transform(const Eigen::Affine3f&);
 };
 
 }
