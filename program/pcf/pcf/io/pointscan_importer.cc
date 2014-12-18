@@ -142,7 +142,7 @@ bool pointscan_importer::has_camera_pose() const {
 
 pose pointscan_importer::camera_pose() const {
 	using file_pose_type = Eigen::Matrix<float, 4, 4, Eigen::ColMajor>;
-	Eigen::Matrix4f mat = Eigen::Map<const file_pose_type>(header_.pose);
+	Eigen::Matrix4f mat = Eigen::Map<const file_pose_type>(header_->pose);
 	return Eigen::Affine3f(mat);
 }
 
