@@ -92,11 +92,19 @@ Methods
 	
 
 Implementation
-	Present PCF
-	Defend architecture
-	Handling of space+time efficiency for large data
+	Architecture
+	Dependencies (Eigen, OpenCV)
+	Efficient use of C++ (inlining, static polymorphism)
+	OpenMP, SIMD
+	Memory alignment, pagination
+	Point cloud structures
+	Interface
+	Visualizer
+	Encountered difficulties
+	
 	
 
 Results
-	Fused townhall/cave model
-	Scanning workflow
+
+
+Conclusion

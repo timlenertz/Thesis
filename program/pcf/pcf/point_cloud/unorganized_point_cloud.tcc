@@ -23,6 +23,8 @@ template<typename Point, typename Allocator>
 unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_importer& imp, const Allocator& alloc) :
 	super(imp.size(), imp.all_valid(), alloc)
 {
+	if(imp.has_camera_pose()) super::absolute_pose = imp.camera_pose();
+
 	std::size_t n = super::capacity();
 	super::resize_(n);
 	

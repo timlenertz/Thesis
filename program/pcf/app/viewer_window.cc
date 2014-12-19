@@ -120,6 +120,9 @@ viewer_(default_window_width_, default_window_height_) {
 
 
 void viewer_window::run() {	
+	glfwMakeContextCurrent(window_);
+	glfwSwapInterval(100);
+
 	while(! glfwWindowShouldClose(window_)) {
 		if(access_viewer_mutex_.try_lock()) {	
 			glfwMakeContextCurrent(window_);

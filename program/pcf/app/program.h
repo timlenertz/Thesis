@@ -6,9 +6,9 @@
 #include "viewer_window.h"
 
 #define PCF_PROGRAM(Name) \
-	class program_ ## Name; \
+	struct program_ ## Name; \
 	const static program* program_instance_ ## Name = shell::instanciate_program<program_ ## Name>(#Name); \
-	class program_ ## Name : public program
+	struct program_ ## Name : public program
 
 
 namespace pcf {

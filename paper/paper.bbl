@@ -157,6 +157,12 @@ Girod, Luc. 2013 (Septembre).
 \newblock Stage de fin d'{\'e}tudes, Ecole Nationale des Sciences
   G{\'e}ographiques (France).
 
+\bibitem[\protect\citename{Gribb \& Hartmann, }2001]{Grib2001}
+Gribb, Gil, \& Hartmann, Klaus. 2001.
+\newblock Fast Extraction of Viewing Frustum Planes from the World-
+  View-Projection Matrix.
+\newblock June.
+
 \bibitem[\protect\citename{Grussenmeyer {\em et~al.\ }\relax, }2012]{Grus2012}
 Grussenmeyer, P., Alby, E., Landes, T., Koehl, M., Guillemin, S., Hullo, J.-F.,
   Assali, P., \& Smigiel, E. 2012.
@@ -186,6 +192,13 @@ Holz, Dirk, \& Behnke, Sven. 2014 (June).
 \newblock Autonomous Intelligent Systems Group, University of Bonn, Germany,
   Munich.
 
+\bibitem[\protect\citename{Holzer {\em et~al.\ }\relax, }2012]{Holz2012}
+Holzer, S., Rusu, R.~B., Dixon, M., Gedikli, S., \& Navab, N. 2012.
+\newblock Adaptive Neighborhood Selection for Real-Time Surface Normal
+  Estimation from Organized Point Cloud Data Using Integral Images.
+\newblock {\em IEEE/RSJ International Conference on Intelligent Robots and
+  Systems}, October.
+
 \bibitem[\protect\citename{Horn, }1984]{Horn1984}
 Horn, Berthold~K.P. 1984.
 \newblock Extended Gaussian Images.
@@ -197,6 +210,12 @@ Horn, Berthold~K.P. 1987 (April).
 \newblock {\em Page  629 of:} {\em Journal of the Optical Society of America
   A},  vol. 4.
 \newblock Department of Electrical Engineering, University of Hawaii at Manoa.
+
+\bibitem[\protect\citename{Hu {\em et~al.\ }\relax, }2014]{Hu2014}
+Hu, Fengjun, Ren, Tiaojuan, \& Shi, Shengbo. 2014.
+\newblock Discrete Point Cloud Registration using the 3D Normal Distribution
+  Transformation based Newton Iteration.
+\newblock {\em Journal of Multimedia}, {\bf 9}(7), 934--940.
 
 \bibitem[\protect\citename{Huang \& You, }2012]{Huan2012}
 Huang, Jing, \& You, Suya. 2012.
@@ -237,6 +256,13 @@ Kersten, Thomas, Przybilla, Heinz-J{\"u}rgen, \& Lindstaedt, Maren. 2006.
 \newblock Integration, Fusion und Kombination von terrestrischen
   Laserscannerdaten und digitalen Bildern.
 \newblock November.
+
+\bibitem[\protect\citename{Kim \& Lee, }2009]{Kim2009}
+Kim, Jaewoong, \& Lee, Sukhan. 2009.
+\newblock Fast Neighbor Cells Finding Method for Multiple Octree
+  Representation.
+\newblock {\em 2009 IEEE International Symposium on Computational Intelligence
+  in Robotics and Automation (CIRA)}, December, 540--545.
 
 \bibitem[\protect\citename{Koch, }2008]{Koch2008}
 Koch, K.~R. 2008.
@@ -284,6 +310,13 @@ Liu, Yonghuai. 2008.
 \newblock Constraints for closest point finding.
 \newblock {\em Pattern Recognition Letters}, {\bf 29}, 841--851.
 
+\bibitem[\protect\citename{Lo {\em et~al.\ }\relax, }2013]{Lo2013}
+Lo, Kai-Han, Hua, Kai-Lung, \& Wang, Yu-Chiang~Frank. 2013.
+\newblock Depth Map Super-Resolution via Markov Random Fields without
+  Texture-Copying Artifacts.
+\newblock {\em IEEE International Conference on Acoustics, Speech and Signal
+  Processing (ICASSP)}, May, 1414--1418.
+
 \bibitem[\protect\citename{Lorusso {\em et~al.\ }\relax, }1995]{Loru1995}
 Lorusso, A., Eggert, D.W., \& FIsher, R.B. 1995.
 \newblock A Comparison of Four Algorithms for Estimating 3-D Rigid
@@ -295,6 +328,14 @@ Low, Kok-Lim. 2004 (February).
   Registration}.
 \newblock Tech. rept. Department of Computer Science; University of North
   Carolina at Chapel Hill.
+
+\bibitem[\protect\citename{Magnusson, }2013]{Magn2013}
+Magnusson, Martin. 2013.
+\newblock {\em The Three-Dimensional Normal-Distributions Transform - an
+  Efficient Representation for Registration, Surface Analysis, and Loop
+  Detection}.
+\newblock Ph.D. thesis, School of Science and Technology - {\"O}rebro
+  university.
 
 \bibitem[\protect\citename{Magnusson {\em et~al.\ }\relax, }2007]{Magn2007}
 Magnusson, Martin, Lilienthal, Achim, \& Duckett, Tom. 2007.
@@ -348,6 +389,11 @@ Pauly, Mark, Mitra, Niloy~J., \& Guibas, Leonidas~J. 2004.
 \newblock {\em In:} Computer Graphics~Laboratory, Stanford~University (ed),
   {\em Eurographics Symposium on Point-Based Graphics}.
 
+\bibitem[\protect\citename{Petersen, }2008]{Pete2008}
+Petersen, Thomas. 2008.
+\newblock {\em A Comparison of 2D-3D Pose Estimation Methods}.
+\newblock M.Phil. thesis, Ballerup, Denmark.
+
 \bibitem[\protect\citename{Pollock, }2013]{Poll2013}
 Pollock, Richard~James. 2013 (July).
 \newblock {\em Densifying and colorizing point cloud representation of physical
@@ -396,6 +442,13 @@ Salvi, Joaquim, Matabosch, Carles, Fofi, David, \& Forest, Josep. 2005.
   evaluation.
 \newblock {\em Image and Vision Computing}, August.
 
+\bibitem[\protect\citename{Sankaranarayanan {\em et~al.\ }\relax,
+  }2007]{Sank2007}
+Sankaranarayanan, Jagan, Samet, Hanan, \& Varshney, Amitabh. 2007.
+\newblock A fast all nearest neighbor algorithm for applications involving
+  large point-clouds.
+\newblock {\em Computers & Graphics}, {\bf 31}, 157--174.
+
 \bibitem[\protect\citename{Schindler, }2014]{Schi2014}
 Schindler, Konrad. 2014 (January).
 \newblock {\em Mathematical Foundations of Photogrammetry}.
@@ -416,6 +469,12 @@ Sch{\"o}nemann, Peter~H, \& Caroll, Robert~M. 1970.
 Segal, Aleksandr~V., Haehnel, Dirk, \& Thrun, Sebastian. 2009.
 \newblock Generalized-ICP.
 \newblock {\em Proceedings of Robotics: Science and Systems}.
+
+\bibitem[\protect\citename{Soh {\em et~al.\ }\relax, }2012]{Soh2012}
+Soh, Yongseok, Sim, Jae-Young, Kim, Chang-Su, \& Lee, Sang-Uk. 2012.
+\newblock Superpixel-Based Depth Image Super-Resolution.
+\newblock {\em SPIE 8290, Three-Dimensional Image Processing (3DIP) and
+  Applications II, 82900D}, January.
 
 \bibitem[\protect\citename{Subir{\'o}s, }2008]{Subi2008}
 Subir{\'o}s, Elisabet~Batlle. 2008 (November).
@@ -498,6 +557,13 @@ Zhang, Zhengyou. 1992 (March).
 \newblock {\em In:} {\em Rapports de Recherche},  vol. Programme 4 - Robotique,
   Image de Vision.
 \newblock Unit{\'e} de Recherche INRIA-Sophia Antipolis.
+
+\bibitem[\protect\citename{Zhao {\em et~al.\ }\relax, }2014]{Zhao2014}
+Zhao, Jianhui, Long, Chengjiang, Xiong, Shuping, Liu, Cheng, \& Yuan, Zhiyong.
+  2014.
+\newblock A New K Nearest Neighbours Algorithm Using Cell Grids for 3D
+  Scattered Point Cloud.
+\newblock {\em Elektronika ir Elektrotechnika}, {\bf 20}(1), 81--87.
 
 \bibitem[\protect\citename{Zogg \& Schulz, }2006]{Zogg2006}
 Zogg, Hans~Martin, \& Schulz, Thorsten. 2006.

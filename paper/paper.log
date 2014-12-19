@@ -1,12 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  16 OCT 2014 11:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  19 DEC 2014 18:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**paper.tex
+**\PassOptionsToClass{draft}{} \PassOptionsToPackage{draft}{graphicx} \PassOpti
+onsToPackage{draft}{graphics} \input{"paper.tex"}
 (./paper.tex
-LaTeX2e <2011/06/27>
-Babel <3.9k> and hyphenation patterns for 78 languages loaded.
 (/usr/local/texlive/2013/texmf-dist/tex/latex/koma-script/scrreprt.cls
 Document Class: scrreprt 2013/12/19 v3.12 KOMA-Script document class (report)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/koma-script/scrkbase.sty
@@ -471,9 +470,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-20141016695.tex)...disabled (restricted).
+runsystem(touch w18-test-201412191082.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-20141016695.tex)...disabled (restricted).
+runsystem(rm -f w18-test-201412191082.tex)...disabled (restricted).
 
 
 
@@ -670,8 +669,6 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 15.
 LaTeX Info: Redefining \pageref on input line 15.
 LaTeX Info: Redefining \nameref on input line 15.
-
-(./paper.out) (./paper.out)
 \@outlinefile=\write4
 \openout4 = `paper.out'.
 
@@ -1069,8 +1066,19 @@ and I'll forget about whatever was undefined.
 
 ./paper.bbl:160: Undefined control sequence.
 <argument> \protect \citename 
+                              {Gribb \& Hartmann, }2001
+l.160 ...ename{Gribb \& Hartmann, }2001]{Grib2001}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:166: Undefined control sequence.
+<argument> \protect \citename 
                               {Grussenmeyer {\em et~al.\ }\relax , }2012
-l.160 ...er {\em et~al.\ }\relax, }2012]{Grus2012}
+l.166 ...er {\em et~al.\ }\relax, }2012]{Grus2012}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1090,12 +1098,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 166.
+(scrreprt)              by `\normalfont \bfseries ' on input line 172.
 
-./paper.bbl:168: Undefined control sequence.
+./paper.bbl:174: Undefined control sequence.
 <argument> \protect \citename 
                               {Hilton, }1996
-l.168 ...protect\citename{Hilton, }1996]{Hilt1996}
+l.174 ...protect\citename{Hilton, }1996]{Hilt1996}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1103,8 +1111,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:171: Misplaced alignment tab character &.
-l.171 ...ck Tech. rept. Department of Electronic &
+./paper.bbl:177: Misplaced alignment tab character &.
+l.177 ...ck Tech. rept. Department of Electronic &
                                                    Electrical Engineering,
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1113,46 +1121,10 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./paper.bbl:174: Undefined control sequence.
-<argument> \protect \citename 
-                              {Hirschm{\"u}ller, }2008
-l.174 ...tename{Hirschm{\"u}ller, }2008]{Hirs2008}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 178.
-
 ./paper.bbl:180: Undefined control sequence.
 <argument> \protect \citename 
-                              {Holz \& Behnke, }2014
-l.180 ...citename{Holz \& Behnke, }2014]{Holz2014}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:189: Undefined control sequence.
-<argument> \protect \citename 
-                              {Horn, }1984
-l.189 ...[\protect\citename{Horn, }1984]{Horn1984}
+                              {Hirschm{\"u}ller, }2008
+l.180 ...tename{Hirschm{\"u}ller, }2008]{Hirs2008}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1172,12 +1144,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 192.
+(scrreprt)              by `\normalfont \bfseries ' on input line 184.
 
-./paper.bbl:194: Undefined control sequence.
+./paper.bbl:186: Undefined control sequence.
 <argument> \protect \citename 
-                              {Horn, }1987
-l.194 ...[\protect\citename{Horn, }1987]{Horn1986}
+                              {Holz \& Behnke, }2014
+l.186 ...citename{Holz \& Behnke, }2014]{Holz2014}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1185,21 +1157,46 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:201: Undefined control sequence.
+./paper.bbl:195: Undefined control sequence.
 <argument> \protect \citename 
-                              {Huang \& You, }2012
-l.201 ...t\citename{Huang \& You, }2012]{Huan2012}
+                              {Holzer {\em et~al.\ }\relax , }2012
+l.195 ...er {\em et~al.\ }\relax, }2012]{Holz2012}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+./paper.bbl:202: Undefined control sequence.
+<argument> \protect \citename 
+                              {Horn, }1984
+l.202 ...[\protect\citename{Horn, }1984]{Horn1984}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 205.
 
 ./paper.bbl:207: Undefined control sequence.
 <argument> \protect \citename 
-                              {Huhle {\em et~al.\ }\relax , }2008
-l.207 ...le {\em et~al.\ }\relax, }2008]{Huhl2008}
+                              {Horn, }1987
+l.207 ...[\protect\citename{Horn, }1987]{Horn1986}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1208,10 +1205,57 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 [12]
-./paper.bbl:215: Undefined control sequence.
+./paper.bbl:214: Undefined control sequence.
+<argument> \protect \citename 
+                              {Hu {\em et~al.\ }\relax , }2014
+l.214 ...e{Hu {\em et~al.\ }\relax, }2014]{Hu2014}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 218.
+
+./paper.bbl:220: Undefined control sequence.
+<argument> \protect \citename 
+                              {Huang \& You, }2012
+l.220 ...t\citename{Huang \& You, }2012]{Huan2012}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:226: Undefined control sequence.
+<argument> \protect \citename 
+                              {Huhle {\em et~al.\ }\relax , }2008
+l.226 ...le {\em et~al.\ }\relax, }2008]{Huhl2008}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:234: Undefined control sequence.
 <argument> \protect \citename 
                               {Jian \& Vemuri, }2011
-l.215 ...citename{Jian \& Vemuri, }2011]{Jian2011}
+l.234 ...citename{Jian \& Vemuri, }2011]{Jian2011}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1231,12 +1275,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 219.
+(scrreprt)              by `\normalfont \bfseries ' on input line 238.
 
-./paper.bbl:221: Undefined control sequence.
+./paper.bbl:240: Undefined control sequence.
 <argument> \protect \citename 
                               {Jost \& H{\"u}gli, }2003
-l.221 ...ename{Jost \& H{\"u}gli, }2003]{Jost2003}
+l.240 ...ename{Jost \& H{\"u}gli, }2003]{Jost2003}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1244,57 +1288,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:228: Undefined control sequence.
+./paper.bbl:247: Undefined control sequence.
 <argument> \protect \citename 
                               {Keiner, }2011
-l.228 ...protect\citename{Keiner, }2011]{Kein2011}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:235: Undefined control sequence.
-<argument> \protect \citename 
-                              {Kersten {\em et~al.\ }\relax , }2006
-l.235 ...en {\em et~al.\ }\relax, }2006]{Kers2006}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:241: Undefined control sequence.
-<argument> \protect \citename 
-                              {Koch, }2008
-l.241 ...[\protect\citename{Koch, }2008]{Koch2008}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 244.
-
-./paper.bbl:246: Undefined control sequence.
-<argument> \protect \citename 
-                              {Koch \& Kaehler, }2009
-l.246 ...itename{Koch \& Kaehler, }2009]{Koch2009}
+l.247 ...protect\citename{Keiner, }2011]{Kein2011}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1304,8 +1301,66 @@ and I'll forget about whatever was undefined.
 
 ./paper.bbl:254: Undefined control sequence.
 <argument> \protect \citename 
+                              {Kersten {\em et~al.\ }\relax , }2006
+l.254 ...en {\em et~al.\ }\relax, }2006]{Kers2006}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:260: Undefined control sequence.
+<argument> \protect \citename 
+                              {Kim \& Lee, }2009
+l.260 ...tect\citename{Kim \& Lee, }2009]{Kim2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:267: Undefined control sequence.
+<argument> \protect \citename 
+                              {Koch, }2008
+l.267 ...[\protect\citename{Koch, }2008]{Koch2008}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 270.
+
+./paper.bbl:272: Undefined control sequence.
+<argument> \protect \citename 
+                              {Koch \& Kaehler, }2009
+l.272 ...itename{Koch \& Kaehler, }2009]{Koch2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:280: Undefined control sequence.
+<argument> \protect \citename 
                               {Ky{\"o}stil{\"a} {\em et~al.\ }\relax , }2013
-l.254   }2013]{Kyos2013}
+l.280   }2013]{Kyos2013}
                         
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1325,84 +1380,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 258.
-
-./paper.bbl:261: Undefined control sequence.
-<argument> \protect \citename 
-                              {Larkins {\em et~al.\ }\relax , }2010
-l.261 ...ns {\em et~al.\ }\relax, }2010]{Lark2010}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:267: Undefined control sequence.
-<argument> \protect \citename 
-                              {Lerma {\em et~al.\ }\relax , }2009
-l.267 ...ma {\em et~al.\ }\relax, }2009]{Lerm2009}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 273.
-
-./paper.bbl:275: Undefined control sequence.
-<argument> \protect \citename 
-                              {Lichtenstein, }2011
-l.275 ...t\citename{Lichtenstein, }2011]{Lich2011}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:282: Undefined control sequence.
-<argument> \protect \citename 
-                              {Liu, }2008
-l.282 ...em[\protect\citename{Liu, }2008]{Liu2008}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 285.
+(scrreprt)              by `\normalfont \bfseries ' on input line 284.
 
 ./paper.bbl:287: Undefined control sequence.
 <argument> \protect \citename 
-                              {Lorusso {\em et~al.\ }\relax , }1995
-l.287 ...so {\em et~al.\ }\relax, }1995]{Loru1995}
+                              {Larkins {\em et~al.\ }\relax , }2010
+l.287 ...ns {\em et~al.\ }\relax, }2010]{Lark2010}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1410,21 +1393,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:292: Undefined control sequence.
+./paper.bbl:293: Undefined control sequence.
 <argument> \protect \citename 
-                              {Low, }2004
-l.292 ...em[\protect\citename{Low, }2004]{Low2004}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:299: Undefined control sequence.
-<argument> \protect \citename 
-                              {Magnusson {\em et~al.\ }\relax , }2007
-l.299 ...on {\em et~al.\ }\relax, }2007]{Magn2007}
+                              {Lerma {\em et~al.\ }\relax , }2009
+l.293 ...ma {\em et~al.\ }\relax, }2009]{Lerm2009}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1444,12 +1416,48 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 302.
+(scrreprt)              by `\normalfont \bfseries ' on input line 299.
 
-./paper.bbl:304: Undefined control sequence.
+./paper.bbl:301: Undefined control sequence.
 <argument> \protect \citename 
-                              {Makadia {\em et~al.\ }\relax , }2006
-l.304 ...ia {\em et~al.\ }\relax, }2006]{Maka2006}
+                              {Lichtenstein, }2011
+l.301 ...t\citename{Lichtenstein, }2011]{Lich2011}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:308: Undefined control sequence.
+<argument> \protect \citename 
+                              {Liu, }2008
+l.308 ...em[\protect\citename{Liu, }2008]{Liu2008}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 311.
+
+./paper.bbl:313: Undefined control sequence.
+<argument> \protect \citename 
+                              {Lo {\em et~al.\ }\relax , }2013
+l.313 ...e{Lo {\em et~al.\ }\relax, }2013]{Lo2013}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1458,10 +1466,10 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 [13]
-./paper.bbl:312: Undefined control sequence.
+./paper.bbl:320: Undefined control sequence.
 <argument> \protect \citename 
-                              {Mart{\'\i }nez {\em et~al.\ }\relax , }2012
-l.312 ...ez {\em et~al.\ }\relax, }2012]{Mart2010}
+                              {Lorusso {\em et~al.\ }\relax , }1995
+l.320 ...so {\em et~al.\ }\relax, }1995]{Loru1995}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1469,24 +1477,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 317.
-
-./paper.bbl:319: Undefined control sequence.
+./paper.bbl:325: Undefined control sequence.
 <argument> \protect \citename 
-                              {Matiukas \& Miniotas, }2009
-l.319 ...me{Matiukas \& Miniotas, }2009]{Mati2009}
+                              {Low, }2004
+l.325 ...em[\protect\citename{Low, }2004]{Low2004}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1494,10 +1488,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:326: Undefined control sequence.
+./paper.bbl:332: Undefined control sequence.
 <argument> \protect \citename 
-                              {Matiukas \& Miniotas, }2011
-l.326 ...me{Matiukas \& Miniotas, }2011]{Mati2011}
+                              {Magnusson, }2013
+l.332 ...tect\citename{Magnusson, }2013]{Magn2013}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1505,35 +1499,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:333: Undefined control sequence.
+./paper.bbl:340: Undefined control sequence.
 <argument> \protect \citename 
-                              {Mellado {\em et~al.\ }\relax , }2014
-l.333 ...do {\em et~al.\ }\relax, }2014]{Mell2014}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 336.
-
-./paper.bbl:338: Undefined control sequence.
-<argument> \protect \citename 
-                              {Nov{\'a}k \& Schindler, }2013
-l.338 ...{Nov{\'a}k \& Schindler, }2013]{Nova2013}
+                              {Magnusson {\em et~al.\ }\relax , }2007
+l.340 ...on {\em et~al.\ }\relax, }2007]{Magn2007}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1557,8 +1526,8 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 
 ./paper.bbl:345: Undefined control sequence.
 <argument> \protect \citename 
-                              {Pauly {\em et~al.\ }\relax , }2004
-l.345 ...ly {\em et~al.\ }\relax, }2004]{Paul2004}
+                              {Makadia {\em et~al.\ }\relax , }2006
+l.345 ...ia {\em et~al.\ }\relax, }2006]{Maka2006}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1566,32 +1535,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:351: Undefined control sequence.
+./paper.bbl:353: Undefined control sequence.
 <argument> \protect \citename 
-                              {Pollock, }2013
-l.351 ...rotect\citename{Pollock, }2013]{Poll2013}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:357: Undefined control sequence.
-<argument> \protect \citename 
-                              {Pomerleau {\em et~al.\ }\relax , }2012
-l.357 ...au {\em et~al.\ }\relax, }2012]{Pome2012}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:362: Undefined control sequence.
-<argument> \protect \citename 
-                              {Rodrigues {\em et~al.\ }\relax , }2002
-l.362 ...es {\em et~al.\ }\relax, }2002]{Rodr2002}
+                              {Mart{\'\i }nez {\em et~al.\ }\relax , }2012
+l.353 ...ez {\em et~al.\ }\relax, }2012]{Mart2010}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1611,12 +1558,34 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 367.
+(scrreprt)              by `\normalfont \bfseries ' on input line 358.
 
-./paper.bbl:369: Undefined control sequence.
+./paper.bbl:360: Undefined control sequence.
 <argument> \protect \citename 
-                              {Rose, }2012
-l.369 ...[\protect\citename{Rose, }2012]{Rose2012}
+                              {Matiukas \& Miniotas, }2009
+l.360 ...me{Matiukas \& Miniotas, }2009]{Mati2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:367: Undefined control sequence.
+<argument> \protect \citename 
+                              {Matiukas \& Miniotas, }2011
+l.367 ...me{Matiukas \& Miniotas, }2011]{Mati2011}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:374: Undefined control sequence.
+<argument> \protect \citename 
+                              {Mellado {\em et~al.\ }\relax , }2014
+l.374 ...do {\em et~al.\ }\relax, }2014]{Mell2014}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1636,23 +1605,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 373.
+(scrreprt)              by `\normalfont \bfseries ' on input line 377.
 
-./paper.bbl:375: Undefined control sequence.
+./paper.bbl:379: Undefined control sequence.
 <argument> \protect \citename 
-                              {Rusinkiewicz \& Levoy, }2001
-l.375 ...e{Rusinkiewicz \& Levoy, }2001]{Rusi2001}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:381: Undefined control sequence.
-<argument> \protect \citename 
-                              {Rusu {\em et~al.\ }\relax , }2008
-l.381 ...su {\em et~al.\ }\relax, }2008]{Rusu2008}
+                              {Nov{\'a}k \& Schindler, }2013
+l.379 ...{Nov{\'a}k \& Schindler, }2013]{Nova2013}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1661,37 +1619,23 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-./paper.bbl:384: Package inputenc Error: Unicode char \u8:̈ not set up for use
- with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.384 ...onomous Systems, Technische Universita ̈
-                                                  t Mu ̈nchen.
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-./paper.bbl:384: Package inputenc Error: Unicode char \u8:̈ not set up for use
- with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.384 ... Systems, Technische Universita ̈t Mu ̈
-                                                  nchen.
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 384.
 
 ./paper.bbl:386: Undefined control sequence.
 <argument> \protect \citename 
-                              {Sagawa {\em et~al.\ }\relax , }2004
-l.386 ...wa {\em et~al.\ }\relax, }2004]{Saga2004}
+                              {Pauly {\em et~al.\ }\relax , }2004
+l.386 ...ly {\em et~al.\ }\relax, }2004]{Paul2004}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1699,10 +1643,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:393: Undefined control sequence.
+./paper.bbl:392: Undefined control sequence.
 <argument> \protect \citename 
-                              {Salvi {\em et~al.\ }\relax , }2005
-l.393 ...vi {\em et~al.\ }\relax, }2005]{Salv2006}
+                              {Petersen, }2008
+l.392 ...otect\citename{Petersen, }2008]{Pete2008}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1710,10 +1654,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:399: Undefined control sequence.
+./paper.bbl:397: Undefined control sequence.
 <argument> \protect \citename 
-                              {Schindler, }2014
-l.399 ...tect\citename{Schindler, }2014]{Schi2014}
+                              {Pollock, }2013
+l.397 ...rotect\citename{Pollock, }2013]{Poll2013}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1721,10 +1665,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:404: Undefined control sequence.
+./paper.bbl:403: Undefined control sequence.
 <argument> \protect \citename 
-                              {Sch{\"o}nemann, }1966
-l.404 ...citename{Sch{\"o}nemann, }1966]{Scho1966}
+                              {Pomerleau {\em et~al.\ }\relax , }2012
+l.403 ...au {\em et~al.\ }\relax, }2012]{Pome2012}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1732,24 +1676,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 407.
-
-./paper.bbl:409: Undefined control sequence.
+./paper.bbl:408: Undefined control sequence.
 <argument> \protect \citename 
-                              {Sch{\"o}nemann \& Caroll, }1970
-l.409 ...ch{\"o}nemann \& Caroll, }1970]{Scho1970}
+                              {Rodrigues {\em et~al.\ }\relax , }2002
+l.408 ...es {\em et~al.\ }\relax, }2002]{Rodr2002}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1771,33 +1701,10 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
 (scrreprt)              by `\normalfont \bfseries ' on input line 413.
 
-[14]
 ./paper.bbl:415: Undefined control sequence.
 <argument> \protect \citename 
-                              {Segal {\em et~al.\ }\relax , }2009
-l.415 ...al {\em et~al.\ }\relax, }2009]{Sega2009}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:420: Undefined control sequence.
-<argument> \protect \citename 
-                              {Subir{\'o}s, }2008
-l.420 ...ct\citename{Subir{\'o}s, }2008]{Subi2008}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:425: Undefined control sequence.
-<argument> \protect \citename 
-                              {Tam {\em et~al.\ }\relax , }2007
-l.425 ...Tam {\em et~al.\ }\relax, }2007]{Tam2007}
+                              {Rose, }2012
+l.415 ...[\protect\citename{Rose, }2012]{Rose2012}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1817,12 +1724,24 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 431.
+(scrreprt)              by `\normalfont \bfseries ' on input line 419.
 
-./paper.bbl:433: Undefined control sequence.
+[14]
+./paper.bbl:421: Undefined control sequence.
 <argument> \protect \citename 
-                              {Theiler {\em et~al.\ }\relax , }2013
-l.433 ...er {\em et~al.\ }\relax, }2013]{Thei2013}
+                              {Rusinkiewicz \& Levoy, }2001
+l.421 ...e{Rusinkiewicz \& Levoy, }2001]{Rusi2001}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:427: Undefined control sequence.
+<argument> \protect \citename 
+                              {Rusu {\em et~al.\ }\relax , }2008
+l.427 ...su {\em et~al.\ }\relax, }2008]{Rusu2008}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1831,23 +1750,48 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Class scrreprt Warning: Usage of deprecated font command `\bf'!
-(scrreprt)              You should note, that in 1994 font command `\bf' has
-(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
-(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrreprt)              shouldn't use such commands any longer and within
-(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
-(scrreprt)              See `fntguide.pdf' for more information about
-(scrreprt)              recommended font commands.
-(scrreprt)              Note also, that KOMA-Script will remove the definition
-(scrreprt)              of `\bf' anytime until release of about version 3.20.
-(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 438.
+./paper.bbl:430: Package inputenc Error: Unicode char \u8:̈ not set up for use
+ with LaTeX.
 
-./paper.bbl:440: Undefined control sequence.
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.430 ...onomous Systems, Technische Universita ̈
+                                                  t Mu ̈nchen.
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./paper.bbl:430: Package inputenc Error: Unicode char \u8:̈ not set up for use
+ with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.430 ... Systems, Technische Universita ̈t Mu ̈
+                                                  nchen.
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+./paper.bbl:432: Undefined control sequence.
 <argument> \protect \citename 
-                              {Toldo {\em et~al.\ }\relax , }2010
-l.440 ...do {\em et~al.\ }\relax, }2010]{Told2010}
+                              {Sagawa {\em et~al.\ }\relax , }2004
+l.432 ...wa {\em et~al.\ }\relax, }2004]{Saga2004}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:439: Undefined control sequence.
+<argument> \protect \citename 
+                              {Salvi {\em et~al.\ }\relax , }2005
+l.439 ...vi {\em et~al.\ }\relax, }2005]{Salv2006}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1857,14 +1801,24 @@ and I'll forget about whatever was undefined.
 
 ./paper.bbl:446: Undefined control sequence.
 <argument> \protect \citename 
-                              {Tournas \& Tsakiri, }2009
-l.446 ...name{Tournas \& Tsakiri, }2009]{Tour2009}
-                                                  
+                              {Sankaranarayanan {\em et~al.\ }\relax , }2007
+l.446   }2007]{Sank2007}
+                        
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+./paper.bbl:450: Misplaced alignment tab character &.
+l.450 \newblock {\em Computers &
+                                 Graphics}, {\bf 31}, 157--174.
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 
 Class scrreprt Warning: Usage of deprecated font command `\bf'!
@@ -1882,8 +1836,8 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 
 ./paper.bbl:452: Undefined control sequence.
 <argument> \protect \citename 
-                              {Trucco \& Verri, }1998
-l.452 ...itename{Trucco \& Verri, }1998]{Truc1998}
+                              {Schindler, }2014
+l.452 ...tect\citename{Schindler, }2014]{Schi2014}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1893,19 +1847,8 @@ and I'll forget about whatever was undefined.
 
 ./paper.bbl:457: Undefined control sequence.
 <argument> \protect \citename 
-                              {Tsin \& Kanade, }2004
-l.457 ...citename{Tsin \& Kanade, }2004]{Tsin2004}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:462: Undefined control sequence.
-<argument> \protect \citename 
-                              {Tuytelaars \& Mikolajczyk, }2007
-l.462 ...ytelaars \& Mikolajczyk, }2007]{Tuyt2007}
+                              {Sch{\"o}nemann, }1966
+l.457 ...citename{Sch{\"o}nemann, }1966]{Scho1966}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1925,12 +1868,12 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 465.
+(scrreprt)              by `\normalfont \bfseries ' on input line 460.
 
-./paper.bbl:468: Undefined control sequence.
+./paper.bbl:462: Undefined control sequence.
 <argument> \protect \citename 
-                              {Unnikrishnan \& Hebert, }2008
-l.468 ...{Unnikrishnan \& Hebert, }2008]{Unni2008}
+                              {Sch{\"o}nemann \& Caroll, }1970
+l.462 ...ch{\"o}nemann \& Caroll, }1970]{Scho1970}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1938,10 +1881,35 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:474: Undefined control sequence.
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 466.
+
+./paper.bbl:468: Undefined control sequence.
 <argument> \protect \citename 
-                              {Wendt, }2008
-l.474 ...\protect\citename{Wendt, }2008]{Wend2008}
+                              {Segal {\em et~al.\ }\relax , }2009
+l.468 ...al {\em et~al.\ }\relax, }2009]{Sega2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:473: Undefined control sequence.
+<argument> \protect \citename 
+                              {Soh {\em et~al.\ }\relax , }2012
+l.473 ...Soh {\em et~al.\ }\relax, }2012]{Soh2012}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1951,8 +1919,8 @@ and I'll forget about whatever was undefined.
 
 ./paper.bbl:479: Undefined control sequence.
 <argument> \protect \citename 
-                              {Xiong {\em et~al.\ }\relax , }2013
-l.479 ...ng {\em et~al.\ }\relax, }2013]{Xion2013}
+                              {Subir{\'o}s, }2008
+l.479 ...ct\citename{Subir{\'o}s, }2008]{Subi2008}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1960,42 +1928,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.bbl:488: Undefined control sequence.
+./paper.bbl:484: Undefined control sequence.
 <argument> \protect \citename 
-                              {Yang {\em et~al.\ }\relax , }2007
-l.488 ...ng {\em et~al.\ }\relax, }2007]{Yang2007}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:492: Misplaced alignment tab character &.
-l.492 ...ty of Kentucky Center for Visualization &
-                                                   Virtual
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-./paper.bbl:495: Undefined control sequence.
-<argument> \protect \citename 
-                              {Zhang, }1992
-l.495 ...\protect\citename{Zhang, }1992]{Zhan1992}
-                                                  
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./paper.bbl:502: Undefined control sequence.
-<argument> \protect \citename 
-                              {Zogg \& Schulz, }2006
-l.502 ...citename{Zogg \& Schulz, }2006]{Zogg2006}
+                              {Tam {\em et~al.\ }\relax , }2007
+l.484 ...Tam {\em et~al.\ }\relax, }2007]{Tam2007}
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2015,11 +1951,235 @@ Class scrreprt Warning: Usage of deprecated font command `\bf'!
 (scrreprt)              Note also, that KOMA-Script will remove the definition
 (scrreprt)              of `\bf' anytime until release of about version 3.20.
 (scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
-(scrreprt)              by `\normalfont \bfseries ' on input line 505.
+(scrreprt)              by `\normalfont \bfseries ' on input line 490.
+
+./paper.bbl:492: Undefined control sequence.
+<argument> \protect \citename 
+                              {Theiler {\em et~al.\ }\relax , }2013
+l.492 ...er {\em et~al.\ }\relax, }2013]{Thei2013}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 497.
+
+./paper.bbl:499: Undefined control sequence.
+<argument> \protect \citename 
+                              {Toldo {\em et~al.\ }\relax , }2010
+l.499 ...do {\em et~al.\ }\relax, }2010]{Told2010}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:505: Undefined control sequence.
+<argument> \protect \citename 
+                              {Tournas \& Tsakiri, }2009
+l.505 ...name{Tournas \& Tsakiri, }2009]{Tour2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 509.
+
+./paper.bbl:511: Undefined control sequence.
+<argument> \protect \citename 
+                              {Trucco \& Verri, }1998
+l.511 ...itename{Trucco \& Verri, }1998]{Truc1998}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:516: Undefined control sequence.
+<argument> \protect \citename 
+                              {Tsin \& Kanade, }2004
+l.516 ...citename{Tsin \& Kanade, }2004]{Tsin2004}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[15]
+./paper.bbl:521: Undefined control sequence.
+<argument> \protect \citename 
+                              {Tuytelaars \& Mikolajczyk, }2007
+l.521 ...ytelaars \& Mikolajczyk, }2007]{Tuyt2007}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 524.
+
+./paper.bbl:527: Undefined control sequence.
+<argument> \protect \citename 
+                              {Unnikrishnan \& Hebert, }2008
+l.527 ...{Unnikrishnan \& Hebert, }2008]{Unni2008}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:533: Undefined control sequence.
+<argument> \protect \citename 
+                              {Wendt, }2008
+l.533 ...\protect\citename{Wendt, }2008]{Wend2008}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:538: Undefined control sequence.
+<argument> \protect \citename 
+                              {Xiong {\em et~al.\ }\relax , }2013
+l.538 ...ng {\em et~al.\ }\relax, }2013]{Xion2013}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:547: Undefined control sequence.
+<argument> \protect \citename 
+                              {Yang {\em et~al.\ }\relax , }2007
+l.547 ...ng {\em et~al.\ }\relax, }2007]{Yang2007}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:551: Misplaced alignment tab character &.
+l.551 ...ty of Kentucky Center for Visualization &
+                                                   Virtual
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./paper.bbl:554: Undefined control sequence.
+<argument> \protect \citename 
+                              {Zhang, }1992
+l.554 ...\protect\citename{Zhang, }1992]{Zhan1992}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:561: Undefined control sequence.
+<argument> \protect \citename 
+                              {Zhao {\em et~al.\ }\relax , }2014
+l.561 ...ao {\em et~al.\ }\relax, }2014]{Zhao2014}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 566.
+
+./paper.bbl:568: Undefined control sequence.
+<argument> \protect \citename 
+                              {Zogg \& Schulz, }2006
+l.568 ...citename{Zogg \& Schulz, }2006]{Zogg2006}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 571.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 69.
- [15]
+ [16]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 69.
  (./paper.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 69.
@@ -2031,27 +2191,30 @@ Package rerunfilecheck Warning: File `paper.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `paper.out':
-(rerunfilecheck)             Before: 9A82FE253BE078B4BDD92729F2D7BBA4;717
+(rerunfilecheck)             Before: <no file>
 (rerunfilecheck)             After:  77D77BD2B14FEC835EC3EAC8630B67E8;701.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 69.
  ) 
 Here is how much of TeX's memory you used:
- 8437 strings out of 493308
- 127978 string characters out of 6137817
- 267803 words of memory out of 5000000
- 11665 multiletter control sequences out of 15000+600000
+ 8440 strings out of 493308
+ 127992 string characters out of 6137817
+ 263620 words of memory out of 5000000
+ 11661 multiletter control sequences out of 15000+600000
  9149 words of font info for 38 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 41i,6n,51p,937b,419s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,6n,51p,1054b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
 /usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
 sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
 usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on paper.pdf (15 pages, 111642 bytes).
+Output written on paper.pdf (16 pages, 114079 bytes).
 PDF statistics:
- 265 PDF objects out of 1000 (max. 8388607)
- 240 compressed objects within 3 object streams
- 111 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 215 compressed objects within 3 object streams
+ 122 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

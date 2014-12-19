@@ -55,6 +55,21 @@ std::string shell::read_line(const std::string& prompt, const std::string& def) 
 }
 
 
+int shell::read_choice(const std::string& prompt, const std::vector<std::string>& choices) {
+	std::cout << prompt << ':' << std::endl;
+	int i = 1;
+	for(const std::string& choice : choices)
+		std::cout << " (" << i++ << ") " << choice << std::endl;
+
+	int selection = 0;
+	while(selection == 0 || selection > choices.size())
+		selection = read_from_input("Choose", 0);
+	
+	return selection - 1;
+}
+
+
+
 void shell::set_viewer_window(viewer_window& win) {
 	viewer_win_ = &win;
 }
