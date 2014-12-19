@@ -9,7 +9,7 @@ function pc = load_point_cloud_dat(name, type, sz)
 	fflush(stdout);
 
 	file = fopen(name, 'r');
-	pc = fread(file, transpose(sz), type);
+	pc = fread(file, sz, type);
 	fclose(file);
 	pc = flipud(pc);
 end

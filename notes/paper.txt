@@ -1,47 +1,94 @@
-Title: Registration and fusion of large scale 3D models ?
+Title: Registration and fusion of large scale 3D models
 Orig: Recalage et fusion de modèles numérisés tridimensionnels de grande taille
 
 Abstract
 
 Introduction
+	3D Documentation	
+		Use cases
+		Laser scan practice, introduction
+		Point cloud, Range image data
+		Noise, scanner errors
+		Range image, photo projection
+		Operations on point clouds (overview)
+		Operations on range images + photos (overview)
+		Emphasis on registration+merging
+		Full model synthesis workflows
+		
 	Overview on study methodology, different chapters
-
-3D Documentation	
-	Use cases
-	Laser scan practive, introduction
-	Idealized model (continuous surfaces), data (point cloud, range image), form (pt distribution)
-	Operations on point clouds (overview)
-	Operations on range images + photos (overview)
-	Emphasis on registration+merging
-	Terminology used in literature, conventions for this paper
+	
+	Presentation of LISA point scans
 
 
 
-Registration Methods (State of the art, Survey of litterature/Classifications)
-	Exclude non-rigid
-	Branches of existing studies (point set math, range image analysis, geo-informatics, …)
-	General definition of problem (distance minimization)
+
+Registration (State of the Art & Classifications)
+	Introduction
+		Exclude non-rigid
+		Idealized model (continuous surfaces)
+		Data as approximation of ideal model (pt distrib, errors, density, ...)
+		Math preliminaries
+		Terminology used in literature, conventions for this paper
+		General definition of problem (distance minimization)
+
+	Survey of litterature
+		Branches of existing studies (point set math, range image analysis, geo-informatics, ...)
+		Short history of ICP and other registration algorithms
+
 	Classification of registration algorithms (by approach, aims, input requirements, use case)
-	ICP variations
-		Distance function
-		Cost function
+		ICP framework
+		Point correspondences choice
+		Continuous representation (kernel function)
+		Normal Distrubution Transform
+		4-Point Congruent Set
+	
+	Classification of use cases/input data
+		Large/small object
+		Surrounding scenery, masking requirements
+		Noise
+		Time difference, changing features (waving flag, people, etc)
+		Approximatively planer surfaces
+		Level of overlap
+		Variability of density
+		
 		
 
 Large model registration
-	Define range/context of problem studied here
-	Subproblems:
+	Characteristics of large models
 		Different densities (global model <=> detail)
 		Varying densities (with origin distance)		
 		Large point sets
 		Coarse+fine alignment, with help of photos
 		Alignment of near-planar objects (e.g. engraving)
 		Noise removal (people walking by)
-	Data form (ie distribution of points) is different -> adjustments necessatry for ICP
-	Out-of-core (streaming) VS in-core (pagination)
 	
+	Present Townhall scanning project
+		Available data (scans, poses, photos)
+		Restriction to global<=>detail alignment
+		Examples of data sets to align
+		
 
-Methods/Solution
-	3 levels: range image, point set, continuous representation
+
+Experiments
+	Aim of experiments
+		Evaluate registration algorithms:
+			stability
+			convergence time
+			quality ...
+		On different data set types
+	
+	Methodology
+	Present results (graphs)
+	--> Conclusion about requirements for new algorithm
+
+
+Methods
+	Ideas:
+		- Superresolution of low res pc
+		- Downsample high res pc
+		- Continuous representation
+		- PC - photo - PC error minimization
+			(combine Perspective-to-Point and ICP)
 	
 
 Implementation

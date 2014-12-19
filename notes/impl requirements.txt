@@ -65,5 +65,4 @@ User Interface
 	Collect statistics
 	Test procedures on ranges of parameters
 	Visualize (intermediary) data, correspondences, etc
-	Setup workflow (SIP python interface?)
 

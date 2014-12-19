@@ -18,6 +18,7 @@ class camera {
 protected:
 	pose pose_; ///< Pose of camera.
 
+	camera() = default;
 	explicit camera(const pose&);
 
 public:

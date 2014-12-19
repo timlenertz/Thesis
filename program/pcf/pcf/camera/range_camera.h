@@ -13,6 +13,7 @@ protected:
 	std::array<angle, 2> elevation_limits_;
 	
 public:
+	range_camera() = default;
 	range_camera(const pose&, angle width, angle height);
 	range_camera(const pose&, std::array<angle, 2> x_limits, std::array<angle, 2> y_limits);
 	range_camera(const camera&);

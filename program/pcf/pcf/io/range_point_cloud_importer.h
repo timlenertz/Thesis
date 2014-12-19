@@ -3,6 +3,8 @@
 
 #include "point_cloud_importer.h"
 #include "../geometry/spherical_coordinates.h"
+#include "../camera/image_camera.h"
+#include <memory>
 
 namespace pcf {
 
@@ -18,6 +20,8 @@ public:
 	void read_row(point_xyz*);
 	void read_row(point_full*);
 	void read_row_spherical(spherical_coordinates*);
+	
+	std::unique_ptr<image_camera> estimate_camera() const;
 };
 
 }

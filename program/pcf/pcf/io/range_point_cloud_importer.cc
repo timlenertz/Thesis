@@ -27,4 +27,9 @@ void range_point_cloud_importer::read_row_spherical(spherical_coordinates* buf) 
 }
 
 
+std::unique_ptr<image_camera> range_point_cloud_importer::estimate_camera() const {
+	return std::unique_ptr<image_camera>();
+}
+
+
 }

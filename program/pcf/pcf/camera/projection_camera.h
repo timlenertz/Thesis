@@ -17,6 +17,7 @@ protected:
 	static angle angle_between_(const Eigen::Vector4f&, const Eigen::Vector4f&);
 
 public:
+	projection_camera() = default;
 	projection_camera(const pose&, const projection_frustum&);
 	projection_camera(const camera&);
 
@@ -34,6 +35,7 @@ public:
 
 	float projected_depth(const Eigen::Vector3f&) const;
 	Eigen::Vector2f to_projected(const Eigen::Vector3f&) const;
+	Eigen::Vector2f to_projected(const Eigen::Vector3f&, float& depth) const;
 	Eigen::Vector3f point(const Eigen::Vector2f&, float z) const;
 };
 
