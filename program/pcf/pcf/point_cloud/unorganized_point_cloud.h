@@ -12,7 +12,7 @@ class point_cloud_importer;
 Unorganized point cloud.
 Point cloud stored as an array of points in any order. Provides algorithms that operate on raw point set and would destroy organized point cloud. Models are imported as unorganized point clouds. Structured point clouds (grid, tree, etc) are created by copy or move construction from unorganized point cloud or any other organized point cloud. With move construction same memory is reused.
 */
-template<typename Point, typename Allocator = aligned_allocator<Point>>
+template<typename Point, typename Allocator = default_allocator<Point>>
 class unorganized_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 

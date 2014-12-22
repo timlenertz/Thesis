@@ -30,6 +30,8 @@ private:
 public:
 	template<typename Other_cloud> pov_point_cloud(Other_cloud&&, const Allocator& = Allocator());
 
+	/// Extract points for given viewing frustum.
+	/// Frustum must be given in point cloud's coordinate system.
 	std::size_t extract(Point* buffer, std::size_t capacity, const frustum&) const;
 };
 

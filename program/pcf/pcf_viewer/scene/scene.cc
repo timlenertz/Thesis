@@ -34,13 +34,13 @@ const projection_image_camera& scene::get_camera() const {
 
 void scene::set_camera(const projection_image_camera& cam) {
 	camera_ = cam;
-	updated_camera();
+	notify_camera_update_();
 }
 
 
 void scene::set_camera_pose(const pose& ps) {
 	camera_.set_pose(ps);
-	updated_camera();
+	notify_camera_update_();
 }
 
 
@@ -53,7 +53,7 @@ void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 	camera_.set_image_size(w, h);
 	camera_.adjust_field_of_view_y();
 	should_reset_viewport_ = true;
-	updated_camera();
+	notify_camera_update_();
 }
 
 

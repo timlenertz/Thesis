@@ -3,12 +3,12 @@
 
 namespace pcf {
 
-scene_object::scene_object(const scene& sc, const pose& ps, const std::shared_ptr<space_object>& par) :
-space_object(ps, par), scene_(sc) {
+scene_object::scene_object(const scene& sc, const pose& ps) :
+space_object(ps), scene_(sc) {
 	compute_mvp_matrix_();
 }
 
-void scene_object::compute_mvp_matrix_() const {
+void scene_object::compute_mvp_matrix_() {
 	const projection_image_camera& cam = scene_.get_camera();
 	mvp_matrix_ = cam.view_projection_transformation().matrix() * absolute_pose().view_transformation_inverse().matrix();
 }

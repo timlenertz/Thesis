@@ -46,7 +46,7 @@ PCF_PROGRAM(icp_test) {
 		icp.run([&](const Eigen::Affine3f& trans, float err) {
 			std::cout << "Error: " << err << std::endl;
 			access_viewer_([&loose, &fixed, &scene_loose](viewer& vw) {
-				scene_loose->set_pose(loose.absolute_pose());
+				scene_loose->set_relative_pose(loose.absolute_pose());
 			});
 		});
 		

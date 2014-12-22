@@ -24,8 +24,10 @@ PCF_PROGRAM(pose_test) {
 					Eigen::AngleAxisf(random_real(-pi * 0.3, pi * 0.3), Eigen::Vector3f::UnitY()) *
 					Eigen::AngleAxisf(random_real(-pi * 0.3, pi * 0.3), Eigen::Vector3f::UnitZ());
 			
-				vw->add_point_cloud(pc).set_pose(p);
-				vw->add_bounding_box(b).set_pose(p);
+				auto& spc = vw->add_point_cloud(pc);
+				auto& bb = vw->add_bounding_box(b);
+				bb.set_parent(spc);
+				spc.set_relative_pose(p);
 				
 				std::cout << "Added (" << x << ", " << y << ", " << z << ")" << std::endl;
 			}}}

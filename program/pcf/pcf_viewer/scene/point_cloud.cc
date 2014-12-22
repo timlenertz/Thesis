@@ -1,5 +1,6 @@
 #include "point_cloud.h"
 #include "../../pcf/util/random.h"
+#include "../../pcf/point_algorithm.h"
 #include "shader_program.h"
 #include "scene.h"
 #include "../gl.h"
@@ -158,24 +159,36 @@ scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 
-	template<typename Cloud>
-	scene_point_cloud(const scene& sc, Cloud&& pc, GLsizei cap = default_point_buffer_capacity_) :
-		scene_object(sc, pc.absolute_pose()),
-		point_buffer_capacity_(cap),
-		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
-
-
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
 	scene_object(sc, pc.absolute_pose()),
 	point_buffer_capacity_(cap),
-	point_cloud_(pc)	
+	point_cloud_(pc)
+{
+	point_cloud_.set_no_parent(pose());
+	setup_loader_();
+}
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full&& pc, GLsizei cap);
+scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full&& pc, GLsizei cap) :
+	scene_object(sc, pc.absolute_pose()),
+	point_buffer_capacity_(cap),
+	point_cloud_(std::move(pc))
+{
+	point_cloud_.set_no_parent(pose());
+	setup_loader_();
+}
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, const rgb_color& col, const point_cloud_xyz& pc, GLsizei cap);
-scene_point_cloud::scene_point_cloud(const scene& sc, const rgb_color& col, point_cloud_xyz&& pc, GLsizei cap);
+scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
+	scene_object(sc, pc.absolute_pose()),
+	point_buffer_capacity_(cap),
+	point_cloud_(pc)
+{
+	set_unique_color(point_cloud_.begin(), point_cloud_.end(), col);
+	point_cloud_.set_no_parent(pose());
+	setup_loader_();
+}
+
 
 
 scene_point_cloud::~scene_point_cloud() {
@@ -299,14 +312,14 @@ void scene_point_cloud::gl_draw_() {
 }
 
 
-void scene_point_cloud::updated_camera_or_pose_() {
+void scene_point_cloud::pose_or_camera_was_updated_() {
 	if(! initialized()) return;
 
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
 		frustum fr = scene_.get_camera().viewing_frustum();
-		fr.transform(pose_.view_transformation_inverse());
+		fr = fr.transform( absolute_pose().view_transformation_inverse() );
 		loader::request req {
 			fr,
 			loader_point_buffer_mapping_,
