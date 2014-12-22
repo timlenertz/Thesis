@@ -124,8 +124,11 @@ public:
 	const_iterator end() const { return end_; }
 	const_iterator cend() const { return end_; }
 	
-	transform_iterator begin_transform() const;
+	transform_iterator begin_transform(const Eigen::Affine3f&) const;
 	transform_iterator end_transform() const;
+	
+	transform_iterator begin_relative_to(const space_object&) const;
+	transform_iterator end_relative_to() const;
 	
 	const Point& random_point() const;
 	Point& random_point();

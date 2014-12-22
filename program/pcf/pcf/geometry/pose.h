@@ -41,7 +41,7 @@ public:
 	Eigen::Affine3f view_transformation_inverse() const;
 	
 	/// Apply affine transformation to pose.
-	void transform(const Eigen::Affine3f&);
+	pose transform(const Eigen::Affine3f&) const;
 };
 
 }

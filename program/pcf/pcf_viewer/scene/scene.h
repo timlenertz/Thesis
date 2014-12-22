@@ -29,6 +29,8 @@ private:
 	rgb_color background_color_ = rgb_color::black;
 	
 	bool should_reset_viewport_ = true;
+	
+	void notify_camera_update_();
 		
 protected:
 	void gl_initialize_() override;
@@ -44,9 +46,7 @@ public:
 	const pose& get_camera_pose() const;
 	void set_camera_pose(const pose&);
 	void set_camera_image_size(std::size_t w, std::size_t h);
-	
-	void updated_camera();
-	
+		
 	void clear();
 	
 	template<typename Cloud>

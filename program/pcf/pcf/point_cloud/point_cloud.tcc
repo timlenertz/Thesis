@@ -149,16 +149,30 @@ Point& point_cloud<Point, Allocator>::random_point() {
 
 
 template<typename Point, typename Allocator>
-auto point_cloud<Point, Allocator>::begin_transform() const -> transform_iterator {
-	return transform_iterator(begin_, absolute_pose.view_transformation_inverse());
+auto point_cloud<Point, Allocator>::begin_transform(const Eigen::Affine3f& t) const -> transform_iterator {
+	return transform_iterator(begin_, t);
 }
 
 template<typename Point, typename Allocator>
 auto point_cloud<Point, Allocator>::end_transform() const -> transform_iterator {
-	return transform_iterator(end_, absolute_pose.view_transformation_inverse());
+	return transform_iterator(end_);
+}
+
+
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::begin_relative_to(const space_object& obj) const -> transform_iterator {
+	Eigen::Affine3f this_to_world = absolute_pose().view_transformation_inverse();
+	Eigen::Affine3f world_to_obj = obj.absolute_pose().view_transformation();
+	return transform_iterator(begin_, world_to_obj * this_to_world);
+}
+
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::end_relative_to() const -> transform_iterator {
+	return transform_iterator(end_);
 }
 
 
 
 
+// super::absolute_pose().view_transformation_inverse()
 }

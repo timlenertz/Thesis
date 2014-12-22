@@ -20,6 +20,10 @@ scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
 	) { }	
 
 
+void scene::notify_camera_update_() {
+	for(auto& obj : objects_) obj->updated_camera();
+}
+
 scene::~scene() { }
 
 
@@ -78,11 +82,6 @@ void scene::gl_initialize_() {
 
 	for(auto& obj : objects_)
 		if(! obj->initialized()) obj->initialize();
-}
-
-
-void scene::updated_camera() {
-	for(auto& obj : objects_) obj->updated_camera_or_pose();
 }
 
 

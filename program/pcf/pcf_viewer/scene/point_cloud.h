@@ -4,7 +4,9 @@
 #include "object.h"
 #include "../point_cloud/pov_point_cloud.h"
 #include "../gl.h"
+#include "../../pcf/rgb_color.h"
 #include <utility>
+#include <memory>
 
 namespace pcf {
 
@@ -21,7 +23,7 @@ private:
 	class loader;
 	
 	const GLsizei point_buffer_capacity_;
-	pov_point_cloud_full point_cloud_;
+	std::shared_ptr<pov_point_cloud_full> point_cloud_;
 
 	loader* loader_ = nullptr;
 	
@@ -44,11 +46,10 @@ protected:
 	void gl_draw_() override;
 
 public:
-	template<typename Cloud>
-	scene_point_cloud(const scene& sc, Cloud&& pc, GLsizei cap = default_point_buffer_capacity_) :
-		scene_object(sc, pc.absolute_pose),
-		point_buffer_capacity_(cap),
-		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
+	scene_point_cloud(const scene&, const point_cloud_full&, GLsizei cap = default_point_buffer_capacity_);
+	scene_point_cloud(const scene&, point_cloud_full&&, GLsizei cap = default_point_buffer_capacity_);
+	scene_point_cloud(const scene&, const point_cloud_xyz&, const rgb_color& = rgb_color::white, GLsizei cap = default_point_buffer_capacity_);
+	scene_point_cloud(const scene&, point_cloud_xyz&&, const rgb_color& = rgb_color::white, GLsizei cap = default_point_buffer_capacity_);
 			
 	~scene_point_cloud();
 		

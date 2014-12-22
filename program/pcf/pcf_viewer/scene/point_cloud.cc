@@ -157,6 +157,27 @@ bool scene_point_cloud::loader::take_response(response& rsp) {
 scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
+
+	template<typename Cloud>
+	scene_point_cloud(const scene& sc, Cloud&& pc, GLsizei cap = default_point_buffer_capacity_) :
+		scene_object(sc, pc.absolute_pose()),
+		point_buffer_capacity_(cap),
+		point_cloud_(std::forward<Cloud>(pc)) { setup_loader_(); }
+
+
+scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
+	scene_object(sc, pc.absolute_pose()),
+	point_buffer_capacity_(cap),
+	point_cloud_(pc)	
+
+
+scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full&& pc, GLsizei cap);
+
+
+scene_point_cloud::scene_point_cloud(const scene& sc, const rgb_color& col, const point_cloud_xyz& pc, GLsizei cap);
+scene_point_cloud::scene_point_cloud(const scene& sc, const rgb_color& col, point_cloud_xyz&& pc, GLsizei cap);
+
+
 scene_point_cloud::~scene_point_cloud() {
 	if(loader_) delete loader_;
 }
@@ -235,6 +256,7 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Winvalid-offsetof"
 	std::ptrdiff_t color_offset = offsetof(point_full, color);
+	// unsafe use of offsetof, but works
 	#pragma GCC diagnostic pop
 	
 	glBindVertexArray(vertex_array_object_);

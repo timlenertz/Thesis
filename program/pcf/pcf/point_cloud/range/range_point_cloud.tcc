@@ -8,6 +8,9 @@ range_point_cloud<Point, Camera, Allocator>::range_point_cloud(range_point_cloud
 	image_({imp.rows(), imp.columns()}, super::begin_, super::begin_ + imp.size()),
 	camera_()
 {
+	if(imp.has_camera_pose())
+		super::set_relative_pose( imp.camera_pose() );
+
 	super::resize_(super::capacity());
 	for(Point* buf = super::begin_; buf < super::end_; buf += imp.columns())
 		imp.read_row(buf);

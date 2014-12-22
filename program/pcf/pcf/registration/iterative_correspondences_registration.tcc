@@ -46,16 +46,18 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
 		float previous_error = error_;
 		Eigen::Affine3f previous_estimated_transformation = estimated_transformation_;
-		pose previous_pose = loose_.absolute_pose;
+		pose previous_pose = loose_.relative_pose();
 	
-		loose_.absolute_pose.transform( previous_estimated_transformation.inverse() );
+		loose_.set_relative_pose(
+			previous_pose.transform( previous_estimated_transformation.inverse() )
+		);
 		
 		if(cb) cb(estimated_transformation_, error_);
 	
 		iteration();
 		
 		if(error_ > previous_error) {
-			loose_.absolute_pose = previous_pose;
+			loose_.set_relative_pose(previous_pose);
 			break;
 		}
 		

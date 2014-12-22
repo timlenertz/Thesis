@@ -10,7 +10,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 		Receiver rec_part;
 		
 		#pragma omp for
-		for(auto it = loose_.begin_transform(); it < loose_.end_transform(); ++it) {
+		for(auto it = loose_.begin_relative_to(fixed_); it < loose_.end_relative_to(); ++it) {
 			const auto& lp = *it;
 			if(!lp.valid() || !selection_func_(lp)) continue;
 		

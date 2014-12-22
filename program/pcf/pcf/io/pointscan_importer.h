@@ -6,10 +6,6 @@
 #include <fstream>
 #include <string>
 
-namespace ps {
-	struct sc_scan;
-};
-
 namespace pcf {
 
 /**
