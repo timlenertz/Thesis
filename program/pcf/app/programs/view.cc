@@ -17,8 +17,8 @@ PCF_PROGRAM(view) {
 
 				std::cout << "Adding to scene..." << std::endl;
 				access_viewer_([&pc](viewer& vw) {
-					vw->add_point_cloud(pc);
-					vw->add_bounding_box(pc.box());
+					auto& spc = vw->add_point_cloud(pc);
+					vw->add_bounding_box(pc.box()).set_parent(spc);
 				});
 			}
 				

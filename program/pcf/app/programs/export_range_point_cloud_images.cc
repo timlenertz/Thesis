@@ -1,3 +1,5 @@
+#ifdef __APPLE__
+
 #include "../program.h"
 #include <string>
 #include <iostream>
@@ -64,3 +66,5 @@ PCF_PROGRAM(export_range_point_cloud_images) {
 		std::cout << "Done." << std::endl;
 	}
 };
+
+#endif

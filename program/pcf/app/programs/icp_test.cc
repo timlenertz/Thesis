@@ -15,7 +15,6 @@ PCF_PROGRAM(icp_test) {
 		);
 		
 		std::cout << "Creating structured fixed point cloud..." << std::endl;
-		//grid_point_cloud_full fixed(loose, 2.0);
 		tree_point_cloud<kdtree_traits, point_xyz> fixed(loose, system_page_size / sizeof(point_full));
 		loose.apply_transformation(actual_transformation);
 		
@@ -30,7 +29,7 @@ PCF_PROGRAM(icp_test) {
 			
 			scene_loose = &scl;
 		});
-		
+				
 		int i = 0;
 		auto cor = make_closest_point_correspondences(
 			fixed, loose,
@@ -46,7 +45,7 @@ PCF_PROGRAM(icp_test) {
 		icp.run([&](const Eigen::Affine3f& trans, float err) {
 			std::cout << "Error: " << err << std::endl;
 			access_viewer_([&loose, &fixed, &scene_loose](viewer& vw) {
-				scene_loose->set_relative_pose(loose.absolute_pose());
+				scene_loose->set_relative_pose(loose.relative_pose());
 			});
 		});
 		

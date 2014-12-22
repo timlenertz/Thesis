@@ -164,7 +164,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc
 	point_buffer_capacity_(cap),
 	point_cloud_(pc)
 {
-	point_cloud_.set_no_parent(pose());
+	point_cloud_.set_parent(*this);
 	setup_loader_();
 }
 
@@ -174,7 +174,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full&& pc, GLs
 	point_buffer_capacity_(cap),
 	point_cloud_(std::move(pc))
 {
-	point_cloud_.set_no_parent(pose());
+	point_cloud_.set_parent(*this);
 	setup_loader_();
 }
 
@@ -185,7 +185,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc,
 	point_cloud_(pc)
 {
 	set_unique_color(point_cloud_.begin(), point_cloud_.end(), col);
-	point_cloud_.set_no_parent(pose());
+	point_cloud_.set_parent(*this);
 	setup_loader_();
 }
 
@@ -304,6 +304,8 @@ void scene_point_cloud::gl_draw_() {
 
 	shader_program_->use();
 	shader_program_->mvp_matrix = mvp_matrix_;
+	
+	glPointSize(2.0f);
 	
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
