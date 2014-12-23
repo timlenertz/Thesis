@@ -6,6 +6,12 @@ namespace pcf {
 projection_image_camera::projection_image_camera(const pose& ps, const projection_frustum& fr, std::size_t imw, std::size_t imh) :
 	projection_camera(ps, fr),
 	image_camera(imw, imh) { }
+	
+
+projection_image_camera::projection_image_camera(const projection_camera& cam, std::size_t imw, std::size_t imh) :
+	projection_camera(cam),
+	image_camera(imw, imh) { }
+
 
 
 auto projection_image_camera::to_image(const Eigen::Vector3f& p, float& z) const -> image_coordinates {

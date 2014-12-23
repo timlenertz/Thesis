@@ -39,6 +39,7 @@ public:
 	void draw();
 	
 	void rotate_camera(angle horizontal, angle vertical);
+	void roll_camera(angle);
 	void set_target_velocity(const Eigen::Vector3f& vel);
 	void stop_movement();
 	

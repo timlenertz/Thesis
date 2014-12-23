@@ -90,6 +90,15 @@ void viewer::rotate_camera(angle horizontal, angle vertical) {
 }
 
 
+void viewer::roll_camera(angle a) {
+	auto transformation = Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ());
+		
+	pose ps = scene_.get_camera_pose();
+	ps.orientation = ps.orientation * transformation;
+	scene_.set_camera_pose(ps);
+}
+
+
 void viewer::set_target_velocity(const Eigen::Vector3f& vw_vel) {
 	view_target_velocity_ = vw_vel;
 }

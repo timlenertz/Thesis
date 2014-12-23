@@ -25,6 +25,7 @@ private:
 	static void window_cursor_position_(GLFWwindow* win, double x, double y);
 	static void window_mouse_button_(GLFWwindow* win, int button, int action, int mods);
 	static void window_key_(GLFWwindow* win, int key, int scancode, int action, int mods);
+	static void window_scroll_(GLFWwindow* win, double xoffset, double yoffset);
 
 public:
 	explicit viewer_window();

@@ -65,6 +65,8 @@ public:
 	template<typename Distribution>
 	void add_random_noise_around_points(std::size_t amount, const Distribution& displacement);
 	
+	template<typename Camera>
+	void erase_invisible_points(const Camera&, bool invalidate = false);
 
 	template<typename Other_point>
 	const Point& closest_point(const Other_point&, float accepting_distance = 0, float rejecting_distance = INFINITY) const;

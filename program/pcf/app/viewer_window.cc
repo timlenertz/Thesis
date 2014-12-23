@@ -10,6 +10,7 @@ namespace {
 	const int default_window_width_ = 800;
 	const int default_window_height_ = 600;
 	const angle rotation_per_cursor_pixel_ = pi / 500.0;
+	const angle rotation_per_scroll_offset_ = pi / 200.0;
 }
 
 
@@ -39,6 +40,14 @@ void viewer_window::window_mouse_button_(GLFWwindow* win, int button, int action
 	viewer_window* that = (viewer_window*) glfwGetWindowUserPointer(win);
 	
 	glfwGetCursorPos(win, &that->drag_position_x_, &that->drag_position_y_);
+}
+
+
+void viewer_window::window_scroll_(GLFWwindow* win, double xoffset, double yoffset) {
+	viewer_window* that = (viewer_window*) glfwGetWindowUserPointer(win);
+	
+	float a = (xoffset + yoffset) * rotation_per_scroll_offset_;
+	that->viewer_.roll_camera(a);
 }
 
 
@@ -112,6 +121,7 @@ viewer_(default_window_width_, default_window_height_) {
 	glfwSetCursorPosCallback(window_, &viewer_window::window_cursor_position_);
 	glfwSetMouseButtonCallback(window_, &viewer_window::window_mouse_button_);
 	glfwSetKeyCallback(window_, &viewer_window::window_key_);
+	glfwSetScrollCallback(window_, &viewer_window::window_scroll_);
 	
 	int w, h;
 	glfwGetFramebufferSize(window_, &w, &h);

@@ -214,6 +214,39 @@ void unorganized_point_cloud<Point, Allocator>::add_random_noise_around_points(s
 }
 
 
+template<typename Point, typename Allocator> template<typename Camera>
+void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Camera& cam, bool invalidate) {
+	// Project points using camera and z-buffer
+	// Keep pointers to projected points in image
+	multi_dimensional_array<Point*, 2> image({cam.image_width(), cam.image_height()}, nullptr);
+	for(Point* p = super::begin_; p < super::end_; ++p) {
+		if(! p->valid()) continue;
+		
+		float z;
+		auto ic = cam.to_image(*p, z);
+		if(! cam.in_bounds(ic)) continue;
+		
+		auto& old_ptr = image[ic];
+		if(old_ptr == nullptr || cam.depth_sq(*old_ptr) > cam.depth_sq(*p))
+			old_ptr = p;
+	}
+	
+	// Invalidate all points, and then revalidate those retained for image cells
+	#pragma omp parallel for
+	for(Point* p = super::begin_; p < super::end_; ++p) p->invalidate();
+
+	#pragma omp parallel for
+	for(auto it = image.begin_raw(); it < image.end_raw(); ++it) {
+		Point* p = *it;
+		if(p) p->revalidate();
+	}
+
+	// If not in invalidate mode: Need to erase invalid from pc
+	if(! invalidate) erase_invalid_points();
+}
+
+
+
 
 
 template<typename Point, typename Allocator> template<typename Other_point>
