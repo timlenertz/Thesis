@@ -69,8 +69,8 @@ point_cloud(point_cloud&& pc, bool all_val) :
 
 template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
 point_cloud<Point, Allocator>::
-point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
-	point_cloud(pc.size(), all_val, alloc)
+point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t cap, bool all_val, const Allocator& alloc) :
+	point_cloud( (cap > 0 ? cap : pc.size()) , all_val, alloc)
 {
 	// Copy points one-by-one into new buffer.
 	// If this is all valid but other is not, take only valid points.

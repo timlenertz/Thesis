@@ -4,6 +4,7 @@
 #include "../pcf_viewer/viewer.h"
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 
 namespace pcf {
 
@@ -83,6 +84,25 @@ viewer_window& shell::get_viewer_window() {
 
 bool shell::has_viewer_window() {
 	return (viewer_win_ != nullptr) && ! viewer_win_->was_closed();
+}
+
+
+
+bool shell::access_viewer(std::function<void(viewer&)> cb) {
+	if(! has_viewer_window()) return false;
+	get_viewer_window().access_viewer(cb);
+	return true;
+}
+
+
+projection_camera shell::current_viewer_camera() {
+	std::unique_ptr<projection_camera> cam = nullptr;
+	access_viewer([&cam](viewer& vw) {
+		const projection_camera& c = vw->get_camera();
+		cam.reset(new projection_camera(c));
+	});
+	if(cam) return *cam;
+	else throw std::runtime_error("Could not get current viewer camera.");
 }
 
 }

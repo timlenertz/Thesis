@@ -20,7 +20,7 @@ public:
 	/// Copy-construct from existing point cloud.
 	/// If all_val and other is not all-valid, erases invalid points.
 	template<typename Other_point, typename Other_allocator>
-	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>&, bool all_val = false, const Allocator& = Allocator());
+	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity = 0, bool all_val = false, const Allocator& = Allocator());
 
 	/// Move-construct from existing point cloud.
 	/// Does not copy or allocate memory.
@@ -44,15 +44,27 @@ public:
 	/// Applies the transformation of the space object's pose relative to its parent, and then sets this pose to identity.
 	void apply_pose();
 	
-	
+	/// Randomize internal order of points.
 	void shuffle();
 
 	/// Apply random downsampling, leaving only the given ratio of points.
 	/// If invalidate is set, invalidates point to erase, but does not move points around, thus the remaining points maintain the same indices. Only possible if cloud is not all valid. If not set, erases the points and moves remaining points together.
 	void downsample_random(float ratio, bool invalidate = false);
 	
+	/// Apply grid downsampling, using given grid cell side length.
+	/// Puts regular axis-aligned cubic grid over point cloud, and keeps exactly one point for each grid cell that contained at least one point. If keep_first, keeps the first point found to be inside a cell. Else, keeps the point closest to the cell's center. Does not displace points.
+	void downsample_grid(float cell_sz, bool keep_first = false, bool invalidate = false);
+
+	/// Displace points using random number distribution.
+	/// Random numbers generated using the given distribution is added to the X, Y and Z coordinates of each point.
+	template<typename Distribution>
+	void randomly_displace_points(const Distribution&);
+
+	/// Add random noise points around the points.
+	/// Number of points to add given by \p amount. \p amount must be lesser or equal to remaining capacity, and lesser or equal to number of points in cloud. I.e. at most one noise point is added per existing point.
+	template<typename Distribution>
+	void add_random_noise_around_points(std::size_t amount, const Distribution& displacement);
 	
-	void downsample_grid(float cell_sz, bool move = true, bool invalidate = false);
 
 	template<typename Other_point>
 	const Point& closest_point(const Other_point&, float accepting_distance = 0, float rejecting_distance = INFINITY) const;

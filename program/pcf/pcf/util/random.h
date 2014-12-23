@@ -5,6 +5,9 @@
 
 namespace pcf {
 
+/**
+The random number generator used by the library.
+*/
 using random_generator = std::mt19937;
 
 /**
@@ -25,7 +28,7 @@ T random_integer(T mn, T mx) {
 
 
 /**
-Generate random integer in [0, mx];
+Generate random integer in [0, mx].
 */
 template<typename T>
 T random_integer(T mx) {
@@ -43,10 +46,17 @@ T random_real(T mn, T mx) {
 }
 
 
+/**
+Iterate from begin to end iterator, picking given number of items at random.
+Iterates through the list only once, and Iterator only needs to be an input iterator. Guarantees that expected number of items will be picked, uniformly distributed. Calls callback function for each picked item. List must contain at least that number of items.
+*/
 template<typename Callback_func, typename Iterator>
 void iterate_and_pick_random(Iterator begin, Iterator end, std::size_t total, std::size_t expected, const Callback_func&);
 
 
+/**
+Iterate from begin to end iterator, picking given number of items at random.
+*/
 template<typename Callback_func, typename Iterator>
 void iterate_and_pick_random(Iterator begin, Iterator end, std::size_t expected, const Callback_func&);
 

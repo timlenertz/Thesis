@@ -14,7 +14,7 @@ PCF_PROGRAM(pose_test) {
 
 		std::cout << "Adding to scene..." << std::endl;
 		auto b = pc.box();
-		access_viewer_([&pc, &b](viewer& vw) {
+		shell::access_viewer([&pc, &b](viewer& vw) {
 			pose p;
 			for(std::ptrdiff_t x = -1; x <= 1; ++x) { p.position[0] = b.side_lengths()[0] * 2.5 * x;
 			for(std::ptrdiff_t y = -1; y <= 1; ++y) { p.position[1] = b.side_lengths()[1] * 2.5 * y;

@@ -3,11 +3,14 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include "../pcf/camera/projection_camera.h"
 
 namespace pcf {
 
 class program;
 class viewer_window;
+class viewer;
 
 class shell {
 private:
@@ -33,6 +36,9 @@ public:
 	static void set_viewer_window(viewer_window&);
 	static viewer_window& get_viewer_window();
 	static bool has_viewer_window();
+	
+	static bool access_viewer(std::function<void(viewer&)>);
+	static projection_camera current_viewer_camera();
 	
 	template<typename Program>
 	static program* instanciate_program(const std::string& name);

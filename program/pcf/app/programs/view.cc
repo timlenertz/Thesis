@@ -18,12 +18,12 @@ PCF_PROGRAM(view) {
 				std::cout << pc.size() << std::endl;
 				pc.shuffle();
 				pc.filter(
-					skip_point_filter(100)
+					skip_point_filter(10) || crop_point_filter<frustum>(shell::current_viewer_camera().viewing_frustum())
 				);
 				std::cout << pc.size() << std::endl;
 
 				std::cout << "Adding to scene..." << std::endl;
-				access_viewer_([&pc](viewer& vw) {
+				shell::access_viewer([&pc](viewer& vw) {
 					auto& spc = vw->add_point_cloud(pc);
 					vw->add_bounding_box(pc.box()).set_parent(spc);
 				});

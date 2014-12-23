@@ -9,8 +9,7 @@ namespace pcf {
 
 /**
 Base class for object that has a pose in space relative to a coordinate system.
-Can have a parent space object, meaning its pose will be defined relative to that parent. No parent means pose is absolute. Parent can be reassigned.
-Keeps references to its children, and recursively notifies children on pose change. Space objects cannot be copy or move assigned. So the they can have const members and be (partially) immutable. Guarantees that pointers to parent or children get properly removed when either child or parent gets deleted.
+Can have a parent space object, meaning its pose will be defined relative to that parent. No parent means pose is absolute. Parent can be reassigned. Keeps references to its children, and recursively notifies children on pose change. Space objects cannot be copy or move assigned. So the they can have const members and be (partially) immutable. Guarantees that pointers to parent or children get properly removed when either child or parent gets deleted.
 */
 class space_object {
 private:

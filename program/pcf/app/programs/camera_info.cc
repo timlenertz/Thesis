@@ -10,7 +10,7 @@ PCF_PROGRAM(camera_info) {
 	void main() {
 		std::unique_ptr<projection_camera> cam = nullptr;
 	
-		access_viewer_([&cam](viewer& vw) {
+		shell::access_viewer([&cam](viewer& vw) {
 			const projection_camera& c = vw->get_camera();
 			cam.reset(new projection_camera(c));
 		});

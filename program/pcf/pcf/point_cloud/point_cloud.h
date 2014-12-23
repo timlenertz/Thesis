@@ -61,7 +61,11 @@ protected:
 	If all_val and other is not all-valid, erases invalid points.
 	*/
 	template<typename Other_point, typename Other_allocator>
-	point_cloud(const point_cloud<Other_point, Other_allocator>&, bool all_val, const Allocator&);
+	point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity, bool all_val, const Allocator&);
+
+	template<typename Other_point, typename Other_allocator>
+	point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
+		point_cloud(pc, 0, all_val, alloc) { }
 	
 	
 	point_cloud() = delete; ///< Disallow default construction.
@@ -102,6 +106,7 @@ public:
 	
 	bool all_valid() const { return all_valid_; }
 	std::size_t capacity() const { return allocated_size_; }
+	std::size_t remaining_capacity() const { return capacity() - size(); }
 	std::size_t size() const { return end_ - begin_; }
 	bool empty() const { return end_ == begin_; }
 	

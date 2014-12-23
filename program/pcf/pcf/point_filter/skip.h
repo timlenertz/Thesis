@@ -22,9 +22,9 @@ public:
 	bool operator()(const point_xyz&) {
 		if(++counter_ == k_) {
 			counter_ = 0;
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 };

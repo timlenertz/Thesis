@@ -50,6 +50,8 @@
 #include "point_cloud/tree/tree_point_cloud.h"
 #include "point_filter/conjunction.h"
 #include "point_filter/crop.h"
+#include "point_filter/disjunction.h"
+#include "point_filter/negation.h"
 #include "point_filter/passthrough.h"
 #include "point_filter/point_filter.h"
 #include "point_filter/segment.h"

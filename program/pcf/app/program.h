@@ -14,14 +14,6 @@
 namespace pcf {
 
 class program {
-protected:
-	template<typename Callback>
-	bool access_viewer_(const Callback& cb) {
-		if(! shell::has_viewer_window()) return false;
-		shell::get_viewer_window().access_viewer(cb);
-		return true;
-	}
-	
 public:
 	virtual ~program() { }
 	

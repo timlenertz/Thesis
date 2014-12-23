@@ -41,7 +41,7 @@ void space_object::detach_from_children_() {
 
 
 void space_object::attach_to_parent_() {
-	parent_->children_.insert(this);
+	if(parent_) parent_->children_.insert(this);
 }
 
 

@@ -1,6 +1,7 @@
 #include <utility>
 #include <cstring>
 #include <algorithm>
+#include <stdexcept>
 #include "../io/point_cloud_importer.h"
 #include "../util/random.h"
 
@@ -24,8 +25,8 @@ unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_i
 
 template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
 unorganized_point_cloud<Point, Allocator>::
-unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
-	super(pc, all_val, alloc) { }
+unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t cap, bool all_val, const Allocator& alloc) :
+	super(pc, cap, all_val, alloc) { }
 
 
 
@@ -65,10 +66,8 @@ void unorganized_point_cloud<Point, Allocator>::filter(Filter filt, bool invalid
 	for(Point* p = super::begin_; p < super::end_; ++p) {
 		if(! p->valid()) continue;
 		bool accept = filt(*p);
-		if(! accept) {
-			if(invalidate) p->invalidate();
-			else *(np++) = *p;
-		}
+		if(invalidate && !accept) p->invalidate();
+		else if(!invalidate && accept) *(np++) = *p;
 	}
 	
 	if(! invalidate) super::end_ = np;
@@ -122,7 +121,7 @@ void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio, b
 
 
 template<typename Point, typename Allocator>
-void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool move, bool invalidate) {
+void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool keep_first, bool invalidate) {
 	if(invalidate && super::all_valid_)
 		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
 	
@@ -150,7 +149,7 @@ void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, 
 		auto& cand = cells[mi];
 		if(cand == nullptr) {
 			cand = p;
-		} else {
+		} else if(! keep_first) {
 			Eigen::Vector3f center = cell_center(mi);
 		
 			float old_d = distance_sq(*cand, center);
@@ -159,14 +158,6 @@ void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, 
 			if(new_d < old_d) cand = p;
 		}
 	}
-
-
-	// If move: Move points retained for cells to respective cell centers
-	if(move) for(auto cit = cells.begin(); cit != cells.end(); ++cit) {
-		Point* p = *cit;
-		if(p) *p = cell_center(cit.index());
-	}
-	
 	
 	// Invalidate all points, and then revalidate those retained for cells
 	#pragma omp parallel for
@@ -180,6 +171,48 @@ void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, 
 	// If not in invalidate mode: Need to erase invalid from pc
 	if(! invalidate) erase_invalid_points();
 }
+
+
+template<typename Point, typename Allocator> template<typename Distribution>
+void unorganized_point_cloud<Point, Allocator>::randomly_displace_points(const Distribution& dist_orig) {
+	Distribution dist(dist_orig);
+	random_generator& rng = get_random_generator();
+
+	for(Point* p = super::begin_; p < super::end_; ++p) {
+		if(! p->valid()) continue;
+		
+		Eigen::Vector3f d(
+			dist(rng), dist(rng), dist(rng)
+		);
+		p->homogeneous_coordinates.head(3) += d;
+	}
+}
+
+
+template<typename Point, typename Allocator> template<typename Distribution>
+void unorganized_point_cloud<Point, Allocator>::add_random_noise_around_points(std::size_t amount, const Distribution& displacement) {
+	if(amount > super::remaining_capacity())
+		throw std::logic_error("Not enough capacity for requested amound of additional points.");
+	if(amount > super::size())
+		throw std::logic_error("Cannot add more noise points than existing points.");
+	
+	Distribution dist(displacement);
+	random_generator& rng = get_random_generator();
+	
+	Point* np = super::end_;
+	iterate_and_pick_random(super::begin_, super::end_, amount, [&](Point& p) {
+		if(! p.valid()) return;
+		
+		*np = p;	
+		Eigen::Vector3f d( dist(rng), dist(rng), dist(rng) );
+		np->homogeneous_coordinates.head(3) += d;
+		
+		++np;
+	});
+	
+	super::end_ = np;
+}
+
 
 
 
