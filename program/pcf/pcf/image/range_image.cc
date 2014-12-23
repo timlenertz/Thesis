@@ -1,5 +1,6 @@
 #include "range_image.h"
 #include <opencv2/opencv.hpp>
+#include <cstdint>
 #include <cmath>
 
 namespace pcf {

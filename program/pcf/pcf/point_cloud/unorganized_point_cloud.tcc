@@ -1,22 +1,10 @@
 #include <utility>
 #include <cstring>
+#include <algorithm>
 #include "../io/point_cloud_importer.h"
 #include "../util/random.h"
 
 namespace pcf {
-
-template<typename Point, typename Allocator>
-unorganized_point_cloud<Point, Allocator>::
-unorganized_point_cloud(const super& pc, bool all_val) :
-	super(pc, all_val, pc.get_allocator()) { }
-
-
-template<typename Point, typename Allocator>
-unorganized_point_cloud<Point, Allocator>::
-unorganized_point_cloud(super&& pc, bool all_val) :
-	super(std::move(pc), all_val)
-{ }
-
 
 
 template<typename Point, typename Allocator>
@@ -37,29 +25,60 @@ unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_i
 template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
 unorganized_point_cloud<Point, Allocator>::
 unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
-	super(pc.capacity(), all_val, alloc)
-{
-	super::resize_(pc.size());
-	
-	auto o = super::begin();
-	for(auto i = pc.cbegin(); i < pc.cend(); ++i) *(o++) = *i;
-	
-	if(super::all_valid_ && !pc.all_valid()) erase_invalid_points();
-}
+	super(pc, all_val, alloc) { }
+
+
+
+template<typename Point, typename Allocator>
+unorganized_point_cloud<Point, Allocator>::
+unorganized_point_cloud(super&& pc, bool all_val) :
+	super(std::move(pc), all_val) { }
 
 
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen::Affine3f& t) {	
 	#pragma omp parallel for
-	for(auto p = super::begin(); p < super::end(); ++p) p->apply_transformation(t);
+	for(auto p = super::begin(); p < super::end(); ++p)
+		if(p->valid()) p->apply_transformation(t);
 }
 
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::apply_pose() {	
-	apply_transformation(super::pose_);
-	super::clear_pose();
+	const Eigen::Affine3f& t = super::relative_pose().view_transformation_inverse();
+	apply_transformation(t);
+	super::set_relative_pose(pose());
+}
+
+
+template<typename Point, typename Allocator> template<typename Filter>
+void unorganized_point_cloud<Point, Allocator>::filter(Filter filt, bool invalidate, bool par) {
+	if(invalidate && super::all_valid_)
+		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
+
+	filt.reset();
+
+	Point* np = super::begin_;
+
+	#pragma omp parallel for if(par && invalidate)
+	for(Point* p = super::begin_; p < super::end_; ++p) {
+		if(! p->valid()) continue;
+		bool accept = filt(*p);
+		if(! accept) {
+			if(invalidate) p->invalidate();
+			else *(np++) = *p;
+		}
+	}
+	
+	if(! invalidate) super::end_ = np;
+}
+
+
+
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::shuffle() {
+	std::shuffle(super::begin(), super::end(), get_random_generator());
 }
 
 
@@ -72,6 +91,7 @@ void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {
 		return p.valid();
 	});
 }
+
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalidate) {

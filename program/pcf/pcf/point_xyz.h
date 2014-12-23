@@ -18,8 +18,6 @@ Point of a cloud, consisting of X, Y, Z coordinates.
 Can be marked as invalid. Aligned to 16 byte boundary, homologous to float[4], to allow for SIMD optimizations. POD type intended for raw memory access. (E.g. could be written into file or OpenGL buffer).
 */
 struct ALIGNAS(16) point_xyz {
-	
-
 	/// Homogeneous coordinates of point.
 	/// When last component is not 1, point is invalid. All invalid values compare as equal, regardless of first 3 components.
 	/// Representation of valid points is unique.

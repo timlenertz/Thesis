@@ -58,6 +58,12 @@ point_cloud(point_cloud&& pc, bool all_val) :
 {
 	check_correct_alignment_();
 	pc.begin_ = nullptr;
+	
+	// If this is all valid but other is not, remove invalid points from buffer.
+	if(all_val && ! pc.all_valid())
+		end_ = std::partition(begin(), end(), [](const Point& p) {
+			return p.valid();
+		});
 }
 
 
@@ -66,9 +72,11 @@ point_cloud<Point, Allocator>::
 point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
 	point_cloud(pc.size(), all_val, alloc)
 {
+	// Copy points one-by-one into new buffer.
+	// If this is all valid but other is not, take only valid points.
 	Point* buf = begin_;
 	if(all_val && ! pc.all_valid()) {
-		for(const auto& p : pc) if(p.valid())  *(buf++) = Point(p);
+		for(const auto& p : pc) if(p.valid()) *(buf++) = Point(p);
 	} else {
 		for(const auto& p : pc) *(buf++) = Point(p);
 	}

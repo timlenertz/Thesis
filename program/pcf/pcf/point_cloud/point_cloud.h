@@ -50,7 +50,7 @@ protected:
 	/**
 	Create point cloud by move construction from another.
 	Other's buffer is taken, and the other is invalidated so it won't deallocate it. No memory is allocated or copied.
-	If all_val and other is not all-valid, erases invalid points.
+	If all_val and other is not all-valid, erases invalid points. Takes allocator from other. Other must have same point and allocator types for move contruction.
 	*/
 	point_cloud(point_cloud&&, bool all_val);
 

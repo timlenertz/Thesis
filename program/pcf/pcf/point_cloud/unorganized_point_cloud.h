@@ -17,26 +17,40 @@ class unorganized_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 
 public:
-	unorganized_point_cloud(const unorganized_point_cloud& pc, bool all_val = true) :
-		unorganized_point_cloud(static_cast<super&>(pc), all_val) { }
-	unorganized_point_cloud(unorganized_point_cloud&& pc, bool all_val = true) :
-		unorganized_point_cloud(static_cast<super&>(pc), all_val) { }
-
-
-	unorganized_point_cloud(const super&, bool all_val = true);
-	unorganized_point_cloud(super&&, bool all_val = true);
-
-	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());
-
+	/// Copy-construct from existing point cloud.
+	/// If all_val and other is not all-valid, erases invalid points.
 	template<typename Other_point, typename Other_allocator>
 	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>&, bool all_val = false, const Allocator& = Allocator());
-		
+
+	/// Move-construct from existing point cloud.
+	/// Does not copy or allocate memory.
+	unorganized_point_cloud(super&&, bool all_val = false);
+
+	/// Create point cloud from importer.
+	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());
+
+	/// Erase invalid points from the point cloud.
+	/// Does nothing if point cloud is all valid.
 	void erase_invalid_points();	
 	
+	/// Erase all points that are not accepted by filter.
+	template<typename Filter>
+	void filter(Filter, bool invalidate = false, bool parallel = true);
+	
+	/// Apply transformation to all points in point cloud.
 	void apply_transformation(const Eigen::Affine3f&);
+	
+	/// Applies transformation corresponding to space object's pose.
+	/// Applies the transformation of the space object's pose relative to its parent, and then sets this pose to identity.
 	void apply_pose();
+	
+	
+	void shuffle();
 
+	/// Apply random downsampling, leaving only the given ratio of points.
+	/// If invalidate is set, invalidates point to erase, but does not move points around, thus the remaining points maintain the same indices. Only possible if cloud is not all valid. If not set, erases the points and moves remaining points together.
 	void downsample_random(float ratio, bool invalidate = false);
+	
 	
 	void downsample_grid(float cell_sz, bool move = true, bool invalidate = false);
 

@@ -26,12 +26,19 @@ parent_(obj.parent_), pose_(obj.pose_) {
 
 space_object::~space_object() {
 	detach_from_parent_();
+	detach_from_children_();
 }
 
 
 void space_object::detach_from_parent_() {
 	if(parent_) parent_->children_.erase(this);
 }
+
+void space_object::detach_from_children_() {
+	for(auto child : children_)
+		if(child->parent_ == this) child->parent_ = nullptr;
+}
+
 
 void space_object::attach_to_parent_() {
 	parent_->children_.insert(this);

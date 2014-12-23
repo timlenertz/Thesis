@@ -14,6 +14,13 @@ PCF_PROGRAM(view) {
 		while(action = shell::read_choice("Action", { "Exit", "Add point cloud" }))
 			if(action == 1) {
 				unorganized_point_cloud_full pc = ask_point_cloud();
+				
+				std::cout << pc.size() << std::endl;
+				pc.shuffle();
+				pc.filter(
+					skip_point_filter(100)
+				);
+				std::cout << pc.size() << std::endl;
 
 				std::cout << "Adding to scene..." << std::endl;
 				access_viewer_([&pc](viewer& vw) {

@@ -9,7 +9,7 @@ pose::pose() :
 
 
 pose::pose(const Eigen::Affine3f& t) :
-	position(t.translation()),
+	position(t.rotation() * t.translation()),
 	orientation(t.rotation()) { }
 
 
