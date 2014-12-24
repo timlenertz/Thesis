@@ -8,7 +8,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(reproject_range_image) {
+PCF_PROGRAM(reproject_range_image, false) {
 	void main() {
 		range_point_cloud_full pc = ask_range_point_cloud();
 

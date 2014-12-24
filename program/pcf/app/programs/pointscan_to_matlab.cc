@@ -9,7 +9,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(pointscan_to_matlab) {
+PCF_PROGRAM(pointscan_to_matlab, false) {
 	void main() {
 		std::string in_filename = shell::read_line("Pointscan file", "../../../townhall/Scan_005.scan");
 		if(in_filename.empty()) return;

@@ -8,7 +8,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(pose_test) {
+PCF_PROGRAM(pose_test, false) {
 	void main() {
 		unorganized_point_cloud_full pc = ask_point_cloud();
 

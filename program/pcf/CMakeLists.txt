@@ -7,7 +7,7 @@ set(MACOSX_RPATH YES)
 set(CMAKE_BUILD_TYPE Release)
 
 if(UNIX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y") #-flto -fopenmp
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fopenmp") #-flto
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-missing-braces -Wno-unknown-pragmas -fdiagnostics-color=always")
 	
 elseif(MSVC)

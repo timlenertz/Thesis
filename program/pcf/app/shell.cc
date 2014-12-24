@@ -20,7 +20,7 @@ std::vector<shell::program_entry>& shell::programs_vector_() {
 }
 
 
-void shell::viewer_options_() {
+void shell::viewer_options_menu_() {
 	std::vector<std::string> choices = {
 		"Movement speed: " + std::to_string(get_viewer_window().get_movement_speed()),
 		"Clear scene objects",
@@ -68,18 +68,40 @@ void shell::run_program_(program& p) {
 }
 
 
+void shell::tools_menu_() {
+	std::vector<std::string> choices = {
+		"Exit"
+	};
+	std::vector<program*> programs;
+	for(const program_entry& p : programs_vector_()) if(! p.primary) {
+		choices.push_back(p.name);
+		programs.push_back(p.program_instance);
+	}
+		
+	unsigned choice = read_choice("Tool Program", choices);
+	if(choice == 0) return;
+	else run_program_(*programs[choice - 1]);
+}
+
+
 bool shell::main_menu_() {
 	std::vector<std::string> choices = {
 		"Exit",
-		"Viewer options"
+		"Viewer options",
+		"Tools"
 	};
-	for(const program_entry& p : programs_vector_())
+	std::vector<program*> programs;
+	for(const program_entry& p : programs_vector_()) if(p.primary) {
 		choices.push_back(p.name);
+		programs.push_back(p.program_instance);
+	}
+		
 	
 	unsigned choice = read_choice("Program", choices);
 	if(choice == 0) return false;
-	else if(choice == 1) viewer_options_();
-	else run_program_(*programs_vector_()[choice - 2].program_instance);
+	else if(choice == 1) viewer_options_menu_();
+	else if(choice == 2) tools_menu_();
+	else run_program_(*programs[choice - 3]);
 	
 	return true;
 }
@@ -100,14 +122,14 @@ std::string shell::read_line(const std::string& prompt, const std::string& def) 
 }
 
 
-int shell::read_choice(const std::string& prompt, const std::vector<std::string>& choices) {
+int shell::read_choice(const std::string& prompt, const choices& chc) {
 	std::cout << prompt << ':' << std::endl;
 	int i = 1;
-	for(const std::string& choice : choices)
+	for(const std::string& choice : chc)
 		std::cout << " (" << i++ << ") " << choice << std::endl;
 
 	int selection = 0;
-	while(selection == 0 || selection > choices.size())
+	while(selection == 0 || selection > chc.size())
 		selection = read_from_input("Choose", 0);
 	
 	return selection - 1;

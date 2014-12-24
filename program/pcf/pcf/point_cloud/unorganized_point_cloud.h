@@ -16,6 +16,9 @@ template<typename Point, typename Allocator = default_allocator<Point>>
 class unorganized_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 
+private:
+	bool filters_invalidate_points_ = false;
+
 public:
 	/// Copy-construct from existing point cloud.
 	/// If all_val and other is not all-valid, erases invalid points.
@@ -29,13 +32,15 @@ public:
 	/// Create point cloud from importer.
 	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());
 
+	bool filters_invalidate_points() const;
+	void filters_invalidate_points(bool);
+
 	/// Erase invalid points from the point cloud.
-	/// Does nothing if point cloud is all valid.
 	void erase_invalid_points();	
 	
 	/// Erase all points that are not accepted by filter.
 	template<typename Filter>
-	void filter(Filter, bool invalidate = false, bool parallel = true);
+	void filter(Filter, bool parallel = true);
 	
 	/// Apply transformation to all points in point cloud.
 	void apply_transformation(const Eigen::Affine3f&);
@@ -49,11 +54,16 @@ public:
 
 	/// Apply random downsampling, leaving only the given ratio of points.
 	/// If invalidate is set, invalidates point to erase, but does not move points around, thus the remaining points maintain the same indices. Only possible if cloud is not all valid. If not set, erases the points and moves remaining points together.
-	void downsample_random(float ratio, bool invalidate = false);
+	void downsample_random(float ratio);
+	
+	/// Apply random downsampling, where ratio depends on position.
+	/// \p Field is a function taking an Eigen::Vector3f as argument, and returning a float value in [0, 1], indicating the downsampling ratio at that location. (I.e. the probability that a point at that location gets erased.)
+	template<typename Field>
+	void downsample_random_field(const Field&);
 	
 	/// Apply grid downsampling, using given grid cell side length.
 	/// Puts regular axis-aligned cubic grid over point cloud, and keeps exactly one point for each grid cell that contained at least one point. If keep_first, keeps the first point found to be inside a cell. Else, keeps the point closest to the cell's center. Does not displace points.
-	void downsample_grid(float cell_sz, bool keep_first = false, bool invalidate = false);
+	void downsample_grid(float cell_sz, bool keep_first = false);
 
 	/// Displace points using random number distribution.
 	/// Random numbers generated using the given distribution is added to the X, Y and Z coordinates of each point.
@@ -65,12 +75,17 @@ public:
 	template<typename Distribution>
 	void add_random_noise_around_points(std::size_t amount, const Distribution& displacement);
 	
+	/// Add random noise within given bounding box.
+	/// Added points get uniformly distributed in cuboid.  \p amount must be lesser or equal to remaining capacity.
 	void add_random_noise_in_box(std::size_t amount, const bounding_box& box);
 	
-	
+	/// Keep only points that are visible to given camera.
+	/// Camera must be an image_camera. Applies z-buffering and keeps only closest point for each image pixel.
 	template<typename Camera>
-	void erase_invisible_points(const Camera&, bool invalidate = false);
+	void erase_invisible_points(const Camera&);
 
+	/// Find closest point to given query point.
+	/// Trivial implementation; tests against point. Structured point clouds provide more efficient algorithms.
 	template<typename Other_point>
 	const Point& closest_point(const Other_point&, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 };

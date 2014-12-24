@@ -14,7 +14,7 @@ template<typename Point>
 class point_transform_iterator :
 public std::iterator<std::random_access_iterator_tag, Point> {
 private:
-	const Eigen::Affine3f transformation_;
+	Eigen::Affine3f transformation_;
 	Point* point_;
 	
 	mutable bool should_load_transformed_point_;

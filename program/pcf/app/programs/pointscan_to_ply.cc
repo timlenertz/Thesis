@@ -7,7 +7,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(pointscan_to_ply) {
+PCF_PROGRAM(pointscan_to_ply, false) {
 	void main() {
 		std::string in_filename = shell::read_line("Pointscan file");
 		if(in_filename.empty()) return;

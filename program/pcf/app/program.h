@@ -5,9 +5,9 @@
 #include "shell.h"
 #include "viewer_window.h"
 
-#define PCF_PROGRAM(Name) \
+#define PCF_PROGRAM(Name, Primary) \
 	struct program_ ## Name; \
-	const static program* program_instance_ ## Name = shell::instanciate_program<program_ ## Name>(#Name); \
+	const static program* program_instance_ ## Name = shell::instanciate_program<program_ ## Name>(#Name, Primary); \
 	struct program_ ## Name : public program
 
 

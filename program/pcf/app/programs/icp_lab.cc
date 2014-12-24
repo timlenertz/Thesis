@@ -5,7 +5,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(icp_lab) {
+PCF_PROGRAM(icp_lab, true) {
 	void main() {
 		
 	}

@@ -12,7 +12,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(export_range_point_cloud_images) {
+PCF_PROGRAM(export_range_point_cloud_images, false) {
 	void main() {
 		std::vector<std::string> files;
 	

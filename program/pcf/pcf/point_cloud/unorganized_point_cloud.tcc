@@ -36,6 +36,19 @@ unorganized_point_cloud(super&& pc, bool all_val) :
 	super(std::move(pc), all_val) { }
 
 
+template<typename Point, typename Allocator>
+bool unorganized_point_cloud<Point, Allocator>::filters_invalidate_points() const {
+	return filters_invalidate_points_;
+}
+
+
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::filters_invalidate_points(bool b) {
+	if(b && super::all_valid_) throw std::invalid_argument("Cannot set all valid cloud to filters invalidate points.");
+	filters_invalidate_points_ = b;
+}
+
+
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen::Affine3f& t) {	
@@ -54,23 +67,20 @@ void unorganized_point_cloud<Point, Allocator>::apply_pose() {
 
 
 template<typename Point, typename Allocator> template<typename Filter>
-void unorganized_point_cloud<Point, Allocator>::filter(Filter filt, bool invalidate, bool par) {
-	if(invalidate && super::all_valid_)
-		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
-
+void unorganized_point_cloud<Point, Allocator>::filter(Filter filt, bool par) {
 	filt.reset();
 
 	Point* np = super::begin_;
 
-	#pragma omp parallel for if(par && invalidate)
+	#pragma omp parallel for if(par && filters_invalidate_points_)
 	for(Point* p = super::begin_; p < super::end_; ++p) {
 		if(! p->valid()) continue;
 		bool accept = filt(*p);
-		if(invalidate && !accept) p->invalidate();
-		else if(!invalidate && accept) *(np++) = *p;
+		if(filters_invalidate_points_ && !accept) p->invalidate();
+		else if(!filters_invalidate_points_ && accept) *(np++) = *p;
 	}
 	
-	if(! invalidate) super::end_ = np;
+	if(! filters_invalidate_points_) super::end_ = np;
 }
 
 
@@ -83,9 +93,7 @@ void unorganized_point_cloud<Point, Allocator>::shuffle() {
 
 
 template<typename Point, typename Allocator>
-void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {
-	if(super::all_valid_) return;
-	
+void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {	
 	super::end_ = std::partition(super::begin(), super::end(), [](const Point& p) {
 		return p.valid();
 	});
@@ -93,10 +101,7 @@ void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {
 
 
 template<typename Point, typename Allocator>
-void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio, bool invalidate) {
-	if(invalidate && super::all_valid_)
-		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
-	
+void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio) {
 	random_generator& rng = get_random_generator();
 	Point* np = super::begin_;
 	
@@ -109,22 +114,34 @@ void unorganized_point_cloud<Point, Allocator>::downsample_random(float ratio, b
 		if(! super::all_valid_) if(! p->valid()) continue;
 		std::uniform_int_distribution<std::size_t> dist(0, left - 1);
 		if(dist(rng) < needed) {
-			if(invalidate) p->invalidate();
+			if(filters_invalidate_points_) p->invalidate();
 			else *(np++) = *p;
 			--needed;
 		}
 		--left;
 	}
-	if(! invalidate) super::end_ = np;
+	if(! filters_invalidate_points_) super::end_ = np;
 }
 
 
 
-template<typename Point, typename Allocator>
-void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool keep_first, bool invalidate) {
-	if(invalidate && super::all_valid_)
-		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
+template<typename Point, typename Allocator> template<typename Field>
+void unorganized_point_cloud<Point, Allocator>::downsample_random_field(const Field& field) {
+	#pragma omp parallel for
+	for(Point* p = super::begin_; p < super::end_; ++p) {
+		if(! p->valid()) continue;
+		float r = random_real(0.0f, 1.0f);
+		float f = field(p->coordinates());
+		if(r < f) p->invalidate();
+	}
 	
+	// If not in invalidate mode: Need to erase invalid from pc
+	if(! filters_invalidate_points_) erase_invalid_points();
+}
+
+
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, bool keep_first) {
 	// Create 3D array storing closest point to center of each cell
 	// or nullptr if no point in that cell
 	bounding_box b = super::box();
@@ -169,7 +186,7 @@ void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, 
 
 
 	// If not in invalidate mode: Need to erase invalid from pc
-	if(! invalidate) erase_invalid_points();
+	if(! filters_invalidate_points_) erase_invalid_points();
 }
 
 
@@ -215,10 +232,7 @@ void unorganized_point_cloud<Point, Allocator>::add_random_noise_around_points(s
 
 
 template<typename Point, typename Allocator> template<typename Camera>
-void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Camera& cam, bool invalidate) {
-	if(invalidate && super::all_valid_)
-		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
-
+void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Camera& cam) {
 	// Project points using camera and z-buffer
 	// Keep pointers to projected points in image
 	multi_dimensional_array<Point*, 2> image({cam.image_width(), cam.image_height()}, nullptr);
@@ -245,7 +259,7 @@ void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Cam
 	}
 
 	// If not in invalidate mode: Need to erase invalid from pc
-	if(! invalidate) erase_invalid_points();
+	if(! filters_invalidate_points_) erase_invalid_points();
 }
 
 

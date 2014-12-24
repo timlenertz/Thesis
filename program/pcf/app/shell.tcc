@@ -59,9 +59,9 @@ T shell::read_from_input(const std::string& prompt, const T& def) {
 
 
 template<typename Program>
-program* shell::instanciate_program(const std::string& name) {
+program* shell::instanciate_program(const std::string& name, bool primary) {
 	program* pr = new Program;
-	programs_vector_().push_back({pr, name});
+	programs_vector_().push_back({pr, name, primary});
 	return pr;
 }
 

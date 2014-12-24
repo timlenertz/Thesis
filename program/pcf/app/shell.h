@@ -17,23 +17,27 @@ private:
 	struct program_entry {
 		program* program_instance;
 		std::string name;
+		bool primary;
 	};
 
 	static viewer_window* viewer_win_;
 
 	static bool main_menu_();
-	static void viewer_options_();
+	static void tools_menu_();
+	static void viewer_options_menu_();
 	static void run_program_(program&);
 	
 	static std::vector<program_entry>& programs_vector_();
 
 public:
+	using choices = std::vector<std::string>;
+
 	template<class T> static T read_from_string(const std::string& str);
 	template<class T> static T read_from_string(const std::string& str, const T& def);
 	template<class T> static T read_from_input(const std::string& prompt);
 	template<class T> static T read_from_input(const std::string& prompt, const T& def);
 	static std::string read_line(const std::string& prompt, const std::string& def = std::string(""));
-	static int read_choice(const std::string& prompt, const std::vector<std::string>& choices);
+	static int read_choice(const std::string& prompt, const choices&);
 	
 	static void set_viewer_window(viewer_window&);
 	static viewer_window& get_viewer_window();
@@ -43,7 +47,7 @@ public:
 	static projection_camera current_viewer_camera();
 	
 	template<typename Program>
-	static program* instanciate_program(const std::string& name);
+	static program* instanciate_program(const std::string& name, bool primary);
 
 	static void main();
 };
