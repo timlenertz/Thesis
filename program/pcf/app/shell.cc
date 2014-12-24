@@ -4,6 +4,8 @@
 #include "../pcf_viewer/viewer.h"
 #include <iostream>
 #include <stdexcept>
+#include <vector>
+#include <string>
 #include <memory>
 
 namespace pcf {
@@ -16,6 +18,39 @@ std::vector<shell::program_entry>& shell::programs_vector_() {
 	if(! programs_) programs_ = new vec;
 	return *programs_;
 }
+
+
+void shell::viewer_options_() {
+	std::vector<std::string> choices = {
+		"Movement speed: " + std::to_string(get_viewer_window().get_movement_speed()),
+		"Clear scene objects",
+		"Reset camera",
+		"Camera pose"
+	};
+	
+	unsigned choice = read_choice("Option", choices);
+	if(choice == 0) {
+		float speed = read_from_input("New movement speed", get_viewer_window().get_movement_speed());
+		get_viewer_window().set_movement_speed(speed);
+	} else if(choice == 1) {
+		access_viewer([](viewer& vw) {
+			vw->clear();
+		});
+	} else if(choice == 2) {
+		access_viewer([](viewer& vw) {
+			vw->set_camera_pose(pose());
+		});
+	} else if(choice == 3) {
+		access_viewer([](viewer& vw) {
+			const pose& ps = vw->get_camera_pose();
+			std::cout << "View matrix:" << std::endl;
+			std::cout << ps.view_transformation().matrix() << std::endl;
+			std::cout << "Position:" << std::endl;
+			std::cout << ps.position << std::endl;
+		});
+	}
+}
+
 
 
 void shell::run_program_(program& p) {
@@ -33,17 +68,26 @@ void shell::run_program_(program& p) {
 }
 
 
+bool shell::main_menu_() {
+	std::vector<std::string> choices = {
+		"Exit",
+		"Viewer options"
+	};
+	for(const program_entry& p : programs_vector_())
+		choices.push_back(p.name);
+	
+	unsigned choice = read_choice("Program", choices);
+	if(choice == 0) return false;
+	else if(choice == 1) viewer_options_();
+	else run_program_(*programs_vector_()[choice - 2].program_instance);
+	
+	return true;
+}
+
+
 void shell::main() {
-	bool stop = false;
-	while(! stop) {	
-		unsigned i = 1;
-		for(const program_entry& p : programs_vector_()) {
-			std::cout << '(' << i++ << ") " << p.name << std::endl;
-		}
-		
-		while(i < 1 || i > programs_vector_().size()) i = read_from_input("Program", 0);
-		run_program_(*programs_vector_()[i - 1].program_instance);
-	}
+	bool run = true;
+	while(run) run = main_menu_();
 }
 
 

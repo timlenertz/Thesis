@@ -21,6 +21,8 @@ private:
 
 	static viewer_window* viewer_win_;
 
+	static bool main_menu_();
+	static void viewer_options_();
 	static void run_program_(program&);
 	
 	static std::vector<program_entry>& programs_vector_();
