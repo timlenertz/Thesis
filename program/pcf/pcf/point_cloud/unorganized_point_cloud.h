@@ -65,6 +65,9 @@ public:
 	template<typename Distribution>
 	void add_random_noise_around_points(std::size_t amount, const Distribution& displacement);
 	
+	void add_random_noise_in_box(std::size_t amount, const bounding_box& box);
+	
+	
 	template<typename Camera>
 	void erase_invisible_points(const Camera&, bool invalidate = false);
 

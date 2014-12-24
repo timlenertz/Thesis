@@ -216,6 +216,9 @@ void unorganized_point_cloud<Point, Allocator>::add_random_noise_around_points(s
 
 template<typename Point, typename Allocator> template<typename Camera>
 void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Camera& cam, bool invalidate) {
+	if(invalidate && super::all_valid_)
+		throw std::invalid_argument("Cannot invalidate points in all-valid point cloud.");
+
 	// Project points using camera and z-buffer
 	// Keep pointers to projected points in image
 	multi_dimensional_array<Point*, 2> image({cam.image_width(), cam.image_height()}, nullptr);
@@ -243,6 +246,24 @@ void unorganized_point_cloud<Point, Allocator>::erase_invisible_points(const Cam
 
 	// If not in invalidate mode: Need to erase invalid from pc
 	if(! invalidate) erase_invalid_points();
+}
+
+
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::add_random_noise_in_box(std::size_t amount, const bounding_box& box) {
+	if(amount > super::remaining_capacity())
+		throw std::logic_error("Not enough capacity for requested amound of additional points.");
+
+	Point* np = super::end_;
+	while(amount--) {
+		Eigen::Vector3f new_pt;
+		for(std::ptrdiff_t i = 0; i < 3; ++i)
+			new_pt[i] = random_real(box.origin[i], box.extremity[i]);
+		
+		*(np++) = Point(new_pt);
+	}
+	
+	super::end_ = np;
 }
 
 

@@ -9,26 +9,25 @@ using namespace pcf;
 
 PCF_PROGRAM(icp_test) {
 	void main() {
-		unorganized_point_cloud_full loose_orig = ask_point_cloud();
+		unorganized_point_cloud_full orig = ask_point_cloud();
 	
 		Eigen::Affine3f actual_transformation(
 			Eigen::AngleAxisf(0.03*M_PI, Eigen::Vector3f::UnitX()) *
 			Eigen::AngleAxisf(0.04*M_PI, Eigen::Vector3f::UnitY()) *
-			Eigen::AngleAxisf(0.05*M_PI, Eigen::Vector3f::UnitZ())
+			Eigen::AngleAxisf(0.05*M_PI, Eigen::Vector3f::UnitZ()) *
+			Eigen::Translation3f(Eigen::Vector3f(1.0, -1.0, 0.5) * 10.0)
 		);
-		
-		unorganized_point_cloud_full loose(loose_orig, loose_orig.size()*2);
-		
+				
 		//range_image_camera cam(pose(), {angle(-pi),angle(+pi)}, {angle(-pi),angle(+pi)}, 800, 800);
 		//loose.erase_invisible_points(cam);
-
-		loose_orig.randomly_displace_points(std::normal_distribution<float>(0.0, 0.3));
-				
+					
 		std::cout << "Creating structured fixed point cloud..." << std::endl;
-		tree_point_cloud<kdtree_traits, point_xyz> fixed(loose_orig, system_page_size / sizeof(point_full));
+		tree_point_cloud<kdtree_traits, point_xyz> fixed(orig, system_page_size / sizeof(point_full));
 		
-		loose.apply_transformation(actual_transformation);	
-		loose.add_random_noise_around_points(loose.size(), std::normal_distribution<float>(0.0, 0.5));
+		unorganized_point_cloud_full loose(orig, orig.size()*2);
+		
+		loose.apply_transformation(actual_transformation);
+		loose.add_random_noise_in_box(loose.size()/15, loose.box());
 
 		
 		scene_point_cloud* scene_loose = nullptr;		
