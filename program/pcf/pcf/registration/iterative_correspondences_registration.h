@@ -38,6 +38,7 @@ private:
 public:
 	float minimal_error = 0;
 	std::size_t maximal_iterations = -1;
+	bool stop_on_divergence = true;
 
 public:
 	using iteration_callback = std::function<void(const Eigen::Affine3f& est_trans, float err)>;

@@ -2,8 +2,8 @@
 #include <cstring>
 #include <algorithm>
 #include <stdexcept>
-#include "../io/point_cloud_importer.h"
-#include "../util/random.h"
+#include "../../io/point_cloud_importer.h"
+#include "../../util/random.h"
 
 namespace pcf {
 
@@ -26,7 +26,7 @@ unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_i
 template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
 unorganized_point_cloud<Point, Allocator>::
 unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t cap, bool all_val, const Allocator& alloc) :
-	super(pc, cap, all_val, alloc) { }
+	super(pc, 0, all_val, alloc) { }
 
 
 

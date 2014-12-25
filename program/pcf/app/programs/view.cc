@@ -11,8 +11,8 @@ using namespace pcf;
 PCF_PROGRAM(view, true) {
 	void main() {
 		int action;
-		shell::choices choices { "Exit", "Add point cloud" };
-		while( (action = shell::read_choice("Action", choices)) != 0 )
+		choices cs { "Exit", "Add point cloud" };
+		while( (action = read_choice("Action", cs)) != 0 )
 			if(action == 1) {
 				unorganized_point_cloud_full pc = ask_point_cloud();
 

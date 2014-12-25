@@ -9,7 +9,7 @@ using namespace pcf;
 
 PCF_PROGRAM(pointscan_to_ply, false) {
 	void main() {
-		std::string in_filename = shell::read_line("Pointscan file");
+		std::string in_filename = read_line("Pointscan file");
 		if(in_filename.empty()) return;
 		
 		auto dot_pos = in_filename.find_last_of('.');

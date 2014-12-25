@@ -26,14 +26,11 @@ std::string change_file_name_extension(const std::string& filename, const std::s
 	else return without_ext + '.' + ext;
 }
 
-unorganized_point_cloud_full ask_point_cloud() {
-	std::string in_filename = shell::read_line("Point cloud file");
-	if(in_filename.empty()) throw std::runtime_error("No point cloud file given.");
-	
+unorganized_point_cloud_full load_point_cloud(const std::string& filename) {
 	std::unique_ptr<point_cloud_importer> imp;
-	std::string ext = file_name_extension(in_filename);	
-	if(ext == "ply") imp.reset(new ply_importer(in_filename));			
-	else if(ext == "scan") imp.reset(new pointscan_importer(in_filename));
+	std::string ext = file_name_extension(filename);	
+	if(ext == "ply") imp.reset(new ply_importer(filename));			
+	else if(ext == "scan") imp.reset(new pointscan_importer(filename));
 	else throw std::runtime_error("Unknown point cloud file extension ." + ext);
 
 	std::cout << "Importing ." << ext << " file..." << std::endl;
@@ -42,20 +39,29 @@ unorganized_point_cloud_full ask_point_cloud() {
 	return pc;
 }
 
+unorganized_point_cloud_full ask_point_cloud() {
+	std::string filename = read_line("Point cloud file");
+	if(filename.empty()) throw std::runtime_error("No point cloud file given.");
+	else return load_point_cloud(filename);
+}
 
-range_point_cloud_full ask_range_point_cloud() {
-	std::string in_filename = shell::read_line("Range point cloud file", "../../../townhall/Scan_005.scan");
-	if(in_filename.empty()) throw std::runtime_error("No point cloud file given.");
-	
+
+range_point_cloud_full load_range_point_cloud(const std::string& filename) {
 	std::unique_ptr<range_point_cloud_importer> imp;
-	std::string ext = file_name_extension(in_filename);	
-	if(ext == "scan") imp.reset(new pointscan_importer(in_filename));
+	std::string ext = file_name_extension(filename);	
+	if(ext == "scan") imp.reset(new pointscan_importer(filename));
 	else throw std::runtime_error("Unknown range point cloud file extension ." + ext);
 
 	std::cout << "Importing ." << ext << " file..." << std::endl;
 	range_point_cloud_full pc(*imp);
 
-	return pc;
+	return pc;	
+}
+
+range_point_cloud_full ask_range_point_cloud() {
+	std::string filename = read_line("Range point cloud file", "../../../townhall/Scan_005.scan");
+	if(filename.empty()) throw std::runtime_error("No point cloud file given.");
+	else return load_range_point_cloud(filename);
 }
 
 

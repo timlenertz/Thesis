@@ -6,13 +6,31 @@
 
 namespace pcf {
 
-template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
-tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, bool round_up_to_page_size, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc),
-leaf_capacity_(round_up_to_page_size ? round_up_to_fit_system_page_size<Point>(leaf_cap) : leaf_cap),
+template<typename Traits, typename Point, typename Allocator>
+std::size_t tree_point_cloud<Traits, Point, Allocator>::compute_leaf_capacity_(std::size_t requested, bool round_up) {
+	if(requested == 0) requested = system_page_size / sizeof(Point);
+	if(round_up) requested = round_up_to_fit_system_page_size<Point>(requested);
+	return requested;
+}
+
+
+template<typename Traits, typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
+tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t leaf_cap, bool round_up, const Allocator& alloc) :
+super(pc, true, alloc),
+leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
 root_node_(super::full_segment()) {
 	build_tree_();
 }
+
+
+template<typename Traits, typename Point, typename Allocator>
+tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(super&& pc, std::size_t leaf_cap, bool round_up) :
+super(std::move(pc), true),
+leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
+root_node_(super::full_segment()) {
+	build_tree_();
+}
+
 
 
 template<typename Traits, typename Point, typename Allocator>

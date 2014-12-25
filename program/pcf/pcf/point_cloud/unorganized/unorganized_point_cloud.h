@@ -1,7 +1,7 @@
 #ifndef PCF_UNORGANIZED_POINT_CLOUD_H_
 #define PCF_UNORGANIZED_POINT_CLOUD_H_
 
-#include "point_cloud.h"
+#include "../point_cloud.h"
 #include <cmath>
 
 namespace pcf {
@@ -23,11 +23,11 @@ public:
 	/// Copy-construct from existing point cloud.
 	/// If all_val and other is not all-valid, erases invalid points.
 	template<typename Other_point, typename Other_allocator>
-	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity = 0, bool all_val = false, const Allocator& = Allocator());
+	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity = 0, bool all_val = true, const Allocator& = Allocator());
 
 	/// Move-construct from existing point cloud.
 	/// Does not copy or allocate memory.
-	unorganized_point_cloud(super&&, bool all_val = false);
+	unorganized_point_cloud(super&&, bool all_val = true);
 
 	/// Create point cloud from importer.
 	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());

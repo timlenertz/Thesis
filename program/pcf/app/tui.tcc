@@ -1,12 +1,10 @@
 #include <sstream>
-#include <iostream>
-#include <string>
 #include <stdexcept>
 
 namespace pcf {
 
-template<class T>
-T shell::read_from_string(const std::string& str) {
+template<typename T>
+T read_from_string(const std::string& str) {
 	std::stringstream sstr(str, std::stringstream::in);
 	sstr.exceptions(std::stringstream::failbit);
 	T value;
@@ -16,8 +14,8 @@ T shell::read_from_string(const std::string& str) {
 }
 
 
-template<class T>
-T shell::read_from_string(const std::string& str, const T& def) {
+template<typename T>
+T read_from_string(const std::string& str, const T& def) {
 	std::stringstream sstr(str, std::stringstream::in);
 	T value;
 	sstr >> value;
@@ -26,8 +24,8 @@ T shell::read_from_string(const std::string& str, const T& def) {
 }
 
 
-template<class T>
-T shell::read_from_input(const std::string& prompt) {
+template<typename T>
+T read_from_input(const std::string& prompt) {
 	std::cout << prompt << ": ";
 
 	std::string line;
@@ -41,8 +39,8 @@ T shell::read_from_input(const std::string& prompt) {
 }
 
 
-template<class T>
-T shell::read_from_input(const std::string& prompt, const T& def) {
+template<typename T>
+T read_from_input(const std::string& prompt, const T& def) {
 	std::cout << prompt << " (default: " << def << "): ";
 
 	std::string line;
@@ -58,11 +56,17 @@ T shell::read_from_input(const std::string& prompt, const T& def) {
 }
 
 
-template<typename Program>
-program* shell::instanciate_program(const std::string& name, bool primary) {
-	program* pr = new Program;
-	programs_vector_().push_back({pr, name, primary});
-	return pr;
+
+template<typename T, typename... Others>
+void print(const T& val, const Others&... others) {
+	std::cout << val;
+	print(others...);
+}
+
+
+template<typename T>
+void print(const T& val) {
+	std::cout << val << std::endl;
 }
 
 

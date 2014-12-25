@@ -56,7 +56,7 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 	
 		iteration();
 		
-		if(error_ > previous_error) {
+		if(error_ > previous_error && stop_on_divergence) {
 			loose_.set_relative_pose(previous_pose);
 			break;
 		}

@@ -35,6 +35,8 @@ private:
 			seg(seg) { }
 	};
 
+	static std::size_t compute_leaf_capacity_(std::size_t requested, bool round_up_to_page_size);
+
 public:
 	template<bool> class node_handle_;
 	using node_handle = node_handle_<false>;
@@ -49,8 +51,11 @@ private:
 	bool verify_(const const_node_handle&) const;
 
 public:
-	template<typename Other_cloud>
-	tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, bool round_up_to_page_size = true, const Allocator& = Allocator());
+	template<typename Other_point, typename Other_allocator>
+	tree_point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true, const Allocator& = Allocator());
+
+	tree_point_cloud(super&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
+
 
 	node_handle root();
 	const_node_handle root() const;

@@ -30,7 +30,7 @@ template<typename Point, typename Allocator = default_allocator<Point>>
 class point_cloud : public space_object {	
 protected:
 	Allocator allocator_; ///< Allocator used to create buffer.
-	const std::size_t allocated_size_; ///< Allocated buffer size.
+	std::size_t allocated_size_; ///< Allocated buffer size.
 	const bool all_valid_; ///< If set, all points must be valid.
 	Point* begin_; ///< Point buffer. Allocated and owned by point cloud.
 	Point* end_; ///< End of point buffer. Can be changed, must be in begin_ + [0; allocated_size_]

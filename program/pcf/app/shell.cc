@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "tui.h"
 
 namespace pcf {
 
@@ -21,17 +22,17 @@ std::vector<shell::program_entry>& shell::programs_vector_() {
 
 
 void shell::viewer_options_menu_() {
-	std::vector<std::string> choices = {
-		"Movement speed: " + std::to_string(get_viewer_window().get_movement_speed()),
+	choices cs = {
+		"Movement speed: " + std::to_string(viewer_win_->get_movement_speed()),
 		"Clear scene objects",
 		"Reset camera",
 		"Camera pose"
 	};
 	
-	unsigned choice = read_choice("Option", choices);
+	unsigned choice = read_choice("Option", cs);
 	if(choice == 0) {
-		float speed = read_from_input("New movement speed", get_viewer_window().get_movement_speed());
-		get_viewer_window().set_movement_speed(speed);
+		float speed = read_from_input("New movement speed", viewer_win_->get_movement_speed());
+		viewer_win_->set_movement_speed(speed);
 	} else if(choice == 1) {
 		access_viewer([](viewer& vw) {
 			vw->clear();
@@ -54,7 +55,7 @@ void shell::viewer_options_menu_() {
 
 
 void shell::run_program_(program& p) {
-	if(has_viewer_window()) get_viewer_window().access_viewer([](viewer& vw) {
+	access_viewer([](viewer& vw) {
 		vw->clear();
 	});
 	
@@ -69,35 +70,35 @@ void shell::run_program_(program& p) {
 
 
 void shell::tools_menu_() {
-	std::vector<std::string> choices = {
+	choices cs = {
 		"Exit"
 	};
 	std::vector<program*> programs;
 	for(const program_entry& p : programs_vector_()) if(! p.primary) {
-		choices.push_back(p.name);
+		cs.push_back(p.name);
 		programs.push_back(p.program_instance);
 	}
 		
-	unsigned choice = read_choice("Tool Program", choices);
+	unsigned choice = read_choice("Tool Program", cs);
 	if(choice == 0) return;
 	else run_program_(*programs[choice - 1]);
 }
 
 
 bool shell::main_menu_() {
-	std::vector<std::string> choices = {
+	choices cs = {
 		"Exit",
 		"Viewer options",
 		"Tools"
 	};
 	std::vector<program*> programs;
 	for(const program_entry& p : programs_vector_()) if(p.primary) {
-		choices.push_back(p.name);
+		cs.push_back(p.name);
 		programs.push_back(p.program_instance);
 	}
 		
 	
-	unsigned choice = read_choice("Program", choices);
+	unsigned choice = read_choice("Program", cs);
 	if(choice == 0) return false;
 	else if(choice == 1) viewer_options_menu_();
 	else if(choice == 2) tools_menu_();
@@ -107,56 +108,16 @@ bool shell::main_menu_() {
 }
 
 
-void shell::main() {
+void shell::main(viewer_window& win) {
+	viewer_win_ = &win;
 	bool run = true;
 	while(run) run = main_menu_();
+	win.signal_close();
 }
-
-
-std::string shell::read_line(const std::string& prompt, const std::string& def) {
-	std::cout << prompt << ": ";
-	std::string line;
-	std::getline(std::cin, line);
-	if(line.empty()) return def;
-	else return line;
-}
-
-
-int shell::read_choice(const std::string& prompt, const choices& chc) {
-	std::cout << prompt << ':' << std::endl;
-	int i = 1;
-	for(const std::string& choice : chc)
-		std::cout << " (" << i++ << ") " << choice << std::endl;
-
-	int selection = 0;
-	while(selection == 0 || selection > chc.size())
-		selection = read_from_input("Choose", 0);
-	
-	return selection - 1;
-}
-
-
-
-void shell::set_viewer_window(viewer_window& win) {
-	viewer_win_ = &win;
-}
-
-
-viewer_window& shell::get_viewer_window() {
-	if(has_viewer_window()) return *viewer_win_;
-	else throw std::logic_error("No viewer window.");
-}
-
-
-bool shell::has_viewer_window() {
-	return (viewer_win_ != nullptr) && ! viewer_win_->was_closed();
-}
-
 
 
 bool shell::access_viewer(std::function<void(viewer&)> cb) {
-	if(! has_viewer_window()) return false;
-	get_viewer_window().access_viewer(cb);
+	viewer_win_->access_viewer(cb);
 	return true;
 }
 

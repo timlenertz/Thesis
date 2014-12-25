@@ -11,8 +11,7 @@ namespace pcf {
 
 /**
 Viewer for a scene.
-Handles smooth movement of camera through scene. Set up of OpenGL context and render loop
-needs to be handled externally.
+Handles smooth movement of camera through scene. Set up of OpenGL context and render loop needs to be handled externally.
 */
 class viewer {
 private:
@@ -22,6 +21,8 @@ private:
 	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
 	Eigen::Vector3f view_target_velocity_ = Eigen::Vector3f::Zero();
 	std::chrono::time_point<clock> last_time_;
+	
+	scene_object* selected_object_ = nullptr;
 	
 	void compute_motion_(std::chrono::milliseconds delta_t);
 		
@@ -40,8 +41,8 @@ public:
 	
 	void rotate_camera(angle horizontal, angle vertical);
 	void roll_camera(angle);
-	void set_target_velocity(const Eigen::Vector3f& vel);
-	void stop_movement();
+	void set_camera_target_velocity(const Eigen::Vector3f& vel);
+	void stop_camera_movement();
 	
 	scene* operator->() { return &scene_; }
 	scene& operator*() { return scene_; }

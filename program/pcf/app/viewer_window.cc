@@ -60,7 +60,7 @@ void viewer_window::update_movement_velocity_() {
 			case negative: vel[i] = -movement_speed_; break;
 		}
 	}
-	viewer_.set_target_velocity(vel);
+	viewer_.set_camera_target_velocity(vel);
 }
 
 
@@ -129,11 +129,26 @@ viewer_(default_window_width_, default_window_height_) {
 }
 
 
+void viewer_window::signal_close() {
+	close_signalled_.store(true);
+	glfwSetWindowShouldClose(window_, 1);
+}
+
+
+
+bool viewer_window::user_requested_close() const {
+	return close_requested_.load();
+}
+
+
 void viewer_window::run() {	
+	close_signalled_.store(false);
+	close_requested_.store(false);
+
 	glfwMakeContextCurrent(window_);
 	glfwSwapInterval(100);
 
-	while(! glfwWindowShouldClose(window_)) {
+	for(;;) {
 		if(access_viewer_mutex_.try_lock()) {	
 			glfwMakeContextCurrent(window_);
 			viewer_.draw();
@@ -142,8 +157,12 @@ void viewer_window::run() {
 		}
 		
 		glfwPollEvents();
+		
+		if(glfwWindowShouldClose(window_)) {
+			if(close_signalled_.load()) break;
+			else close_requested_.store(true);
+		}
 	}
-	closed_ = true;
 }
 
 

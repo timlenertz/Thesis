@@ -99,12 +99,12 @@ void viewer::roll_camera(angle a) {
 }
 
 
-void viewer::set_target_velocity(const Eigen::Vector3f& vw_vel) {
+void viewer::set_camera_target_velocity(const Eigen::Vector3f& vw_vel) {
 	view_target_velocity_ = vw_vel;
 }
 
 
-void viewer::stop_movement() {
+void viewer::stop_camera_movement() {
 	velocity_.setZero();
 	view_target_velocity_.setZero();
 }
