@@ -7,7 +7,7 @@
 
 using namespace pcf;
 
-PCF_PROGRAM(icp_test, true) {
+PCF_PROGRAM(icp_test, false) {
 	void main() {
 		unorganized_point_cloud_full fixed_orig = ask_point_cloud();
 		bounding_box b = fixed_orig.box();
