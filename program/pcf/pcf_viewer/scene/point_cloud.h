@@ -4,7 +4,7 @@
 #include "object.h"
 #include "../point_cloud/pov_point_cloud.h"
 #include "../gl.h"
-#include "../../pcf/rgb_color.h"
+#include "../../pcf_core/rgb_color.h"
 #include <utility>
 #include <memory>
 

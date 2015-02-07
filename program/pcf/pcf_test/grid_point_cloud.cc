@@ -1,9 +1,9 @@
 #include <catch.hpp>
 #include <iostream>
 
-#include "../pcf/point_cloud/grid/grid_point_cloud.h"
-#include "../pcf/point.h"
-#include "../pcf/util/random.h"
+#include "../pcf_core/point_cloud/grid/grid_point_cloud.h"
+#include "../pcf_core/point.h"
+#include "../pcf_core/util/random.h"
 #include "helper.h"
 #include <utility>
 #include <cmath>

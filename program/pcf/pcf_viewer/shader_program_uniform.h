@@ -2,7 +2,7 @@
 #define PCFVW_SHADER_PROGRAM_UNIFORM_H_
 
 #include "gl.h"
-#include "../pcf/rgb_color.h"
+#include "../pcf_core/rgb_color.h"
 #include <Eigen/Eigen>
 
 namespace pcf {

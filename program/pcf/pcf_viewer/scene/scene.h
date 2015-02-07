@@ -5,9 +5,9 @@
 #include <memory>
 #include <utility>
 #include <stdexcept>
-#include "../../pcf/camera/projection_image_camera.h"
-#include "../../pcf/geometry/angle.h"
-#include "../../pcf/rgb_color.h"
+#include "../../pcf_core/camera/projection_image_camera.h"
+#include "../../pcf_core/geometry/angle.h"
+#include "../../pcf_core/rgb_color.h"
 #include "../gl_object.h"
 #include "object.h"
 #include "point_cloud.h"

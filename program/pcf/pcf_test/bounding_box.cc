@@ -1,5 +1,5 @@
 #include <catch.hpp>
-#include "../pcf/geometry/bounding_box.h"
+#include "../pcf_core/geometry/bounding_box.h"
 #include "helper.h"
 #include <utility>
 #include <cmath>

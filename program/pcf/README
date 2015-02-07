@@ -4,11 +4,11 @@ pcf/
 pcf_viewer/
 	Add-on library to PCF providing OpenGL based rendering.
 	
-app/
-	User interface consisting of viewer window and console.
-
 pcf_test/
 	Unit tests.
+
+pcf_root/
+	Interface with ROOT.
 
 external/
 	Dependencies.

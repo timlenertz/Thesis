@@ -2,8 +2,8 @@
 #define PCFVW_SCENE_OBJECT_H_
 
 #include "../gl_object.h"
-#include "../../pcf/geometry/pose.h"
-#include "../../pcf/space_object.h"
+#include "../../pcf_core/geometry/pose.h"
+#include "../../pcf_core/space_object.h"
 
 namespace pcf {
 

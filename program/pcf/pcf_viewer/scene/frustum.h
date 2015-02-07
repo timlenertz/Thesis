@@ -2,8 +2,8 @@
 #define PCFVW_SCENE_FRUSTUM_H_
 
 #include "object.h"
-#include "../../pcf/geometry/frustum.h"
-#include "../../pcf/rgb_color.h"
+#include "../../pcf_core/geometry/frustum.h"
+#include "../../pcf_core/rgb_color.h"
 #include "../gl.h"
 #include <utility>
 

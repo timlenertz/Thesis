@@ -1,5 +1,5 @@
 #include <catch.hpp>
-#include "../pcf/camera/camera.h"
+#include "../pcf_core/camera/camera.h"
 #include "helper.h"
 #include <utility>
 

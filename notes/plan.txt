@@ -4,7 +4,7 @@ how to define/approach/solve problem
 implementation: design towards full point cloud fusion solution
 allowing implementation of solutions in appropriate framework
 
-CURRENT PHASE
+(1)
 research (= learning theory only)
 +
 implement:
@@ -19,3 +19,5 @@ Range Image IO —> structured point sets (as extension to point cloud)
 goal: do experiments on data sets
 —> get insight on which methods are well suited for which kinds of data
 
+(2)
+experiment with ICP

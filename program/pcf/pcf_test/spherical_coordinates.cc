@@ -1,5 +1,5 @@
 #include <catch.hpp>
-#include "../pcf/geometry/spherical_coordinates.h"
+#include "../pcf_core/geometry/spherical_coordinates.h"
 #include "helper.h"
 #include <utility>
 

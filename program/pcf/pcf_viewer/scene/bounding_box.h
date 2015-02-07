@@ -2,8 +2,8 @@
 #define PCFVW_SCENE_BOUNDING_BOX_H_
 
 #include "object.h"
-#include "../../pcf/geometry/bounding_box.h"
-#include "../../pcf/rgb_color.h"
+#include "../../pcf_core/geometry/bounding_box.h"
+#include "../../pcf_core/rgb_color.h"
 #include "../gl.h"
 #include <utility>
 

@@ -1,7 +1,7 @@
 #ifndef PCFVW_POV_POINT_CLOUD_H_
 #define PCFVW_POV_POINT_CLOUD_H_
 
-#include "../../pcf/point_cloud/tree/tree_point_cloud.h"
+#include "../../pcf_core/point_cloud/tree/tree_point_cloud.h"
 #include "pov_octree_traits.h"
 
 namespace pcf {

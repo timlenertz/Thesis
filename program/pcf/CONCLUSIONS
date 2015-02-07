@@ -1,0 +1,1 @@
+- better to store working point cloud in separate buffers for xyz,colors,normals,etc

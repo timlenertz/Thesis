@@ -24,7 +24,6 @@ elseif(MSVC)
 	list(APPEND GLEW_LIBS "${CMAKE_SOURCE_DIR}/external/win32/glew/64/glew32s.lib")
 endif()
 
-add_subdirectory(./pcf "${CMAKE_BINARY_DIR}/pcf")
+add_subdirectory(./pcf_core "${CMAKE_BINARY_DIR}/pcf_core")
 add_subdirectory(./pcf_test "${CMAKE_BINARY_DIR}/pcf_test")
 add_subdirectory(./pcf_viewer "${CMAKE_BINARY_DIR}/pcf_viewer")
-add_subdirectory(./app "${CMAKE_BINARY_DIR}/app")

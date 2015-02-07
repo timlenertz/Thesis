@@ -1,5 +1,5 @@
 #include "helper.h"
-#include "../pcf/io/ply_importer.h"
+#include "../pcf_core/io/ply_importer.h"
 #include <string>
 
 namespace pcf {

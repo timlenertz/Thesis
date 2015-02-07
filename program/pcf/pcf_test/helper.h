@@ -1,8 +1,8 @@
 #ifndef PCFTEST_HELPER_H_
 #define PCFTEST_HELPER_H_
 
-#include "../pcf/point_cloud/unorganized/unorganized_point_cloud.h"
-#include "../pcf/point.h"
+#include "../pcf_core/point_cloud/unorganized/unorganized_point_cloud.h"
+#include "../pcf_core/point.h"
 
 namespace pcf {
 

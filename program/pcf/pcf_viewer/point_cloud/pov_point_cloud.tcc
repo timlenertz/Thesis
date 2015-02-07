@@ -4,9 +4,9 @@
 #include <functional>
 #include <cstring>
 #include <algorithm>
-#include "../../pcf/geometry/frustum.h"
-#include "../../pcf/util/random.h"
-#include "../../pcf/point_cloud_algorithm.h"
+#include "../../pcf_core/geometry/frustum.h"
+#include "../../pcf_core/util/random.h"
+#include "../../pcf_core/point_cloud_algorithm.h"
 
 #include <iostream>
 

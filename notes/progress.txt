@@ -16,3 +16,4 @@ since 2 september 	collecting/reading +/- relevant papers
 			working ICP in grid point cloud
 4 december		hotel de ville data,
 			built user interface, visualizer, ICP toolkit
+2 february		finished exams, restarting

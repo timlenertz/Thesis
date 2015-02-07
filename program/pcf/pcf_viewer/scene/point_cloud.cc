@@ -1,6 +1,6 @@
 #include "point_cloud.h"
-#include "../../pcf/util/random.h"
-#include "../../pcf/point_algorithm.h"
+#include "../../pcf_core/util/random.h"
+#include "../../pcf_core/point_algorithm.h"
 #include "shader_program.h"
 #include "scene.h"
 #include "../gl.h"

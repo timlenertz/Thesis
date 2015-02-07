@@ -1,7 +1,7 @@
 #ifndef PCFVW_POV_OCTREE_TRAITS_H_
 #define PCFVW_POV_OCTREE_TRAITS_H_
 
-#include "../../pcf/point_cloud/tree/octree_traits.h"
+#include "../../pcf_core/point_cloud/tree/octree_traits.h"
 
 namespace pcf {
 
