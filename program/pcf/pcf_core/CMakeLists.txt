@@ -1,5 +1,5 @@
 project(libpcfcore CXX)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.1)
 
 set(OpenCV_STATIC ON)
 find_package(OpenCV REQUIRED)
@@ -11,6 +11,7 @@ include_directories(SYSTEM ../external/include/)
 include_directories(SYSTEM ../external/pointscan/)
 
 add_library(pcfcore SHARED ${CPP_SRC})
+add_library(pcfcore_static STATIC ${CPP_SRC})
 add_library(pointscan STATIC ${CPP_POINTSCAN_SRC})
 
 target_link_libraries(pcfcore ${OpenCV_LIBS})

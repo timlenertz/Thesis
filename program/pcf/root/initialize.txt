@@ -1,0 +1,7 @@
+.L dist/libpcfcore.dylib
+.L dist/libpcfviewer.dylib
+.I external/include
+
+//#include "pcf_core/pcf_core.h"
+
+.X root/pcf_ui.cc()

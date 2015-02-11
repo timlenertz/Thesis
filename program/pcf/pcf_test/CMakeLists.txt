@@ -1,5 +1,5 @@
 project(pcftest CXX)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.1)
 
 file(GLOB_RECURSE CPP_SRC "./*.cc")
 
