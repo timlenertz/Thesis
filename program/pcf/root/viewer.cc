@@ -1,6 +1,5 @@
 #include "RQ_OBJECT.h"
 
-#include "gl.h"
 #include "../pcf_viewer/pcf_viewer.h"
 
 namespace pcfui {
@@ -27,10 +26,15 @@ private:
 	void draw_();
 
 	Bool_t HandleTimer(TTimer*);
+	
+	viewer(const viewer&) = delete;
+	viewer& operator=(const viewer&) = delete;
 
 public:
 	viewer();
 	~viewer();
+	
+	pcf::viewer& operator->() { return viewer_; }
 };
 
 

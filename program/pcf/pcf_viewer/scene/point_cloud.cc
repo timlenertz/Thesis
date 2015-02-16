@@ -17,8 +17,35 @@
 namespace pcf {
 
 namespace {
-	std::chrono::milliseconds loader_period_(50);
+	const std::chrono::milliseconds loader_period_(50);
+	
+	const std::string vertex_shader_src_ = R"GLSL(
+		#version 330 core
+		layout(location = 0) in vec4 vertex_position_homogeneous;
+		layout(location = 1) in vec3 vertex_color;
+
+		out vec3 fragment_color;
+
+		uniform mat4 mvp_matrix;
+
+		void main() {
+			gl_Position = mvp_matrix * vertex_position_homogeneous;
+			fragment_color = vertex_color;
+		}
+	)GLSL";
+	
+	const std::string fragment_shader_src_ = R"GLSL(
+		#version 330 core
+		in vec3 fragment_color;
+		out vec3 color;
+
+		void main() {
+			color = fragment_color;
+		}
+	)GLSL";
 }
+
+
 
 class scene_point_cloud::loader {
 public:
@@ -237,7 +264,7 @@ void scene_point_cloud::take_loader_reponse_() {
 
 void scene_point_cloud::gl_initialize_() {
 	// Load shaders for point cloud, if not done so yet
-	if(! shader_program_) shader_program_ = new scene_object_shader_program("point_cloud");
+	if(! shader_program_) shader_program_ = new scene_object_shader_program(vertex_shader_src_, fragment_shader_src_);
 
 	// Allocate point buffers
 	glGenBuffers(1, &loader_point_buffer_);

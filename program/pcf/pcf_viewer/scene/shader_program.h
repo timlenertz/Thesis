@@ -13,7 +13,7 @@ class scene_object_shader_program : public shader_program {
 public:
 	shader_program_uniform mvp_matrix;
 
-	explicit scene_object_shader_program(const std::string&);
+	scene_object_shader_program(const std::string& vert, const std::string& frag);
 };
 
 }

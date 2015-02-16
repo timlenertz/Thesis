@@ -4,8 +4,8 @@
 
 #include "viewer.cc"
 
-pcfui::viewer* vw;
+pcfui::viewer pcf_viewer;
 
 void pcf_ui() {
-	vw = new pcfui::viewer;
+	
 }
