@@ -12,7 +12,7 @@ include_directories(${OpenGL_INCLUDE_DIR})
 
 add_library(pcfviewer SHARED ${CPP_SRC})
 
-target_link_libraries(pcfviewer pcfcore_static)
+target_link_libraries(pcfviewer pcfcore)
 target_link_libraries(pcfviewer ${GLEW_LIBRARY})
 target_link_libraries(pcfviewer ${OPENGL_LIBRARY})
 

@@ -1,8 +1,0 @@
-INCLUDE(CMakeForceCompiler)
-
-set(CMAKE_SYSTEM_NAME Darwin)
-CMAKE_FORCE_CXX_COMPILER(/usr/local/bin/clang++ GNU)
-CMAKE_FORCE_C_COMPILER(/usr/local/bin/clang GNU)
-
-set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
-

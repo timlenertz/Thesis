@@ -1,6 +1,5 @@
 #!/bin/sh
 
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-OSX.txt ..
-make
+cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/clang++ ..
 make install

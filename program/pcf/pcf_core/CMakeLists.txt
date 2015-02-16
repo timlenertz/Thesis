@@ -11,7 +11,6 @@ include_directories(SYSTEM ../external/include/)
 include_directories(SYSTEM ../external/pointscan/)
 
 add_library(pcfcore SHARED ${CPP_SRC})
-add_library(pcfcore_static STATIC ${CPP_SRC})
 add_library(pointscan STATIC ${CPP_POINTSCAN_SRC})
 
 target_link_libraries(pcfcore ${OpenCV_LIBS})
