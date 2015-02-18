@@ -2,10 +2,6 @@
 #error Must be run from inside ROOT shell on Cling interpreter
 #endif
 
-#include "viewer.cc"
+#include "viewer_window.h"
 
-pcfui::viewer pcf_viewer;
-
-void pcf_ui() {
-	
-}
+pcfui::viewer_window vw;

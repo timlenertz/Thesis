@@ -2,11 +2,15 @@
 #include "shader_program.h"
 #include "scene.h"
 
+#include "../shaders/frustum.frag.h"
+#include "../shaders/frustum.vert.h"
+
+
 namespace pcf {
 
 namespace {
 	const std::string vertex_shader_src_ = R"GLSL(
-		#version 330 core
+		#version 320 core
 		layout(location = 0) in vec3 vertex_position;
 
 		out vec3 fragment_color;
@@ -23,7 +27,7 @@ namespace {
 	)GLSL";
 	
 	const std::string fragment_shader_src_ = R"GLSL(
-		#version 330 core
+		#version 320 core
 		in vec3 fragment_color;
 		out vec3 color;
 
@@ -36,7 +40,11 @@ namespace {
 scene_object_shader_program* scene_frustum::shader_program_ = nullptr;
 
 void scene_frustum::gl_initialize_() {
-	if(! shader_program_) shader_program_ = new scene_object_shader_program(vertex_shader_src_, fragment_shader_src_);
+	if(! shader_program_)
+		shader_program_ = new scene_object_shader_program(
+			std::string((const char*)shaders_frustum_vert, shaders_frustum_vert_len),
+			std::string((const char*)shaders_frustum_frag, shaders_frustum_frag_len)
+		);
 
 	// Setup vertices (two points per line of bounding box)
 	GLfloat vertices[12][2][3];

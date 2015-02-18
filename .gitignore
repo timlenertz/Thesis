@@ -10,3 +10,5 @@
 *.dat
 octave-workspace
 /misc
+/root
+

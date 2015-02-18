@@ -2,6 +2,7 @@
 
 INIT=""
 PATTERN='s/\"/\\\"/g'
+ROOT=../../root/dist/bin/root
 
 while read LINE
 do
@@ -11,4 +12,4 @@ do
 	INIT="${INIT}${EXPR} "
 done < root/initialize.txt
 
-root -l -e "$INIT"
+${ROOT} -l -e "$INIT"

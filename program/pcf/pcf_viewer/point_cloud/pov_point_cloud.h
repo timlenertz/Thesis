@@ -35,6 +35,9 @@ public:
 	std::size_t extract(Point* buffer, std::size_t capacity, const frustum&) const;
 };
 
+extern template class pov_point_cloud<point_xyz>;
+extern template class pov_point_cloud<point_full>;
+
 using pov_point_cloud_xyz = pov_point_cloud<point_xyz>;
 using pov_point_cloud_full = pov_point_cloud<point_full>;
 

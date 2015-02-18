@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 set(CMAKE_INSTALL_PREFIX ../dist)
 set(CMAKE_INSTALL_RPATH "@executable_path")
 
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 
 if(UNIX)
 

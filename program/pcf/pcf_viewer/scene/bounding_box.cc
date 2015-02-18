@@ -2,41 +2,19 @@
 #include "shader_program.h"
 #include "scene.h"
 
+#include "../shaders/bounding_box.frag.h"
+#include "../shaders/bounding_box.vert.h"
+
 namespace pcf {
-
-namespace {
-	const std::string vertex_shader_src_ = R"GLSL(
-		#version 330 core
-		layout(location = 0) in vec3 vertex_position;
-
-		out vec3 fragment_color;
-
-		uniform mat4 mvp_matrix;
-		uniform vec3 color;
-
-		void main() {
-			vec4 vertex_position_homogeneous = vec4(vertex_position.xyz, 1.0);
-
-			gl_Position = mvp_matrix * vertex_position_homogeneous;
-			fragment_color = color;
-		}
-	)GLSL";
-	
-	const std::string fragment_shader_src_ = R"GLSL(
-		#version 330 core
-		in vec3 fragment_color;
-		out vec3 color;
-
-		void main() {
-			color = fragment_color;
-		}
-	)GLSL";
-}
 
 scene_object_shader_program* scene_bounding_box::shader_program_ = nullptr;
 
 void scene_bounding_box::gl_initialize_() {
-	if(! shader_program_) shader_program_ = new scene_object_shader_program(vertex_shader_src_, fragment_shader_src_);
+	if(! shader_program_)
+		shader_program_ = new scene_object_shader_program(
+			std::string((const char*)shaders_bounding_box_vert, shaders_bounding_box_vert_len),
+			std::string((const char*)shaders_bounding_box_frag, shaders_bounding_box_frag_len)
+		);
 
 	// Setup vertices (two points per line of bounding box)
 	GLfloat vertices[12][2][3];

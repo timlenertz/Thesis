@@ -5,4 +5,6 @@
 #include "pcf_core/pcf_core.h"
 #include "pcf_viewer/pcf_viewer.h"
 
-.X root/pcf_ui.cc()
+.L root/viewer_window.cc
+.L root/pcf_ui.cc
+
