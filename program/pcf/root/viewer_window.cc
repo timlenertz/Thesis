@@ -2,6 +2,9 @@
 #include "pcf_core/geometry/math_constants.h"
 #include "pcf_core/geometry/angle.h"
 #include <Eigen/Eigen>
+#include <TVirtualX.h>
+#include <KeySymbols.h>
+
 
 namespace pcfui {
 
@@ -28,7 +31,37 @@ Bool_t viewer_window::event_handler::HandleButton(Event_t* ev) {
 }
 
 Bool_t viewer_window::event_handler::HandleKey(Event_t* ev) {
-	std::cout << "key: " << ev->fCode << std::endl;
+	char tmp[2];
+	UInt_t keysym;
+	
+	gVirtualX->LookupString(ev, tmp, sizeof(tmp), keysym);
+
+	std::ptrdiff_t dim;
+	bool pos;
+	
+	switch((EKeySym)keysym) {
+	case kKey_Up:
+		dim = 2; pos = false; break;
+	case kKey_Down:
+		dim = 2; pos = true; break;
+	case kKey_Left:
+		dim = 0; pos = false; break;
+	case kKey_Right:
+		dim = 0; pos = true; break;
+	case kKey_Space:
+		dim = 1; pos = true; break;
+	case kKey_Meta: case kKey_Alt:
+		dim = 1; pos = false; break;
+	default:
+		return kTRUE;
+	}
+	
+	if(ev->fType == kGKeyPress) win_.movement_directions_[dim] = (pos ? positive : negative);
+	if(ev->fType == kKeyRelease) win_.movement_directions_[dim] = stop;
+	else return kTRUE;
+	
+	win_.update_movement_velocity_();
+
 	return kTRUE;
 }
 
@@ -72,6 +105,19 @@ viewer_window::viewer_window() :
 
 viewer_window::~viewer_window() {
 	timer_.TurnOff();
+}
+
+
+void viewer_window::update_movement_velocity_() {
+	Eigen::Vector3f vel;
+	for(std::ptrdiff_t i = 0; i < 3; ++i) {
+		switch(movement_directions_[i]) {
+			case stop: vel[i] = 0; break;
+			case positive: vel[i] = movement_speed_; break;
+			case negative: vel[i] = -movement_speed_; break;
+		}
+	}
+	viewer_.set_camera_target_velocity(vel);
 }
 
 

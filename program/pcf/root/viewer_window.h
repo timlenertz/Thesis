@@ -18,10 +18,6 @@ private:
 		Bool_t HandleMotion(Event_t*) override;
 	};
 
-	const static std::size_t initial_width_;
-	const static std::size_t initial_height_;
-	const static Long_t refresh_rate_;
-
 	TGMainFrame frame_;
 	TGLWidget* gl_widget_;
 	event_handler event_handler_;
@@ -43,6 +39,8 @@ private:
 public:
 	viewer_window();
 	~viewer_window();
+	
+	void update_movement_velocity_();
 	
 	pcf::viewer& operator->() { return viewer_; }
 };

@@ -7,8 +7,5 @@ pcf_viewer/
 pcf_test/
 	Unit tests.
 
-pcf_root/
-	Interface with ROOT.
-
 external/
 	Dependencies.

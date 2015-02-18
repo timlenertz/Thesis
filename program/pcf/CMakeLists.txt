@@ -7,12 +7,6 @@ set(CMAKE_INSTALL_RPATH "@executable_path")
 set(CMAKE_BUILD_TYPE Release)
 
 if(UNIX)
-
-INCLUDE(CMakeForceCompiler)
-
-CMAKE_FORCE_CXX_COMPILER(/usr/local/bin/clang++ GNU)
-CMAKE_FORCE_C_COMPILER(/usr/local/bin/clang GNU)
-
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y ") #-flto -fopenmp
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-missing-braces -Wno-unknown-pragmas -fdiagnostics-color=always")
 	
