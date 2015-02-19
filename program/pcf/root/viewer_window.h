@@ -1,8 +1,10 @@
 #ifndef PCFUI_VIEWER_WINDOW_H_
 #define PCFUI_VIEWER_WINDOW_H_
 
-#include "RQ_OBJECT.h"
 #include "../pcf_viewer/pcf_viewer.h"
+#include "RQ_OBJECT.h"
+#include <KeySymbols.h>
+#include <GuiTypes.h>
 
 namespace pcfui {
 
@@ -16,6 +18,7 @@ private:
 		Bool_t HandleButton(Event_t*) override;
 		Bool_t HandleKey(Event_t*) override;
 		Bool_t HandleMotion(Event_t*) override;
+		Bool_t HandleConfigureNotify(Event_t*) override;
 	};
 
 	TGMainFrame frame_;
@@ -28,6 +31,10 @@ private:
 	enum { stop, positive, negative } movement_directions_[3];
 	float movement_speed_ = 0.1;
 
+	void update_movement_velocity_();
+	Int_t gl_width_() const;
+	Int_t gl_height_() const;
+
 	void init_();
 	void draw_();
 
@@ -37,14 +44,24 @@ private:
 	viewer_window& operator=(const viewer_window&) = delete;
 
 public:
+	EKeySym key_forwards = kKey_Up;
+	EKeySym key_backwards = kKey_Down;
+	EKeySym key_left = kKey_Left;
+	EKeySym key_right = kKey_Right;
+	EKeySym key_up = kKey_a;
+	EKeySym key_down = kKey_q;
+	
+	EMouseButton mouse_button_scroll_up = kButton4;
+	EMouseButton mouse_button_scroll_down = kButton5;
+
 	viewer_window();
 	~viewer_window();
-	
-	void update_movement_velocity_();
-	
+			
 	pcf::viewer& operator->() { return viewer_; }
 };
 
 }
+
+
 
 #endif
