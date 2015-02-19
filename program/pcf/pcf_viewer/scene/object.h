@@ -10,28 +10,31 @@ namespace pcf {
 class projection_camera;
 class scene;
 
-class scene_object : public gl_object, public space_object {
+/**
+Base class for embedding of a space object in a scene.
+Handles computation of MVP matrix based on object and camera pose. Subclass handles rendering of object.
+*/
+class scene_object : public gl_object, public space_object_observer {
 protected:
-	const scene& scene_;
-	
-	/// Full MVP matrix.
-	/// Includes camera position/parameters and space object pose.
 	Eigen::Matrix4f mvp_matrix_;
 	
-	explicit scene_object(const scene&, const pose& = pose());	
+	const scene& scene_;
+	const space_object& object_;
+	
+	scene_object(const scene&, const space_object& obj);		
 	scene_object(const scene_object&) = delete;
 	scene_object& operator=(const scene_object&) = delete;
-	
-	void compute_mvp_matrix_();
-	
-	virtual void pose_or_camera_was_updated_();
+			
+	void pose_was_updated_() final override;
+	void object_was_deleted_() final override;
 
-	void pose_was_updated_() override;
-	
+	virtual void mvp_was_updated_();
+
+private:
+	void compute_mvp_matrix_();
+
 public:
-	/// Must be called when scene camera was changed.
-	/// Can be called while not in OpenGL context.
-	void updated_camera();
+	void handle_camera_update();
 };
 
 }

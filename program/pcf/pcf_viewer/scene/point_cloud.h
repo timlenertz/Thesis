@@ -23,7 +23,7 @@ private:
 	class loader;
 	
 	const GLsizei point_buffer_capacity_;
-	pov_point_cloud_full point_cloud_;
+	std::unique_ptr<pov_point_cloud_full> point_cloud_;
 
 	loader* loader_ = nullptr;
 	
@@ -47,17 +47,17 @@ protected:
 
 public:
 	scene_point_cloud(const scene&, const point_cloud_full&, GLsizei cap = default_point_buffer_capacity_);
-	scene_point_cloud(const scene&, point_cloud_full&&, GLsizei cap = default_point_buffer_capacity_);
 	scene_point_cloud(const scene&, const point_cloud_xyz&, const rgb_color& = rgb_color::white, GLsizei cap = default_point_buffer_capacity_);
 			
 	~scene_point_cloud();
 		
-	void pose_or_camera_was_updated_() override;
+	void object_was_updated_() override;
+	void mvp_was_updated_() override;
 	
-	pov_point_cloud_full& operator*() { return point_cloud_; }
-	const pov_point_cloud_full& operator*() const { return point_cloud_; }
-	pov_point_cloud_full* operator->() { return &point_cloud_; }
-	const pov_point_cloud_full* operator->() const { return &point_cloud_; }
+	pov_point_cloud_full& operator*() { return *point_cloud_; }
+	const pov_point_cloud_full& operator*() const { return *point_cloud_; }
+	pov_point_cloud_full* operator->() { return point_cloud_.get(); }
+	const pov_point_cloud_full* operator->() const { return point_cloud_.get(); }
 };
 
 }

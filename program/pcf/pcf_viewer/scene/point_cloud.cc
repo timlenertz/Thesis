@@ -165,32 +165,22 @@ const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
-	scene_object(sc, pc.absolute_pose()),
+	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
-	point_cloud_(pc)
+	point_cloud_( new pov_point_cloud_full(pc) )
 {
-	point_cloud_.set_parent(*this);
-	setup_loader_();
-}
-
-
-scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full&& pc, GLsizei cap) :
-	scene_object(sc, pc.absolute_pose()),
-	point_buffer_capacity_(cap),
-	point_cloud_(std::move(pc))
-{
-	point_cloud_.set_parent(*this);
+	point_cloud_->set_parent(pc);
 	setup_loader_();
 }
 
 
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
-	scene_object(sc, pc.absolute_pose()),
+	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
-	point_cloud_(pc)
+	point_cloud_( new pov_point_cloud_full(pc) )
 {
-	set_unique_color(point_cloud_.begin(), point_cloud_.end(), col);
-	point_cloud_.set_parent(*this);
+	set_unique_color(point_cloud_->begin(), point_cloud_->end(), col);
+	point_cloud_->set_parent(pc);
 	setup_loader_();
 }
 
@@ -201,7 +191,7 @@ scene_point_cloud::~scene_point_cloud() {
 }
 
 void scene_point_cloud::setup_loader_() {
-	loader_ = new loader(point_cloud_);
+	loader_ = new loader(*point_cloud_);
 }
 
 
@@ -321,7 +311,16 @@ void scene_point_cloud::gl_draw_() {
 }
 
 
-void scene_point_cloud::pose_or_camera_was_updated_() {
+void scene_point_cloud::object_was_updated_() {
+	if(! loader_) return;
+	
+	loader_->exit();
+	delete loader_;
+	setup_loader_();
+}
+
+
+void scene_point_cloud::mvp_was_updated_() {
 	if(! initialized()) return;
 
 	// Send new request for this camera position to loader,

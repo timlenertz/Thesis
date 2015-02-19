@@ -48,16 +48,12 @@ public:
 	void set_camera_image_size(std::size_t w, std::size_t h);
 		
 	void clear();
+	void erase(scene_object&);
 	
-	template<typename Cloud>
-	scene_point_cloud& add_point_cloud(Cloud&& pc) {
-		scene_point_cloud* spc = new scene_point_cloud(*this, std::forward<Cloud>(pc));
-		objects_.emplace(spc);
-		return *spc;
-	}
-	
-	scene_bounding_box& add_bounding_box(const bounding_box&);
-	scene_frustum& add_frustum(const frustum&);
+	scene_point_cloud& add(const point_cloud_xyz&);
+	scene_point_cloud& add(const point_cloud_full&);	
+	scene_bounding_box& add(const bounding_box&);
+	scene_frustum& add(const frustum&);
 };
 
 }

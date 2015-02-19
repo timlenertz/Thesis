@@ -8,7 +8,6 @@
 namespace pcfui {
 
 namespace {
-	const char window_title_[] = "PCF Viewer";
 	const int default_window_width_ = 800;
 	const int default_window_height_ = 600;
 	const pcf::angle rotation_per_cursor_pixel_ = pcf::pi / 500.0;
@@ -18,7 +17,7 @@ namespace {
 
 
 viewer_window::event_handler::event_handler(viewer_window& vwin, TGWindow* win, TObject* obj) :
-	TGEventHandler("PCF Viewer Event Handler", win, obj),
+	TGEventHandler("", win, obj),
 	win_(vwin) { }
 
 
@@ -87,14 +86,14 @@ Bool_t viewer_window::event_handler::HandleConfigureNotify(Event_t* ev) {
 }
 
 
-viewer_window::viewer_window() :
+viewer_window::viewer_window(const std::string& title) :
 	frame_(gClient->GetRoot(), default_window_width_, default_window_height_),
 	gl_widget_( TGLWidget::Create(&frame_, kTRUE, kFALSE, NULL, default_window_width_, default_window_height_) ),
 	event_handler_(*this, &frame_, gl_widget_),
 	timer_(refresh_rate_, kTRUE),
 	viewer_(gl_width_(), gl_height_())
 {
-	frame_.SetWindowName(window_title_);
+	frame_.SetWindowName(title.c_str());
 
 	TGLayoutHints* lay = new TGLayoutHints(kLHintsTop | kLHintsLeft | kLHintsExpandX | kLHintsExpandY, 0, 0, 0, 0);
 	frame_.AddFrame(gl_widget_, lay);

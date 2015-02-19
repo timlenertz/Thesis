@@ -27,6 +27,7 @@ parent_(obj.parent_), pose_(obj.pose_) {
 space_object::~space_object() {
 	detach_from_parent_();
 	detach_from_children_();
+	for(auto observer : observers_) observer->handle_object_deleted();
 }
 
 
@@ -54,6 +55,7 @@ void space_object::pose_was_updated_() {
 void space_object::recursive_notify_pose_update_() {
 	this->pose_was_updated_();
 	for(auto child : children_) child->pose_was_updated_();
+	for(auto observer : observers_) observer->handle_pose_update();
 }
 
 
@@ -97,12 +99,67 @@ void space_object::set_parent(space_object& par, const pose& new_relative_pose) 
 	parent_ = &par;
 	attach_to_parent_();
 	pose_ = new_relative_pose;
+	recursive_notify_pose_update_();
 }
 
 
 void space_object::set_no_parent(const pose& new_pose) {
 	detach_from_parent_();
 	pose_ = new_pose;
+	recursive_notify_pose_update_();
+}
+
+
+void space_object::attach_observer_(space_object_observer* obs) {
+	observers_.insert(obs);
+}
+
+
+void space_object::detach_observer_(space_object_observer* obs) {
+	observers_.erase(obs);
+}
+
+
+void space_object::handle_update() {
+	for(auto observer : observers_) observer->handle_object_update();
+}
+
+space_object_observer::space_object_observer(space_object* obj) :
+object_(obj) {
+	object_->attach_observer_(this);
+}
+
+
+space_object_observer::~space_object_observer() {
+	if(object_) object_->detach_observer_(this);
+}
+
+
+	
+void space_object_observer::pose_was_updated_() { 
+	return;
+}
+
+void space_object_observer::object_was_updated_() {
+	return;
+}
+
+void space_object_observer::object_was_deleted_() {
+	return;
+}
+
+
+void space_object_observer::handle_pose_update() {
+	this->pose_was_updated_();
+}
+
+void space_object_observer::handle_object_update() {
+	this->object_was_updated_();
+}
+
+void space_object_observer::handle_object_deleted() {
+	object_ = nullptr;
+	this->object_was_deleted_();
 }
 
 }

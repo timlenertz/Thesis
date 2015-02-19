@@ -5,6 +5,8 @@
 #include "RQ_OBJECT.h"
 #include <KeySymbols.h>
 #include <GuiTypes.h>
+#include <string>
+
 
 namespace pcfui {
 
@@ -54,7 +56,7 @@ public:
 	EMouseButton mouse_button_scroll_up = kButton4;
 	EMouseButton mouse_button_scroll_down = kButton5;
 
-	viewer_window();
+	explicit viewer_window(const std::string& title = "Viewer");
 	~viewer_window();
 			
 	pcf::viewer& operator->() { return viewer_; }
