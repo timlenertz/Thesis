@@ -93,7 +93,7 @@ void scene_frustum::gl_draw_() {
 
 
 scene_frustum::scene_frustum(const scene& sc, const frustum& fr) :
-scene_object(sc), frustum_(fr) { }
+	scene_space_object(sc), frustum_(fr) { }
 
 		
 scene_frustum::~scene_frustum() { }

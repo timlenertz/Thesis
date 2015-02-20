@@ -21,7 +21,7 @@ scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
 
 
 void scene::notify_camera_update_() {
-	for(auto& obj : objects_) obj->updated_camera();
+	for(auto& obj : objects_) obj->handle_camera_update();
 }
 
 scene::~scene() { }
@@ -57,14 +57,14 @@ void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 }
 
 
-scene_point_cloud& scene::add(const point_cloud_xyz& pc) {
+scene_point_cloud& scene::add(point_cloud_xyz& pc) {
 	scene_point_cloud* sobj = new scene_point_cloud(*this, pc);
 	objects_.emplace(sobj);
 	return *sobj;
 }
 
 
-scene_point_cloud& scene::add(const point_cloud_full&) {
+scene_point_cloud& scene::add(point_cloud_full& pc) {
 	scene_point_cloud* sobj = new scene_point_cloud(*this, pc);
 	objects_.emplace(sobj);
 	return *sobj;

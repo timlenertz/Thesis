@@ -26,5 +26,5 @@ endif()
 
 
 add_subdirectory(pcf_core)
-add_subdirectory(pcf_test)
+#add_subdirectory(pcf_test)
 add_subdirectory(pcf_viewer)

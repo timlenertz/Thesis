@@ -66,7 +66,7 @@ public:
 
 /**
 Observer attached to space object.
-Receives notifications when space object go changed, its pose got updated, or it got deleted. Properly
+Receives notifications when space object gets changed, its pose got updated, or it got deleted. Properly
 handles attaching/detaching from space object, no matter if space object or the observer get deleted
 first.
 */
@@ -82,37 +82,12 @@ protected:
 	virtual void object_was_deleted_();
 	
 public:
-	explicit space_object_observer(space_object*);
+	explicit space_object_observer(space_object&);
 	~space_object_observer();
 
 	void handle_pose_update();
 	void handle_object_update();
 	void handle_object_deleted();
-};
-
-
-
-/**
-Adds space object attributes to primitive object.
-For example for bounding box of point cloud with pose relative to the point cloud.
-*/
-template<typename T>
-class space_object_wrapper : public space_object {
-protected:
-	T object_;
-
-public:
-	space_object_wrapper(const T& obj, const pose& ps = pose()) :
-		space_object(ps), object_(obj) { }
-	space_object_wrapper(const T& obj, const pose& ps, const space_object& par) :
-		space_object(ps, par), object_(obj) { }
-	space_object_wrapper(const space_object_wrapper&) = default;
-	space_object_wrapper(space_object_wrapper&&) = default;
-	
-	const T& operator*() const { return object_; }
-	T& operator*() { return object_; }
-	const T* operator->() const { return &object_; }
-	T* operator->() { return &object_; }
 };
 
 

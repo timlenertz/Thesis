@@ -164,7 +164,7 @@ scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
+scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full& pc, GLsizei cap) :
 	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
 	point_cloud_( new pov_point_cloud_full(pc) )
@@ -174,7 +174,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc
 }
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
+scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
 	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
 	point_cloud_( new pov_point_cloud_full(pc) )
@@ -327,7 +327,7 @@ void scene_point_cloud::mvp_was_updated_() {
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
 		frustum fr = scene_.get_camera().viewing_frustum();
-		fr = fr.transform( absolute_pose().view_transformation_inverse() );
+		fr = fr.transform( object_.absolute_pose().view_transformation_inverse() );
 		loader::request req {
 			fr,
 			loader_point_buffer_mapping_,

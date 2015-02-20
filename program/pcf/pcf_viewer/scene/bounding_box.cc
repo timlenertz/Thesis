@@ -63,7 +63,7 @@ void scene_bounding_box::gl_draw_() {
 
 
 scene_bounding_box::scene_bounding_box(const scene& sc, const bounding_box& box) :
-scene_object(sc), box_(box) { }
+	scene_space_object(sc), box_(box) { }
 
 		
 scene_bounding_box::~scene_bounding_box() { }

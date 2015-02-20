@@ -3,9 +3,9 @@
 
 namespace pcf {
 
-scene_object::scene_object(const scene& sc, const space_object& obj) :
-space_object_observer(&obj),
-space_object(ps), object_(obj) {
+scene_object::scene_object(const scene& sc, space_object& obj) :
+space_object_observer(obj),
+scene_(sc), object_(obj) {
 	compute_mvp_matrix_();
 }
 
@@ -33,5 +33,14 @@ void scene_object::handle_camera_update() {
 	compute_mvp_matrix_();
 	this->mvp_was_updated_();
 }
+
+
+scene_space_object::scene_space_object(const scene& sc, const pose& ps) :
+	space_object(ps), scene_object(sc, *this) { }
+
+scene_space_object::scene_space_object(const scene& sc, const pose& ps, space_object& parent) :
+	space_object(ps, parent), scene_object(sc, *this) { }
+
+
 
 }

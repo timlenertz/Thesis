@@ -124,8 +124,8 @@ void space_object::handle_update() {
 	for(auto observer : observers_) observer->handle_object_update();
 }
 
-space_object_observer::space_object_observer(space_object* obj) :
-object_(obj) {
+space_object_observer::space_object_observer(space_object& obj) :
+object_(&obj) {
 	object_->attach_observer_(this);
 }
 

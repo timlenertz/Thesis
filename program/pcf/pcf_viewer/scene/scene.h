@@ -50,8 +50,8 @@ public:
 	void clear();
 	void erase(scene_object&);
 	
-	scene_point_cloud& add(const point_cloud_xyz&);
-	scene_point_cloud& add(const point_cloud_full&);	
+	scene_point_cloud& add(point_cloud_xyz&);
+	scene_point_cloud& add(point_cloud_full&);	
 	scene_bounding_box& add(const bounding_box&);
 	scene_frustum& add(const frustum&);
 };

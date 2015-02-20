@@ -11,7 +11,7 @@ namespace pcf {
 
 class scene_object_shader_program;
 
-class scene_frustum : public scene_object {
+class scene_frustum : public scene_space_object {
 private:
 	static scene_object_shader_program* shader_program_;
 

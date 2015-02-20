@@ -46,8 +46,8 @@ protected:
 	void gl_draw_() override;
 
 public:
-	scene_point_cloud(const scene&, const point_cloud_full&, GLsizei cap = default_point_buffer_capacity_);
-	scene_point_cloud(const scene&, const point_cloud_xyz&, const rgb_color& = rgb_color::white, GLsizei cap = default_point_buffer_capacity_);
+	scene_point_cloud(const scene&, point_cloud_full&, GLsizei cap = default_point_buffer_capacity_);
+	scene_point_cloud(const scene&, point_cloud_xyz&, const rgb_color& = rgb_color::white, GLsizei cap = default_point_buffer_capacity_);
 			
 	~scene_point_cloud();
 		
