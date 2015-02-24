@@ -19,7 +19,7 @@ f.writelines([
 ])
 
 for h in headers:
-	if(h != "pcf_viewer.h"):
+	if (h != "pcf_viewer.h") and (h[:8] != "shaders/"):
 		f.write("#include \"" + h + "\"\n")
 
 f.writelines([

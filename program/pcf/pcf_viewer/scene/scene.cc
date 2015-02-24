@@ -3,6 +3,7 @@
 #include "shader_program.h"
 #include "bounding_box.h"
 #include "frustum.h"
+#include "point_cloud.h"
 
 
 namespace pcf {
@@ -63,13 +64,24 @@ void scene::clear() {
 
 
 void scene::add_object(scene_object& sobj){
-	objects_.emplace_back(&sobj);
+	objects_.insert(&sobj);
 }
 
 
 void scene::erase_object(scene_object& sobj) {
 	objects_.erase(&sobj);
 }
+
+
+void scene::add(point_cloud_xyz& pc) {
+	add_with_holder_<scene_point_cloud>(pc);
+}
+
+
+void scene::add(point_cloud_full& pc) {
+	add_with_holder_<scene_point_cloud>(pc);
+}
+
 
 
 

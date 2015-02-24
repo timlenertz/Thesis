@@ -72,7 +72,7 @@ public:
 
 
 scene_point_cloud::loader::loader(const pov_point_cloud_full& pc) :
-point_coud_(pc), next_request_(nullptr) {
+point_cloud_(pc), next_request_(nullptr) {
 	running_.store(false);
 	should_wake_up_.store(false);
 	should_exit_.store(false);
@@ -177,7 +177,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
 	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
-	pov_point_cloud_(pc, col)
+	pov_point_cloud_(pc)
 {
 	set_unique_color(pov_point_cloud_.begin(), pov_point_cloud_.end(), col);
 	setup_loader_();

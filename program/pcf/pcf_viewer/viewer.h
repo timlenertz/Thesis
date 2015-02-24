@@ -11,7 +11,7 @@ namespace pcf {
 
 /**
 Viewer for a scene.
-Handles smooth movement of camera through scene. Set up of OpenGL context and render loop needs to be handled externally.
+Handles smooth movement of camera through scene. Set up of OpenGL context and render loop needs to be handled externally. Contains scene.
 */
 class viewer {
 private:

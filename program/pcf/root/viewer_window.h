@@ -31,7 +31,6 @@ private:
 	
 	Int_t drag_position_x_, drag_position_y_;
 	enum { stop, positive, negative } movement_directions_[3];
-	float movement_speed_ = 0.1;
 
 	void update_movement_velocity_();
 	Int_t gl_width_() const;
@@ -55,10 +54,16 @@ public:
 	
 	EMouseButton mouse_button_scroll_up = kButton4;
 	EMouseButton mouse_button_scroll_down = kButton5;
+	
+	float movement_speed = 0.1;
 
 	explicit viewer_window(const std::string& title = "Viewer");
 	~viewer_window();
-			
+	
+	/**
+	Access to scene.
+	The operator -> call gets forwarded to viewer::operator->.
+	*/
 	pcf::viewer& operator->() { return viewer_; }
 };
 

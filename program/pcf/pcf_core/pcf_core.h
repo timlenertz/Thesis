@@ -11,6 +11,7 @@
 #include "rgb_color.h"
 #include "space_object.h"
 #include "space_object_observer.h"
+#include "space_object_wrapper.h"
 #include "camera/camera.h"
 #include "camera/image_camera.h"
 #include "camera/projection_camera.h"

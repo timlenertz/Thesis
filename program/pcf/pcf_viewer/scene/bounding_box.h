@@ -4,6 +4,7 @@
 #include "object.h"
 #include "../../pcf_core/geometry/bounding_box.h"
 #include "../../pcf_core/rgb_color.h"
+#include "../../pcf_core/space_object_wrapper.h"
 #include "../gl.h"
 #include <utility>
 
@@ -11,7 +12,7 @@ namespace pcf {
 
 class scene_object_shader_program;
 
-class scene_bounding_box : public scene_space_object {
+class scene_bounding_box : public scene_object {
 private:
 	static scene_object_shader_program* shader_program_;
 
@@ -27,7 +28,7 @@ protected:
 	void gl_draw_() override;
 
 public:
-	scene_bounding_box(const scene& sc, const bounding_box& box);			
+	scene_bounding_box(const scene&, space_bounding_box&);			
 	~scene_bounding_box();
 	
 	const rgb_color& get_color() const { return color_; }

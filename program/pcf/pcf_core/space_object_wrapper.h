@@ -2,6 +2,9 @@
 #define PCF_SPACE_OBJECT_WRAPPER_H_
 
 #include "space_object.h"
+#include "geometry/bounding_box.h"
+#include "geometry/plane.h"
+#include "geometry/frustum.h"
 #include <utility>
 
 namespace pcf {
@@ -25,6 +28,10 @@ public:
 	T* operator->() { return &object_; }
 	const T* operator->() const { return &object_; }
 };
+
+using space_bounding_box = space_object_wrapper<bounding_box>;
+using space_plane = space_object_wrapper<plane>;
+using space_frustum = space_object_wrapper<frustum>;
 
 }
 

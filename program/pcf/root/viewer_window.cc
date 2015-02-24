@@ -137,8 +137,8 @@ void viewer_window::update_movement_velocity_() {
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
 		switch(movement_directions_[i]) {
 			case stop: vel[i] = 0; break;
-			case positive: vel[i] = movement_speed_; break;
-			case negative: vel[i] = -movement_speed_; break;
+			case positive: vel[i] = movement_speed; break;
+			case negative: vel[i] = -movement_speed; break;
 		}
 	}
 	viewer_.set_camera_target_velocity(vel);
