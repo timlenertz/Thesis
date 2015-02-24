@@ -28,5 +28,4 @@ pose pose::transform(const Eigen::Affine3f& t) const {
 	);
 }
 
-
 }

@@ -24,14 +24,14 @@ Recursively calls its objects' rendering functions. Scene alone handles the comp
 */
 class scene : public gl_object {
 private:
-	std::set<std::unique_ptr<scene_object>> objects_;
+	std::set<scene_object*> objects_;
 	projection_image_camera camera_;
 	rgb_color background_color_ = rgb_color::black;
 	
 	bool should_reset_viewport_ = true;
 	
 	void notify_camera_update_();
-		
+
 protected:
 	void gl_initialize_() override;
 	void gl_draw_() override;
@@ -48,14 +48,8 @@ public:
 	void set_camera_image_size(std::size_t w, std::size_t h);
 		
 	void clear();
-	void erase(scene_object&);
-	
-	scene_point_cloud& add(point_cloud_xyz&);
-	scene_point_cloud& add(point_cloud_full&);	
-	scene_bounding_box& add(const bounding_box&);
-	scene_frustum& add(const frustum&);
-};
-
+	void add_object(scene_object&);
+	void erase_object(scene_object&);
 }
 
 #endif

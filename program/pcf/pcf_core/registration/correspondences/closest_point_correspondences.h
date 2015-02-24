@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include "registration_correspondence.h"
+#include "../weights/equal.h"
+#include "../../point_filter/accept.h"
 
 namespace pcf {
 
@@ -17,8 +19,8 @@ Both functions will be called from different threads concurrently.
 template<
 	typename Cloud_fixed,
 	typename Cloud_loose,
-	typename Selection_func,
-	typename Weight_func
+	typename Selection_func = accept_point_filter,
+	typename Weight_func = correspondences_equal_weights
 >
 class closest_point_correspondences {
 public:
@@ -53,6 +55,14 @@ template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
 closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...> make_closest_point_correspondences
 (const Cloud_fixed& cf, const Cloud_loose& cl, Args&&... args) {
 	return closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>(cf, cl, std::forward<Args>(args)...);
+}
+
+
+template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
+iterative_correspondences_registration<closest_point_correspondences<Args...>> make_iterative_closest_point_registration
+(const Cloud_fixed& cf, const Cloud_loose& cl, Args&&... args) {
+	closest_point_correspondences<Args...> cor(cf, cl, std::forward<Args>(args)...);
+	return iterative_correspondences_registration<decltype(cor)>(cf, cl, cor);
 }
 
 

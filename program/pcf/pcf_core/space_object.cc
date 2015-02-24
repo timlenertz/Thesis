@@ -1,4 +1,5 @@
 #include "space_object.h"
+#include "space_object_observer.h"
 #include <stdexcept>
 
 namespace pcf {
@@ -124,42 +125,11 @@ void space_object::handle_update() {
 	for(auto observer : observers_) observer->handle_object_update();
 }
 
-space_object_observer::space_object_observer(space_object& obj) :
-object_(&obj) {
-	object_->attach_observer_(this);
+
+void space_object::transform(const Eigen::Affine3f& t) {
+	pose_ = pose_.transform(t);
+	recursive_notify_pose_update_();
 }
 
-
-space_object_observer::~space_object_observer() {
-	if(object_) object_->detach_observer_(this);
-}
-
-
-	
-void space_object_observer::pose_was_updated_() { 
-	return;
-}
-
-void space_object_observer::object_was_updated_() {
-	return;
-}
-
-void space_object_observer::object_was_deleted_() {
-	return;
-}
-
-
-void space_object_observer::handle_pose_update() {
-	this->pose_was_updated_();
-}
-
-void space_object_observer::handle_object_update() {
-	this->object_was_updated_();
-}
-
-void space_object_observer::handle_object_deleted() {
-	object_ = nullptr;
-	this->object_was_deleted_();
-}
 
 }

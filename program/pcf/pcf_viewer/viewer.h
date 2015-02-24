@@ -21,9 +21,7 @@ private:
 	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
 	Eigen::Vector3f view_target_velocity_ = Eigen::Vector3f::Zero();
 	std::chrono::time_point<clock> last_time_;
-	
-	scene_object* selected_object_ = nullptr;
-	
+		
 	void compute_motion_(std::chrono::milliseconds delta_t);
 		
 public:

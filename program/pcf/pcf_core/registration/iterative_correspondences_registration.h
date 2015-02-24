@@ -54,6 +54,14 @@ public:
 };
 
 
+template<typename Correspondences, typename... Args>
+iterative_correspondences_registration<Correspondences, Args...> make_iterative_correspondences_registration
+(const typename Correspondences::fixed_point_cloud_type& cf, typename Correspondences::loose_point_cloud_type& cl, const Correspondences& cor, Args&&... args) {
+	return iterative_correspondences_registration<Correspondences, Args...>(cf, cl, cor, std::forward<Args>(args)...);
+}
+
+
+
 }
 
 #include "iterative_correspondences_registration.tcc"

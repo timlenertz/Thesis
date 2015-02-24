@@ -4,6 +4,7 @@
 #include <array>
 #include "../../geometry/bounding_box.h"
 #include "../segment.h"
+#include "tree_point_cloud.h"
 
 namespace pcf {
 
@@ -37,6 +38,12 @@ public:
 	static node_attributes initialize_node_attributes
 	(point_cloud_segment<Point>, const bounding_box&, std::ptrdiff_t depth);
 };
+
+using kdtree_point_cloud_xyz = tree_point_cloud<kdtree_traits, point_xyz>;
+using kdtree_point_cloud_full = tree_point_cloud<kdtree_traits, point_full>;
+
+extern template class tree_point_cloud<kdtree_traits, point_xyz>;
+extern template class tree_point_cloud<kdtree_traits, point_full>;
 
 }
 

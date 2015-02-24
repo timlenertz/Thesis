@@ -57,35 +57,20 @@ void scene::set_camera_image_size(std::size_t w, std::size_t h) {
 }
 
 
-scene_point_cloud& scene::add(point_cloud_xyz& pc) {
-	scene_point_cloud* sobj = new scene_point_cloud(*this, pc);
-	objects_.emplace(sobj);
-	return *sobj;
-}
-
-
-scene_point_cloud& scene::add(point_cloud_full& pc) {
-	scene_point_cloud* sobj = new scene_point_cloud(*this, pc);
-	objects_.emplace(sobj);
-	return *sobj;
-}
-
-
-scene_bounding_box& scene::add(const bounding_box& box) {
-	scene_bounding_box* sobj = new scene_bounding_box(*this, box);
-	objects_.emplace(sobj);
-	return *sobj;
-}
-
-scene_frustum& scene::add(const frustum& fr) {
-	scene_frustum* sobj = new scene_frustum(*this, fr);
-	objects_.emplace(sobj);
-	return *sobj;
-}
-
 void scene::clear() {
 	objects_.clear();
 }
+
+
+void scene::add_object(scene_object& sobj){
+	objects_.emplace_back(&sobj);
+}
+
+
+void scene::erase_object(scene_object& sobj) {
+	objects_.erase(&sobj);
+}
+
 
 
 void scene::gl_initialize_() {

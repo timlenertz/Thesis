@@ -2,6 +2,8 @@
 #define PCF_SPACE_OBJECT_H_
 
 #include "geometry/pose.h"
+#include "geometry/angle.h"
+#include <Eigen/Geometry>
 #include <set>
 #include <string>
 
@@ -61,33 +63,20 @@ public:
 	void set_no_parent(const pose& new_pose = pose());
 	
 	void handle_update();
-};
-
-
-/**
-Observer attached to space object.
-Receives notifications when space object gets changed, its pose got updated, or it got deleted. Properly
-handles attaching/detaching from space object, no matter if space object or the observer get deleted
-first.
-*/
-class space_object_observer {
-protected:
-	space_object* object_;
 	
-	space_object_observer(const space_object_observer&) = delete;
-	space_object_observer& operator=(const space_object_observer&) = delete;
+	void transform(const Eigen::Affine3f&);
+	void transform(const Eigen::AngleAxisf& t) { transform(Eigen::Affine3f(t)); }
+	void transform(const Eigen::Translation3f& t) { transform(Eigen::Affine3f(t)); }
 	
-	virtual void pose_was_updated_();
-	virtual void object_was_updated_();
-	virtual void object_was_deleted_();
+	void move(const Eigen::Vector3f& t) { transform(Eigen::Translation3f(t)); }
+	void move(float x, float y, float z) { move(Eigen::Vector3f(x, y, z)); }
+	void move_x(float x) { move(x, 0, 0); }
+	void move_y(float y) { move(0, y, 0); }
+	void move_z(float z) { move(0, 0, z); }
 	
-public:
-	explicit space_object_observer(space_object&);
-	~space_object_observer();
-
-	void handle_pose_update();
-	void handle_object_update();
-	void handle_object_deleted();
+	void rotate_x_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitX())); }
+	void rotate_y_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY())); }
+	void rotate_z_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())); }
 };
 
 

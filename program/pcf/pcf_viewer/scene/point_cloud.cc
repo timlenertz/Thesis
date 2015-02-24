@@ -56,11 +56,12 @@ private:
 	
 	void thread_main_();
 	void thread_iteration_();
+
+	loader(const loader&) = delete;
+	loader& operator=(const loader&) = delete;
 	
 public:
 	loader(const pov_point_cloud_full&);
-	loader(const loader&) = delete;
-	loader& operator=(const loader&) = delete;
 	~loader();
 	
 	void set_next_request(const request&);
@@ -71,7 +72,7 @@ public:
 
 
 scene_point_cloud::loader::loader(const pov_point_cloud_full& pc) :
-point_cloud_(pc), next_request_(nullptr) {
+point_coud_(pc), next_request_(nullptr) {
 	running_.store(false);
 	should_wake_up_.store(false);
 	should_exit_.store(false);
@@ -164,34 +165,33 @@ scene_object_shader_program* scene_point_cloud::shader_program_ = nullptr;
 const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_full& pc, GLsizei cap) :
+scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
 	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
-	point_cloud_( new pov_point_cloud_full(pc) )
+	pov_point_cloud_(pc)
 {
-	point_cloud_->set_parent(pc);
 	setup_loader_();
 }
 
 
-scene_point_cloud::scene_point_cloud(const scene& sc, point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
+scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
 	scene_object(sc, pc),
 	point_buffer_capacity_(cap),
-	point_cloud_( new pov_point_cloud_full(pc) )
+	pov_point_cloud_(pc, col)
 {
-	set_unique_color(point_cloud_->begin(), point_cloud_->end(), col);
-	point_cloud_->set_parent(pc);
+	set_unique_color(pov_point_cloud_.begin(), pov_point_cloud_.end(), col);
 	setup_loader_();
 }
-
 
 
 scene_point_cloud::~scene_point_cloud() {
-	if(loader_) delete loader_;
+	delete loader_;
 }
 
+
+
 void scene_point_cloud::setup_loader_() {
-	loader_ = new loader(*point_cloud_);
+	loader_ = new loader(pov_point_cloud_);
 }
 
 
@@ -308,15 +308,6 @@ void scene_point_cloud::gl_draw_() {
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-
-void scene_point_cloud::object_was_updated_() {
-	if(! loader_) return;
-	
-	loader_->exit();
-	delete loader_;
-	setup_loader_();
 }
 
 

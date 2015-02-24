@@ -40,7 +40,6 @@ public:
 	/// Affine transformation from pose coordinate system to world space.
 	Eigen::Affine3f view_transformation_inverse() const;
 	
-	/// Apply affine transformation to pose.
 	pose transform(const Eigen::Affine3f&) const;
 };
 
