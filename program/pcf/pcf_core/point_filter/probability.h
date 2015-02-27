@@ -6,6 +6,9 @@
 
 namespace pcf {
 
+/**
+Randomly accept points with given probability.
+*/
 class probability_point_filter : public point_filter {
 private:
 	const float probability_;

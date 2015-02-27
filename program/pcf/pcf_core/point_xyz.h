@@ -44,6 +44,9 @@ struct ALIGNAS(16) point_xyz {
 	
 	bool operator!=(const point_xyz& pt) const { return ! operator==(pt); }
 	
+	static const rgb_color& default_color() { return rgb_color::white; }
+	const rgb_color& get_color() const { return default_color(); }
+	
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }
 	void invalidate() { homogeneous_coordinates[3] = 0; }

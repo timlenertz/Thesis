@@ -3,11 +3,6 @@
 
 namespace pcf {
 
-rgb_color point_full::default_color() {
-	return rgb_color::white;
-}
-
-
 point_full::point_full() :
 	point_xyz(), normal(Eigen::Vector3f::Zero()), color(default_color()) { }
 

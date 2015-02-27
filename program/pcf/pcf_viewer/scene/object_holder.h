@@ -33,6 +33,12 @@ protected:
 
 public:
 	virtual ~scene_object_holder_base() { }
+	
+	const space_object& get_space_object() const { return observed_object(); }
+	space_object& get_space_object() { return observed_object(); }
+	
+	virtual const scene_object& get_scene_object() const = 0;
+	virtual scene_object& get_scene_object() = 0;
 };
 
 
@@ -53,6 +59,9 @@ private:
 public:
 	scene_object_holder(scene&, Space_object&, Construction_args...);
 	~scene_object_holder();
+	
+	const scene_object& get_scene_object() const { return *scene_object_; }
+	scene_object& get_scene_object() { return *scene_object_; }
 };
 
 }

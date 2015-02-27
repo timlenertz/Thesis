@@ -38,7 +38,7 @@ template<typename Scene_object, typename Space_object, typename... Construction_
 scene_object_holder<Scene_object, Space_object, Construction_args...>::scene_object_holder
 (scene& sc, Space_object& obj, Construction_args... args) :
 	scene_object_holder_base(sc, obj)
-{ 
+{
 	create_scene_object_ = std::bind(
 		&scene_object_holder_base::create_with_args_<Scene_object, scene&, const Space_object&, Construction_args...>,
 		std::ref(sc), std::cref(obj), std::ref(args)...

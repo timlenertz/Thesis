@@ -5,6 +5,9 @@
 
 namespace pcf {
 
+/**
+Reject every point.
+*/
 class reject_point_filter : public point_filter {
 public:
 	bool operator()(const point_xyz&) {

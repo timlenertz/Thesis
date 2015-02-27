@@ -27,9 +27,9 @@ Bool_t viewer_window::event_handler::HandleButton(Event_t* ev) {
 	win_.drag_position_y_ = ev->fY;
 	
 	if(ev->fCode == win_.mouse_button_scroll_up)
-		win_.viewer_.roll_camera(+rotation_per_click_);
+		win_.viewer_.roll(+rotation_per_click_);
 	else if(ev->fCode == win_.mouse_button_scroll_down)
-		win_.viewer_.roll_camera(-rotation_per_click_);
+		win_.viewer_.roll(-rotation_per_click_);
 	
 	return kTRUE;
 }
@@ -74,7 +74,7 @@ Bool_t viewer_window::event_handler::HandleMotion(Event_t* ev) {
 		Int_t diff_y = ev->fY - win_.drag_position_y_;
 		win_.drag_position_x_ = ev->fX;
 		win_.drag_position_y_ = ev->fY;
-		win_.viewer_.rotate_camera(diff_x * rotation_per_cursor_pixel_, diff_y * rotation_per_cursor_pixel_);
+		win_.viewer_.rotate(diff_x * rotation_per_cursor_pixel_, diff_y * rotation_per_cursor_pixel_);
 	}
 	return kTRUE;
 }
@@ -141,7 +141,7 @@ void viewer_window::update_movement_velocity_() {
 			case negative: vel[i] = -movement_speed; break;
 		}
 	}
-	viewer_.set_camera_target_velocity(vel);
+	viewer_.target_velocity = vel;
 }
 
 

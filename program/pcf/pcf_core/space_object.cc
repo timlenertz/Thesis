@@ -126,7 +126,7 @@ void space_object::handle_update() {
 }
 
 
-void space_object::transform(const Eigen::Affine3f& t) {
+void space_object::transform_(const Eigen::Affine3f& t) {
 	pose_ = pose_.transform(t);
 	recursive_notify_pose_update_();
 }

@@ -1,6 +1,7 @@
 #ifndef PCFUI_VIEWER_WINDOW_H_
 #define PCFUI_VIEWER_WINDOW_H_
 
+#include "../pcf_core/pcf_core.h"
 #include "../pcf_viewer/pcf_viewer.h"
 #include "RQ_OBJECT.h"
 #include <KeySymbols.h>
@@ -65,6 +66,9 @@ public:
 	The operator -> call gets forwarded to viewer::operator->.
 	*/
 	pcf::viewer& operator->() { return viewer_; }
+	
+	void select_camera() { return viewer_.select_camera(); }
+	void select_object(pcf::space_object& obj) { return viewer_.select_object(obj); }
 };
 
 }

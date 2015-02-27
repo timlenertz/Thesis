@@ -6,6 +6,7 @@
 #include "gl.h"
 #include "gl_error.h"
 #include "gl_object.h"
+#include "motion_controller.h"
 #include "shader.h"
 #include "shader_program.h"
 #include "shader_program_uniform.h"

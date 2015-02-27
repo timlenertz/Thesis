@@ -6,6 +6,10 @@
 
 namespace pcf {
 
+/**
+Reject every k-th point.
+Stateful point filter.
+*/
 class skip_point_filter : public point_filter {
 private:
 	const std::size_t k_;

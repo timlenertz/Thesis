@@ -8,6 +8,10 @@
 
 namespace pcf {
 
+/**
+Accept point iff filter 1 OR filter 2 accept it.
+Inclusive disjunction (can be both).
+*/
 template<typename Filter1, typename Filter2>
 class point_filter_disjunction {
 private:

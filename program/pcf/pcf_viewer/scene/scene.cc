@@ -9,57 +9,47 @@
 namespace pcf {
 
 namespace {
-	pose initial_pose_ = pose();
+	pose initial_camera_pose_ = pose();
 }
 
 scene::scene(std::size_t view_w, std::size_t view_h, angle fov_x) :
-	camera_(
-		initial_pose_,
-		projection_frustum::symmetric_perspective_fov_x(fov_x, float(view_w)/view_h),
-		view_w,
-		view_h
-	) { }	
+space_object_observer(),
+camera_(
+	initial_camera_pose_,
+	projection_frustum::symmetric_perspective_fov_x(fov_x, float(view_w)/view_h),
+	view_w,
+	view_h
+) {
+	// Observe own camera...
+	space_object_observer::set_observed_object(camera_);
+}	
+
 
 
 void scene::notify_camera_update_() {
 	for(auto& obj : objects_) obj->handle_camera_update();
 }
 
-scene::~scene() { }
-
-
-const projection_image_camera& scene::get_camera() const {
-	return camera_;
+scene::~scene() {
+	space_object_observer::set_no_observed_object();
 }
 
 
-void scene::set_camera(const projection_image_camera& cam) {
-	camera_ = cam;
+void scene::pose_was_updated_() {
+	// Called when camera pose was changed
 	notify_camera_update_();
 }
 
 
-void scene::set_camera_pose(const pose& ps) {
-	camera_.set_pose(ps);
-	notify_camera_update_();
-}
-
-
-const pose& scene::get_camera_pose() const {
-	return camera_.get_pose();
-}
-
-
-void scene::set_camera_image_size(std::size_t w, std::size_t h) {
-	camera_.set_image_size(w, h);
-	camera_.adjust_field_of_view_y();
-	should_reset_viewport_ = true;
+void scene::object_was_updated_() {
+	// Called when camera parameters were changed
 	notify_camera_update_();
 }
 
 
 void scene::clear() {
 	objects_.clear();
+	holders_.clear();
 }
 
 
@@ -83,6 +73,48 @@ void scene::add(point_cloud_full& pc) {
 }
 
 
+const scene_object_holder_base& scene::holder_with_name_(const std::string& nm) const {
+	for(auto& h : holders_)
+		if(h->get_space_object().get_name() == nm) return *h;
+	throw std::invalid_argument("No object with that name.");
+}
+
+scene_object_holder_base& scene::holder_with_name_(const std::string& nm) {
+	for(const auto& h : holders_)
+		if(h->get_space_object().get_name() == nm) return *h;
+	throw std::invalid_argument("No object with that name.");
+}
+
+bool scene::has_holder_with_name_(const std::string& nm) const {
+	for(const auto& h : holders_)
+		if(h->get_space_object().get_name() == nm) return true;
+	return false;
+}
+
+
+scene_object& scene::scene_object_with_name(const std::string& nm) {
+	return holder_with_name_(nm).get_scene_object();
+}
+
+
+const scene_object& scene::scene_object_with_name(const std::string& nm) const {
+	return holder_with_name_(nm).get_scene_object();
+}
+
+
+space_object& scene::space_object_with_name(const std::string& nm) {
+	return holder_with_name_(nm).get_space_object();
+}
+
+
+const space_object& scene::space_object_with_name(const std::string& nm) const {
+	return holder_with_name_(nm).get_space_object();
+}
+
+
+bool scene::has_object_with_name(const std::string& nm) const {
+	return has_holder_with_name_(nm);
+}
 
 
 void scene::gl_initialize_() {

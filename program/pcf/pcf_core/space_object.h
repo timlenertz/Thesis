@@ -25,6 +25,7 @@ private:
 	pose pose_;
 	std::string name_;
 	
+	void transform_(const Eigen::Affine3f&);
 	void recursive_notify_pose_update_();
 	
 	space_object& operator=(const space_object&) = delete;
@@ -62,11 +63,15 @@ public:
 	void set_parent(space_object&, const pose& new_relative_pose = pose());
 	void set_no_parent(const pose& new_pose = pose());
 	
-	void handle_update();
+	const std::string& get_name() const { return name_; }
+	void set_name(const std::string& nm) { name_ = nm; }
 	
-	void transform(const Eigen::Affine3f&);
-	void transform(const Eigen::AngleAxisf& t) { transform(Eigen::Affine3f(t)); }
-	void transform(const Eigen::Translation3f& t) { transform(Eigen::Affine3f(t)); }
+	void handle_update();
+		
+	template<typename Transformation>
+	void transform(const Transformation& t) {
+		transform_(Eigen::Affine3f(t));
+	}
 	
 	void move(const Eigen::Vector3f& t) { transform(Eigen::Translation3f(t)); }
 	void move(float x, float y, float z) { move(Eigen::Vector3f(x, y, z)); }

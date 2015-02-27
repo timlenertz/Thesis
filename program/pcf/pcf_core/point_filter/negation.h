@@ -7,6 +7,9 @@
 
 namespace pcf {
 
+/**
+Accept point iff given filter rejects it.
+*/
 template<typename Filter>
 class point_filter_negation : public point_filter {
 private:
@@ -25,7 +28,6 @@ public:
 		return ! filter_(pt);
 	}
 };
-
 
 template<
 	typename Filter,

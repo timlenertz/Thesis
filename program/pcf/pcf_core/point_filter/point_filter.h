@@ -6,6 +6,10 @@
 
 namespace pcf {
 
+/**
+Base class for point filter.
+Point filters accept or reject a point. Can be combined by conjunction and disjunction. Uses static polymorphism (templates), since it is evaluated per point.
+*/
 class point_filter {
 protected:
 	point_filter() = default;

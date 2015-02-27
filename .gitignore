@@ -3,8 +3,7 @@
 /program/data
 /program/pcf/build
 /program/pcf/dist
-/townhall/
-/townhall_ply/
+/hdv
 /docs
 *.o
 *.dat

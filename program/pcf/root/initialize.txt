@@ -2,6 +2,9 @@
 .L dist/libpcfviewer.dylib
 .I external/include
 
-.L root/viewer_window.cc
+#include <pcf_core/pcf_core.h>
+#include <pcf_viewer/pcf_viewer.h>
 
+.L root/viewer_window.C
+.L root/utils.C
 .X root/initialize.C

@@ -6,6 +6,10 @@
 
 namespace pcf {
 
+/**
+Accept only points inside the given geometric object.
+For example bounding box.
+*/
 template<typename Geometry_object>
 class crop_point_filter : public point_filter {
 private:

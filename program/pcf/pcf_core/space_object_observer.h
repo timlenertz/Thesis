@@ -13,7 +13,7 @@ first.
 */
 class space_object_observer {
 private:
-	space_object* object_;
+	space_object* object_ = nullptr;
 
 protected:
 	space_object_observer(const space_object_observer&) = delete;
@@ -24,14 +24,19 @@ protected:
 	virtual void object_was_deleted_();
 	
 public:
+	space_object_observer();
 	explicit space_object_observer(space_object&);
 	~space_object_observer();
+
+	void set_observed_object(space_object&);
+	void set_no_observed_object();
 
 	void handle_pose_update();
 	void handle_object_update();
 	void handle_object_deleted();
 	
-	const space_object& observed_object() const;
+	const space_object& observed_object() const; // TODO get_ name
+	space_object& observed_object();
 	bool has_observed_object() const;
 };
 

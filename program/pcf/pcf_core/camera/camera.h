@@ -3,6 +3,7 @@
 
 #include <Eigen/Geometry>
 #include <array>
+#include "../space_object.h"
 #include "../geometry/angle.h"
 #include "../geometry/pose.h"
 #include "../geometry/spherical_coordinates.h"
@@ -12,12 +13,10 @@ namespace pcf {
 
 /**
 Abstract base class for camera.
-
+Inherits space object.
 */
-class camera {
+class camera : public space_object {
 protected:
-	pose pose_; ///< Pose of camera.
-
 	camera() = default;
 	explicit camera(const pose&);
 
@@ -38,9 +37,6 @@ public:
 	Eigen::Affine3f view_transformation() const;
 	Eigen::Projective3f view_projection_transformation() const;
 			
-	const pose& get_pose() const { return pose_; }
-	pose& get_pose() { return pose_; }
-	void set_pose(const pose& ps) { pose_ = ps; } 
 	Eigen::Vector3f view_ray_direction() const;
 
 	float depth_sq(const Eigen::Vector3f&) const;

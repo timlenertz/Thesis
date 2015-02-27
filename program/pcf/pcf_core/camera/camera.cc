@@ -3,7 +3,7 @@
 namespace pcf {
 
 camera::camera(const pose& ps) :
-	pose_(ps) { }
+	space_object(ps) { }
 
 	
 angle camera::field_of_view_width() const {
@@ -23,7 +23,7 @@ frustum camera::viewing_frustum() const {
 }
 
 Eigen::Affine3f camera::view_transformation() const {
-	return pose_.view_transformation();
+	return absolute_pose().view_transformation();
 }
 
 Eigen::Projective3f camera::view_projection_transformation() const {
@@ -31,15 +31,15 @@ Eigen::Projective3f camera::view_projection_transformation() const {
 }
 
 Eigen::Vector3f camera::view_ray_direction() const {
-	return pose_.orientation * Eigen::Vector3f(0, 0, -1);
+	return absolute_pose().orientation * Eigen::Vector3f(0, 0, -1);
 }
 
 float camera::depth_sq(const Eigen::Vector3f& p) const {
-	return (pose_.position - p).squaredNorm();
+	return (absolute_pose().position - p).squaredNorm();
 }
 
 float camera::depth(const Eigen::Vector3f& p) const {
-	return (pose_.position - p).norm();
+	return (absolute_pose().position - p).norm();
 }
 
 spherical_coordinates camera::to_spherical(const Eigen::Vector3f& p) const {
@@ -47,7 +47,7 @@ spherical_coordinates camera::to_spherical(const Eigen::Vector3f& p) const {
 }
 
 Eigen::Vector3f camera::point(const spherical_coordinates& s) const {
-	return pose_.view_transformation_inverse() * s.to_cartesian();
+	return absolute_pose().view_transformation_inverse() * s.to_cartesian();
 }
 
 

@@ -6,6 +6,9 @@
 
 namespace pcf {
 
+/**
+Accept only points in given point cloud segment.
+*/
 template<typename Point>
 class segment_point_filter : public point_filter {
 public:

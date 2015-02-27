@@ -5,6 +5,9 @@
 
 namespace pcf {
 
+/**
+Accept any point.
+*/
 class accept_point_filter : public point_filter {
 public:
 	bool operator()(const point_xyz&) {

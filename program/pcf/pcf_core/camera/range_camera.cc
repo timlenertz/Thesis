@@ -16,7 +16,7 @@ range_camera::range_camera(const pose& ps, std::array<angle, 2> x_limits, std::a
 
 
 range_camera::range_camera(const camera& cam) :
-	range_camera(cam.get_pose(), cam.field_of_view_limits_x(), cam.field_of_view_limits_y()) { }
+	range_camera(cam.absolute_pose(), cam.field_of_view_limits_x(), cam.field_of_view_limits_y()) { }
 
 
 angle range_camera::field_of_view_width() const {
