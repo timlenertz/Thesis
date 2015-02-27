@@ -5,6 +5,10 @@
 
 namespace pcf {
 
+/**
+Mean square error metric.
+Computes mean of squared euclidian distances of corresponding point pairs.
+*/
 class mean_square_error {
 private:
 	float error_sum_ = 0;

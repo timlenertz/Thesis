@@ -7,6 +7,18 @@
 #include <cmath>
 #include "../point_cloud.h"
 
+
+#define PCF_DECLARE_TREE_POINT_CLOUD_INSTANTIATION(Traits) \
+	extern template class tree_point_cloud<Traits, point_xyz>; \
+	extern template class tree_point_cloud<Traits, point_full>;
+
+
+#define PCF_DEFINE_TREE_POINT_CLOUD_INSTANTIATION(Traits) \
+	template class tree_point_cloud<Traits, point_xyz>; \
+	template class tree_point_cloud<Traits, point_full>;
+
+
+
 namespace pcf {
 
 /**
@@ -49,21 +61,19 @@ private:
 
 	void build_tree_();
 	bool verify_(const const_node_handle&) const;
-
+	
 public:
-	template<typename Other_point, typename Other_allocator>
-	tree_point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true, const Allocator& = Allocator());
+	template<typename Other_cloud>
+	tree_point_cloud(const Other_cloud&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true, const Allocator& = Allocator());
 
 	tree_point_cloud(super&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
-
 
 	node_handle root();
 	const_node_handle root() const;
 
 	bool verify() const { return verify_(root()); }
 
-	template<typename Other_point>	
-	const Point& closest_point(const Other_point& query, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
+	const Point& closest_point(const point_xyz& query, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 };
 
 }

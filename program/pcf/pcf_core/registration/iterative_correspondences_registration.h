@@ -49,7 +49,8 @@ public:
 	float last_error() const { return error_; }
 	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
 
-	void iteration();
+	void estimate_transformation();
+	void apply_estimated_transformation();
 	void run(const iteration_callback& = iteration_callback());
 };
 

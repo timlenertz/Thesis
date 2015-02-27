@@ -3,6 +3,7 @@
 #include "node_handle.h"
 #include "../../util/memory.h"
 
+#include <iostream>
 
 namespace pcf {
 
@@ -14,8 +15,8 @@ std::size_t tree_point_cloud<Traits, Point, Allocator>::compute_leaf_capacity_(s
 }
 
 
-template<typename Traits, typename Point, typename Allocator> template<typename Other_point, typename Other_allocator>
-tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t leaf_cap, bool round_up, const Allocator& alloc) :
+template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
+tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, bool round_up, const Allocator& alloc) :
 super(pc, true, alloc),
 leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
 root_node_(super::full_segment()) {
@@ -46,7 +47,7 @@ auto tree_point_cloud<Traits, Point, Allocator>::root() const -> const_node_hand
 
 
 template<typename Traits, typename Point, typename Allocator>
-void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
+void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {	
 	using node_handle_list = std::vector<node_handle>;
 
 	root_box_ = Traits::root_box(super::full_segment());
@@ -68,7 +69,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 		
 			#pragma omp for
 			for(auto it = todo.begin(); it < todo.end(); ++it) {
-				it->initialize_attributes();
+				it->attr() = Traits::initialize_node_attributes(it->seg(), it->box(), depth);
 													
 				if(it->size() <= leaf_capacity_) continue;
 		
@@ -83,9 +84,8 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 				for(std::ptrdiff_t i = 0; i < Traits::number_of_children; ++i) {
 					auto& seg = child_segments[i];
 					if(! seg.empty()) {
-						//for(Point& p : seg) mark_point(p, std::rand());
-					
-						it->make_child(i, seg);
+						it->nd().children[i].reset( new node(seg) );
+						
 						next_todo_part.push_back(it->child(i));
 					}
 				}
@@ -105,9 +105,9 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 
 
 
-template<typename Traits, typename Point, typename Allocator> template<typename Other_point>	
+template<typename Traits, typename Point, typename Allocator>
 const Point& tree_point_cloud<Traits, Point, Allocator>::
-closest_point(const Other_point& query, float accepting_distance, float rejecting_distance) const {
+closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance) const {
 	auto r = root();
 	auto it = r.closest_point(query, accepting_distance, rejecting_distance);
 	if(it != r.end()) return *it;

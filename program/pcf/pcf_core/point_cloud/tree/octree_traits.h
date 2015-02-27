@@ -46,8 +46,7 @@ public:
 using octree_point_cloud_xyz = tree_point_cloud<octree_traits, point_xyz>;
 using octree_point_cloud_full = tree_point_cloud<octree_traits, point_full>;
 
-extern template class tree_point_cloud<octree_traits, point_xyz>;
-extern template class tree_point_cloud<octree_traits, point_full>;
+PCF_DECLARE_TREE_POINT_CLOUD_INSTANTIATION(octree_traits);
 
 }
 

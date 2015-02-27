@@ -60,6 +60,14 @@ public:
 	
 	void add(point_cloud_xyz&);
 	void add(point_cloud_full&);
+	
+	template<typename Object_1, typename Object_2, typename... Other_objects>
+	void add(Object_1& obj1, Object_2& obj2, Other_objects&... others) {
+		add(obj1);
+		add(obj2);
+		add(others...);
+	}
+	void add() { }
 };
 
 

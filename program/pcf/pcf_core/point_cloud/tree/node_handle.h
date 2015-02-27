@@ -24,6 +24,8 @@ public:
 	using segment_type = typename std::conditional<Const, const_segment, segment>::type;
 	using node_attributes_type = typename std::conditional<Const, const typename Traits::node_attributes, typename Traits::node_attributes>::type;
 
+	friend class node_handle_<true>; // For copy-constructing Const version (<true>) from non-Const version (<false>)
+
 private:
 	node_type* nd_;
 	bounding_box box_;
@@ -50,6 +52,7 @@ public:
 	std::ptrdiff_t depth() const { return depth_; }
 	node_attributes_type& attr() const { return *nd_; }
 	segment_type seg() const { return nd_->seg; }
+	node_type& nd() const { return *nd_; }
 
 	std::size_t size() const { return nd_->seg.size(); }
 	iterator begin() const { return nd_->seg.begin(); }
@@ -59,11 +62,7 @@ public:
 	bool is_leaf() const;
 	node_handle_ child(std::ptrdiff_t i) const;
 	
-	void initialize_attributes();
-	void make_child(std::ptrdiff_t i, const segment& seg) const;
-	
-	template<typename Other_point>
-	iterator closest_point(const Other_point&, float accepting_distance, float rejecting_distance) const;
+	iterator closest_point(const point_xyz&, float accepting_distance, float rejecting_distance) const;
 };
 
 }

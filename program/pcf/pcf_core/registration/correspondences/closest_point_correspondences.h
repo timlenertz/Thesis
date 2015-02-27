@@ -26,20 +26,25 @@ class closest_point_correspondences {
 public:
 	using fixed_point_cloud_type = Cloud_fixed;
 	using loose_point_cloud_type = Cloud_loose;
+	using fixed_point_type = typename Cloud_fixed::point_type;
+	using loose_point_type = typename Cloud_loose::point_type;
 
 private:
 	const Cloud_fixed& fixed_;
 	const Cloud_loose& loose_;
 	Selection_func selection_func_;
 	Weight_func weight_func_;
+	
+	template<typename Receiver>
+	void process_point_(const loose_point_type& transformed, const loose_point_type& real, Receiver&);
 
 public:
 	float accepting_distance = 0;
 	float rejecting_distance = INFINITY;
 
 	using correspondence_type = point_correspondence<
-		const typename Cloud_fixed::point_type,
-		const typename Cloud_loose::point_type
+		const fixed_point_type,
+		const loose_point_type
 	>;
 
 	closest_point_correspondences
@@ -58,11 +63,13 @@ closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...> make_closest_po
 }
 
 
+
 template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
-iterative_correspondences_registration<closest_point_correspondences<Args...>> make_iterative_closest_point_registration
-(const Cloud_fixed& cf, const Cloud_loose& cl, Args&&... args) {
-	closest_point_correspondences<Args...> cor(cf, cl, std::forward<Args>(args)...);
-	return iterative_correspondences_registration<decltype(cor)>(cf, cl, cor);
+iterative_correspondences_registration<closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>> make_iterative_closest_point_registration
+(const Cloud_fixed& cf, Cloud_loose& cl, Args&&... args) {
+	using corresponcences_type = closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>;
+	corresponcences_type cor(cf, cl, std::forward<Args>(args)...);
+	return iterative_correspondences_registration<corresponcences_type>(cf, cl, cor);
 }
 
 

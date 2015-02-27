@@ -11,6 +11,11 @@ class scene;
 class space_object;
 class scene_object;
 
+
+/**
+Polymorphic base class for scene object holder.
+Internal usage.
+*/
 class scene_object_holder_base : public space_object_observer {
 protected:
 	scene& scene_;
@@ -31,7 +36,10 @@ public:
 };
 
 
-
+/**
+Manager class for scene object.
+Creates the scene object from the space object and adds/erases it from scene. Tracks when space object gets deleted, updated (space_object::handle_update() call) or its pose gets changed. When it got updated, recreates a new scene object for it and replaces it in the scene. Stores the constructor parameters using which to create the scene objects. The scene objects themselves are immutable, they don't need to handle change in the space object.
+*/
 template<typename Scene_object, typename Space_object, typename... Construction_args>
 class scene_object_holder : public scene_object_holder_base {
 private:

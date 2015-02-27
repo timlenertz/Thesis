@@ -9,6 +9,9 @@ namespace pcf {
 class camera;
 class pose;
 
+/**
+Shader program for scene object.
+*/
 class scene_object_shader_program : public shader_program {
 public:
 	shader_program_uniform mvp_matrix;

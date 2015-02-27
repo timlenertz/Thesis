@@ -18,6 +18,9 @@ public:
 };
 
 
+/**
+Error from OpenGL.
+*/
 class gl_error : public std::system_error {
 public:
 	explicit gl_error(GLenum err) :

@@ -27,7 +27,10 @@ Base class for point clouds.
 Allocates to given capacity using provided allocator. Allocated size cannot change, but actual size is variable and can be made smaller. Memory is never reallocated, so point addresses are constant. Gives const-correct access to the points. Depending on all_valid_ option, may or may not contain invalid points. Cannot be instanciated, instead subclasses are used.
 */
 template<typename Point, typename Allocator = default_allocator<Point>>
-class point_cloud : public space_object {	
+class point_cloud : public space_object {
+public:
+	using allocator_type = Allocator;
+		
 protected:
 	Allocator allocator_; ///< Allocator used to create buffer.
 	std::size_t allocated_size_; ///< Allocated buffer size.

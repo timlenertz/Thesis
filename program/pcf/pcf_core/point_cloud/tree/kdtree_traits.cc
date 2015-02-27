@@ -2,7 +2,6 @@
 
 namespace pcf {
 
-template class tree_point_cloud<kdtree_traits, point_xyz>;
-template class tree_point_cloud<kdtree_traits, point_full>;
+PCF_DEFINE_TREE_POINT_CLOUD_INSTANTIATION(kdtree_traits);
 
 }
