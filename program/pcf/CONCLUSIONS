@@ -1,5 +1,14 @@
+POINT CLOUD PROGRAMMING
 - better to store working point cloud in separate buffers for xyz,colors,normals,etc
+
+CPP
 - not mix class/struct (predeclarations problem)
 - use mutable
 - own impl instead of OpenMP
 - not too much template metaprogramming, use dynamic polymorphism where possible
+- not use C++ for UI
+
+APPLICATION
+- avoid wasting time on UI
+- use scripting langlage command line instead of UI
+- plan it from beginning

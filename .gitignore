@@ -1,12 +1,12 @@
 /reference/*.pdf
 /references.bib
-/program/data
 /program/pcf/build
 /program/pcf/dist
 /hdv
 /docs
 *.o
 *.dat
+*.ply
 octave-workspace
 /misc
 /root
