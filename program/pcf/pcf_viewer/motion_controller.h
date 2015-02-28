@@ -10,6 +10,7 @@
 namespace pcf {
 
 class space_object;
+class camera;
 
 /**
 Controls smooth motion of space object over time.
@@ -21,11 +22,15 @@ private:
 	
 	std::chrono::time_point<clock> last_time_;
 	Eigen::Vector3f velocity_ = Eigen::Vector3f::Zero();
+	const camera& camera_;
 
 public:
 	space_object* object = nullptr;
 	Eigen::Vector3f target_velocity = Eigen::Vector3f::Zero();
-	bool target_velocity_is_relative = true;
+	bool target_velocity_relative_to_camera = true;
+	
+	explicit motion_controller(const camera& cam) :
+		camera_(cam) { }
 	
 	void tick();
 	

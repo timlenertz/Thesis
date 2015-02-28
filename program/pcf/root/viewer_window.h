@@ -7,6 +7,7 @@
 #include <KeySymbols.h>
 #include <GuiTypes.h>
 #include <string>
+#include <array>
 
 
 namespace pcfui {
@@ -28,12 +29,18 @@ private:
 	TGLWidget* gl_widget_;
 	event_handler event_handler_;
 	TTimer timer_;
-	pcf::viewer viewer_;
 	
+	pcf::viewer viewer_;
+	pcf::motion_controller camera_motion_controller_;
+	pcf::motion_controller object_motion_controller_;
+	
+	enum movement_direction { stop, positive, negative };
+	using movement_directions = std::array<movement_direction, 3>;
 	Int_t drag_position_x_, drag_position_y_;
-	enum { stop, positive, negative } movement_directions_[3];
+	movement_directions camera_movement_, object_movement_;
 
-	void update_movement_velocity_();
+	float speed_(movement_direction) const;
+	void update_movement_velocity_(bool slow);
 	Int_t gl_width_() const;
 	Int_t gl_height_() const;
 
@@ -46,15 +53,25 @@ private:
 	viewer_window& operator=(const viewer_window&) = delete;
 
 public:
-	EKeySym key_forwards = kKey_Up;
-	EKeySym key_backwards = kKey_Down;
-	EKeySym key_left = kKey_Left;
-	EKeySym key_right = kKey_Right;
-	EKeySym key_up = kKey_a;
-	EKeySym key_down = kKey_q;
+	EKeySym key_camera_forwards = kKey_Up;
+	EKeySym key_camera_backwards = kKey_Down;
+	EKeySym key_camera_left = kKey_Left;
+	EKeySym key_camera_right = kKey_Right;
+	EKeySym key_camera_up = kKey_p;
+	EKeySym key_camera_down = kKey_m;
+	
+	EKeySym key_object_forwards = kKey_z;
+	EKeySym key_object_backwards = kKey_s;
+	EKeySym key_object_left = kKey_q;
+	EKeySym key_object_right = kKey_d;
+	EKeySym key_object_up = kKey_r;
+	EKeySym key_object_down = kKey_f;
 	
 	EMouseButton mouse_button_scroll_up = kButton4;
 	EMouseButton mouse_button_scroll_down = kButton5;
+	
+	Mask_t key_mask_for_object = kKeyShiftMask;
+	Mask_t key_mask_for_slow = kKeyMod1Mask;
 	
 	float movement_speed = 0.1;
 
@@ -67,8 +84,7 @@ public:
 	*/
 	pcf::viewer& operator->() { return viewer_; }
 	
-	void select_camera() { return viewer_.select_camera(); }
-	void select_object(pcf::space_object& obj) { return viewer_.select_object(obj); }
+	void select_object(pcf::space_object& obj);
 };
 
 }

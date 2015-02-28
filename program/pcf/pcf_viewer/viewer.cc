@@ -10,9 +10,7 @@ namespace {
 }
 
 viewer::viewer(std::size_t w, std::size_t h) :
-scene_(w, h, default_fov_) {
-	select_camera();
-}
+scene_(w, h, default_fov_) { }
 
 viewer::~viewer() { }
 
@@ -27,18 +25,7 @@ void viewer::resize_viewport(std::size_t w, std::size_t h) {
 
 
 void viewer::draw() {
-	motion_controller::tick();	
 	scene_.draw();
-}
-
-
-void viewer::select_camera() {
-	motion_controller::object = &scene_.get_camera();
-}
-
-
-void viewer::select_object(space_object& obj) {
-	motion_controller::object = &obj;
 }
 
 

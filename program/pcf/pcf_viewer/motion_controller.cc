@@ -1,5 +1,7 @@
 #include "motion_controller.h"
 #include "../pcf_core/space_object.h"
+#include "../pcf_core/camera/camera.h"
+
 
 namespace pcf {
 
@@ -27,11 +29,11 @@ void motion_controller::tick() {
 	if(delta_t < minimal_time_step_) return;
 	
 	Eigen::Vector3f target_vel;
-	if(target_velocity_is_relative) {
+	if(target_velocity_relative_to_camera) {
 		Eigen::Vector4f target_velocity_h(
 			target_velocity[0], target_velocity[1], target_velocity[2], 0
 		);
-		target_vel = (object->absolute_pose().view_transformation_inverse() * target_velocity_h).head(3);
+		target_vel = (camera_.absolute_pose().view_transformation_inverse() * target_velocity_h).head(3);
 	} else {
 		target_vel = target_velocity;
 	}

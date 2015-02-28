@@ -117,26 +117,40 @@ bool scene::has_object_with_name(const std::string& nm) const {
 }
 
 
+const rgb_color& get_background_color() const {
+	return background_color_;
+}
+
+
+void set_background_color(const rgb_color& col) {
+	background_color_ = col;
+	need_reset_ = true;
+}
+
+
+
 void scene::gl_initialize_() {
 	glEnable(GL_DEPTH_TEST);
 	
-	auto bg = background_color_.to_float();
-	glClearColor(bg[0], bg[1], bg[2], 1.0f);
-
 	for(auto& obj : objects_)
 		if(! obj->initialized()) obj->initialize();
 }
 
 
 void scene::gl_draw_() {
-	if(should_reset_viewport_) {
+	if(need_reset_) {
 		glViewport(0, 0, camera_.image_width(), camera_.image_height());
-		should_reset_viewport_ = false;
+
+		auto bg = background_color_.to_float();
+		glClearColor(bg[0], bg[1], bg[2], 1.0f);
+		
+		need_reset_ = false;
 	}
 		
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for(auto& obj : objects_) obj->draw();    
+	for(auto& obj : objects_)
+		obj->draw();    
 }
 
 

@@ -33,7 +33,7 @@ private:
 	std::vector<std::unique_ptr<scene_object_holder_base>> holders_;
 	projection_image_camera camera_;
 	rgb_color background_color_ = rgb_color::black;
-	bool should_reset_viewport_ = true;
+	bool need_reset_ = true;
 	
 	void notify_camera_update_();
 
@@ -60,6 +60,9 @@ public:
 			
 	projection_image_camera& get_camera() { return camera_; }
 	const projection_image_camera& get_camera() const { return camera_; }
+	
+	const rgb_color& get_background_color() const;
+	void set_background_color(const rgb_color&);
 		
 	void add_object(scene_object&);
 	void erase_object(scene_object&);
