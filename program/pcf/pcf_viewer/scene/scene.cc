@@ -117,12 +117,12 @@ bool scene::has_object_with_name(const std::string& nm) const {
 }
 
 
-const rgb_color& get_background_color() const {
+const rgb_color& scene::get_background_color() const {
 	return background_color_;
 }
 
 
-void set_background_color(const rgb_color& col) {
+void scene::set_background_color(const rgb_color& col) {
 	background_color_ = col;
 	need_reset_ = true;
 }
