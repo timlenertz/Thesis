@@ -1,1 +1,5 @@
 - better to store working point cloud in separate buffers for xyz,colors,normals,etc
+- not mix class/struct (predeclarations problem)
+- use mutable
+- own impl instead of OpenMP
+- not too much template metaprogramming, use dynamic polymorphism where possible

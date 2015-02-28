@@ -27,15 +27,15 @@ public:
 
 private:
 	class receiver;
-
-	const fixed_point_cloud_type& fixed_;
-	loose_point_cloud_type& loose_;
-	Correspondences correspondences_;
 	
 	Eigen::Affine3f estimated_transformation_;
 	float error_;
 			
 public:
+	const fixed_point_cloud_type& fixed;
+	loose_point_cloud_type& loose;
+	Correspondences correspondences;	
+
 	float minimal_error = 0;
 	std::size_t maximal_iterations = -1;
 	bool stop_on_divergence = true;
@@ -44,7 +44,7 @@ public:
 	using iteration_callback = std::function<void(const Eigen::Affine3f& est_trans, float err)>;
 
 	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
-		fixed_(cf), loose_(cl), correspondences_(cor) { }
+		fixed(cf), loose(cl), correspondences(cor) { }
 	
 	float last_error() const { return error_; }
 	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }

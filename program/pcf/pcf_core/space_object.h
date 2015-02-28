@@ -3,13 +3,14 @@
 
 #include "geometry/pose.h"
 #include "geometry/angle.h"
+#include "space_object_fwd.h"
 #include <Eigen/Geometry>
 #include <set>
 #include <string>
 
 namespace pcf {
 
-class space_object_observer;
+struct bounding_box;
 
 /**
 Base class for object that has a pose in space relative to a coordinate system.
@@ -82,6 +83,9 @@ public:
 	void rotate_x_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitX())); }
 	void rotate_y_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY())); }
 	void rotate_z_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())); }
+	
+	virtual bounding_box box() const;
+	space_bounding_box space_box();
 };
 
 

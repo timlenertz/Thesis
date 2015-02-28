@@ -4,6 +4,7 @@
 #include "bounding_box.h"
 #include "frustum.h"
 #include "point_cloud.h"
+#include "../../pcf_core/space_object_wrapper.h"
 
 
 namespace pcf {
@@ -70,6 +71,10 @@ void scene::add(point_cloud_xyz& pc) {
 
 void scene::add(point_cloud_full& pc) {
 	add_with_holder_<scene_point_cloud>(pc);
+}
+
+void scene::add(space_bounding_box& box) {
+	add_with_holder_<scene_bounding_box>(box);
 }
 
 

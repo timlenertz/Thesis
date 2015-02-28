@@ -141,7 +141,8 @@ public:
 	const Point& random_point() const;
 	Point& random_point();
 
-	bounding_box box(float ep = 0.0) const { return full_segment().box(ep); }
+	bounding_box box(float ep) const { return full_segment().box(ep); }
+	bounding_box box() const override { return box(0); }
 	Eigen::Vector3f center_of_mass() const { return full_segment().center_of_mass(); }
 };
 

@@ -1,5 +1,7 @@
 #include "space_object.h"
 #include "space_object_observer.h"
+#include "space_object_wrapper.h"
+#include "geometry/bounding_box.h"
 #include <stdexcept>
 
 namespace pcf {
@@ -55,7 +57,7 @@ void space_object::pose_was_updated_() {
 
 void space_object::recursive_notify_pose_update_() {
 	this->pose_was_updated_();
-	for(auto child : children_) child->pose_was_updated_();
+	for(auto child : children_) child->recursive_notify_pose_update_();
 	for(auto observer : observers_) observer->handle_pose_update();
 }
 
@@ -130,6 +132,20 @@ void space_object::transform_(const Eigen::Affine3f& t) {
 	pose_ = pose_.transform(t);
 	recursive_notify_pose_update_();
 }
+
+
+bounding_box space_object::box() const {
+	// Default implementation
+	throw std::logic_error("Space object has not bounding box.");
+}
+
+space_bounding_box space_object::space_box() {
+	bounding_box b = this->box();
+	space_bounding_box sb(b);
+	sb.set_parent(*this);
+	return sb;
+}
+
 
 
 }

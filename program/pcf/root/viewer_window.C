@@ -14,7 +14,9 @@ namespace {
 	const int default_window_height_ = 600;
 	const pcf::angle rotation_per_cursor_pixel_ = pcf::pi / 500.0;
 	const pcf::angle rotation_per_click_ = pcf::pi / 200.0;
-	const Long_t refresh_rate_ = 10;
+	const Long_t refresh_rate_ = 20;
+	const float slow_factor_ = 6.0;
+	
 }
 
 
@@ -172,8 +174,8 @@ void viewer_window::update_movement_velocity_(bool slow) {
 		obj_vel[i] = speed_(object_movement_[i]);
 	}
 	if(slow) {
-		cam_vel /= 3.0;
-		obj_vel /= 3.0;
+		cam_vel /= slow_factor_;
+		obj_vel /= slow_factor_;
 	}
 	
 	camera_motion_controller_.target_velocity = cam_vel;

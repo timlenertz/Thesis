@@ -13,6 +13,7 @@
 #include "../../pcf_core/point_cloud/point_cloud.h"
 #include "../../pcf_core/rgb_color.h"
 #include "../../pcf_core/space_object_observer.h"
+#include "../../pcf_core/space_object_wrapper.h"
 #include "../gl_object.h"
 #include "object.h"
 #include "object_holder.h"
@@ -76,6 +77,7 @@ public:
 	void clear();	
 	void add(point_cloud_xyz&);
 	void add(point_cloud_full&);
+	void add(space_bounding_box&);
 	
 	template<typename Object_1, typename Object_2, typename... Other_objects>
 	void add(Object_1& obj1, Object_2& obj2, Other_objects&... others) {

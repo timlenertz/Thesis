@@ -31,7 +31,7 @@ public:
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::estimate_transformation() {
 	receiver rec;
-	correspondences_(rec);
+	correspondences(rec);
 	
 	error_ = rec.error_metric();
 	estimated_transformation_ = rec.transformation_estimation();
@@ -40,8 +40,8 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::apply_estimated_transformation() {
-	loose_.set_relative_pose(
-		loose_.relative_pose().transform( estimated_transformation_.inverse() )
+	loose.set_relative_pose(
+		loose.relative_pose().transform( estimated_transformation_.inverse() )
 	);
 }
 
@@ -55,9 +55,9 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
 		float previous_error = error_;
 		Eigen::Affine3f previous_estimated_transformation = estimated_transformation_;
-		pose previous_pose = loose_.relative_pose();
+		pose previous_pose = loose.relative_pose();
 	
-		loose_.set_relative_pose(
+		loose.set_relative_pose(
 			previous_pose.transform( previous_estimated_transformation.inverse() )
 		);
 		
@@ -66,7 +66,7 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 		estimate_transformation();
 		
 		if(error_ > previous_error && stop_on_divergence) {
-			loose_.set_relative_pose(previous_pose);
+			loose.set_relative_pose(previous_pose);
 			break;
 		}
 		
