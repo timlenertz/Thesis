@@ -8,6 +8,9 @@
 
 namespace pcf {
 
+/**
+Traits for Octree structure.
+*/
 class octree_traits {
 public:
 	const static std::size_t number_of_children = 8;

@@ -8,6 +8,10 @@
 
 namespace pcf {
 
+/**
+Traits for KdTree structure.
+Split plane gets chosen at median position in each node.
+*/
 class kdtree_traits {
 public:
 	const static std::size_t number_of_children = 2;

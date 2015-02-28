@@ -84,7 +84,16 @@ public:
 	void rotate_y_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY())); }
 	void rotate_z_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())); }
 	
+	/**
+	Get bounding box enclosing the space object.
+	Throws exception if not implemented by subclass.
+	*/
 	virtual bounding_box box() const;
+	
+	/**
+	Get space bounding box enclosing the space object.
+	The returned space object is a child of this space object, and thus will have the same absolute pose.
+	*/
 	space_bounding_box space_box();
 };
 

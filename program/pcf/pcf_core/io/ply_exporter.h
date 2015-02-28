@@ -6,6 +6,10 @@
 
 namespace pcf {
 
+/**
+Exports point cloud into PLY file.
+Can generate binary or ASCII format, and either only XYZ coordinates or with color and normals.
+*/
 class ply_exporter : public point_cloud_exporter {
 private:
 	const static std::size_t vertex_count_string_length_ = 15;

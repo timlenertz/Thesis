@@ -8,6 +8,9 @@
 
 namespace pcf {
 
+/**
+Transformation estimation which uses correlation matrix.
+*/
 class correlation_matrix_transformation_estimation {
 protected:
 	Eigen::Vector3f fixed_sum_ = Eigen::Vector3f::Zero();

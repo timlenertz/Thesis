@@ -6,6 +6,9 @@
 
 namespace pcf {
 
+/**
+Abstract base class for point cloud importer.
+*/
 class point_cloud_importer {
 protected:
 	point_cloud_importer() = default;

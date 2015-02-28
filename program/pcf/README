@@ -7,5 +7,20 @@ pcf_viewer/
 pcf_test/
 	Unit tests.
 
+root/
+	Integration with ROOT. Provides UI and scripting CLI.
+
+dist/
+	Installation directory for library.
+	
+doc/
+	Doxygen code documentation.
+
+build.sh
+	Build shared library and install into dist.
+
+console.sh
+	Launch ROOT console and UI.
+
 external/
 	Dependencies.

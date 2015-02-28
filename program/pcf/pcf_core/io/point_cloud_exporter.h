@@ -5,6 +5,10 @@
 
 namespace pcf {
 
+/**
+Abstract base class for point cloud exporter.
+Subclass implements exporting points into given file format. Subclasses need to handle both point_xyz and point_full.
+*/
 class point_cloud_exporter {
 protected:
 	point_cloud_exporter() = default;
