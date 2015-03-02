@@ -1,5 +1,5 @@
 #include "image_camera.h"
-
+#include <iostream>
 namespace pcf {
 
 image_camera::image_camera(std::size_t imw, std::size_t imh) :

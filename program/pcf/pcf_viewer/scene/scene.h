@@ -29,12 +29,17 @@ Scene composed of camera and scene objects.
 Recursively calls its objects' rendering functions. Scene alone handles the complete OpenGL rendering operation. Viewer may provide additional UI elements and handles control of movement through scene.
 */
 class scene : public gl_object, private space_object_observer {
+	friend class scene_object_holder_base;
+
 private:
 	std::set<scene_object*> objects_;
 	std::vector<std::unique_ptr<scene_object_holder_base>> holders_;
 	projection_image_camera camera_;
 	rgb_color background_color_ = rgb_color::black;
 	bool need_reset_ = true;
+	
+	void add_object_(scene_object&);
+	void erase_object_(scene_object&);
 	
 	void notify_camera_update_();
 
@@ -64,9 +69,6 @@ public:
 	
 	const rgb_color& get_background_color() const;
 	void set_background_color(const rgb_color&);
-		
-	void add_object(scene_object&);
-	void erase_object(scene_object&);
 	
 	scene_object& scene_object_with_name(const std::string&);
 	const scene_object& scene_object_with_name(const std::string&) const;

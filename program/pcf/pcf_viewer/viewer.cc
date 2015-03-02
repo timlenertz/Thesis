@@ -21,6 +21,7 @@ std::array<std::size_t, 2> viewer::viewport_size() const {
 
 void viewer::resize_viewport(std::size_t w, std::size_t h) {
 	scene_.camera().set_image_size(w, h);
+	scene_.camera().adjust_field_of_view_y();
 }
 
 

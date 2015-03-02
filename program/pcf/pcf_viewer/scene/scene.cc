@@ -53,12 +53,12 @@ void scene::clear() {
 }
 
 
-void scene::add_object(scene_object& sobj){
+void scene::add_object_(scene_object& sobj){
 	objects_.insert(&sobj);
 }
 
 
-void scene::erase_object(scene_object& sobj) {
+void scene::erase_object_(scene_object& sobj) {
 	objects_.erase(&sobj);
 }
 

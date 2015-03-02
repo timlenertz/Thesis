@@ -73,7 +73,7 @@ public:
 	Mask_t key_mask_for_object = kKeyShiftMask;
 	Mask_t key_mask_for_slow = kKeyMod1Mask;
 	
-	float movement_speed = 0.1;
+	float movement_speed = 0.003;
 
 	explicit viewer_window(const std::string& title = "Viewer");
 	~viewer_window();
