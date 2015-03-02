@@ -1,7 +1,7 @@
 #include "motion_controller.h"
 #include "../pcf_core/space_object.h"
 #include "../pcf_core/camera/camera.h"
-
+#include <iostream>
 
 namespace pcf {
 

@@ -2,7 +2,7 @@
 #define PCF_POSE_H_
 
 #include <Eigen/Geometry>
-#include <iostream>
+#include <ostream>
 
 namespace pcf {
 
@@ -32,7 +32,7 @@ public:
 	template<typename Translation, typename Rotation>
 	pose(const Translation& t, const Rotation& r) :
 		position(t),
-		orientation(r) { }	
+		orientation(r) { orientation.normalize(); }	
 	
 	/// Affine transformation from world space to pose coordinate system.
 	Eigen::Affine3f transformation_from_world() const;
@@ -41,7 +41,12 @@ public:
 	Eigen::Affine3f transformation_to_world() const;
 	
 	pose transform(const Eigen::Affine3f&) const;
+	
+	Eigen::Vector3f euler_angles(std::ptrdiff_t a0 = 0, std::ptrdiff_t a1 = 1, std::ptrdiff_t a2 = 2) const;
 };
+
+
+std::ostream& operator<<(std::ostream&, const pose&);
 
 }
 
