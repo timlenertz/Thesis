@@ -43,14 +43,14 @@ public:
 
 
 /**
-Manager class for scene object.
-Creates the scene object from the space object and adds/erases it from scene. Tracks when space object gets deleted, updated (space_object::handle_update() call) or its pose gets changed. When it got updated, recreates a new scene object for it and replaces it in the scene. Stores the constructor parameters using which to create the scene objects. The scene objects themselves are immutable, they don't need to handle change in the space object.
+Manager class for scene object representing a space object.
+Creates the scene object from the space object and adds/erases it from scene. Tracks when space object gets deleted, updated (space_object::handle_update() call) or its pose gets changed. When it got updated, recreates a new scene object for it and replaces it in the scene. Stores the constructor parameters using which to create the scene object. The scene objects themselves are immutable, they don't need to handle change in the space object. Scene object constructor needs to take scene, the space object references as two first parameters.
 */
 template<typename Scene_object, typename Space_object, typename... Construction_args>
 class scene_object_holder : public scene_object_holder_base {
 private:
 	std::unique_ptr<Scene_object> scene_object_;
-	std::function<Scene_object*()> create_scene_object_;
+	std::function<Scene_object*()> create_scene_object_; // std::bind object, contains the constructor parameters
 	
 	void pose_was_updated_() final override;
 	void object_was_updated_() final override;

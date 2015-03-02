@@ -14,7 +14,6 @@
 #include "point_cloud/pov_octree_traits.h"
 #include "point_cloud/pov_point_cloud.h"
 #include "scene/bounding_box.h"
-#include "scene/frustum.h"
 #include "scene/object.h"
 #include "scene/object_holder.h"
 #include "scene/point_cloud.h"

@@ -28,11 +28,8 @@ protected:
 	void gl_draw_() override;
 
 public:
-	scene_bounding_box(const scene&, const space_bounding_box&);			
+	scene_bounding_box(const scene&, const space_bounding_box&, const rgb_color& = rgb_color::yellow);			
 	~scene_bounding_box();
-	
-	const rgb_color& get_color() const { return color_; }
-	void set_color(const rgb_color& col) { color_ = col; }
 };
 
 }

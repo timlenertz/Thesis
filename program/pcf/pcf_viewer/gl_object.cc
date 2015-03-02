@@ -19,7 +19,7 @@ void gl_object::uninitialize() {
 
 void gl_object::draw() {
 	if(! initialized_) initialize();	
-	this->gl_draw_();
+	if(should_draw_) this->gl_draw_();
 }
 
 

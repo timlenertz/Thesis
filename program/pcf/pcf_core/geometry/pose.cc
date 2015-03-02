@@ -9,15 +9,15 @@ pose::pose() :
 
 
 pose::pose(const Eigen::Affine3f& t) :
-	position(t.rotation() * t.translation()),
+	position(t.translation()),
 	orientation(t.rotation()) { }
 
 
-Eigen::Affine3f pose::view_transformation() const {
+Eigen::Affine3f pose::transformation_from_world() const {
 	return orientation.conjugate() * Eigen::Translation3f(-position);
 }
 
-Eigen::Affine3f pose::view_transformation_inverse() const {
+Eigen::Affine3f pose::transformation_to_world() const {
 	return Eigen::Translation3f(position) * orientation;
 }
 

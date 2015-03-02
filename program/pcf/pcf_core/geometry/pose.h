@@ -35,10 +35,10 @@ public:
 		orientation(r) { }	
 	
 	/// Affine transformation from world space to pose coordinate system.
-	Eigen::Affine3f view_transformation() const;
+	Eigen::Affine3f transformation_from_world() const;
 
 	/// Affine transformation from pose coordinate system to world space.
-	Eigen::Affine3f view_transformation_inverse() const;
+	Eigen::Affine3f transformation_to_world() const;
 	
 	pose transform(const Eigen::Affine3f&) const;
 };

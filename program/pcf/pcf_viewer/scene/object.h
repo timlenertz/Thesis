@@ -11,16 +11,16 @@ class projection_camera;
 class scene;
 
 /**
-Base class for embedding of a space object in a scene.
-Handles computation of MVP matrix based on object and camera pose. Subclass handles rendering of object. Subclass constructors always take at least 2 arguments: scene, space object (both reference to const), followed by additional parameters. 
+Abstract base class for scene object.
+Handles computation of MVP matrix based on object and camera pose. Subclass handles rendering of object.
 */
 class scene_object : public gl_object {
 protected:
 	const scene& scene_;
-	const space_object& object_;
-	Eigen::Matrix4f mvp_matrix_;
+	Eigen::Affine3f model_transformation_;
+	Eigen::Matrix4f mvp_matrix_;	
 		
-	scene_object(const scene&, const space_object&);
+	explicit scene_object(const scene&);
 					
 	virtual void mvp_was_updated_();
 
@@ -31,9 +31,14 @@ private:
 
 public:
 	void handle_camera_update();
-	void handle_pose_update();
+	
+	void set_model_transformation(const Eigen::Affine3f&);
+	const Eigen::Affine3f& model_transformation() const { return model_transformation_; }
 	
 	const scene& get_scene() const { return scene_; }
+	
+	bool visible() const;
+	void set_visible(bool);
 };
 
 }

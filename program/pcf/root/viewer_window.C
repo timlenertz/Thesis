@@ -113,8 +113,8 @@ viewer_window::viewer_window(const std::string& title) :
 	event_handler_(*this, &frame_, gl_widget_),
 	timer_(refresh_rate_, kTRUE),
 	viewer_(gl_width_(), gl_height_()),
-	camera_motion_controller_(viewer_->get_camera()),
-	object_motion_controller_(viewer_->get_camera())
+	camera_motion_controller_(viewer_->camera()),
+	object_motion_controller_(viewer_->camera())
 {
 	camera_movement_.fill(stop);
 	object_movement_.fill(stop);
@@ -132,7 +132,7 @@ viewer_window::viewer_window(const std::string& title) :
 	gVirtualX->SetKeyAutoRepeat(kFALSE);
 	gVirtualX->GrabKey(frame_.GetId(), kAnyKey, kAnyModifier, kTRUE);
 	gl_widget_->SetEventHandler(&event_handler_);
-	camera_motion_controller_.object = &viewer_->get_camera();
+	camera_motion_controller_.object = &viewer_->camera();
 	
 	// Initialize renderer
 	init_();

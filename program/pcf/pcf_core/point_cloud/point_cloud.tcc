@@ -169,8 +169,8 @@ auto point_cloud<Point, Allocator>::end_transform() const -> transform_iterator 
 
 template<typename Point, typename Allocator>
 auto point_cloud<Point, Allocator>::begin_relative_to(const space_object& obj) const -> transform_iterator {
-	Eigen::Affine3f this_to_world = absolute_pose().view_transformation_inverse();
-	Eigen::Affine3f world_to_obj = obj.absolute_pose().view_transformation();
+	Eigen::Affine3f this_to_world = absolute_pose().transformation_to_world();
+	Eigen::Affine3f world_to_obj = obj.absolute_pose().transformation_from_world();
 	return transform_iterator(begin_, world_to_obj * this_to_world);
 }
 

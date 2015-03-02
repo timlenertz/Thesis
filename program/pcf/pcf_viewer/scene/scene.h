@@ -59,8 +59,8 @@ public:
 	scene(std::size_t view_w, std::size_t view_h, angle fov_x);
 	~scene();
 			
-	projection_image_camera& get_camera() { return camera_; }
-	const projection_image_camera& get_camera() const { return camera_; }
+	projection_image_camera& camera() { return camera_; }
+	const projection_image_camera& camera() const { return camera_; }
 	
 	const rgb_color& get_background_color() const;
 	void set_background_color(const rgb_color&);

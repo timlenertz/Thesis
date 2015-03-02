@@ -90,7 +90,7 @@ struct pointscan_importer::sc_header {
 	std::int32_t rows; /// Row is contiguous segment in pointscan file. Row-major ordering.
 	std::uint32_t number_of_data_sets;
 	sc_data_type subsequent_data_set_types[10];
-	float pose[16];
+	float pose[16]; // Affine transformation matrix of pose.
 };
 
 
@@ -143,6 +143,7 @@ bool pointscan_importer::has_camera_pose() const {
 pose pointscan_importer::camera_pose() const {
 	using file_pose_type = Eigen::Matrix<float, 4, 4, Eigen::RowMajor>;
 	Eigen::Matrix4f mat = Eigen::Map<const file_pose_type>(header_->pose);
+	//mat = mat.inverse();
 	return Eigen::Affine3f(mat);
 }
 

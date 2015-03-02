@@ -85,7 +85,7 @@ const pose& space_object::relative_pose() const {
 
 pose space_object::absolute_pose() const {
 	if(has_parent_space_object())
-		return pose_.transform( parent_space_object().absolute_pose().view_transformation_inverse() );
+		return pose_.transform( parent_space_object().absolute_pose().transformation_to_world() );
 	else
 		return pose_;
 }

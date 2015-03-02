@@ -15,8 +15,6 @@
 #include "../shaders/point_cloud.frag.h"
 #include "../shaders/point_cloud.vert.h"
 
-#include <iostream>
-
 namespace pcf {
 
 namespace {
@@ -166,7 +164,7 @@ const GLsizei scene_point_cloud::default_point_buffer_capacity_ = 1024 * 1024;
 
 
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc, GLsizei cap) :
-	scene_object(sc, pc),
+	scene_object(sc),
 	point_buffer_capacity_(cap),
 	pov_point_cloud_(pc)
 {
@@ -175,7 +173,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc
 
 
 scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc, const rgb_color& col, GLsizei cap) :
-	scene_object(sc, pc),
+	scene_object(sc),
 	point_buffer_capacity_(cap),
 	pov_point_cloud_(pc)
 {
@@ -259,6 +257,8 @@ void scene_point_cloud::gl_initialize_() {
 	void* buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	loader_point_buffer_mapping_ = static_cast<point_full*>(buf);
+	
+	glPointSize(2);
 }
 
 
@@ -317,8 +317,8 @@ void scene_point_cloud::mvp_was_updated_() {
 	// Send new request for this camera position to loader,
 	// but only if there is no response waiting to be accepted (in gl_draw)
 	if(! loader_->response_available()) {
-		frustum fr = scene_.get_camera().viewing_frustum();
-		fr = fr.transform( object_.absolute_pose().view_transformation_inverse() );
+		frustum fr = scene_.camera().viewing_frustum();
+		fr = fr.transform( model_transformation_ );
 		loader::request req {
 			fr,
 			loader_point_buffer_mapping_,

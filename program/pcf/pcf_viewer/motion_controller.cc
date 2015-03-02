@@ -33,7 +33,7 @@ void motion_controller::tick() {
 		Eigen::Vector4f target_velocity_h(
 			target_velocity[0], target_velocity[1], target_velocity[2], 0
 		);
-		target_vel = (camera_.absolute_pose().view_transformation_inverse() * target_velocity_h).head(3);
+		target_vel = (camera_.absolute_pose().transformation_to_world() * target_velocity_h).head(3);
 	} else {
 		target_vel = target_velocity;
 	}
@@ -62,9 +62,7 @@ void motion_controller::rotate(angle horizontal, angle vertical) {
 
 
 void motion_controller::roll(angle a) {
-	if(object) object->transform(
-		Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())
-	);
+	if(object) object->rotate_z_axis(a);
 }
 
 

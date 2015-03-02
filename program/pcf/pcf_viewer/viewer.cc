@@ -15,12 +15,12 @@ scene_(w, h, default_fov_) { }
 viewer::~viewer() { }
 
 std::array<std::size_t, 2> viewer::viewport_size() const {
-	return { scene_.get_camera().image_width(), scene_.get_camera().image_height() };
+	return { scene_.camera().image_width(), scene_.camera().image_height() };
 }
 
 
 void viewer::resize_viewport(std::size_t w, std::size_t h) {
-	scene_.get_camera().set_image_size(w, h);
+	scene_.camera().set_image_size(w, h);
 }
 
 

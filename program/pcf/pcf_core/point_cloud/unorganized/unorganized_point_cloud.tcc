@@ -60,7 +60,7 @@ void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::apply_pose() {	
-	const Eigen::Affine3f& t = super::relative_pose().view_transformation_inverse();
+	const Eigen::Affine3f& t = super::relative_pose().transformation_to_world();
 	apply_transformation(t);
 	super::set_relative_pose(pose());
 }

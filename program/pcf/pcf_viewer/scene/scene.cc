@@ -2,7 +2,6 @@
 #include "object.h"
 #include "shader_program.h"
 #include "bounding_box.h"
-#include "frustum.h"
 #include "point_cloud.h"
 #include "../../pcf_core/space_object_wrapper.h"
 
