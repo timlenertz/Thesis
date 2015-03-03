@@ -190,6 +190,41 @@ void unorganized_point_cloud<Point, Allocator>::downsample_grid(float cell_len, 
 }
 
 
+template<typename Point, typename Allocator> template<typename Image_camera>
+void unorganized_point_cloud<Point, Allocator>::downsample_projection(const Image_camera& cam) {
+	// Image with pointers to points to keep
+	multi_dimensional_array<Point*, 2> points_buffer({ cam.image_width(), cam.image_height() }, nullptr);
+	
+	// Project, and keep closest points
+	#pragma omp parallel for
+	for(auto it = super::begin(); it < super::end(); ++it) {
+		auto& p = *it;
+		if(! p.valid()) continue;
+		
+		float z;
+		auto ic = cam.to_image(p, z);
+		if(! cam.in_bounds(ic)) continue;
+
+		auto& old_point = points_buffer[{ic[0], ic[1]}];
+		auto old_z = cam.depth(p);
+		if(z < old_z) {
+			old_point = &p;
+		}
+	}
+
+	// Invalidate all points
+	for(Point& pt : *this) pt.invalidate();
+	
+	// Revalidate the kept points
+	for(Point* pt : points_buffer)
+		if(pt != nullptr) pt->revalidate();
+
+	// If not in invalidate mode: Need to erase invalid from pc
+	if(! filters_invalidate_points_) erase_invalid_points();
+}
+
+
+
 template<typename Point, typename Allocator> template<typename Distribution>
 void unorganized_point_cloud<Point, Allocator>::randomly_displace_points(const Distribution& dist_orig) {
 	Distribution dist(dist_orig);

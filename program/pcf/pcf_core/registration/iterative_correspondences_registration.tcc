@@ -46,9 +46,12 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run
-(const iteration_callback& cb) {
+auto iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run
+(const iteration_callback& cb) -> std::vector<iteration_state> {
+	std::vector<iteration_state> states;
+
 	estimate_transformation();
+	states.emplace_back(estimated_transformation_, error_);
 	
 	std::size_t iteration_count = 1;	
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
@@ -60,12 +63,16 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 		if(cb) cb(estimated_transformation_, error_, false);
 		
 		estimate_transformation();
+		states.emplace_back(estimated_transformation_, error_);
+		
 		if(error_ > previous_error && stop_on_divergence) {
 			loose.set_relative_pose(previous_pose);
 			break;
 		}
 	}
 	if(cb) cb(estimated_transformation_, error_, true);
+	
+	return states;
 }
 
 }

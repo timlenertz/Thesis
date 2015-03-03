@@ -6,6 +6,7 @@
 #include <cmath>
 #include <utility>
 #include <functional>
+#include <vector>
 #include "transformation_estimation/svd_transformation_estimation.h"
 #include "error_metric/mean_square_error.h"
 
@@ -25,6 +26,14 @@ public:
 	using fixed_point_cloud_type = typename Correspondences::fixed_point_cloud_type;
 	using loose_point_cloud_type = typename Correspondences::loose_point_cloud_type;
 
+	struct iteration_state {
+		Eigen::Affine3f estimated_transformation;
+		float error;
+		
+		iteration_state(const Eigen::Affine3f& t, float err) : 
+			estimated_transformation(t), error(err) { }
+	};
+
 private:
 	class receiver;
 	
@@ -40,7 +49,6 @@ public:
 	std::size_t maximal_iterations = -1;
 	bool stop_on_divergence = true;
 
-public:
 	using iteration_callback = std::function<void(const Eigen::Affine3f& est_t, float err, bool done)>;
 
 	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
@@ -52,8 +60,7 @@ public:
 	void estimate_transformation();
 	void apply_estimated_transformation();
 	
-	void run(const iteration_callback& = iteration_callback());
-	void run_async(const iteration_callback& = iteration_callback());
+	std::vector<iteration_state> run(const iteration_callback& = iteration_callback());
 };
 
 

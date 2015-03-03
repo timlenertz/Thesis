@@ -64,6 +64,10 @@ public:
 	/// Apply grid downsampling, using given grid cell side length.
 	/// Puts regular axis-aligned cubic grid over point cloud, and keeps exactly one point for each grid cell that contained at least one point. If keep_first, keeps the first point found to be inside a cell. Else, keeps the point closest to the cell's center. Does not displace points.
 	void downsample_grid(float cell_sz, bool keep_first = false);
+	
+	/// Project using the given image camera, and keep only points on image.
+	template<typename Image_camera>
+	void downsample_projection(const Image_camera&);
 
 	/// Displace points using random number distribution.
 	/// Random numbers generated using the given distribution is added to the X, Y and Z coordinates of each point.
