@@ -41,7 +41,7 @@ public:
 	bool stop_on_divergence = true;
 
 public:
-	using iteration_callback = std::function<void(const Eigen::Affine3f& est_trans, float err)>;
+	using iteration_callback = std::function<void(const Eigen::Affine3f& est_t, float err, bool done)>;
 
 	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
 		fixed(cf), loose(cl), correspondences(cor) { }
@@ -51,7 +51,9 @@ public:
 
 	void estimate_transformation();
 	void apply_estimated_transformation();
+	
 	void run(const iteration_callback& = iteration_callback());
+	void run_async(const iteration_callback& = iteration_callback());
 };
 
 

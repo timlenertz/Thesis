@@ -12,7 +12,7 @@ namespace pcf {
 
 template<typename Scene_object, typename Space_object, typename... Construction_args>
 void scene_object_holder<Scene_object, Space_object, Construction_args...>::pose_was_updated_() {
-	const pose& p = space_object().absolute_pose();
+	const pose& p = get_space_object().absolute_pose();
 	scene_object_->set_model_transformation(p.transformation_to_world());
 }
 

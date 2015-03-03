@@ -181,6 +181,5 @@ auto point_cloud<Point, Allocator>::end_relative_to() const -> transform_iterato
 
 
 
-
 // super::absolute_pose().view_transformation_inverse()
 }

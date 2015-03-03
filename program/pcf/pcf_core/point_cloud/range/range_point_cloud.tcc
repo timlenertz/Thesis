@@ -6,9 +6,14 @@
 namespace pcf {
 
 template<typename Point, typename Allocator>
+range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, const Allocator& alloc) :
+	super(w * h, false, alloc),
+	image_({h, w}, super::begin_, super::begin_ + w*h) { }
+
+
+template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importer& imp, const Allocator& alloc) :
-	super(imp.size(), false, alloc),
-	image_({imp.rows(), imp.columns()}, super::begin_, super::begin_ + imp.size())
+	range_point_cloud(imp.columns(), imp.rows(), alloc)
 {
 	if(imp.has_camera_pose())
 		super::set_relative_pose( imp.camera_pose() );
@@ -16,35 +21,6 @@ range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importe
 	super::resize_(super::capacity());
 	for(Point* buf = super::begin_; buf < super::end_; buf += imp.columns())
 		imp.read_row(buf);
-}
-
-
-template<typename Point, typename Allocator> template<typename Other_cloud, typename Camera>
-range_point_cloud<Point, Allocator>::range_point_cloud(Other_cloud&& pc, const Camera& cam, const Allocator& alloc) :
-	super(cam.image_number_of_pixels(), false, alloc),
-	image_({cam.image_width(), cam.image_height()}, super::begin_, super::begin_ + cam.image_number_of_pixels())
-{
-	super::resize_(super::capacity());
-	
-	// Project pc onto this depth map using image camera cam.
-	// Uses z-buffer to keep only point with highest depth value.
-	
-	multi_dimensional_array<float, 2> z_buffer(image_.size(), INFINITY);
-	
-	#pragma omp parallel for
-	for(auto p = pc.cbegin(); p < pc.cend(); ++p) {
-		if(! p->valid()) continue;
-		
-		float z;
-		auto ic = cam.to_image(*p, z);
-		if(! cam.in_bounds(ic)) continue;
-		
-		float& old_z = z_buffer[{ic[0], ic[1]}];
-		if(z < old_z) {
-			old_z = z;
-			image_[{ic[0], ic[1]}] = *p;
-		}
-	}
 }
 
 

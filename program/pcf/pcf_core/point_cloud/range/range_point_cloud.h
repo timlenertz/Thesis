@@ -4,6 +4,7 @@
 #include <vector>
 #include <limits>
 #include <memory>
+#include <cmath>
 #include "../../rgb_color.h"
 #include "../point_cloud.h"
 #include "../../util/multi_dimensional_buffer.h"
@@ -21,13 +22,11 @@ template<typename Point, typename Allocator = default_allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 
-private:
+protected:
+	range_point_cloud(std::size_t w, std::size_t h, const Allocator&);
 	multi_dimensional_buffer<Point, 2> image_;
 
 public:
-	template<typename Other_cloud, typename Camera>
-	range_point_cloud(Other_cloud&& pc, const Camera&, const Allocator& alloc = Allocator());
-	
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 	
 	std::size_t width() const;
@@ -35,6 +34,9 @@ public:
 		
 	range_image to_range_image() const;
 	color_image to_color_image(rgb_color bg = rgb_color::black) const;
+	
+	void crop(std::ptrdiff_t x_min, std::ptrdiff_t x_max, std::ptrdiff_t y_min, std::ptrdiff_t y_max);
+	void crop_depth(float depth_min = 0, float depth_max = INFINITY);
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

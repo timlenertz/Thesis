@@ -45,6 +45,7 @@
 #include "point_cloud/transform_iterator.h"
 #include "point_cloud/grid/grid_point_cloud.h"
 #include "point_cloud/grid/subspace.h"
+#include "point_cloud/range/camera_range_point_cloud.h"
 #include "point_cloud/range/range_point_cloud.h"
 #include "point_cloud/tree/kdtree_traits.h"
 #include "point_cloud/tree/node_handle.h"

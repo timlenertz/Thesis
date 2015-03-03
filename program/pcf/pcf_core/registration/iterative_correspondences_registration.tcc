@@ -40,40 +40,32 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::apply_estimated_transformation() {
-	loose.set_relative_pose(
-		loose.relative_pose().transform( estimated_transformation_.inverse() )
-	);
+	loose.transform( estimated_transformation_.inverse() );
 }
 
 
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
-void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run(const iteration_callback& cb) {
+void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run
+(const iteration_callback& cb) {
 	estimate_transformation();
 	
 	std::size_t iteration_count = 1;	
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
-		float previous_error = error_;
-		Eigen::Affine3f previous_estimated_transformation = estimated_transformation_;
 		pose previous_pose = loose.relative_pose();
-	
-		loose.set_relative_pose(
-			previous_pose.transform( previous_estimated_transformation.inverse() )
-		);
+		float previous_error = error_;
+
+		apply_estimated_transformation();
 		
-		if(cb) cb(estimated_transformation_, error_);
-	
+		if(cb) cb(estimated_transformation_, error_, false);
+		
 		estimate_transformation();
-		
 		if(error_ > previous_error && stop_on_divergence) {
 			loose.set_relative_pose(previous_pose);
 			break;
 		}
-		
-		previous_estimated_transformation = estimated_transformation_;
-		previous_error = error_;
 	}
+	if(cb) cb(estimated_transformation_, error_, true);
 }
-
 
 }
