@@ -5,7 +5,7 @@ namespace pcf {
 
 template<typename Point, typename Image_camera, typename Allocator> template<typename Other_cloud>
 camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const Other_cloud& pc, const Image_camera& cam, const Allocator& alloc) :
-	super(cam.image_height(), cam.image_width(), alloc),
+	super(cam.image_width(), cam.image_height(), false, alloc),
 	camera_(cam)
 {
 	// Project pc onto this depth map using image camera cam.
@@ -35,7 +35,7 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 
 template<typename Point, typename Image_camera, typename Allocator>
 camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const range_image& ri, const Image_camera& cam, const Allocator& alloc) :
-	super(ri.width(), ri.height(), alloc),
+	super(ri.width(), ri.height(), false, alloc),
 	camera_(cam)
 {
 	if( (ri.width() != cam.image_width()) || (ri.height() != cam.image_height()) )

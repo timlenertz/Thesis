@@ -22,9 +22,13 @@ template<typename Point, typename Allocator = default_allocator<Point>>
 class range_point_cloud : public point_cloud<Point, Allocator> {
 	using super = point_cloud<Point, Allocator>;
 
+private:
+	using multi_size = std::array<std::size_t, 2>;
+
 protected:
-	range_point_cloud(std::size_t w, std::size_t h, const Allocator&);
+	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
 	multi_dimensional_buffer<Point, 2> image_;
+	const bool row_major_order_;
 
 public:
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());

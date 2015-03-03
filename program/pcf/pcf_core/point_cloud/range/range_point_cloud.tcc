@@ -6,14 +6,15 @@
 namespace pcf {
 
 template<typename Point, typename Allocator>
-range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, const Allocator& alloc) :
+range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator& alloc) :
 	super(w * h, false, alloc),
-	image_({h, w}, super::begin_, super::begin_ + w*h) { }
+	image_(row_major ? multi_size{h, w} : multi_size{w, h}, super::begin_, super::begin_ + super::capacity()),
+	row_major_order_(row_major) { }
 
 
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importer& imp, const Allocator& alloc) :
-	range_point_cloud(imp.columns(), imp.rows(), alloc)
+	range_point_cloud(imp.columns(), imp.rows(), true, alloc)
 {
 	if(imp.has_camera_pose())
 		super::set_relative_pose( imp.camera_pose() );
@@ -26,13 +27,13 @@ range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importe
 
 template<typename Point, typename Allocator>
 std::size_t range_point_cloud<Point, Allocator>::width() const {
-	return image_.size()[0];
+	return image_.size()[row_major_order_ ? 1 : 0];
 }
 
 
 template<typename Point, typename Allocator>
 std::size_t range_point_cloud<Point, Allocator>::height() const {
-	return image_.size()[1];
+	return image_.size()[row_major_order_ ? 0 : 1];
 }
 
 
