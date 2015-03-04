@@ -12,6 +12,7 @@ range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_
 	row_major_order_(row_major) { }
 
 
+
 template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importer& imp, const Allocator& alloc) :
 	range_point_cloud(imp.columns(), imp.rows(), true, alloc)

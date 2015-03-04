@@ -21,6 +21,7 @@ class color_image;
 
 /**
 Point cloud corresponding to range image.
+Points are arranged in X-Y grid in memory, representing the elements (pixels) of the range image. Invalid point if no point exists in that direction. Point coordinates are such that camera is at origin, i.e. norm of a point is its distance to camera.
 */
 template<typename Point, typename Allocator = default_allocator<Point>>
 class range_point_cloud : public filter_point_cloud<Point, Allocator> {
