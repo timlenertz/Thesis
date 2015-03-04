@@ -1,0 +1,10 @@
+.L pcf/dist/libpcfcore.dylib
+.L pcf/dist/libpcfviewer.dylib
+.I pcf/external/include
+
+#include <pcf/pcf_core/pcf_core.h>
+#include <pcf/pcf_viewer/pcf_viewer.h>
+
+.L root/viewer_window.C
+.L root/utils.C
+.X root/initialize.C

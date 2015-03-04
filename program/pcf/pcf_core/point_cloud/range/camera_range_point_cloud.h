@@ -58,6 +58,14 @@ camera_range_point_cloud_xyz<Image_camera> backproject(const range_image& ri, co
 	return camera_range_point_cloud_xyz<Image_camera>(ri, cam);
 }
 
+
+template<typename Image_camera>
+camera_range_point_cloud_full<Image_camera> backproject(const range_image& ri, const color_image& ci, const Image_camera& cam) {
+	camera_range_point_cloud_full<Image_camera> rpc(ri, cam);
+	rpc.colorize(ci);
+	return rpc;
+}
+
 }
 
 #include "camera_range_point_cloud.tcc"

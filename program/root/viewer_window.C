@@ -1,7 +1,4 @@
 #include "viewer_window.h"
-#include "pcf_core/geometry/math_constants.h"
-#include "pcf_core/geometry/angle.h"
-#include "pcf_core/camera/camera.h"
 #include <Eigen/Eigen>
 #include <TVirtualX.h>
 #include <map>

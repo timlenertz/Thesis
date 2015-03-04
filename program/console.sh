@@ -2,7 +2,7 @@
 
 INIT=""
 PATTERN='s/\"/\\\"/g'
-ROOT=../../root/dist/bin/root
+ROOT=../root/dist/bin/root
 
 while read LINE
 do

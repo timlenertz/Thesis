@@ -79,4 +79,21 @@ color_image range_point_cloud<Point, Allocator>::to_color_image(rgb_color bg) co
 }
 
 
+
+template<typename Point, typename Allocator>
+void range_point_cloud<Point, Allocator>::colorize(const color_image& im) {
+	if( (im.width() != width()) || (im.height() != height()) )
+		throw std::invalid_argument("Color image must have same size as range point cloud.");
+	
+	for(std::ptrdiff_t y = 0; y < im.height(); ++y)
+	for(std::ptrdiff_t x = 0; x < im.width(); ++x) {
+		Point& p = at(x, y);
+		if(p.valid()) {
+			rgb_color col = im.at(x, y);
+			p.set_color(col);
+		}
+	}
+}
+
+
 }

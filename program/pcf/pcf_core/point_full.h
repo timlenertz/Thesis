@@ -25,6 +25,7 @@ public:
 	point_full& operator=(const point_xyz&);
 	
 	const rgb_color& get_color() const { return color; }
+	void set_color(const rgb_color& col) { color = col; }
 };
 
 }
