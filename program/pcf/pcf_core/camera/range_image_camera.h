@@ -20,7 +20,7 @@ public:
 	angle angular_resolution_x() const;
 	angle angular_resolution_y() const;
 	
-	image_coordinates to_image(const Eigen::Vector3f&, float& z) const override;
+	image_coordinates to_image(const Eigen::Vector3f&) const override;
 	Eigen::Vector3f point(image_coordinates, float depth) const override;
 };
 

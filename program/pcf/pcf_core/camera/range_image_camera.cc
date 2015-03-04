@@ -15,14 +15,13 @@ angle range_image_camera::angular_resolution_y() const {
 	return field_of_view_height() / image_height_;
 }
 
-auto range_image_camera::to_image(const Eigen::Vector3f& p, float& z) const -> image_coordinates {
+auto range_image_camera::to_image(const Eigen::Vector3f& p) const -> image_coordinates {
 	spherical_coordinates s = to_spherical(p);
 	s.azimuth -= azimuth_limits_[0];
 	s.elevation -= elevation_limits_[0];
 	std::ptrdiff_t x = (s.azimuth * image_width_) / field_of_view_width();
 	std::ptrdiff_t y = (s.elevation * image_height_) / field_of_view_height();
-	z = s.radius;
-	return image_coordinates({x, y});
+	return image_coordinates(x, y);
 }
 
 Eigen::Vector3f range_image_camera::point(image_coordinates, float depth) const {

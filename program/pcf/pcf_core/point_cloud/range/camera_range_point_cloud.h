@@ -18,19 +18,19 @@ class camera_range_point_cloud : public range_point_cloud<Point, Allocator> {
 
 private:
 	Image_camera camera_;
+	
+	template<typename Iterator>
+	void project_(Iterator begin, Iterator end);
 
 public:
-	/**
-	Create by projection of existing point cloud with given image camera.
-	See project helper functions.
-	*/
-	template<typename Other_cloud>
-	camera_range_point_cloud(const Other_cloud& pc, const Image_camera&, const Allocator& alloc = Allocator());
+	/// Create by projection of existing point cloud with given image camera.
+	camera_range_point_cloud(const point_cloud_xyz& pc, const Image_camera&, const Allocator& alloc = Allocator());
+
+	/// Create by projection of existing point cloud with given image camera.
+	camera_range_point_cloud(const point_cloud_full& pc, const Image_camera&, const Allocator& alloc = Allocator());
 	
-	/**
-	Create from existing range image with given image camera.
-	Range image size must be same as image camera image size.
-	*/
+	/// Create from existing range image with given image camera.
+	/// Range image size must be same as image camera image size.
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
 };
 
@@ -51,6 +51,11 @@ camera_range_point_cloud_xyz<Image_camera> project(const point_cloud_xyz& pc, co
 template<typename Image_camera>
 camera_range_point_cloud_full<Image_camera> project(const point_cloud_full& pc, const Image_camera& cam) {
 	return camera_range_point_cloud_full<Image_camera>(pc, cam);
+}
+
+template<typename Image_camera>
+camera_range_point_cloud_xyz<Image_camera> backproject(const range_image& ri, const Image_camera& cam) {
+	return camera_range_point_cloud_xyz<Image_camera>(ri, cam);
 }
 
 }

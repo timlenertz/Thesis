@@ -7,6 +7,9 @@
 
 namespace pcf {
 
+/**
+Camera representing projection onto sphere.
+*/
 class range_camera : public camera {
 protected:
 	std::array<angle, 2> azimuth_limits_;

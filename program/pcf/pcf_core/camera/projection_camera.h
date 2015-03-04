@@ -7,7 +7,7 @@ namespace pcf {
 
 /**
 Camera representing projection to a planar image space.
-Represented using its viewing frustum matrix. Can not have fields of view larger than 180 deg.
+Represented using its viewing frustum matrix. Cannot have fields of view larger than 180 deg.
 */
 class projection_camera : public camera {
 protected:
@@ -35,8 +35,8 @@ public:
 
 	float projected_depth(const Eigen::Vector3f&) const;
 	Eigen::Vector2f to_projected(const Eigen::Vector3f&) const;
-	Eigen::Vector2f to_projected(const Eigen::Vector3f&, float& depth) const;
-	Eigen::Vector3f point(const Eigen::Vector2f&, float z) const;
+	Eigen::Vector2f to_projected(const Eigen::Vector3f&, float& proj_depth) const;
+	Eigen::Vector3f point_with_projected_depth(const Eigen::Vector2f&, float z) const;
 };
 
 }

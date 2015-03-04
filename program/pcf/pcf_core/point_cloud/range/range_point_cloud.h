@@ -42,8 +42,6 @@ public:
 		
 	range_image to_range_image() const;
 	color_image to_color_image(rgb_color bg = rgb_color::black) const;
-	
-	range_image_camera estimate_range_camera() const;
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

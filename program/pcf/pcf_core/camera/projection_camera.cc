@@ -102,15 +102,15 @@ Eigen::Vector2f projection_camera::to_projected(const Eigen::Vector3f& p) const 
 	return Eigen::Vector2f( projected[0]/projected[3], projected[1]/projected[3] );
 }
 
-Eigen::Vector2f projection_camera::to_projected(const Eigen::Vector3f& p, float& depth) const {
+Eigen::Vector2f projection_camera::to_projected(const Eigen::Vector3f& p, float& proj_depth) const {
 	Eigen::Vector4f projected = view_projection_transformation() * p.homogeneous();
 	projected /= projected[3];
-	depth = projected[2];
+	proj_depth = projected[2];
 	return Eigen::Vector2f( projected[0], projected[1] );
 }
 
 
-Eigen::Vector3f projection_camera::point(const Eigen::Vector2f& projected, float z) const {
+Eigen::Vector3f projection_camera::point_with_projected_depth(const Eigen::Vector2f& projected, float z) const {
 	Eigen::Vector4f p(projected[0], projected[1], z, 1);
 	p = view_projection_transformation().inverse() * p;
 	return (p / p[3]).head(3);

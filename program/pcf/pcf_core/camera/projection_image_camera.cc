@@ -14,8 +14,8 @@ projection_image_camera::projection_image_camera(const projection_camera& cam, s
 
 
 
-auto projection_image_camera::to_image(const Eigen::Vector3f& p, float& z) const -> image_coordinates {
-	Eigen::Vector2f proj = to_projected(p, z);
+auto projection_image_camera::to_image(const Eigen::Vector3f& p) const -> image_coordinates {
+	Eigen::Vector2f proj = to_projected(p);
 	std::ptrdiff_t x = ((proj[0] + 1.0f) * image_width_) / 2.0f;
 	std::ptrdiff_t y = ((proj[1] + 1.0f) * image_height_) / 2.0f;
 	return image_coordinates({x, y});
@@ -32,8 +32,19 @@ void projection_image_camera::adjust_field_of_view_y() {
 }
 
 
-Eigen::Vector3f projection_image_camera::point(image_coordinates, float proj_depth) const {
+Eigen::Vector3f projection_image_camera::point_with_projected_depth(image_coordinates im, float proj_depth) const {
+	Eigen::Vector2f proj;
+	proj[0] = ((2.0f * im[0]) / image_width_) - 1.0f;
+	proj[1] = ((2.0f * im[1]) / image_height_) - 1.0f;
+	return projection_camera::point_with_projected_depth(proj, proj_depth);
+}
 
+Eigen::Vector3f projection_image_camera::point(image_coordinates im, float depth) const {
+	const float intermediary_projected_depth = 1.0;
+	Eigen::Vector3f p = point_with_projected_depth(im, intermediary_projected_depth);
+	spherical_coordinates sp = spherical_coordinates::from_cartesian(p);
+	sp.radius = depth;
+	return sp.to_cartesian();
 }
 
 
