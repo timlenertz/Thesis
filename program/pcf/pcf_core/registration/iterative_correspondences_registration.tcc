@@ -46,12 +46,9 @@ void iterative_correspondences_registration<Correspondences, Transformation_esti
 
 
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
-auto iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::run
-(const iteration_callback& cb) -> std::vector<iteration_state> {
-	std::vector<iteration_state> states;
-
+void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::
+run(const iteration_callback& cb) {
 	estimate_transformation();
-	states.emplace_back(estimated_transformation_, error_);
 	
 	std::size_t iteration_count = 1;	
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
@@ -60,19 +57,27 @@ auto iterative_correspondences_registration<Correspondences, Transformation_esti
 
 		apply_estimated_transformation();
 		
-		if(cb) cb(estimated_transformation_, error_, false);
+		if(cb) cb(iteration_state(estimated_transformation_, error_), false);
 		
 		estimate_transformation();
-		states.emplace_back(estimated_transformation_, error_);
 		
 		if(error_ > previous_error && stop_on_divergence) {
 			loose.set_relative_pose(previous_pose);
 			break;
 		}
 	}
-	if(cb) cb(estimated_transformation_, error_, true);
-	
-	return states;
+	if(cb) cb(iteration_state(estimated_transformation_, error_), true);
+}
+
+
+template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
+auto iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::
+run_and_get_statistics(const iteration_callback& cb) -> std::vector<iteration_state> {
+	std::vector<iteration_state> stat;
+	run([&stat](const iteration_state& st, bool done) {
+		stat.push_back(st);
+	});
+	return stat;
 }
 
 }

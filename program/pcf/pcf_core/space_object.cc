@@ -22,11 +22,6 @@ parent_(obj.parent_), pose_(obj.pose_) {
 }
 
 
-space_object::space_object(space_object&& obj) :
-parent_(obj.parent_), pose_(obj.pose_) {
-	attach_to_parent_();
-}
-
 space_object::~space_object() {
 	detach_from_parent_();
 	detach_from_children_();

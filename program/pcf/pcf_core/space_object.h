@@ -48,7 +48,6 @@ public:
 	explicit space_object(const pose& = pose());
 	space_object(const pose&, space_object& par);
 	space_object(const space_object&);
-	space_object(space_object&&);
 	
 	virtual ~space_object();
 

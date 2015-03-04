@@ -4,6 +4,7 @@
 #include <array>
 #include <type_traits>
 #include <iterator>
+#include "coordinates.h"
 
 namespace pcf {
 
@@ -19,17 +20,17 @@ provides access to elements. Both iterate over the elements in the same (interna
 template<typename T, std::size_t Dim>
 class multi_dimensional_buffer {
 public:
-	using multi_index = std::array<std::ptrdiff_t, Dim>;
-	using multi_size = std::array<std::size_t, Dim>;
+	using sizes_type = multi_size<Dim>;
+	using indices_type = multi_index<Dim>;
 	
 protected:
-	multi_size sizes_;
+	sizes_type sizes_;
 	T* begin_;
 	T* end_;
 	
-	static std::size_t to_size_(const multi_size&);
-	static multi_index zero_index_();
-	std::ptrdiff_t to_offset_(const multi_index&) const;
+	static std::size_t to_size_(const sizes_type&);
+	static indices_type zero_index_();
+	std::ptrdiff_t to_offset_(const indices_type&) const;
 
 public:
 	template<typename It> class iterator_;
@@ -39,16 +40,16 @@ public:
 	using raw_iterator = T*;
 	using raw_const_iterator = const T*;
 
-	multi_dimensional_buffer(const multi_size&, T* data, T* data_end);
+	multi_dimensional_buffer(const sizes_type&, T* data, T* data_end);
 	multi_dimensional_buffer(const multi_dimensional_buffer&) = default;
 		
 	T* data() { return begin_; }
 	const T* data() const { return begin_; }
 	
-	T& operator[](const multi_index&);
-	const T& operator[](const multi_index&) const;
+	T& operator[](const indices_type&);
+	const T& operator[](const indices_type&) const;
 	
-	multi_size size() const { return sizes_; }
+	sizes_type size() const { return sizes_; }
 	std::size_t total_size() const { return (end_ - begin_); }
 	
 	iterator begin() { return iterator(sizes_, begin_, zero_index_()); }
@@ -79,16 +80,16 @@ public std::iterator<std::forward_iterator_tag, typename std::remove_pointer<Ptr
 	using typename super::reference;
 	
 private:
-	const multi_size sizes_;
+	const sizes_type sizes_;
 	Ptr ptr_;
-	multi_index index_;
+	indices_type index_;
 
 public:
-	iterator_(const multi_size& sz, Ptr ptr, const multi_index& idx = multi_index()) :
+	iterator_(const sizes_type& sz, Ptr ptr, const indices_type& idx = indices_type()) :
 		sizes_(sz), ptr_(ptr), index_(idx) { }
 	
-	const multi_size& size() const { return sizes_; }
-	const multi_index& index() const { return index_; }
+	const sizes_type& size() const { return sizes_; }
+	const indices_type& index() const { return index_; }
 	
 	reference operator*() const { return *ptr_; }
 	pointer operator->() const { return ptr_; }

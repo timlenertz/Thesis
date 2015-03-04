@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <array>
 #include <Eigen/Eigen>
+#include "../util/coordinates.h"
 
 namespace pcf {
 
@@ -19,7 +20,7 @@ protected:
 	image_camera(std::size_t imw, std::size_t imh);
 	
 public:
-	using image_coordinates = std::array<std::ptrdiff_t, 2>;
+	using image_coordinates = index_2dim;
 	
 	image_camera(const image_camera&) = default;
 	

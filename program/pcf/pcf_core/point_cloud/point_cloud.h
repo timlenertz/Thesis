@@ -61,15 +61,11 @@ protected:
 	/**
 	Create point cloud by copy construction from another.
 	Allocates using provided allocator to size of other cloud, and copies points.
-	If all_val and other is not all-valid, erases invalid points.
+	If all_val and other is not all-valid, erases invalid points. If capacity == 0, takes size of given point cloud.
 	*/
 	template<typename Other_point, typename Other_allocator>
 	point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity, bool all_val, const Allocator&);
-
-	template<typename Other_point, typename Other_allocator>
-	point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, const Allocator& alloc) :
-		point_cloud(pc, 0, all_val, alloc) { }
-	
+		
 	
 	point_cloud() = delete; ///< Disallow default construction.
 	point_cloud& operator=(const point_cloud&) = delete; ///< Disallow assignment.

@@ -1,7 +1,7 @@
 namespace pcf {
 
 template<typename T, std::size_t Dim>
-auto multi_dimensional_buffer<T, Dim>::to_size_(const multi_size& msz) -> std::size_t {
+auto multi_dimensional_buffer<T, Dim>::to_size_(const sizes_type& msz) -> std::size_t {
 	std::size_t sz = 1;
 	for(std::size_t s : msz) sz *= s;
 	return sz;
@@ -9,15 +9,15 @@ auto multi_dimensional_buffer<T, Dim>::to_size_(const multi_size& msz) -> std::s
 
 
 template<typename T, std::size_t Dim>
-auto multi_dimensional_buffer<T, Dim>::zero_index_() -> multi_index {
-	multi_index mi;
+auto multi_dimensional_buffer<T, Dim>::zero_index_() -> indices_type {
+	indices_type mi;
 	for(std::ptrdiff_t& i : mi) i = 0;
 	return mi;
 }
 
 
 template<typename T, std::size_t Dim>
-auto multi_dimensional_buffer<T, Dim>::to_offset_(const multi_index& mi) const -> std::ptrdiff_t {
+auto multi_dimensional_buffer<T, Dim>::to_offset_(const indices_type& mi) const -> std::ptrdiff_t {
 	std::ptrdiff_t idx = 0;
 	std::size_t coeff = 1;
 	for(std::ptrdiff_t i = Dim - 1; i >= 0; --i) {
@@ -29,19 +29,19 @@ auto multi_dimensional_buffer<T, Dim>::to_offset_(const multi_index& mi) const -
 
 
 template<typename T, std::size_t Dim>
-multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const multi_size& sz, T* data, T* data_end) :
+multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const sizes_type& sz, T* data, T* data_end) :
 	sizes_(sz), begin_(data), end_(data_end) { }
 
 
 
 template<typename T, std::size_t Dim>
-T& multi_dimensional_buffer<T, Dim>::operator[](const multi_index& mi) {
+T& multi_dimensional_buffer<T, Dim>::operator[](const indices_type& mi) {
 	return begin_[ to_offset_(mi) ];
 }
 
 
 template<typename T, std::size_t Dim>
-const T& multi_dimensional_buffer<T, Dim>::operator[](const multi_index& mi) const {
+const T& multi_dimensional_buffer<T, Dim>::operator[](const indices_type& mi) const {
 	return begin_[ to_offset_(mi) ];
 }
 

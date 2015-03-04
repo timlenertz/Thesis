@@ -6,8 +6,12 @@
 #include <memory>
 #include <cmath>
 #include "../../rgb_color.h"
-#include "../point_cloud.h"
+#include "../filter_point_cloud.h"
 #include "../../util/multi_dimensional_buffer.h"
+#include "../../util/coordinates.h"
+#include "../../camera/range_image_camera.h"
+#include "../../camera/projection_image_camera.h"
+
 
 namespace pcf {
 
@@ -19,11 +23,8 @@ class color_image;
 Point cloud corresponding to range image.
 */
 template<typename Point, typename Allocator = default_allocator<Point>>
-class range_point_cloud : public point_cloud<Point, Allocator> {
-	using super = point_cloud<Point, Allocator>;
-
-private:
-	using multi_size = std::array<std::size_t, 2>;
+class range_point_cloud : public filter_point_cloud<Point, Allocator> {
+	using super = filter_point_cloud<Point, Allocator>;
 
 protected:
 	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
@@ -35,12 +36,14 @@ public:
 	
 	std::size_t width() const;
 	std::size_t height() const;
+	
+	const Point& at(std::ptrdiff_t x, std::ptrdiff_t y) const;
+	Point& at(std::ptrdiff_t x, std::ptrdiff_t y);
 		
 	range_image to_range_image() const;
 	color_image to_color_image(rgb_color bg = rgb_color::black) const;
 	
-	void crop(std::ptrdiff_t x_min, std::ptrdiff_t x_max, std::ptrdiff_t y_min, std::ptrdiff_t y_max);
-	void crop_depth(float depth_min = 0, float depth_max = INFINITY);
+	range_image_camera estimate_range_camera() const;
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

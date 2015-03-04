@@ -14,8 +14,11 @@ Eigen::Matrix3f correlation_matrix_transformation_estimation::correlation_matrix
 		Eigen::Matrix3f correlation_part = Eigen::Matrix3f::Zero();
 		
 		#pragma omp for
-		for(auto it = cors_.begin(); it < cors_.end(); ++it)
-			correlation_part += (it->fixed - fixed_center) * (it->loose - loose_center).transpose();
+		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
+			Eigen::Matrix3f c = (it->fixed - fixed_center) * (it->loose - loose_center).transpose();
+			c *= it->weight;
+			correlation_part += c;
+		}
 		
 		#pragma omp critical
 		{

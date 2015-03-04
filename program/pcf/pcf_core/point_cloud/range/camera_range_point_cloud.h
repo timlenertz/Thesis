@@ -2,8 +2,6 @@
 #define PCF_CAMERA_RANGE_POINT_CLOUD_H_
 
 #include "range_point_cloud.h"
-#include "../../camera/range_image_camera.h"
-#include "../../camera/projection_image_camera.h"
 #include <memory>
 
 namespace pcf {

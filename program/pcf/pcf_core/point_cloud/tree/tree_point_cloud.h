@@ -43,6 +43,8 @@ private:
 		std::array<std::unique_ptr<node>, Traits::number_of_children> children; ///< Pointers to child nodes. May be null.
 		
 		node() = default;
+		node(const node&) = delete;
+		node(node&& nd) : seg(nd.seg), children(std::move(nd.children)) { }
 		explicit node(const segment& seg) :
 			seg(seg) { }
 	};
@@ -67,6 +69,9 @@ public:
 	tree_point_cloud(const Other_cloud&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true, const Allocator& = Allocator());
 
 	tree_point_cloud(super&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
+
+	tree_point_cloud(const tree_point_cloud& pc) : tree_point_cloud(pc, 0) { }
+	tree_point_cloud(tree_point_cloud&&);
 
 	node_handle root();
 	const_node_handle root() const;

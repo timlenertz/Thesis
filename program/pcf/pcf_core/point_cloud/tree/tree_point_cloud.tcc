@@ -17,7 +17,7 @@ std::size_t tree_point_cloud<Traits, Point, Allocator>::compute_leaf_capacity_(s
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, bool round_up, const Allocator& alloc) :
-super(pc, true, alloc),
+super(pc, 0, true, alloc),
 leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
 root_node_(super::full_segment()) {
 	build_tree_();
@@ -31,6 +31,15 @@ leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
 root_node_(super::full_segment()) {
 	build_tree_();
 }
+
+
+
+template<typename Traits, typename Point, typename Allocator>
+tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(tree_point_cloud&& pc) :
+super(std::move(pc), true),
+leaf_capacity_(pc.leaf_capacity_),
+root_node_(std::move(pc.root_node_)),
+root_box_(pc.root_box_) { }
 
 
 

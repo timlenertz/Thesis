@@ -51,7 +51,13 @@ public:
 	(const Cloud_fixed& cf, const Cloud_loose& cl, const Selection_func& sel = Selection_func(), const Weight_func& wgh = Weight_func()) :
 		fixed_(cf), loose_(cl), selection_func_(sel), weight_func_(wgh) { }
 	
+	closest_point_correspondences(const closest_point_correspondences&) = default;
+	closest_point_correspondences(closest_point_correspondences&&) = default;
+	
 	template<typename Receiver> void operator()(Receiver&);
+	
+	const Cloud_fixed& fixed_point_cloud() const { return fixed_; }
+	const Cloud_loose& loose_point_cloud() const { return loose_; }
 };
 
 
@@ -67,9 +73,8 @@ closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...> make_closest_po
 template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
 iterative_correspondences_registration<closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>> make_iterative_closest_point_registration
 (const Cloud_fixed& cf, Cloud_loose& cl, Args&&... args) {
-	using corresponcences_type = closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>;
-	corresponcences_type cor(cf, cl, std::forward<Args>(args)...);
-	return iterative_correspondences_registration<corresponcences_type>(cf, cl, cor);
+	auto cor = make_closest_point_correspondences(cf, cl, std::forward<Args>(args)...);
+	return iterative_correspondences_registration<decltype(cor)>(cl, cor);
 }
 
 

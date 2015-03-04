@@ -41,18 +41,25 @@ private:
 	float error_;
 			
 public:
+	Correspondences correspondences;	
 	const fixed_point_cloud_type& fixed;
 	loose_point_cloud_type& loose;
-	Correspondences correspondences;	
 
 	float minimal_error = 0;
 	std::size_t maximal_iterations = -1;
 	bool stop_on_divergence = true;
 
-	using iteration_callback = std::function<void(const Eigen::Affine3f& est_t, float err, bool done)>;
+	using iteration_callback = std::function<void(const iteration_state&, bool done)>;
 
-	iterative_correspondences_registration(const fixed_point_cloud_type& cf, loose_point_cloud_type& cl, const Correspondences& cor) :
-		fixed(cf), loose(cl), correspondences(cor) { }
+	iterative_correspondences_registration(loose_point_cloud_type& cl, const Correspondences& cor) :
+		correspondences(cor),
+		fixed(correspondences.fixed_point_cloud()),
+		loose(cl) { }
+		
+	iterative_correspondences_registration(loose_point_cloud_type& cl, Correspondences&& cor) :
+		correspondences(std::move(cor)),
+		fixed(correspondences.fixed_point_cloud()), // not use cor since it is invalidated from move construction
+		loose(cl) { }
 	
 	float last_error() const { return error_; }
 	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
@@ -60,7 +67,8 @@ public:
 	void estimate_transformation();
 	void apply_estimated_transformation();
 	
-	std::vector<iteration_state> run(const iteration_callback& = iteration_callback());
+	void run(const iteration_callback& = iteration_callback());
+	std::vector<iteration_state> run_and_get_statistics(const iteration_callback& = iteration_callback());
 };
 
 

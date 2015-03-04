@@ -35,7 +35,7 @@ private:
 	std::set<scene_object*> objects_;
 	std::vector<std::unique_ptr<scene_object_holder_base>> holders_;
 	projection_image_camera camera_;
-	rgb_color background_color_ = rgb_color::black;
+	rgb_color background_color_ = rgb_color::cyan;
 	bool need_reset_ = true;
 	
 	void add_object_(scene_object&);
