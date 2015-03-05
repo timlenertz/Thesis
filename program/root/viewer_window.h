@@ -1,8 +1,6 @@
 #ifndef PCFUI_VIEWER_WINDOW_H_
 #define PCFUI_VIEWER_WINDOW_H_
 
-#include "../pcf/pcf_core/pcf_core.h"
-#include "../pcf/pcf_viewer/pcf_viewer.h"
 #include "RQ_OBJECT.h"
 #include <KeySymbols.h>
 #include <GuiTypes.h>

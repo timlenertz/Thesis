@@ -16,4 +16,5 @@ target_link_libraries(pcfviewer pcfcore)
 target_link_libraries(pcfviewer ${GLEW_LIBRARY})
 target_link_libraries(pcfviewer ${OPENGL_LIBRARY})
 
-install(TARGETS pcfviewer DESTINATION .)
+install(TARGETS pcfviewer DESTINATION ./lib)
+install(DIRECTORY . DESTINATION ./include/pcf/pcf_viewer FILES_MATCHING PATTERN "*.h" PATTERN "*.tcc")

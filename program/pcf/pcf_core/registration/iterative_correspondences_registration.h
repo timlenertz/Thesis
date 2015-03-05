@@ -8,9 +8,50 @@
 #include <functional>
 #include <vector>
 #include "transformation_estimation/svd_transformation_estimation.h"
-#include "error_metric/mean_square_error.h"
+#include "../geometry/pose.h"
 
 namespace pcf {
+
+/**
+Abstract base class for implementation of ICP registration algorithm.
+*/
+class iterative_correspondences_registration_base {
+protected:
+	Eigen::Affine3f estimated_transformation_;
+	float error_;
+	
+	virtual const pose& get_pose_() = 0;
+	virtual void set_pose_(const pose&) = 0;
+
+public:
+	struct iteration_state {
+		Eigen::Affine3f estimated_transformation;
+		float error;
+		
+		iteration_state(const Eigen::Affine3f& t, float err) : 
+			estimated_transformation(t), error(err) { }
+	};
+
+	using iteration_callback = std::function<void(const iteration_state&, bool done)>;
+	
+	float minimal_error = 0;
+	std::size_t maximal_iterations = -1;
+	bool stop_on_divergence = true;
+	
+	virtual ~iterative_correspondences_registration_base() { }
+	
+	float last_error() const { return error_; }
+	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
+
+	void run(const iteration_callback& = iteration_callback());
+	std::vector<iteration_state> run_and_get_statistics(const iteration_callback& = iteration_callback());
+
+	void apply_estimated_transformation();
+
+	virtual void estimate_transformation() = 0;
+};
+
+
 
 /**
 Generic implementation of ICP registration algorithm.
@@ -20,36 +61,24 @@ template<
 	typename Transformation_estimation = svd_transformation_estimation,
 	typename Error_metric = typename Transformation_estimation::error_metric
 >
-class iterative_correspondences_registration {
+class iterative_correspondences_registration : public iterative_correspondences_registration_base {
 public:
 	using correspondence_type = typename Correspondences::correspondence_type;
 	using fixed_point_cloud_type = typename Correspondences::fixed_point_cloud_type;
 	using loose_point_cloud_type = typename Correspondences::loose_point_cloud_type;
 
-	struct iteration_state {
-		Eigen::Affine3f estimated_transformation;
-		float error;
-		
-		iteration_state(const Eigen::Affine3f& t, float err) : 
-			estimated_transformation(t), error(err) { }
-	};
-
-private:
-	class receiver;
-	
-	Eigen::Affine3f estimated_transformation_;
-	float error_;
-			
-public:
 	Correspondences correspondences;	
 	const fixed_point_cloud_type& fixed;
 	loose_point_cloud_type& loose;
 
-	float minimal_error = 0;
-	std::size_t maximal_iterations = -1;
-	bool stop_on_divergence = true;
+private:
+	class receiver;
+	
+protected:
+	const pose& get_pose_() override { return loose.relative_pose(); }
+	void set_pose_(const pose& ps) override { loose.set_relative_pose(ps); }
 
-	using iteration_callback = std::function<void(const iteration_state&, bool done)>;
+public:
 
 	iterative_correspondences_registration(loose_point_cloud_type& cl, const Correspondences& cor) :
 		correspondences(cor),
@@ -60,16 +89,10 @@ public:
 		correspondences(std::move(cor)),
 		fixed(correspondences.fixed_point_cloud()), // not use cor since it is invalidated from move construction
 		loose(cl) { }
-	
-	float last_error() const { return error_; }
-	const Eigen::Affine3f& last_estimated_transformation() const { return estimated_transformation_; }
 
-	void estimate_transformation();
-	void apply_estimated_transformation();
-	
-	void run(const iteration_callback& = iteration_callback());
-	std::vector<iteration_state> run_and_get_statistics(const iteration_callback& = iteration_callback());
+	void estimate_transformation() override;
 };
+
 
 
 template<typename Correspondences, typename... Args>

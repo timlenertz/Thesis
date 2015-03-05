@@ -17,4 +17,5 @@ target_link_libraries(pcfcore ${OpenCV_LIBS})
 target_link_libraries(pointscan ${OpenCV_LIBS})
 target_link_libraries(pcfcore pointscan)
 
-install(TARGETS pcfcore DESTINATION .)
+install(TARGETS pcfcore DESTINATION ./lib)
+install(DIRECTORY . DESTINATION ./include/pcf/pcf_core FILES_MATCHING PATTERN "*.h" PATTERN "*.tcc")
