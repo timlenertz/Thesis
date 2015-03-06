@@ -3,8 +3,6 @@
 namespace pcf {
 
 Eigen::Matrix3f correlation_matrix_transformation_estimation::correlation_matrix_() const {
-	// TODO weight
-
 	Eigen::Matrix3f correlation = Eigen::Matrix3f::Zero();
 	Eigen::Vector3f fixed_center = fixed_sum_ / count_;
 	Eigen::Vector3f loose_center = loose_sum_ / count_;
@@ -16,7 +14,7 @@ Eigen::Matrix3f correlation_matrix_transformation_estimation::correlation_matrix
 		#pragma omp for
 		for(auto it = cors_.begin(); it < cors_.end(); ++it) {
 			Eigen::Matrix3f c = (it->fixed - fixed_center) * (it->loose - loose_center).transpose();
-			c *= it->weight;
+			c *= it->weight; // not sure if this is correct / if they need to be normalized
 			correlation_part += c;
 		}
 		

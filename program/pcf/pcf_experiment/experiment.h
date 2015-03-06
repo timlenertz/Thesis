@@ -1,9 +1,12 @@
-#ifndef ICPX_EXPERIMENT_H_
-#define ICPX_EXPERIMENT_H_
+#ifndef PCFEX_EXPERIMENT_H_
+#define PCFEX_EXPERIMENT_H_
 
 #include "../pcf_core/point_cloud/unorganized/unorganized_point_cloud.h"
 #include "../pcf_core/point_cloud/tree/kdtree_traits.h"
 #include "../pcf_core/registration/iterative_correspondences_registration.h"
+#include "../pcf_core/registration/correspondences/same_point_correspondences.h"
+#include "experiment_results.h"
+#include <Eigen/Geometry>
 #include <functional>
 #include <utility>
 
@@ -15,13 +18,13 @@ public:
 	using loose_point_cloud_type = unorganized_point_cloud_full;
 	
 	using fixed_modifier_function_type =
-		void (unorganized_point_cloud_full&);
+		void (unorganized_point_cloud_full&, float arg);
 	using loose_modifier_function_type =
-		void (unorganized_point_cloud_full&);
+		void (unorganized_point_cloud_full&, float arg);
 	using displacer_function_type =
-		void (space_object&);
+		Eigen::Affine3f (float arg);
 	using create_registration_function_type =
-		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, loose_point_cloud_type&);
+		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&);
 
 	pcf::unorganized_point_cloud_full original_point_cloud;
 	
@@ -36,14 +39,17 @@ public:
 	unsigned registration_runs = 1;
 	
 private:
-	void run_registration_(const fixed_point_cloud_type&, loose_point_cloud_type&) const;
+	experiment_results results_;
+
+	static float arg_(unsigned i, unsigned n);
+	experiment_results::run run_registration_(const fixed_point_cloud_type&, const loose_point_cloud_type&) const;
 
 public:
 	template<typename Other_cloud>
 	explicit experiment(Other_cloud&& pc) :
 		original_point_cloud(std::forward<Other_cloud>(pc)) { }
 	
-	void run();
+	void run(bool parallel = true);
 };
 
 }

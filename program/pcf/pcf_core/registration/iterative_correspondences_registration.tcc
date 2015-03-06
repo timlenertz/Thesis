@@ -31,10 +31,10 @@ public:
 template<typename Correspondences, typename Transformation_estimation, typename Error_metric>
 void iterative_correspondences_registration<Correspondences, Transformation_estimation, Error_metric>::estimate_transformation() {
 	receiver rec;
-	correspondences(rec);
+	correspondences(rec, current_transformation_);
 	
 	error_ = rec.error_metric();
-	estimated_transformation_ = rec.transformation_estimation();
+	current_transformation_ = rec.transformation_estimation() * current_transformation_;
 }
 
 

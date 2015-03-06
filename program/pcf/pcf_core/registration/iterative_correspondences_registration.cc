@@ -17,29 +17,21 @@ void iterative_correspondences_registration_base::run(const iteration_callback& 
 	
 	std::size_t iteration_count = 1;	
 	while(iteration_count++ < maximal_iterations && error_ > minimal_error) {
-		pose previous_pose = this->get_pose_();
 		float previous_error = error_;
-
-		this->apply_estimated_transformation();
 		
-		if(cb) cb(iteration_state(estimated_transformation_, error_), false);
+		if(cb) cb(iteration_state(current_transformation_, error_), false);
 		
+		Eigen::Affine3f previous_transformation = current_transformation_;
 		this->estimate_transformation();
-		
+
 		if(error_ > previous_error && stop_on_divergence) {
-			this->set_pose_(previous_pose);
+			current_transformation_ = previous_transformation;
 			break;
 		}
 	}
-	if(cb) cb(iteration_state(estimated_transformation_, error_), true);
+	if(cb) cb(iteration_state(current_transformation_, error_), true);
 }
 
-
-void iterative_correspondences_registration_base::apply_estimated_transformation() {
-	pose ps = this->get_pose_();
-	ps = ps.transform( estimated_transformation_.inverse() );
-	this->set_pose_(ps);
-}
 
 
 }
