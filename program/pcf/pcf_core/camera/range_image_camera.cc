@@ -24,8 +24,12 @@ auto range_image_camera::to_image(const Eigen::Vector3f& p) const -> image_coord
 	return image_coordinates(x, y);
 }
 
-Eigen::Vector3f range_image_camera::point(image_coordinates, float depth) const {
-	
+Eigen::Vector3f range_image_camera::point(image_coordinates im, float depth) const {
+	spherical_coordinates s;
+	s.azimuth = azimuth_limits_[0] + ((field_of_view_width() * im.x) / image_width_);
+	s.elevation = azimuth_limits_[1] + ((field_of_view_height() * im.y) / image_height_);
+	s.radius = depth;
+	return camera::point(s);
 }
 
 

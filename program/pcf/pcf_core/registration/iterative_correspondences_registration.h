@@ -21,15 +21,7 @@ protected:
 	float error_;
 	
 public:
-	struct iteration_state {
-		Eigen::Affine3f estimated_transformation;
-		float error;
-		
-		iteration_state(const Eigen::Affine3f& t, float err) : 
-			estimated_transformation(t), error(err) { }
-	};
-
-	using iteration_callback = std::function<void(const iteration_state&, bool done)>;
+	using iteration_callback = std::function<void(const Eigen::Affine3f& estimated_transformation, float error)>;
 	
 	float minimal_error = 0;
 	std::size_t maximal_iterations = -1;
@@ -40,8 +32,7 @@ public:
 	float last_error() const { return error_; }
 	const Eigen::Affine3f& last_estimated_transformation() const { return current_transformation_; }
 
-	void run(const iteration_callback& = iteration_callback());
-	std::vector<iteration_state> run_and_get_statistics(const iteration_callback& = iteration_callback());
+	bool run(const iteration_callback& = iteration_callback());
 
 	virtual void estimate_transformation() = 0;
 };
@@ -70,28 +61,18 @@ private:
 	class receiver;
 
 public:
-	iterative_correspondences_registration(loose_point_cloud_type& cl, const Correspondences& cor) :
+	explicit iterative_correspondences_registration(const Correspondences& cor) :
 		correspondences(cor),
 		fixed(correspondences.fixed_point_cloud()),
 		loose(correspondences.loose_point_cloud()) { }
 		
-	iterative_correspondences_registration(loose_point_cloud_type& cl, Correspondences&& cor) :
+	explicit iterative_correspondences_registration(Correspondences&& cor) :
 		correspondences(std::move(cor)),
 		fixed(correspondences.fixed_point_cloud()), // not use cor since it is invalidated from move construction
 		loose(correspondences.loose_point_cloud()) { }
 
 	void estimate_transformation() override;
 };
-
-
-
-template<typename Correspondences, typename... Args>
-iterative_correspondences_registration<Correspondences, Args...> make_iterative_correspondences_registration
-(const typename Correspondences::fixed_point_cloud_type& cf, typename Correspondences::loose_point_cloud_type& cl, const Correspondences& cor, Args&&... args) {
-	return iterative_correspondences_registration<Correspondences, Args...>(cf, cl, cor, std::forward<Args>(args)...);
-}
-
-
 
 }
 

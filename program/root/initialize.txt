@@ -1,10 +1,12 @@
 .L pcf/dist/lib/libpcfcore.dylib
 .L pcf/dist/lib/libpcfviewer.dylib
+.L pcf/dist/lib/libpcfexperiment.dylib
 .I pcf/dist/include
 .I pcf/external/include
 
 #include <pcf/core.h>
 #include <pcf/viewer.h>
+#include <pcf/experiment.h>
 
 .L root/viewer_window.C
 .L root/utils.C

@@ -72,9 +72,17 @@ closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...> make_closest_po
 
 template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
 iterative_correspondences_registration<closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>> make_iterative_closest_point_registration
-(const Cloud_fixed& cf, Cloud_loose& cl, Args&&... args) {
+(const Cloud_fixed& cf, const Cloud_loose& cl, Args&&... args) {
 	auto cor = make_closest_point_correspondences(cf, cl, std::forward<Args>(args)...);
-	return iterative_correspondences_registration<decltype(cor)>(cl, cor);
+	return iterative_correspondences_registration<decltype(cor)>(cor);
+}
+
+
+template<typename Cloud_fixed, typename Cloud_loose, typename... Args>
+iterative_correspondences_registration<closest_point_correspondences<Cloud_fixed, Cloud_loose, Args...>>* create_iterative_closest_point_registration
+(const Cloud_fixed& cf, const Cloud_loose& cl, Args&&... args) {
+	auto cor = make_closest_point_correspondences(cf, cl, std::forward<Args>(args)...);
+	return new iterative_correspondences_registration<decltype(cor)>(cor);
 }
 
 

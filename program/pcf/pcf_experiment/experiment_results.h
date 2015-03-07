@@ -21,8 +21,14 @@ public:
 		Eigen::Affine3f original_transformation;
 		float fixed_modifier_arg;
 		float loose_modifier_arg;
-		float displacement_arg;
 	};
+	
+private:
+	std::vector<run> runs_;
+
+public:
+	void clear() { runs_.clear(); }
+	void add(const run& rn) { runs_.push_back(rn); }
 };
 
 }

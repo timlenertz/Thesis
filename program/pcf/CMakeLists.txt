@@ -29,4 +29,4 @@ add_subdirectory(pcf_core)
 add_subdirectory(pcf_viewer)
 add_subdirectory(pcf_experiment)
 
-install(FILES add/core.h add/viewer.h DESTINATION ./include/pcf)
+install(FILES add/core.h add/viewer.h add/experiment.h DESTINATION ./include/pcf)
