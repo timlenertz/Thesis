@@ -9,7 +9,7 @@ spherical_coordinates spherical_coordinates::from_cartesian(const Eigen::Vector3
 	return spherical_coordinates(
 		r,
 		std::atan2(c[0], -c[2]),
-		pi - std::acos(c[1] / r)
+		half_pi - std::acos(c[1] / r)
 	);
 }
 

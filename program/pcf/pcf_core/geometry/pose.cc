@@ -1,5 +1,7 @@
 #include "pose.h"
 #include "angle.h"
+#include "../util/misc.h"
+#include <stdexcept>
 
 namespace pcf {
 
@@ -40,6 +42,28 @@ std::ostream& operator<<(std::ostream& str, const pose& ps) {
 	str << "position (" << ps.position[0] << ", " << ps.position[1] << ", " << ps.position[2] << "); "
 	<< " orientation (" << angle(euler[0]) << ", " << angle(euler[1]) << ", " << angle(euler[2]) << ")";
 	return str;
+}
+
+std::string pose::to_string() const {
+	return implode_to_string<float>(',', {
+		position[0],
+		position[1],
+		position[2],
+		orientation.x(),
+		orientation.y(),
+		orientation.z(),
+		orientation.w()
+	});
+}
+
+pose pose::from_string(const std::string& str) {
+	std::vector<float> p = explode_from_string<float>(',', str);
+	if(p.size() != 7)
+		throw std::invalid_argument("Invalid string to convert to pose.");
+	
+	Eigen::Vector3f position(p[0], p[1], p[2]);
+	Eigen::Quaternionf orientation(p[3], p[4], p[5], p[6]);
+	return pose(position, orientation);
 }
 
 }

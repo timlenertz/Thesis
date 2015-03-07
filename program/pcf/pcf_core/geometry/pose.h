@@ -3,6 +3,7 @@
 
 #include <Eigen/Geometry>
 #include <ostream>
+#include <string>
 
 namespace pcf {
 
@@ -43,6 +44,9 @@ public:
 	pose transform(const Eigen::Affine3f&) const;
 	
 	Eigen::Vector3f euler_angles(std::ptrdiff_t a0 = 0, std::ptrdiff_t a1 = 1, std::ptrdiff_t a2 = 2) const;
+	
+	std::string to_string() const;
+	static pose from_string(const std::string&);
 };
 
 

@@ -14,6 +14,7 @@ Image pixel XY coordinates linearily map to angles, aka projection on sphere. Th
 class range_image_camera : public range_camera, public image_camera {
 public:
 	range_image_camera() = default;
+	range_image_camera(const pose&, angle width, angle height, std::size_t imw, std::size_t imh);
 	range_image_camera(const pose&, std::array<angle, 2> x_limits, std::array<angle, 2> y_limits, std::size_t imw, std::size_t imh);
 	range_image_camera(const range_image_camera&) = default;
 

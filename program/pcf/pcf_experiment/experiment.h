@@ -33,10 +33,10 @@ public:
 	std::function<displacer_function_type> displacer;
 	std::function<create_registration_function_type> create_registration;
 	
-	unsigned fixed_modifier_runs = 1;
-	unsigned loose_modifier_runs = 1;
-	unsigned displacer_runs = 1;
-	unsigned registration_runs = 1;
+	unsigned fixed_modifier_runs = 2;
+	unsigned loose_modifier_runs = 2;
+	unsigned displacer_runs = 2;
+	unsigned registration_runs = 2;
 	
 private:
 	experiment_results results_;
