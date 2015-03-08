@@ -22,7 +22,6 @@ public:
 
 	angle() = default;
 	angle(float r) : radiants_(r) { }
-	angle(double r) : radiants_(r) { }
 	angle(const angle&) = default;
 	
 	const float& get_radiants() const { return radiants_; }

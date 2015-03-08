@@ -32,9 +32,17 @@ protected:
 	multi_dimensional_buffer<Point, 2> image_;
 	const bool row_major_order_;
 
+	static multi_dimensional_buffer<Point, 2> create_image_(bool row_major, std::size_t w, std::size_t h, Point* buf);
+
 public:
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 	
+	template<typename Other_point, typename Other_allocate>
+	range_point_cloud(const range_point_cloud<Other_point, Other_allocate>&, const Allocator& = Allocator());
+	
+	range_point_cloud(range_point_cloud&&);
+	
+	bool row_major_order() const { return row_major_order_; }
 	std::size_t width() const;
 	std::size_t height() const;
 	

@@ -67,10 +67,12 @@ private:
 public:
 	template<typename Other_cloud>
 	tree_point_cloud(const Other_cloud&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true, const Allocator& = Allocator());
-
-	tree_point_cloud(super&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
+	template<typename Other_cloud>
+	tree_point_cloud(Other_cloud&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
 
 	tree_point_cloud(const tree_point_cloud& pc) : tree_point_cloud(pc, 0) { }
+
+	tree_point_cloud(super&&, std::size_t leaf_cap = 0, bool round_up_to_page_size = true);
 	tree_point_cloud(tree_point_cloud&&);
 
 	node_handle root();

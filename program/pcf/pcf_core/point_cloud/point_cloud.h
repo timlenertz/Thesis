@@ -38,48 +38,38 @@ protected:
 	Point* begin_; ///< Point buffer. Allocated and owned by point cloud.
 	Point* end_; ///< End of point buffer. Can be changed, must be in begin_ + [0; allocated_size_]
 	
-	/**
-	Verify that memory is properly aligned.
-	**/
+	/// Verify that memory is properly aligned.
 	void check_correct_alignment_() const;
 
-	/**
-	Create empty point cloud.
-	Allocates memory and creates uninitialized point cloud of size 0. Needs to be resized using resize_, and
-	filled with content by subclass constructor.
-	*/
+	/// Create empty point cloud.
+	/// Allocates memory and creates uninitialized point cloud of size 0. Needs to be resized using resize_, and
+	/// filled with content by subclass constructor.
 	point_cloud(std::size_t allocate_size, bool all_val, const Allocator&);
 
-	/**
-	Create point cloud by move construction from another.
-	Other's buffer is taken, and the other is invalidated so it won't deallocate it. No memory is allocated or copied.
-	If all_val and other is not all-valid, erases invalid points. Takes allocator from other. Other must have same point and allocator types for move contruction.
-	*/
+	/// Create point cloud by move construction from another.
+	/// Other's buffer is taken, and the other is invalidated so it won't deallocate it. No memory is allocated or copied.
+	/// If all_val and other is not all-valid, erases invalid points. Takes allocator from other. Other must have same point and allocator types for move contruction.
 	point_cloud(point_cloud&&, bool all_val);
-
-
-	/**
-	Create point cloud by copy construction from another.
-	Allocates using provided allocator to size of other cloud, and copies points.
-	If all_val and other is not all-valid, erases invalid points. If capacity == 0, takes size of given point cloud.
-	*/
+	
+	
+	/// Create point cloud by copy construction from another.
+	/// Allocates using provided allocator to size of other cloud, and copies points.
+	/// If all_val and other is not all-valid, erases invalid points. If capacity == 0, takes size of given point cloud.
 	template<typename Other_point, typename Other_allocator>
-	point_cloud(const point_cloud<Other_point, Other_allocator>&, std::size_t capacity, bool all_val, const Allocator&);
+	point_cloud(const point_cloud<Other_point, Other_allocator>&, bool all_val, std::size_t capacity, const Allocator&);
 		
 	
 	point_cloud() = delete; ///< Disallow default construction.
+	point_cloud(const point_cloud&) = delete; ///< Disallow default copy-construction.
+	point_cloud(point_cloud&&) = delete; ///< Disallow default move-construction.
 	point_cloud& operator=(const point_cloud&) = delete; ///< Disallow assignment.
 	
 
-	/**
-	Set size of point cloud.
-	Needs to range from 0 to allocated size. Does not reallocate memory.
-	*/
+	/// Set size of point cloud.
+	/// Needs to range from 0 to allocated size. Does not reallocate memory.
 	void resize_(std::size_t new_size);
 	
-	/**
-	Initialize all points to invalid point.
-	*/
+	/// Initialize all points to invalid point.
 	void initialize_();
 
 	static const Point& invalid_point_();

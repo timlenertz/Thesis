@@ -32,6 +32,8 @@ public:
 	/// Create from existing range image with given image camera.
 	/// Range image size must be same as image camera image size.
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
+	
+	// TODO copy, move constructor
 };
 
 

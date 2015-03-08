@@ -1,4 +1,5 @@
 #include <cmath>
+#include <utility>
 #include "../../image/range_image.h"
 #include "../../image/color_image.h"
 #include "../../io/range_point_cloud_importer.h"
@@ -6,10 +7,22 @@
 namespace pcf {
 
 template<typename Point, typename Allocator>
+multi_dimensional_buffer<Point, 2> range_point_cloud<Point, Allocator>::create_image_(bool row_major, std::size_t w, std::size_t h, Point* buf) {
+	size_2dim sz;
+	if(row_major) sz = size_2dim(h, w);
+	else sz = size_2dim(w, h);
+	std::size_t len = w * h;
+	return multi_dimensional_buffer<Point, 2>(sz, buf, buf + len);
+}
+
+template<typename Point, typename Allocator>
 range_point_cloud<Point, Allocator>::range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator& alloc) :
 	super(w * h, alloc),
-	image_(row_major ? size_2dim(h, w) : size_2dim(w, h), super::begin_, super::begin_ + super::capacity()),
-	row_major_order_(row_major) { }
+	image_(create_image_(row_major, w, h, super::begin_)),
+	row_major_order_(row_major)
+{
+	super::resize_(super::capacity());
+}
 
 
 
@@ -24,6 +37,21 @@ range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud_importe
 	for(Point* buf = super::begin_; buf < super::end_; buf += imp.columns())
 		imp.read_row(buf);
 }
+
+
+template<typename Point, typename Allocator> template<typename Other_point, typename Other_allocate>
+range_point_cloud<Point, Allocator>::range_point_cloud(const range_point_cloud<Other_point, Other_allocate>& pc, const Allocator& alloc) :
+	super(pc, 0, alloc),
+	image_(create_image_(pc.row_major_order(), pc.width(), pc.height(), super::begin_)),
+	row_major_order_(pc.row_major_order()) { }
+
+
+template<typename Point, typename Allocator>
+range_point_cloud<Point, Allocator>::range_point_cloud(range_point_cloud&& pc) :
+	super(std::move(pc)),
+	image_(pc.image_),
+	row_major_order_(pc.row_major_order()) { }
+
 
 
 template<typename Point, typename Allocator>

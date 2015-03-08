@@ -49,7 +49,7 @@ public:
 	explicit experiment(Other_cloud&& pc) :
 		original_point_cloud(std::forward<Other_cloud>(pc)) { }
 	
-	void run(bool parallel = true);
+	void run();
 };
 
 }

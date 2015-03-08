@@ -1,5 +1,6 @@
 #include <set>
 #include <iterator>
+#include <utility>
 #include "node_handle.h"
 #include "../../util/memory.h"
 
@@ -17,7 +18,16 @@ std::size_t tree_point_cloud<Traits, Point, Allocator>::compute_leaf_capacity_(s
 
 template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(const Other_cloud& pc, std::size_t leaf_cap, bool round_up, const Allocator& alloc) :
-super(pc, 0, true, alloc),
+super(pc, true, 0, alloc),
+leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
+root_node_(super::full_segment()) {
+	build_tree_();
+}
+
+
+template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
+tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, bool round_up) :
+super(std::move(pc), true),
 leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
 root_node_(super::full_segment()) {
 	build_tree_();

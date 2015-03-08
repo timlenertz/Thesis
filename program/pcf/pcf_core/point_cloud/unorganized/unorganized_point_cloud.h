@@ -3,6 +3,7 @@
 
 #include "../filter_point_cloud.h"
 #include <cmath>
+#include <utility>
 
 namespace pcf {
 
@@ -22,10 +23,17 @@ public:
 	template<typename Other_point, typename Other_allocator>
 	unorganized_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t capacity = 0, const Allocator& alloc = Allocator()) :
 		super(pc, capacity, alloc) { }
+	
+	/// Copy-construct from existing point cloud.
+	unorganized_point_cloud(const unorganized_point_cloud& pc) :
+		unorganized_point_cloud(pc, 0) {  }
 
 	/// Move-construct from existing point cloud.
 	/// Does not copy or allocate memory.
-	unorganized_point_cloud(super&& p) : super(p) { }
+	unorganized_point_cloud(point_cloud<Point, Allocator>&& pc) :
+		super(std::move(pc)) { }
+	unorganized_point_cloud(unorganized_point_cloud&& pc) :
+		super(std::move(pc)) { }
 	
 	/// Create point cloud from importer.
 	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());

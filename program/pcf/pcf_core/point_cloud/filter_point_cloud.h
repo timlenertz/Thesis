@@ -19,12 +19,12 @@ public:
 	filter_point_cloud(std::size_t allocate_size, const Allocator& alloc) :
 		super(allocate_size, false, alloc) { }
 
-	filter_point_cloud(super&& pc) :
-		super(std::move(pc)) { }
+	filter_point_cloud(filter_point_cloud&& pc) : super(std::move(pc), false) { }
+	filter_point_cloud(super&& pc) : super(std::move(pc), false) { }
 
 	template<typename Other_point, typename Other_allocator>
 	filter_point_cloud(const point_cloud<Other_point, Other_allocator>& pc, std::size_t capacity, const Allocator& alloc) :
-		super(pc, capacity, alloc) { }
+		super(pc, false, capacity, alloc) { }
 
 
 	/// Erase all points that are not accepted by filter.

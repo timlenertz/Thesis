@@ -8,7 +8,7 @@
 namespace pcf {
 
 /**
-Range camera which additionally handles projection onto pixel grid.
+Range camera which additionally handles mapping onto pixel grid.
 Image pixel XY coordinates linearily map to angles, aka projection on sphere. This models the 3D scanner that has produced a range point cloud.
 */
 class range_image_camera : public range_camera, public image_camera {
