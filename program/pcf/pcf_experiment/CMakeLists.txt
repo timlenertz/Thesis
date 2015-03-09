@@ -2,10 +2,9 @@ project(libpcfexperiment CXX)
 cmake_minimum_required(VERSION 3.1)
 
 file(GLOB_RECURSE CPP_SRC "./*.cc")
-file(GLOB_RECURSE CPP_SQLITE3PP_SRC "../external/sqlite3pp/*.cpp")
+file(GLOB_RECURSE CPP_SQLITE3PP_SRC "../../external/sqlite3pp/*.cpp")
 
-include_directories(SYSTEM ../external/include/)
-include_directories(../external/sqlite3pp/)
+include_directories(../../external/sqlite3pp/)
 
 add_library(pcfexperiment SHARED ${CPP_SRC} ${CPP_SQLITE3PP_SRC})
 target_link_libraries(pcfexperiment sqlite3)

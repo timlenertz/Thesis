@@ -1,8 +1,8 @@
-.L pcf/dist/lib/libpcfcore.dylib
-.L pcf/dist/lib/libpcfviewer.dylib
-.L pcf/dist/lib/libpcfexperiment.dylib
-.I pcf/dist/include
-.I pcf/external/include
+.L dist/lib/libpcfcore.dylib
+.L dist/lib/libpcfviewer.dylib
+.L dist/lib/libpcfexperiment.dylib
+.I dist/include
+.I external/include
 
 #include <pcf/core.h>
 #include <pcf/viewer.h>

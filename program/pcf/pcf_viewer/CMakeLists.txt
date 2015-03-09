@@ -7,7 +7,6 @@ find_package(GLEW REQUIRED)
 file(GLOB_RECURSE CPP_SRC "./*.cc")
 file(GLOB_RECURSE HPP_SRC "./*.h")
 
-include_directories(SYSTEM ../external/include/)
 include_directories(${OpenGL_INCLUDE_DIR})
 
 add_library(pcfviewer SHARED ${CPP_SRC})

@@ -1,0 +1,2 @@
+/usr/bin/ar cq libpointscan.a  CMakeFiles/pointscan.dir/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/external/pointscan/calc.cpp.o CMakeFiles/pointscan.dir/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/external/pointscan/core.cpp.o CMakeFiles/pointscan.dir/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/external/pointscan/NormalEstimator/NormalEstimator.cpp.o
+/usr/bin/ranlib libpointscan.a

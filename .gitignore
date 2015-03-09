@@ -1,7 +1,7 @@
 /reference/*.pdf
 /references.bib
-/program/pcf/build
-/program/pcf/dist
+/program/build
+/program/dist
 /hdv
 /docs
 *.o

@@ -1,7 +1,7 @@
 project(pcf CXX)
 cmake_minimum_required(VERSION 3.1)
 
-set(CMAKE_INSTALL_PREFIX ../dist)
+set(CMAKE_INSTALL_PREFIX ../../dist)
 set(CMAKE_INSTALL_RPATH "@executable_path")
 
 set(CMAKE_BUILD_TYPE Release)
@@ -17,13 +17,14 @@ elseif(MSVC)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
 	set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
 
-	set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/external/win32/opencv")
-	include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/external/win32/glew/include)
+	set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/../external/win32/opencv")
+	include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/../external/win32/glew/include)
 	
 	set(GLEW_LIBS "")
-	list(APPEND GLEW_LIBS "${CMAKE_SOURCE_DIR}/external/win32/glew/64/glew32s.lib")
+	list(APPEND GLEW_LIBS "${CMAKE_SOURCE_DIR}/../external/win32/glew/64/glew32s.lib")
 endif()
 
+include_directories(SYSTEM ../external/include/)
 
 add_subdirectory(pcf_core)
 add_subdirectory(pcf_viewer)

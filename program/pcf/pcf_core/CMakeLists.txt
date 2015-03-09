@@ -5,10 +5,9 @@ set(OpenCV_STATIC ON)
 find_package(OpenCV REQUIRED)
 
 file(GLOB_RECURSE CPP_SRC "./*.cc")
-file(GLOB_RECURSE CPP_POINTSCAN_SRC "../external/pointscan/*.cpp")
+file(GLOB_RECURSE CPP_POINTSCAN_SRC "../../external/pointscan/*.cpp")
 
-include_directories(SYSTEM ../external/include/)
-include_directories(SYSTEM ../external/pointscan/)
+include_directories(SYSTEM ../../external/pointscan/)
 
 add_library(pcfcore SHARED ${CPP_SRC})
 add_library(pointscan STATIC ${CPP_POINTSCAN_SRC})
