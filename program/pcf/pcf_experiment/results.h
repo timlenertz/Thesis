@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include <vector>
+#include <Eigen/Geometry>
+#include <memory>
 
 namespace pcf {
 
@@ -22,13 +24,20 @@ public:
 		float fixed_modifier_arg;
 		float loose_modifier_arg;
 	};
-	
-private:
-	std::vector<run> runs_;
 
-public:
-	void clear() { runs_.clear(); }
-	void add(const run& rn) { runs_.push_back(rn); }
+private:
+	struct impl;
+	std::unique_ptr<impl> impl_;
+	
+	void drop_tables_();
+	void create_tables_();
+
+public:	
+	experiment_results();
+	~experiment_results();
+	
+	void clear();
+	void add(const run&);
 };
 
 }

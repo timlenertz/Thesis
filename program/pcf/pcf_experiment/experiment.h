@@ -5,7 +5,7 @@
 #include "../pcf_core/point_cloud/tree/kdtree_traits.h"
 #include "../pcf_core/registration/iterative_correspondences_registration.h"
 #include "../pcf_core/registration/correspondences/same_point_correspondences.h"
-#include "experiment_results.h"
+#include "results.h"
 #include <Eigen/Geometry>
 #include <functional>
 #include <utility>
@@ -49,7 +49,7 @@ public:
 	explicit experiment(Other_cloud&& pc) :
 		original_point_cloud(std::forward<Other_cloud>(pc)) { }
 	
-	void run();
+	void run(bool parallel = false);
 };
 
 }

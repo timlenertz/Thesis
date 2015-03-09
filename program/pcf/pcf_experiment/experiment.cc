@@ -44,7 +44,7 @@ float experiment::arg_(unsigned i, unsigned n) {
 }
 
 
-void experiment::run() {
+void experiment::run(bool par) {
 	unsigned total = fixed_modifier_runs * loose_modifier_runs * displacer_runs * registration_runs;
 	unsigned counter = 0;
 
@@ -63,17 +63,25 @@ void experiment::run() {
 			float loose_modifier_arg = arg_(j, loose_modifier_runs);
 			if(loose_modifier) loose_modifier(loose, loose_modifier_arg);
 			
-			#pragma omp parallel for if(displacer_runs > 1)
+			#pragma omp parallel for if(displacer_runs > 1 && par)
 			for(unsigned k = 0; k < displacer_runs; ++k) {
 				Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
 				if(displacer) transformation = displacer(arg_(k, displacer_runs));
 				
-				#pragma omp parallel for if(registration_runs > 1)
+				#pragma omp parallel for if(registration_runs > 1 && par)
 				for(unsigned l = 0; l < registration_runs; ++l) {	
-					unorganized_point_cloud_full displaced_loose = loose;
-					displaced_loose.set_relative_pose(pose(transformation));
-							
-					experiment_results::run run_res = run_registration_(fixed, displaced_loose);
+					experiment_results::run run_res;
+					
+					if(par) {
+						// Currently need to create copy of loose for each thread, because it uses the loose's pose
+						unorganized_point_cloud_full displaced_loose = loose;
+						displaced_loose.set_relative_pose(pose(transformation));
+						run_res = run_registration_(fixed, displaced_loose);						
+					} else {
+						loose.set_relative_pose(pose(transformation));
+						run_res = run_registration_(fixed, loose);	
+					}
+					
 					run_res.original_transformation = transformation;
 					run_res.fixed_modifier_arg = fixed_modifier_arg;
 					run_res.loose_modifier_arg = loose_modifier_arg;
@@ -82,7 +90,7 @@ void experiment::run() {
 					{
 						results_.add(run_res);
 						++counter;
-						std::cout << counter << " from " << total << std::endl;
+						std::cout << counter << " from " << total << " (states: " << run_res.evolution.size() << ")" << std::endl;
 					}
 				}
 			}
