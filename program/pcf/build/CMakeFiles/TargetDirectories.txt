@@ -1,4 +1,0 @@
-/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/pcf/build/pcf_core/CMakeFiles/pcfcore.dir
-/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/pcf/build/pcf_core/CMakeFiles/pointscan.dir
-/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/pcf/build/pcf_experiment/CMakeFiles/pcfexperiment.dir
-/Users/timlenertz/Documents/ULB/INFO5_2014-2015/Thesis/program/pcf/build/pcf_viewer/CMakeFiles/pcfviewer.dir

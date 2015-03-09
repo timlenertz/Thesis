@@ -28,6 +28,7 @@ public:
 private:
 	struct impl;
 	std::unique_ptr<impl> impl_;
+	std::size_t counter_;
 	
 	void drop_tables_();
 	void create_tables_();
@@ -38,6 +39,9 @@ public:
 	
 	void clear();
 	void add(const run&);
+	
+	std::size_t number_of_runs() const;
+	run operator[](std::ptrdiff_t) const;
 };
 
 }

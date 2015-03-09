@@ -19,7 +19,8 @@ struct experiment_results::impl {
 
 
 experiment_results::experiment_results() :
-	impl_(new impl)
+	impl_(new impl),
+	counter_(0) { }
 {
 	create_tables_();
 }
@@ -37,6 +38,7 @@ void experiment_results::create_tables_() {
 	auto err = impl_->database.execute(
 		"CREATE TABLE run ("
 			"id INTEGER PRIMARY KEY ASC, "
+			"index INTEGER NOT NULL UNIQUE, "
 			"success INTEGER NOT NULL, "
 			"original_transformation BLOB NOT NULL, "
 			"fixed_modifier_arg REAL NOT NULL, "
@@ -61,20 +63,21 @@ void experiment_results::create_tables_() {
 
 
 void experiment_results::clear() {
+	counter_ = 0;
 }
 
 void experiment_results::add(const run& rn) {
 	sqlite3pp::command insert_run(impl_->database, insert_run_command_.c_str());
 	sqlite3pp::command insert_state(impl_->database, insert_state_command_.c_str());
 
-
 	sqlite3pp::transaction tr(impl_->database);
 	{
 		Eigen::Matrix4f original_transformation = rn.original_transformation.matrix();
-		insert_run.bind(1, rn.success ? 1 : 0);
-		insert_run.bind(2, static_cast<const void*>(original_transformation.data()), sizeof(float)*16, false);
-		insert_run.bind(3, rn.fixed_modifier_arg);
-		insert_run.bind(4, rn.loose_modifier_arg);
+		insert_run.bind(1, (int)counter_);
+		insert_run.bind(2, rn.success ? 1 : 0);
+		insert_run.bind(3, static_cast<const void*>(original_transformation.data()), sizeof(float)*16, false);
+		insert_run.bind(4, rn.fixed_modifier_arg);
+		insert_run.bind(5, rn.loose_modifier_arg);
 		insert_run.execute();
 		
 		auto run_id = impl_->database.last_insert_rowid();
@@ -93,7 +96,22 @@ void experiment_results::add(const run& rn) {
 			insert_state.reset();
 		}
 	}
-	tr.commit();
+	auto err = tr.commit();
+	if(err) throw std::runtime_error("Could not commit transaction to add experiment run.");
+	
+	++counter_;
 }
+
+
+std::size_t number_of_runs() const {
+	sqlite3pp::query q("SELECT COUNT(id) FROM run");
+	return q.begin()->get<std::size_t>(1);
+}
+
+
+run operator[](std::ptrdiff_t i) const {
+	sqlite3pp::query q("SELECT * FROM run WHERE index=?", );
+}
+
 
 }

@@ -25,15 +25,6 @@ root_node_(super::full_segment()) {
 }
 
 
-template<typename Traits, typename Point, typename Allocator> template<typename Other_cloud>
-tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(Other_cloud&& pc, std::size_t leaf_cap, bool round_up) :
-super(std::move(pc), true),
-leaf_capacity_( compute_leaf_capacity_(leaf_cap, round_up) ),
-root_node_(super::full_segment()) {
-	build_tree_();
-}
-
-
 template<typename Traits, typename Point, typename Allocator>
 tree_point_cloud<Traits, Point, Allocator>::tree_point_cloud(super&& pc, std::size_t leaf_cap, bool round_up) :
 super(std::move(pc), true),
