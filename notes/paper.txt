@@ -69,7 +69,7 @@ Large model registration
 		
 
 
-Experiments
+Experiments -> stop programming and think
 	Aim of experiments
 		Evaluate registration algorithms:
 			stability
@@ -98,7 +98,7 @@ Implementation
 	OpenMP, SIMD
 	Memory alignment, pagination
 	Point cloud structures
-	Interface
+	ROOT, cling integration for interface
 	Visualizer
 	Encountered difficulties
 	
