@@ -6,6 +6,8 @@
 
 namespace pcf {
 
+bool file_exists(const std::string& filepath);
+
 std::string file_name_extension(const std::string& filename);
 std::string replace_file_name_extension(const std::string& filename, const std::string& ext);
 std::string remove_file_name_extension(const std::string& filename);

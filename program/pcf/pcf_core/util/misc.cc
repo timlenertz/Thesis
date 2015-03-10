@@ -1,10 +1,21 @@
 #include "misc.h"
 #include <string>
 #include <sstream>
+#include <cstdio>
 
 
 namespace pcf {
 
+
+bool file_exists(const std::string& filepath) {
+	auto handle = std::fopen(filepath.c_str(), "r");
+	if(handle) {
+		std::fclose(handle);
+		return true;
+	} else {
+		return false;
+	}
+}
 
 std::string file_name_extension(const std::string& filename) {
 	auto dot_pos = filename.find_last_of('.');

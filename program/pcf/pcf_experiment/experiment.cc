@@ -6,14 +6,14 @@
 #include <iostream>
 
 namespace pcf {
+namespace exper {
 
-
-experiment_results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose) const {
+results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose) const {
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
 	using same_cor_t = same_point_correspondences<fixed_point_cloud_type, loose_point_cloud_type>;
 
-	experiment_results::run res_run;
+	results::run res_run;
 	std::unique_ptr<reg_t> reg(create_registration(fixed, loose));
 
 	clock_t::time_point now = clock_t::now();
@@ -26,7 +26,7 @@ experiment_results::run experiment::run_registration_(const fixed_point_cloud_ty
 		clock_t::time_point before = now;
 		now = clock_t::now();
 		
-		experiment_results::state res_state;
+		results::state res_state;
 		res_state.error = error;
 		res_state.actual_error = actual_error_metric();
 		res_state.transformation = estimated_transformation;
@@ -44,11 +44,11 @@ float experiment::arg_(unsigned i, unsigned n) {
 }
 
 
-experiment_results experiment::run(bool par) {
+results experiment::run(bool par) {
 	unsigned total = fixed_modifier_runs * loose_modifier_runs * displacer_runs * registration_runs;
 	unsigned counter = 0;
 
-	experiment_results res;
+	results res;
 
 	for(unsigned i = 0; i < fixed_modifier_runs; ++i) {
 		unorganized_point_cloud_full fixed_unorg = original_point_cloud;
@@ -71,7 +71,7 @@ experiment_results experiment::run(bool par) {
 				
 				#pragma omp parallel for if(registration_runs > 1 && par)
 				for(unsigned l = 0; l < registration_runs; ++l) {	
-					experiment_results::run run_res;
+					results::run run_res;
 					
 					if(par) {
 						// Currently need to create copy of loose for each thread, because it uses the loose's pose
@@ -102,4 +102,5 @@ experiment_results experiment::run(bool par) {
 	return res;
 }
 
+}
 }

@@ -11,6 +11,7 @@
 #include <utility>
 
 namespace pcf {
+namespace exper {
 
 /**
 Iterative point cloud registration algorithm experiment.
@@ -48,7 +49,7 @@ public:
 	
 private:
 	static float arg_(unsigned i, unsigned n);
-	experiment_results::run run_registration_(const fixed_point_cloud_type&, const loose_point_cloud_type&) const;
+	results::run run_registration_(const fixed_point_cloud_type&, const loose_point_cloud_type&) const;
 
 public:
 	template<typename Other_cloud>
@@ -57,9 +58,10 @@ public:
 	
 	/// Runs the experiment and returns recorded results.
 	/// If parallel, recorded times may be less meaningful. If not the correspondence finding algorithm may still be parallelized.
-	experiment_results run(bool parallel = false);
+	results run(bool parallel = false);
 };
 
+}
 }
 
 #endif

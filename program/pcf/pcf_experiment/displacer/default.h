@@ -1,15 +1,14 @@
-#ifndef PCFEX_DEFAULT_DISPLACEMENT_H_
-#define PCFEX_DEFAULT_DISPLACEMENT_H_
+#ifndef PCFEX_DEFAULT_DISPLACER_H_
+#define PCFEX_DEFAULT_DISPLACER_H_
 
 #include <Eigen/Geometry>
 #include "../../pcf_core/geometry/angle.h"
 #include "../../pcf_core/geometry/math_constants.h"
 
 namespace pcf {
+namespace exper {
 
-class space_object;
-
-class default_displacement {
+class default_displacer {
 private:
 	static Eigen::Affine3f random_rotation_(float max_angle);
 
@@ -20,6 +19,7 @@ public:
 	Eigen::Affine3f operator()(float arg);
 };
 
+}
 }
 
 #endif

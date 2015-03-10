@@ -1,72 +1,81 @@
 #include "results.h"
 #include "sqlite3pp.h"
-
+#include "../pcf_core/util/misc.h"
 
 namespace pcf {
+namespace exper {
 
 namespace {
-	const std::string database_name_ = "pcf_experiment_results.db";
+	const std::string default_database_name_ = "pcf_experiment_results.db";
 }
 
-struct experiment_results::impl {
+struct results::impl {
 	sqlite3pp::database database;
 	
-	impl() :
-		database(database_name_.c_str()) { }
+	impl(const std::string& db) :
+		database(db.c_str()) { }
 };
 
 
-experiment_results::experiment_results() :
-	impl_(new impl),
+results::results(const std::string& db) :
+	impl_(new impl(db.empty() ? default_database_name_ : db)),
 	counter_(0)
 {
-	create_tables_();
+	if(db.empty() || !file_exists(db)) create_tables_();
 }
 
-experiment_results::~experiment_results() { }
+results::~results() { }
 
-const void* experiment_results::transformation_to_blob_(const Eigen::Affine3f& t) {
+const void* results::transformation_to_blob_(const Eigen::Affine3f& t) {
 	return static_cast<const void*>(t.matrix().data());
 }
 
 
-Eigen::Affine3f experiment_results::blob_to_transformation_(const void* raw_data) {
+results::results(results&& res) :
+	impl_(std::move(res.impl_)),
+	counter_(res.counter_) { }
+
+
+
+Eigen::Affine3f results::blob_to_transformation_(const void* raw_data) {
 	const float* data = static_cast<const float*>(raw_data);
 	Eigen::Matrix4f mat = Eigen::Map<const Eigen::Matrix4f>(data);
 	return Eigen::Affine3f(mat);
 }
 
 
-void experiment_results::drop_tables_() {
+void results::drop_tables_() {
 	impl_->database.execute("DROP TABLE IF EXISTS run");
 	impl_->database.execute("DROP TABLE IF EXISTS state");
 }
 
-void experiment_results::create_tables_() {
+void results::create_tables_() {
 	drop_tables_();
+	
 	auto err = impl_->database.execute(
 		"CREATE TABLE run ("
 			"id INTEGER PRIMARY KEY ASC, "
-			"success INTEGER NOT NULL, "
-			"original_transformation BLOB NOT NULL, "
-			"displacer_arg REAL NOT NULL, "
-			"fixed_modifier_arg REAL NOT NULL, "
-			"loose_modifier_arg REAL NOT NULL, "
-			"final_error REAL NOT NULL, "
-			"final_actual_error REAL NOT NULL, "
-			"final_time INTEGER NOT NULL"
+			"success INTEGER, "
+			"original_transformation BLOB, "
+			"displacer_arg REAL, "
+			"fixed_modifier_arg REAL, "
+			"loose_modifier_arg REAL, "
+			"final_error REAL, "
+			"final_actual_error REAL, "
+			"final_time INTEGER, "
+			"number_of_states INTEGER"
 		")"
 	);
 	if(err) throw std::runtime_error("Could not create SQLite table 'run'.");
 	
 	err = impl_->database.execute(
 		"CREATE TABLE state ("
-			"run_id INTEGER NOT NULL, "
-			"step INTEGER NOT NULL, "
-			"error REAL NOT NULL, "
-			"actual_error REAL NOT NULL, "
-			"transformation BLOB NOT NULL, "
-			"time INTEGER NOT NULL, "
+			"run_id INTEGER, "
+			"step INTEGER, "
+			"error REAL, "
+			"actual_error REAL, "
+			"transformation BLOB, "
+			"time INTEGER, "
 			"FOREIGN KEY(run_id) REFERENCES run(id)"
 		")"
 	);
@@ -74,14 +83,14 @@ void experiment_results::create_tables_() {
 }
 
 
-void experiment_results::clear() {
+void results::clear() {
 	counter_ = 1;
-	database.execute("DELETE FRUN state");
-	database.execute("DELETE FROM run");
+	impl_->database.execute("DELETE FRUN state");
+	impl_->database.execute("DELETE FROM run");
 }
 
-void experiment_results::add(const run& rn) {
-	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg) VALUES (?, ?, ?, ?, ?, ?)");
+void results::add(const run& rn) {
+	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	sqlite3pp::command insert_state(impl_->database, "INSERT INTO state (run_id, step, error, actual_error, transformation, time) VALUES (?, ?, ?, ?, ?, ?)");
 
 	sqlite3pp::transaction tr(impl_->database);
@@ -92,6 +101,10 @@ void experiment_results::add(const run& rn) {
 		insert_run.bind(4, rn.displacer_arg);
 		insert_run.bind(5, rn.fixed_modifier_arg);
 		insert_run.bind(6, rn.loose_modifier_arg);
+		insert_run.bind(7, rn.evolution.back().error);
+		insert_run.bind(8, rn.evolution.back().actual_error);
+		insert_run.bind(9, (int)rn.evolution.back().time.count());
+		insert_run.bind(10, (int)rn.evolution.size());
 		insert_run.execute();
 		
 		auto run_id = impl_->database.last_insert_rowid();
@@ -105,7 +118,7 @@ void experiment_results::add(const run& rn) {
 			insert_state.bind(3, st.error);
 			insert_state.bind(4, st.actual_error);
 			insert_state.bind(5, transformation_to_blob_(st.transformation), sizeof(float)*16, false);
-			insert_state.bind(6, st.time.count());
+			insert_state.bind(6, (int)st.time.count());
 			insert_state.execute();
 			insert_state.reset();
 		}
@@ -117,14 +130,14 @@ void experiment_results::add(const run& rn) {
 }
 
 
-std::size_t experiment_results::number_of_runs() const {
+std::size_t results::number_of_runs() const {
 	sqlite3pp::query q(impl_->database, "SELECT COUNT(id) FROM run");
 	const auto& row = *q.begin();
 	return row.get<int>(0);
 }
 
 
-experiment_results::run experiment_results::operator[](int i) const {
+results::run results::operator[](int i) const {
 	run rn;
 
 	sqlite3pp::query run_query(impl_->database,
@@ -159,12 +172,12 @@ experiment_results::run experiment_results::operator[](int i) const {
 }
 
 
-experiment_results::data_set experiment_results::scatterplot(input_variable iv, output_variable ov, bool success_only) const {
+results::data_point_set results::scatterplot(input_variable iv, output_variable ov, bool success_only) const {
 	std::string query = "SELECT ";
 	switch(iv) {
 		case fixed_modifier_arg: query += "fixed_modifier_arg"; break;
-		case fixed_modifier_arg: query += "loose_modifier_arg"; break;
-		case fixed_modifier_arg: query += "displacer_arg"; break;
+		case loose_modifier_arg: query += "loose_modifier_arg"; break;
+		case displacer_arg: query += "displacer_arg"; break;
 		default: throw std::invalid_argument("Invalid input variable.");
 	}
 	query += ", ";
@@ -173,13 +186,14 @@ experiment_results::data_set experiment_results::scatterplot(input_variable iv, 
 		case final_error: query += "final_error"; break;
 		case final_actual_error: query += "final_actual_error"; break;
 		case final_time: query += "final_time"; break;
+		case number_of_states: query += "number_of_states"; break;
 		default: throw std::invalid_argument("Invalid output variable.");
 	}
-	if(success_only) query += " WHERE success"
+	if(success_only) query += " WHERE success";
 	query += " FROM run";
 	
-	experiment_results::data_set points;
-	sqlite3pp::query q(impl_->database);
+	results::data_point_set points;
+	sqlite3pp::query q(impl_->database, query.c_str());
 	
 	for(const auto& row : q) {
 		float i = row.get<float>(0);
@@ -189,4 +203,5 @@ experiment_results::data_set experiment_results::scatterplot(input_variable iv, 
 	return points;
 }
 
+}
 }

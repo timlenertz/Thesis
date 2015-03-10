@@ -6,15 +6,18 @@
 #include <Eigen/Geometry>
 #include <memory>
 #include <utility>
+#include <string>
+#include "../pcf_core/util/coordinates.h"
 
 namespace pcf {
+namespace exper {
 
 /**
 Results from experiment.
 Stores result from each run, with its states. The results get stored into an SQLite database, and can be converted to and from the structs.
 Provides functionality to extract two-variable relationships from the database.
 */
-class experiment_results {
+class results {
 public:
 	/// State during one registration run.
 	struct state {
@@ -44,11 +47,12 @@ public:
 		success,
 		final_error,
 		final_actual_error,
-		final_time
+		final_time,
+		number_of_states
 	};
 	
-	using data_point = std::pair<float, float>;
-	using data_set = std::vector<data_point>;
+	using data_point = coordinates<2, float>;
+	using data_point_set = std::vector<data_point>;
 
 private:
 	// PIMPL: Use sqlite3pp only in .cc
@@ -62,9 +66,14 @@ private:
 	static const void* transformation_to_blob_(const Eigen::Affine3f&);
 	static Eigen::Affine3f blob_to_transformation_(const void*);
 
-public:	
-	experiment_results();
-	~experiment_results();
+public:
+	explicit results(const std::string& db = "");
+	results(const results&) = delete;
+	results(results&&);
+	~results();
+	
+	results& operator=(const results&) = delete;
+	results& operator=(results&&) = delete;
 	
 	void clear();
 	void add(const run&);
@@ -72,9 +81,10 @@ public:
 	std::size_t number_of_runs() const;
 	run operator[](int) const;
 	
-	data_set scatterplot(input_variable, output_variable, bool success_only) const;
+	data_point_set scatterplot(input_variable, output_variable, bool success_only) const;
 };
 
+}
 }
 
 #endif
