@@ -1139,6 +1139,8 @@ Eigen/Geometry
 ../../dist/include/pcf/pcf_core/point_cloud/unorganized/unorganized_point_cloud.h
 ../pcf_core/point_cloud/tree/kdtree_traits.h
 ../../dist/include/pcf/pcf_core/point_cloud/tree/kdtree_traits.h
+../pcf_core/point_cloud/grid/grid_point_cloud.h
+../../dist/include/pcf/pcf_core/point_cloud/grid/grid_point_cloud.h
 ../pcf_core/registration/iterative_correspondences_registration.h
 ../../dist/include/pcf/pcf_core/registration/iterative_correspondences_registration.h
 ../pcf_core/registration/correspondences/same_point_correspondences.h
@@ -1150,6 +1152,8 @@ Eigen/Geometry
 functional
 -
 utility
+-
+string
 -
 
 ../../dist/include/pcf/pcf_experiment/pcf_experiment.h

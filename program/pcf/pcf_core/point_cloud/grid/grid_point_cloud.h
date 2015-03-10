@@ -54,7 +54,13 @@ private:
 	void build_grid_();
 
 public:	
-	template<typename Other_cloud> grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc = Allocator());
+	template<typename Other_cloud>
+	grid_point_cloud(const Other_cloud& pc, float cell_len = 0, const Allocator& alloc = Allocator());
+
+	grid_point_cloud(super&&, float cell_len = 0);
+
+	grid_point_cloud(const grid_point_cloud& pc) : grid_point_cloud(pc, pc.cell_length_) { }
+	grid_point_cloud(grid_point_cloud&& pc) : grid_point_cloud(std::move(pc), pc.cell_length_) { }
 	
 	bool verify() const;
 	
@@ -82,6 +88,9 @@ public:
 
 template<typename Cloud>
 float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alpha);
+
+template<typename Cloud>
+float default_grid_cell_length(const Cloud& pc);
 
 
 /**

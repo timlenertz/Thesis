@@ -19,10 +19,11 @@ struct results::impl {
 
 
 results::results(const std::string& db) :
-	impl_(new impl(db.empty() ? default_database_name_ : db)),
 	counter_(0)
 {
-	if(db.empty() || !file_exists(db)) create_tables_();
+	bool new_database = db.empty() || !file_exists(db);
+	impl_.reset(new impl(db.empty() ? default_database_name_ : db));
+	if(new_database) create_tables_();
 }
 
 results::~results() { }

@@ -3,12 +3,14 @@
 
 #include "../pcf_core/point_cloud/unorganized/unorganized_point_cloud.h"
 #include "../pcf_core/point_cloud/tree/kdtree_traits.h"
+#include "../pcf_core/point_cloud/grid/grid_point_cloud.h"
 #include "../pcf_core/registration/iterative_correspondences_registration.h"
 #include "../pcf_core/registration/correspondences/same_point_correspondences.h"
 #include "results.h"
 #include <Eigen/Geometry>
 #include <functional>
 #include <utility>
+#include <string>
 
 namespace pcf {
 namespace exper {
@@ -23,17 +25,18 @@ Additionally, the create registration modifier shall return a pointer to a newly
 */
 class experiment {
 public:
-	using fixed_point_cloud_type = kdtree_point_cloud_full;
-	using loose_point_cloud_type = unorganized_point_cloud_full;
+	using fixed_point_cloud_type = grid_point_cloud_xyz;
+	using loose_point_cloud_type = unorganized_point_cloud_xyz;
+	using working_point_cloud_type = unorganized_point_cloud_xyz;
 	
 	using modifier_function_type =
-		void (unorganized_point_cloud_full& pc, float arg);
+		void (working_point_cloud_type& pc, float arg);
 	using displacer_function_type =
 		Eigen::Affine3f (float arg);
 	using create_registration_function_type =
 		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
 
-	const pcf::unorganized_point_cloud_full original_point_cloud;
+	const working_point_cloud_type original_point_cloud;
 	
 	std::function<modifier_function_type> fixed_modifier; ///< Callback which modifies the fixed point cloud. If not set, it does not get modified.
 	std::function<modifier_function_type> loose_modifier; ///< Callback which modifies the loose point cloud. If not set, it does not get modified.
@@ -45,10 +48,11 @@ public:
 	unsigned loose_modifier_runs = 1;
 	unsigned displacer_runs = 1;
 	unsigned registration_runs = 1;
+	bool run_parallel = false;
 	
 private:
 	static float arg_(unsigned i, unsigned n);
-	results::run run_registration_(const unorganized_point_cloud_full& fixed_unorg, const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg) const;
+	results::run run_registration_(const working_point_cloud_type& fixed_unorg, const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg) const;
 
 public:
 	template<typename Other_cloud>
@@ -57,7 +61,7 @@ public:
 	
 	/// Runs the experiment and returns recorded results.
 	/// If parallel, recorded times may be less meaningful. If not the correspondence finding algorithm may still be parallelized.
-	results run(bool parallel = false);
+	results run(const std::string& db = "");
 };
 
 }

@@ -44,9 +44,25 @@ float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alp
 }
 
 
+template<typename Cloud>
+float default_grid_cell_length(const Cloud& pc) {
+	// TODO reasonable estimate
+	return optimal_grid_cell_length_for_knn(pc, 10, 3.0);
+}
+
+
 template<typename Point, typename Allocator> template<typename Other_cloud>
-grid_point_cloud<Point, Allocator>::grid_point_cloud(Other_cloud&& pc, float cell_len, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), true, alloc), cell_length_(cell_len) {
+grid_point_cloud<Point, Allocator>::grid_point_cloud(const Other_cloud& pc, float cell_len, const Allocator& alloc) :
+super(pc, true, 0, alloc),
+cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)) {
+	build_grid_();
+}
+
+
+template<typename Point, typename Allocator>
+grid_point_cloud<Point, Allocator>::grid_point_cloud(super&& pc, float cell_len) :
+super(std::move(pc), true),
+cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)) {
 	build_grid_();
 }
 

@@ -35,7 +35,7 @@ child(std::ptrdiff_t i) const -> node_handle_ {
 	
 template<typename Traits, typename Point, typename Allocator> template<bool Const>
 auto tree_point_cloud<Traits, Point, Allocator>::node_handle_<Const>::
-closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance) const -> iterator {
+closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance) const -> iterator {	
 	// Return end() if this node's box is outside rejection radius.
 	if(rejecting_distance != INFINITY) {
 		if(minimal_distance_sq(query, box()) >= rejecting_distance) return end();

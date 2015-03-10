@@ -1,11 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  19 DEC 2014 18:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  10 MAR 2015 17:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**\PassOptionsToClass{draft}{} \PassOptionsToPackage{draft}{graphicx} \PassOpti
-onsToPackage{draft}{graphics} \input{"paper.tex"}
+**paper.tex
 (./paper.tex
+LaTeX2e <2011/06/27>
+Babel <3.9k> and hyphenation patterns for 78 languages loaded.
 (/usr/local/texlive/2013/texmf-dist/tex/latex/koma-script/scrreprt.cls
 Document Class: scrreprt 2013/12/19 v3.12 KOMA-Script document class (report)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/koma-script/scrkbase.sty
@@ -470,9 +471,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-201412191082.tex)...disabled (restricted).
+runsystem(touch w18-test-20153101061.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-201412191082.tex)...disabled (restricted).
+runsystem(rm -f w18-test-20153101061.tex)...disabled (restricted).
 
 
 
@@ -669,6 +670,8 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 15.
 LaTeX Info: Redefining \pageref on input line 15.
 LaTeX Info: Redefining \nameref on input line 15.
+
+(./paper.out) (./paper.out)
 \@outlinefile=\write4
 \openout4 = `paper.out'.
 
@@ -2184,37 +2187,27 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 69.
  (./paper.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 69.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 69.
-
-
-Package rerunfilecheck Warning: File `paper.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `paper.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  77D77BD2B14FEC835EC3EAC8630B67E8;701.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+Package rerunfilecheck Info: File `paper.out' has not changed.
+(rerunfilecheck)             Checksum: 77D77BD2B14FEC835EC3EAC8630B67E8;701.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 69.
  ) 
 Here is how much of TeX's memory you used:
- 8440 strings out of 493308
- 127992 string characters out of 6137817
- 263620 words of memory out of 5000000
- 11661 multiletter control sequences out of 15000+600000
+ 8459 strings out of 493308
+ 128211 string characters out of 6137817
+ 268336 words of memory out of 5000000
+ 11676 multiletter control sequences out of 15000+600000
  9149 words of font info for 38 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,6n,51p,1054b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,6n,51p,937b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
 /usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
 sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
 usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on paper.pdf (16 pages, 114079 bytes).
+Output written on paper.pdf (16 pages, 115038 bytes).
 PDF statistics:
- 241 PDF objects out of 1000 (max. 8388607)
- 215 compressed objects within 3 object streams
+ 281 PDF objects out of 1000 (max. 8388607)
+ 255 compressed objects within 3 object streams
  122 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

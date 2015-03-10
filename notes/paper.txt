@@ -69,7 +69,7 @@ Large model registration
 		
 
 
-Experiments -> stop programming and think
+Experiments !
 	Aim of experiments
 		Evaluate registration algorithms:
 			stability
@@ -91,6 +91,11 @@ Methods
 			(combine Perspective-to-Point and ICP)
 	
 
+Side Problems
+	Visualization
+	Structures for efficient closest point finding (kdtree vs grid)
+
+
 Implementation
 	Architecture
 	Dependencies (Eigen, OpenCV)
@@ -99,10 +104,11 @@ Implementation
 	Memory alignment, pagination
 	Point cloud structures
 	ROOT, cling integration for interface
-	Visualizer
+	Visualizer, editing environment
 	Encountered difficulties
 	
-	
+
+
 
 Results
 

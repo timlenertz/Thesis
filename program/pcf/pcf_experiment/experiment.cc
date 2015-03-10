@@ -8,10 +8,10 @@
 namespace pcf {
 namespace exper {
 
-results::run experiment::run_registration_(const unorganized_point_cloud_full& fixed_unorg, const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
+results::run experiment::run_registration_(const working_point_cloud_type& fixed_unorg, const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
-	using same_cor_t = same_point_correspondences<unorganized_point_cloud_full, loose_point_cloud_type>;
+	using same_cor_t = same_point_correspondences<working_point_cloud_type, loose_point_cloud_type>;
 
 	results::run res_run;
 	std::unique_ptr<reg_t> reg(create_registration(fixed, loose, arg));
@@ -44,40 +44,42 @@ float experiment::arg_(unsigned i, unsigned n) {
 }
 
 
-results experiment::run(bool par) {
+results experiment::run(const std::string& db) {
 	unsigned total = fixed_modifier_runs * loose_modifier_runs * displacer_runs * registration_runs;
 	unsigned counter = 0;
 
-	results res;
+	results res(db);
+	res.clear();
+	
 	std::size_t cap = original_point_cloud.size() + additional_capacity;
 
 	for(unsigned i = 0; i < fixed_modifier_runs; ++i) {
-		unorganized_point_cloud_full fixed_unorg(original_point_cloud, cap);
+		working_point_cloud_type fixed_unorg(original_point_cloud, cap);
 		fixed_unorg.set_relative_pose(pose());
 		float fixed_modifier_arg = arg_(i, fixed_modifier_runs);
 		if(fixed_modifier) fixed_modifier(fixed_unorg, fixed_modifier_arg);
-		kdtree_point_cloud_full fixed(std::move(fixed_unorg));
+		fixed_point_cloud_type fixed(std::move(fixed_unorg));
 		
 		for(unsigned j = 0; j < loose_modifier_runs; ++j) {
-			unorganized_point_cloud_full loose(original_point_cloud, cap);
+			working_point_cloud_type loose(original_point_cloud, cap);
 			loose.set_relative_pose(pose());
 			float loose_modifier_arg = arg_(j, loose_modifier_runs);
 			if(loose_modifier) loose_modifier(loose, loose_modifier_arg);
 			
-			#pragma omp parallel for if(displacer_runs > 1 && par)
+			#pragma omp parallel for if(displacer_runs > 1 && run_parallel)
 			for(unsigned k = 0; k < displacer_runs; ++k) {
 				Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
 				float displacer_arg = arg_(k, displacer_runs);
 				if(displacer) transformation = displacer(displacer_arg);
 				
-				#pragma omp parallel for if(registration_runs > 1 && par)
+				#pragma omp parallel for if(registration_runs > 1 && run_parallel)
 				for(unsigned l = 0; l < registration_runs; ++l) {
 					float registration_arg = arg_(l, registration_runs);
 					results::run run_res;
 					
-					if(par) {
+					if(run_parallel) {
 						// Currently need to create copy of loose for each thread, because it uses the loose's pose
-						unorganized_point_cloud_full displaced_loose = loose;
+						working_point_cloud_type displaced_loose = loose;
 						displaced_loose.set_relative_pose(pose(transformation));
 						run_res = run_registration_(fixed_unorg, fixed, displaced_loose, registration_arg);						
 					} else {
