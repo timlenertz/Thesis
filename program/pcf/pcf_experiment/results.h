@@ -32,6 +32,7 @@ public:
 		std::vector<state> evolution; ///< States of the registration.
 		bool success; ///< Whether the registration was deemed successful.
 		Eigen::Affine3f original_transformation; ///< Initial transformation applied to loose point cloud.
+		float registration_arg; ///< Argument for registration.
 		float displacer_arg; ///< Argument for displacer.
 		float fixed_modifier_arg; ///< Argument for fixed point cloud modifier.
 		float loose_modifier_arg; ///< Argument for loose point cloud modifier.
@@ -41,6 +42,7 @@ public:
 		fixed_modifier_arg,
 		loose_modifier_arg,
 		displacer_arg,
+		registration_arg
 	};
 	
 	enum output_variable {

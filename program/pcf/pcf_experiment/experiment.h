@@ -26,22 +26,21 @@ public:
 	using fixed_point_cloud_type = kdtree_point_cloud_full;
 	using loose_point_cloud_type = unorganized_point_cloud_full;
 	
-	using fixed_modifier_function_type =
-		void (unorganized_point_cloud_full& fixed, float arg);
-	using loose_modifier_function_type =
-		void (unorganized_point_cloud_full& loose, float arg);
+	using modifier_function_type =
+		void (unorganized_point_cloud_full& pc, float arg);
 	using displacer_function_type =
 		Eigen::Affine3f (float arg);
 	using create_registration_function_type =
-		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&);
+		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
 
 	const pcf::unorganized_point_cloud_full original_point_cloud;
 	
-	std::function<fixed_modifier_function_type> fixed_modifier; ///< Callback which modifies the fixed point cloud. If not set, it does not get modified.
-	std::function<loose_modifier_function_type> loose_modifier; ///< Callback which modifies the loose point cloud. If not set, it does not get modified.
+	std::function<modifier_function_type> fixed_modifier; ///< Callback which modifies the fixed point cloud. If not set, it does not get modified.
+	std::function<modifier_function_type> loose_modifier; ///< Callback which modifies the loose point cloud. If not set, it does not get modified.
 	std::function<displacer_function_type> displacer; ///< Callback which returns initial transformation for loose point cloud.
 	std::function<create_registration_function_type> create_registration; ///< Callback which created registration object.
 	
+	std::size_t additional_capacity = 0;
 	unsigned fixed_modifier_runs = 1;
 	unsigned loose_modifier_runs = 1;
 	unsigned displacer_runs = 1;
@@ -49,7 +48,7 @@ public:
 	
 private:
 	static float arg_(unsigned i, unsigned n);
-	results::run run_registration_(const fixed_point_cloud_type&, const loose_point_cloud_type&) const;
+	results::run run_registration_(const unorganized_point_cloud_full& fixed_unorg, const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg) const;
 
 public:
 	template<typename Other_cloud>

@@ -1,6 +1,7 @@
 #include "results.h"
 #include "sqlite3pp.h"
 #include "../pcf_core/util/misc.h"
+#include <iostream>
 
 namespace pcf {
 namespace exper {
@@ -57,6 +58,7 @@ void results::create_tables_() {
 			"id INTEGER PRIMARY KEY ASC, "
 			"success INTEGER, "
 			"original_transformation BLOB, "
+			"registration_arg REAL, "
 			"displacer_arg REAL, "
 			"fixed_modifier_arg REAL, "
 			"loose_modifier_arg REAL, "
@@ -90,7 +92,7 @@ void results::clear() {
 }
 
 void results::add(const run& rn) {
-	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	sqlite3pp::command insert_state(impl_->database, "INSERT INTO state (run_id, step, error, actual_error, transformation, time) VALUES (?, ?, ?, ?, ?, ?)");
 
 	sqlite3pp::transaction tr(impl_->database);
@@ -98,13 +100,14 @@ void results::add(const run& rn) {
 		insert_run.bind(1, (int)counter_);
 		insert_run.bind(2, rn.success ? 1 : 0);
 		insert_run.bind(3, transformation_to_blob_(rn.original_transformation), sizeof(float)*16, false);
-		insert_run.bind(4, rn.displacer_arg);
-		insert_run.bind(5, rn.fixed_modifier_arg);
-		insert_run.bind(6, rn.loose_modifier_arg);
-		insert_run.bind(7, rn.evolution.back().error);
-		insert_run.bind(8, rn.evolution.back().actual_error);
-		insert_run.bind(9, (int)rn.evolution.back().time.count());
-		insert_run.bind(10, (int)rn.evolution.size());
+		insert_run.bind(4, rn.registration_arg);
+		insert_run.bind(5, rn.displacer_arg);
+		insert_run.bind(6, rn.fixed_modifier_arg);
+		insert_run.bind(7, rn.loose_modifier_arg);
+		insert_run.bind(8, rn.evolution.back().error);
+		insert_run.bind(9, rn.evolution.back().actual_error);
+		insert_run.bind(10, (int)rn.evolution.back().time.count());
+		insert_run.bind(11, (int)rn.evolution.size());
 		insert_run.execute();
 		
 		auto run_id = impl_->database.last_insert_rowid();
@@ -178,6 +181,7 @@ results::data_point_set results::scatterplot(input_variable iv, output_variable 
 		case fixed_modifier_arg: query += "fixed_modifier_arg"; break;
 		case loose_modifier_arg: query += "loose_modifier_arg"; break;
 		case displacer_arg: query += "displacer_arg"; break;
+		case registration_arg: query += "registration_arg"; break;
 		default: throw std::invalid_argument("Invalid input variable.");
 	}
 	query += ", ";
@@ -189,8 +193,10 @@ results::data_point_set results::scatterplot(input_variable iv, output_variable 
 		case number_of_states: query += "number_of_states"; break;
 		default: throw std::invalid_argument("Invalid output variable.");
 	}
-	if(success_only) query += " WHERE success";
 	query += " FROM run";
+	if(success_only) query += " WHERE success";
+	
+	std::cout << query << std::endl;
 	
 	results::data_point_set points;
 	sqlite3pp::query q(impl_->database, query.c_str());

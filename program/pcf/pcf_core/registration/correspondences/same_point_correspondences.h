@@ -7,8 +7,7 @@ namespace pcf {
 
 /**
 Point correspondences between points at same indexed in both clouds.
-Both clouds need to have same size. Assumes one cloud is a transformation of the other.
-Used for measuring registration error with known correspondences.
+Assumes one cloud is a transformation of the other. Used for measuring registration error with known correspondences.
 */
 template<typename Cloud_fixed, typename Cloud_loose>
 class same_point_correspondences {
