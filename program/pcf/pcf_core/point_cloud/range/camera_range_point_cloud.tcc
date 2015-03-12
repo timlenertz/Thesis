@@ -3,8 +3,16 @@
 
 namespace pcf {
 
-template<typename Point, typename Image_camera, typename Allocator> template<typename Iterator>
-void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end) {
+
+template<typename Point, typename Image_camera, typename Allocator> template<typename Other_cloud>
+camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const Other_cloud& pc, const Image_camera& cam, const Allocator& alloc) :
+	camera_range_point_cloud(cam, alloc)
+{
+	project(pc);
+}
+
+template<typename Point, typename Image_camera, typename Allocator> template<typename Iterator, typename Transformer>
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end, Transformer transformer) {
 	// Project pc onto this depth map using image camera cam.
 	// Uses z-buffer to keep only point with highest depth value.
 
@@ -24,7 +32,7 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator
 		float& old_z = z_buffer[ic];
 		if(z < old_z) {
 			old_z = z;
-			Point np = p;
+			Point np = transformer(p);
 			np.apply_transformation(view_transformation);
 			super::image_[ic] = np;
 		}
@@ -33,7 +41,7 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator
 
 
 template<typename Point, typename Image_camera, typename Allocator>
-camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const point_cloud_xyz& pc, const Image_camera& cam, const Allocator& alloc) :
+camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const Image_camera& cam, const Allocator& alloc) :
 	super(cam.image_width(), cam.image_height(), false, alloc),
 	camera_(cam)
 {
@@ -42,24 +50,8 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 	
 	super::set_relative_pose(cam.absolute_pose());
 	camera_.set_parent(*this, pose());
-	
-	project_(pc.cbegin(), pc.cend());
 }
 
-
-template<typename Point, typename Image_camera, typename Allocator>
-camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const point_cloud_full& pc, const Image_camera& cam, const Allocator& alloc) :
-	super(cam.image_width(), cam.image_height(), false, alloc),
-	camera_(cam)
-{
-	super::resize_(super::capacity());
-	super::initialize_();
-	
-	super::set_relative_pose(cam.absolute_pose());
-	camera_.set_parent(*this, pose());
-	
-	project_(pc.cbegin(), pc.cend());
-}
 
 
 template<typename Point, typename Image_camera, typename Allocator>
@@ -79,6 +71,24 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 		else
 			it->invalidate();
 	}	
+}
+
+
+template<typename Point, typename Image_camera, typename Allocator>
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_xyz& pc, const rgb_color& col) {
+	project_(pc.cbegin(), pc.cend(), [col](const point_xyz& p) -> Point {
+		Point p2(p);
+		p2.set_color(col);
+		return p2;
+	});
+}
+
+
+template<typename Point, typename Image_camera, typename Allocator>
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_full& pc) {
+	project_(pc.cbegin(), pc.cend(), [](const point_full& p) -> Point {
+		return Point(p);
+	});
 }
 
 }

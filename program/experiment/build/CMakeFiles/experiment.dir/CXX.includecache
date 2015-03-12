@@ -115,6 +115,8 @@ ostream
 -
 string
 -
+angle.h
+../../dist/include/pcf/pcf_core/geometry/angle.h
 
 ../../dist/include/pcf/pcf_core/geometry/projection_frustum.h
 frustum.h
@@ -144,6 +146,8 @@ rgb_color_opencv.h
 utility
 -
 string
+-
+functional
 -
 
 ../../dist/include/pcf/pcf_core/image/image.h
@@ -305,6 +309,8 @@ io/pointscan_importer.h
 ../../dist/include/pcf/pcf_core/io/pointscan_importer.h
 io/range_point_cloud_importer.h
 ../../dist/include/pcf/pcf_core/io/range_point_cloud_importer.h
+point_cloud/filter_point_cloud.h
+../../dist/include/pcf/pcf_core/point_cloud/filter_point_cloud.h
 point_cloud/import.h
 ../../dist/include/pcf/pcf_core/point_cloud/import.h
 point_cloud/point_cloud.h
@@ -377,6 +383,8 @@ registration/weights/proximity.h
 ../../dist/include/pcf/pcf_core/registration/weights/proximity.h
 util/aligned_allocator.h
 ../../dist/include/pcf/pcf_core/util/aligned_allocator.h
+util/coordinates.h
+../../dist/include/pcf/pcf_core/util/coordinates.h
 util/default_allocator.h
 ../../dist/include/pcf/pcf_core/util/default_allocator.h
 util/io.h
@@ -416,6 +424,8 @@ point_cloud.h
 cmath
 -
 utility
+-
+vector
 -
 filter_point_cloud.tcc
 ../../dist/include/pcf/pcf_core/point_cloud/filter_point_cloud.tcc
@@ -1120,20 +1130,6 @@ random.tcc
 
 ../../dist/include/pcf/pcf_core/util/random.tcc
 
-../../dist/include/pcf/pcf_experiment/displacer/constant.h
-Eigen/Geometry
--
-../../pcf_core/geometry/pose.h
-../../dist/include/pcf/pcf_core/geometry/pose.h
-
-../../dist/include/pcf/pcf_experiment/displacer/default.h
-Eigen/Geometry
--
-../../pcf_core/geometry/angle.h
-../../dist/include/pcf/pcf_core/geometry/angle.h
-../../pcf_core/geometry/math_constants.h
-../../dist/include/pcf/pcf_core/geometry/math_constants.h
-
 ../../dist/include/pcf/pcf_experiment/experiment.h
 ../pcf_core/point_cloud/unorganized/unorganized_point_cloud.h
 ../../dist/include/pcf/pcf_core/point_cloud/unorganized/unorganized_point_cloud.h
@@ -1145,6 +1141,8 @@ Eigen/Geometry
 ../../dist/include/pcf/pcf_core/registration/iterative_correspondences_registration.h
 ../pcf_core/registration/correspondences/same_point_correspondences.h
 ../../dist/include/pcf/pcf_core/registration/correspondences/same_point_correspondences.h
+../pcf_core/geometry/pose.h
+../../dist/include/pcf/pcf_core/geometry/pose.h
 results.h
 ../../dist/include/pcf/pcf_experiment/results.h
 Eigen/Geometry
@@ -1161,10 +1159,6 @@ experiment.h
 ../../dist/include/pcf/pcf_experiment/experiment.h
 results.h
 ../../dist/include/pcf/pcf_experiment/results.h
-displacer/constant.h
-../../dist/include/pcf/pcf_experiment/displacer/constant.h
-displacer/default.h
-../../dist/include/pcf/pcf_experiment/displacer/default.h
 
 ../../dist/include/pcf/pcf_experiment/results.h
 chrono
@@ -2200,6 +2194,8 @@ Eigen/src/Core/util/MKL_support.h
 cstdlib
 -
 iostream
+-
+random
 -
 pcf/core.h
 -

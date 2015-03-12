@@ -26,6 +26,7 @@ public:
 	float minimal_error = 0;
 	std::size_t maximal_iterations = -1;
 	bool stop_on_divergence = true;
+	float divergence_error_threshold = 0.0;
 	
 	virtual ~iterative_correspondences_registration_base() { }
 	

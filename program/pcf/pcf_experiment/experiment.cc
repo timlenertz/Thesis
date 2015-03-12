@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <chrono>
 #include <memory>
+#include <utility>
+#include "../pcf_core/image/color_image.h"
 
 #include <iostream>
 
@@ -31,7 +33,13 @@ results::run experiment::run_registration_(const working_point_cloud_type& fixed
 		res_state.actual_error = actual_error_metric();
 		res_state.transformation = estimated_transformation;
 		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(now - before);
-		res_run.evolution.push_back(res_state);
+				
+		if(create_snapshot) {
+			color_image img = create_snapshot(fixed, loose);
+			res_state.snapshot.reset(new color_image(std::move(img)));
+		}
+		
+		res_run.evolution.push_back(std::move(res_state));
 	});
 
 	return res_run;
@@ -68,7 +76,7 @@ results experiment::run(const std::string& db) {
 			
 			#pragma omp parallel for if(displacer_runs > 1 && run_parallel)
 			for(unsigned k = 0; k < displacer_runs; ++k) {
-				Eigen::Affine3f transformation = Eigen::Affine3f::Identity();
+				pose transformation;
 				float displacer_arg = arg_(k, displacer_runs);
 				if(displacer) transformation = displacer(displacer_arg);
 				
@@ -80,14 +88,14 @@ results experiment::run(const std::string& db) {
 					if(run_parallel) {
 						// Currently need to create copy of loose for each thread, because it uses the loose's pose
 						working_point_cloud_type displaced_loose = loose;
-						displaced_loose.set_relative_pose(pose(transformation));
+						displaced_loose.set_relative_pose(transformation);
 						run_res = run_registration_(fixed_unorg, fixed, displaced_loose, registration_arg);						
 					} else {
-						loose.set_relative_pose(pose(transformation));
+						loose.set_relative_pose(transformation);
 						run_res = run_registration_(fixed_unorg, fixed, loose, registration_arg);	
 					}
 					
-					run_res.original_transformation = transformation;
+					run_res.original_transformation = transformation.transformation_from_world();
 					run_res.registration_arg = registration_arg;
 					run_res.displacer_arg = displacer_arg;
 					run_res.fixed_modifier_arg = fixed_modifier_arg;
@@ -97,7 +105,8 @@ results experiment::run(const std::string& db) {
 					{
 						res.add(run_res);
 						++counter;
-						std::cout << counter << " from " << total << " (states: " << run_res.evolution.size() << ")" << std::endl;
+						float ferr = run_res.evolution.back().error;
+						std::cout << counter << " from " << total << " (suc: " << run_res.success << ", states: " << run_res.evolution.size() << ", err: " << ferr << ")" << std::endl;
 					}
 				}
 			}

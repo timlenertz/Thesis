@@ -4,6 +4,7 @@
 #include <Eigen/Geometry>
 #include <ostream>
 #include <string>
+#include "angle.h"
 
 namespace pcf {
 
@@ -47,6 +48,8 @@ public:
 	
 	std::string to_string() const;
 	static pose from_string(const std::string&);
+	
+	pose random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0)) const;
 };
 
 

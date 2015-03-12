@@ -18,10 +18,10 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 		Eigen::Affine3f previous_transformation = current_transformation_;
 		this->estimate_transformation();
 
-		if(error_ > previous_error && stop_on_divergence) {
+		if(error_ > previous_error && stop_on_divergence && (error_ - previous_error) >= divergence_error_threshold) {
 			current_transformation_ = previous_transformation;
 			error_ = previous_error;
-			return true;
+			return false;
 		}
 	}
 	

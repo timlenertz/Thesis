@@ -23,7 +23,7 @@ frustum camera::viewing_frustum() const {
 }
 
 Eigen::Affine3f camera::view_transformation() const {
-	return absolute_pose().transformation_from_world();
+	return relative_pose().transformation_from_world();
 }
 
 Eigen::Projective3f camera::view_projection_transformation() const {
@@ -31,15 +31,15 @@ Eigen::Projective3f camera::view_projection_transformation() const {
 }
 
 Eigen::Vector3f camera::view_ray_direction() const {
-	return absolute_pose().orientation * Eigen::Vector3f(0, 0, -1);
+	return relative_pose().orientation * Eigen::Vector3f(0, 0, -1);
 }
 
 float camera::depth_sq(const Eigen::Vector3f& p) const {
-	return (absolute_pose().position - p).squaredNorm();
+	return (relative_pose().position - p).squaredNorm();
 }
 
 float camera::depth(const Eigen::Vector3f& p) const {
-	return (absolute_pose().position - p).norm();
+	return (relative_pose().position - p).norm();
 }
 
 spherical_coordinates camera::to_spherical(const Eigen::Vector3f& p) const {
@@ -47,7 +47,7 @@ spherical_coordinates camera::to_spherical(const Eigen::Vector3f& p) const {
 }
 
 Eigen::Vector3f camera::point(const spherical_coordinates& s) const {
-	return absolute_pose().transformation_to_world() * s.to_cartesian();
+	return relative_pose().transformation_to_world() * s.to_cartesian();
 }
 
 

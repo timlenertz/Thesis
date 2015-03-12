@@ -10,7 +10,9 @@ namespace pcf {
 class range_image : public image {
 public:
 	range_image(std::size_t w, std::size_t h);
-	
+	range_image(const range_image&) = default;
+	range_image& operator=(const range_image&) = default;
+
 	bool valid(std::ptrdiff_t x, std::ptrdiff_t y) const;
 	void invalidate(std::ptrdiff_t x, std::ptrdiff_t y);
 	float& at(std::ptrdiff_t x, std::ptrdiff_t y);

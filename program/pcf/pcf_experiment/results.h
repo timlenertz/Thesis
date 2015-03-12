@@ -10,6 +10,9 @@
 #include "../pcf_core/util/coordinates.h"
 
 namespace pcf {
+
+class color_image;
+
 namespace exper {
 
 /**
@@ -25,6 +28,12 @@ public:
 		float actual_error; ///< Error metric at this state, measured knowing the true point correspondences.
 		Eigen::Affine3f transformation; ///< Transformation at this state.
 		std::chrono::milliseconds time; ///< Elapsed time since start of run.
+		std::unique_ptr<color_image> snapshot;
+		
+		state() = default;
+		state(state&&);
+		state& operator=(state&&);
+		~state();
 	};
 	
 	/// Results from one registration run.
@@ -67,6 +76,8 @@ private:
 	
 	static const void* transformation_to_blob_(const Eigen::Affine3f&);
 	static Eigen::Affine3f blob_to_transformation_(const void*);
+	
+	color_image blob_to_color_image_(const void*, std::size_t);
 
 public:
 	explicit results(const std::string& db = "");
@@ -82,6 +93,8 @@ public:
 	
 	std::size_t number_of_runs() const;
 	run operator[](int) const;
+	
+	data_point_set query(const std::string& query) const;
 	
 	data_point_set scatterplot(input_variable, output_variable, bool success_only) const;
 };

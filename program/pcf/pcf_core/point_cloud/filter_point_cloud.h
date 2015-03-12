@@ -4,6 +4,7 @@
 #include "point_cloud.h"
 #include <cmath>
 #include <utility>
+#include <vector>
 
 namespace pcf {
 
@@ -27,9 +28,18 @@ public:
 		super(pc, false, capacity, alloc) { }
 
 
-	/// Erase all points that are not accepted by filter.
+	/// Invalidate all points that are not accepted by filter.
+	/// Filter is function object that gets called for each point with the point as argument. If it returns false, that point is invalidated.
 	template<typename Filter>
 	void filter(Filter, bool parallel = true);
+	
+	/// Invalidate all points according to mask.
+	/// Mask is forward iterable, where each item evaluated to boolean. For example vector<bool>. If an item is false, then the point at that index is invalidated. When inverse is set, the point is invalidated if the item is true instead. Never revalidates invalid points.
+	template<typename Mask>
+	void filter_mask(const Mask&, bool inverse = false);
+	
+	/// Returns mask where valid is true for each valid point;
+	std::vector<bool> valid_points_mask() const;
 	
 	/// Apply random downsampling, leaving only the given ratio of points.
 	/// If invalidate is set, invalidates point to erase, but does not move points around, thus the remaining points maintain the same indices. Only possible if cloud is not all valid. If not set, erases the points and moves remaining points together.

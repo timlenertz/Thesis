@@ -34,6 +34,8 @@ public:
 	void invalidate() { radius = 0; }
 	bool valid() const { return (radius != 0); }
 	explicit operator bool () const { return valid(); }
+	
+	static spherical_coordinates random_direction(float radius = 1.0);
 };
 
 std::ostream& operator<<(std::ostream&, const spherical_coordinates&);

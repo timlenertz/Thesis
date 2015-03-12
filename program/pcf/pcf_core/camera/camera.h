@@ -18,6 +18,7 @@ Inherits space object.
 class camera : public space_object {
 protected:
 	camera() = default;
+	camera(const camera&) = default;
 	explicit camera(const pose&);
 
 public:

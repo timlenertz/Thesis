@@ -19,20 +19,22 @@ class camera_range_point_cloud : public range_point_cloud<Point, Allocator> {
 private:
 	Image_camera camera_;
 	
-	template<typename Iterator>
-	void project_(Iterator begin, Iterator end);
+	template<typename Iterator, typename Transformer>
+	void project_(Iterator begin, Iterator end, Transformer transform);
 
 public:
-	/// Create by projection of existing point cloud with given image camera.
-	camera_range_point_cloud(const point_cloud_xyz& pc, const Image_camera&, const Allocator& alloc = Allocator());
+	camera_range_point_cloud(const Image_camera&, const Allocator& alloc = Allocator());
 
-	/// Create by projection of existing point cloud with given image camera.
-	camera_range_point_cloud(const point_cloud_full& pc, const Image_camera&, const Allocator& alloc = Allocator());
-	
+	template<typename Other_cloud>
+	camera_range_point_cloud(const Other_cloud& pc, const Image_camera& cam, const Allocator& alloc = Allocator());
+
 	/// Create from existing range image with given image camera.
 	/// Range image size must be same as image camera image size.
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
-	
+
+	void project(const point_cloud_xyz&, const rgb_color& col = point_xyz::default_color());
+	void project(const point_cloud_full&);
+
 	// TODO copy, move constructor
 };
 

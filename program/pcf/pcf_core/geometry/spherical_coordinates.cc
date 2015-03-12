@@ -1,6 +1,7 @@
 #include "spherical_coordinates.h"
 #include <ostream>
 #include <cmath>
+#include "../util/random.h"
 
 namespace pcf {
 
@@ -42,6 +43,15 @@ bool spherical_coordinates::operator!=(const spherical_coordinates& s) const {
 std::ostream& operator<<(std::ostream& str, const spherical_coordinates& c) {
 	str << '(' << c.radius << ", " << c.azimuth << ", " << c.elevation << ')';
 	return str;
+}
+
+
+spherical_coordinates spherical_coordinates::random_direction(float radius) {
+	spherical_coordinates s;
+	s.azimuth = random_real<float>(-pi, +pi);
+	s.elevation = random_real<float>(-half_pi, +half_pi);
+	s.radius = radius;
+	return s;
 }
 
 

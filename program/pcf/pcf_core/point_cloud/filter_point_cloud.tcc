@@ -164,4 +164,22 @@ void filter_point_cloud<Point, Allocator>::erase_invisible_points(const Camera& 
 }
 
 
+template<typename Point, typename Allocator> template<typename Mask>
+void filter_point_cloud<Point, Allocator>::filter_mask(const Mask& mask, bool inverse) {
+	auto mit = mask.cbegin();
+	for(Point& pt : *this) {
+		if(mit == mask.cend()) break;
+		else if(*(mit++) != inverse) pt.invalidate();
+	}
+}
+
+template<typename Point, typename Allocator>
+std::vector<bool> filter_point_cloud<Point, Allocator>::valid_points_mask() const {
+	std::vector<bool> mask(super::size());
+	auto mit = mask.begin();
+	for(const Point& pt : *this) *(++mit) = pt.valid();
+	return mask;
+}
+
+
 }

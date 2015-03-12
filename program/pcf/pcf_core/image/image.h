@@ -10,6 +10,10 @@ protected:
 	cv::Mat matrix_;
 
 	image(std::size_t w, std::size_t h, int type);
+	image(const image&);
+	image(image&&);
+	image& operator=(const image&);
+	image& operator=(image&&);
 	
 public:
 	std::size_t width() const;

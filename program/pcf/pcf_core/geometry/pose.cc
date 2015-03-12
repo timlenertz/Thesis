@@ -1,6 +1,8 @@
 #include "pose.h"
 #include "angle.h"
 #include "../util/misc.h"
+#include "../util/random.h"
+#include "spherical_coordinates.h"
 #include <stdexcept>
 
 namespace pcf {
@@ -64,6 +66,16 @@ pose pose::from_string(const std::string& str) {
 	Eigen::Vector3f position(p[0], p[1], p[2]);
 	Eigen::Quaternionf orientation(p[3], p[4], p[5], p[6]);
 	return pose(position, orientation);
+}
+
+
+pose pose::random_displacement(float translation_mag, angle rotation_mag) const {
+	Eigen::Translation3f translation( spherical_coordinates::random_direction(translation_mag).to_cartesian() );
+	
+	Eigen::Vector3f rotation_axis = spherical_coordinates::random_direction().to_cartesian();
+	Eigen::Affine3f rotation( Eigen::AngleAxisf(rotation_mag, rotation_axis) );
+	
+	return transform(translation * rotation);
 }
 
 }

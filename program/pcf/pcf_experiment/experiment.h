@@ -6,6 +6,7 @@
 #include "../pcf_core/point_cloud/grid/grid_point_cloud.h"
 #include "../pcf_core/registration/iterative_correspondences_registration.h"
 #include "../pcf_core/registration/correspondences/same_point_correspondences.h"
+#include "../pcf_core/geometry/pose.h"
 #include "results.h"
 #include <Eigen/Geometry>
 #include <functional>
@@ -13,6 +14,9 @@
 #include <string>
 
 namespace pcf {
+
+class color_image;
+
 namespace exper {
 
 /**
@@ -25,16 +29,19 @@ Additionally, the create registration modifier shall return a pointer to a newly
 */
 class experiment {
 public:
-	using fixed_point_cloud_type = grid_point_cloud_xyz;
+	using fixed_point_cloud_type = kdtree_point_cloud_xyz;
 	using loose_point_cloud_type = unorganized_point_cloud_xyz;
 	using working_point_cloud_type = unorganized_point_cloud_xyz;
 	
 	using modifier_function_type =
 		void (working_point_cloud_type& pc, float arg);
 	using displacer_function_type =
-		Eigen::Affine3f (float arg);
+		pose (float arg);
 	using create_registration_function_type =
 		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
+	using create_snapshot_function_type =
+		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&);
+		
 
 	const working_point_cloud_type original_point_cloud;
 	
@@ -42,6 +49,7 @@ public:
 	std::function<modifier_function_type> loose_modifier; ///< Callback which modifies the loose point cloud. If not set, it does not get modified.
 	std::function<displacer_function_type> displacer; ///< Callback which returns initial transformation for loose point cloud.
 	std::function<create_registration_function_type> create_registration; ///< Callback which created registration object.
+	std::function<create_snapshot_function_type> create_snapshot;
 	
 	std::size_t additional_capacity = 0;
 	unsigned fixed_modifier_runs = 1;
