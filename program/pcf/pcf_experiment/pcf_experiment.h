@@ -5,5 +5,6 @@
 
 #include "experiment.h"
 #include "results.h"
+#include "run_result.h"
 
 #endif

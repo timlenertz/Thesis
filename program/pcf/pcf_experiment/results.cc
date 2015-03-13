@@ -1,9 +1,9 @@
 #include "results.h"
 #include "sqlite3pp.h"
+#include "run_result.h"
 #include "../pcf_core/util/misc.h"
-#include "../pcf_core/util/random.h"
 #include "../pcf_core/image/color_image.h"
-#include <opencv2/opencv.hpp>
+
 #include <iostream>
 
 namespace pcf {
@@ -19,10 +19,6 @@ struct results::impl {
 	impl(const std::string& db) :
 		database(db.c_str()) { }
 };
-
-results::state::state(state&&) = default;
-results::state& results::state::operator=(state&&) = default;
-results::state::~state() = default;
 		
 results::results(const std::string& db) :
 	counter_(0)
@@ -67,6 +63,7 @@ void results::create_tables_() {
 		"CREATE TABLE run ("
 			"id INTEGER PRIMARY KEY ASC, "
 			"success INTEGER, "
+			"actual_success INTEGER, "
 			"original_transformation BLOB, "
 			"registration_arg REAL, "
 			"displacer_arg REAL, "
@@ -102,29 +99,30 @@ void results::clear() {
 	impl_->database.execute("DELETE FROM run");
 }
 
-void results::add(const run& rn) {
-	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+void results::add(const run_result& rn) {
+	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, actual_success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	sqlite3pp::command insert_state(impl_->database, "INSERT INTO state (run_id, step, error, actual_error, transformation, time, snapshot) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 	sqlite3pp::transaction tr(impl_->database);
 	{
 		insert_run.bind(1, (int)counter_);
 		insert_run.bind(2, rn.success ? 1 : 0);
-		insert_run.bind(3, transformation_to_blob_(rn.original_transformation), sizeof(float)*16, false);
-		insert_run.bind(4, rn.registration_arg);
-		insert_run.bind(5, rn.displacer_arg);
-		insert_run.bind(6, rn.fixed_modifier_arg);
-		insert_run.bind(7, rn.loose_modifier_arg);
-		insert_run.bind(8, rn.evolution.back().error);
-		insert_run.bind(9, rn.evolution.back().actual_error);
-		insert_run.bind(10, (int)rn.evolution.back().time.count());
-		insert_run.bind(11, (int)rn.evolution.size());
+		insert_run.bind(3, rn.actual_success ? 1 : 0);
+		insert_run.bind(4, transformation_to_blob_(rn.original_transformation), sizeof(float)*16, false);
+		insert_run.bind(5, rn.registration_arg);
+		insert_run.bind(6, rn.displacer_arg);
+		insert_run.bind(7, rn.fixed_modifier_arg);
+		insert_run.bind(8, rn.loose_modifier_arg);
+		insert_run.bind(9, rn.evolution.back().error);
+		insert_run.bind(10, rn.evolution.back().actual_error);
+		insert_run.bind(11, (int)rn.evolution.back().time.count());
+		insert_run.bind(12, (int)rn.evolution.size());
 		insert_run.execute();
 		
 		auto run_id = impl_->database.last_insert_rowid();
 		
 		for(std::ptrdiff_t i = 0; i < rn.evolution.size(); ++i) {
-			const state& st = rn.evolution[i];
+			const run_result::state& st = rn.evolution[i];
 			Eigen::Matrix4f transformation = st.transformation.matrix();
 			
 			insert_state.bind(1, run_id);
@@ -159,19 +157,20 @@ std::size_t results::number_of_runs() const {
 }
 
 
-results::run results::operator[](int i) const {
-	run rn;
+run_result results::operator[](int i) const {
+	run_result rn;
 
 	sqlite3pp::query run_query(impl_->database,
-		"SELECT success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg FROM run WHERE id=?"
+		"SELECT success, actual_success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg FROM run WHERE id=?"
 	);
 	run_query.bind(1, i + 1);
 	const auto& row = *run_query.begin();
 	rn.success = (row.get<int>(0) != 0);
-	rn.original_transformation = blob_to_transformation_(row.get<const void*>(1));
-	rn.displacer_arg = row.get<float>(2);
-	rn.fixed_modifier_arg = row.get<float>(3);
-	rn.loose_modifier_arg = row.get<float>(4);
+	rn.actual_success = (row.get<int>(1) != 0);
+	rn.original_transformation = blob_to_transformation_(row.get<const void*>(2));
+	rn.displacer_arg = row.get<float>(3);
+	rn.fixed_modifier_arg = row.get<float>(4);
+	rn.loose_modifier_arg = row.get<float>(5);
 	
 	sqlite3pp::query state_query(impl_->database, 
 		"SELECT error, actual_error, transformation, time, snapshot FROM state WHERE run_id=? ORDER BY step ASC"
@@ -180,7 +179,7 @@ results::run results::operator[](int i) const {
 	
 	
 	for(auto it = state_query.begin(); it != state_query.end(); ++it) {
-		state st;
+		run_result::state st;
 		const auto& row = *it;
 		st.error = row.get<float>(0);
 		st.actual_error = row.get<float>(1);
@@ -211,47 +210,6 @@ results::data_point_set results::query(const std::string& query) const {
 		points.emplace_back(i, o);
 	}
 	return points;
-}
-
-
-results::data_point_set results::scatterplot(input_variable iv, output_variable ov, bool success_only) const {
-	std::string q = "SELECT ";
-	switch(iv) {
-		case fixed_modifier_arg: q += "fixed_modifier_arg"; break;
-		case loose_modifier_arg: q += "loose_modifier_arg"; break;
-		case displacer_arg: q += "displacer_arg"; break;
-		case registration_arg: q += "registration_arg"; break;
-		default: throw std::invalid_argument("Invalid input variable.");
-	}
-	q += ", ";
-	switch(ov) {
-		case success: q += "success"; break;
-		case final_error: q += "final_error"; break;
-		case final_actual_error: q += "final_actual_error"; break;
-		case final_time: q += "final_time"; break;
-		case number_of_states: q += "number_of_states"; break;
-		default: throw std::invalid_argument("Invalid output variable.");
-	}
-	q += " FROM run";
-	if(success_only) q += " WHERE success";
-	
-	return query(q);
-}
-
-
-
-void results::export_run_animation(const std::string& filename, const run& rn, const char* format) const {
-	double fps = 3;
-	cv::VideoWriter vid;
-	vid.open(
-		filename,
-		CV_FOURCC(format[0], format[1], format[2], format[3]),
-		fps,
-		rn.evolution[0].snapshot->brg_opencv_matrix().size(),
-		true
-	);
-	for(const state& st : rn.evolution)
-		vid << st.snapshot->brg_opencv_matrix();
 }
 
 

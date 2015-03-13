@@ -10,13 +10,13 @@
 namespace pcf {
 namespace exper {
 
-results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
+run_result experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
 
 	same_point_correspondences<working_point_cloud_type, working_point_cloud_type> same_cor(original_point_cloud, original_point_cloud);
 
-	results::run res_run;
+	run_result res_run;
 	std::unique_ptr<reg_t> reg(create_registration(fixed, loose, arg));
 
 	clock_t::time_point start_time = clock_t::now();
@@ -27,7 +27,7 @@ results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, 
 		mean_square_error actual_error_metric;
 		same_cor(actual_error_metric, absolute_transformation);
 
-		results::state res_state;
+		run_result::state res_state;
 		res_state.error = reg->current_error();
 		res_state.actual_error = actual_error_metric();
 		res_state.transformation = reg->current_loose_transformation();
@@ -40,6 +40,8 @@ results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, 
 		
 		res_run.evolution.push_back(std::move(res_state));
 	});
+	
+	res_run.actual_success = (res_run.evolution.back().actual_error <= minimal_actual_error);
 
 	return res_run;
 }
@@ -82,7 +84,7 @@ results experiment::run(const std::string& db) {
 				#pragma omp parallel for if(registration_runs > 1 && run_parallel)
 				for(unsigned l = 0; l < registration_runs; ++l) {
 					float registration_arg = arg_(l, registration_runs);
-					results::run run_res;
+					run_result run_res;
 					
 					if(run_parallel) {
 						// Currently need to create copy of loose for each thread, because it uses the loose's pose
@@ -99,6 +101,8 @@ results experiment::run(const std::string& db) {
 					run_res.displacer_arg = displacer_arg;
 					run_res.fixed_modifier_arg = fixed_modifier_arg;
 					run_res.loose_modifier_arg = loose_modifier_arg;
+					
+					if(run_callback) run_callback(run_res);
 					
 					#pragma omp critical
 					{

@@ -8,6 +8,7 @@
 #include "../pcf_core/registration/correspondences/same_point_correspondences.h"
 #include "../pcf_core/geometry/pose.h"
 #include "results.h"
+#include "run_result.h"
 #include <Eigen/Geometry>
 #include <functional>
 #include <utility>
@@ -41,7 +42,8 @@ public:
 		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
 	using create_snapshot_function_type =
 		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&, const Eigen::Affine3f& transformation);
-		
+	using run_callback_function_type =
+		void (const run_result&);
 
 	const working_point_cloud_type original_point_cloud;
 	
@@ -50,6 +52,7 @@ public:
 	std::function<displacer_function_type> displacer; ///< Callback which returns initial transformation for loose point cloud.
 	std::function<create_registration_function_type> create_registration; ///< Callback which created registration object.
 	std::function<create_snapshot_function_type> create_snapshot;
+	std::function<run_callback_function_type> run_callback;
 	
 	std::size_t additional_capacity = 0;
 	unsigned fixed_modifier_runs = 1;
@@ -58,9 +61,11 @@ public:
 	unsigned registration_runs = 1;
 	bool run_parallel = false;
 	
+	float minimal_actual_error = 0.0;
+	
 private:
 	static float arg_(unsigned i, unsigned n);
-	results::run run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const;
+	run_result run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const;
 
 public:
 	template<typename Other_cloud>
