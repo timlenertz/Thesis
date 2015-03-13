@@ -11,20 +11,21 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 	project(pc);
 }
 
-template<typename Point, typename Image_camera, typename Allocator> template<typename Iterator, typename Transformer>
-void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end, Transformer transformer) {
+template<typename Point, typename Image_camera, typename Allocator> template<typename Iterator, typename Colorize_func>
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end, Colorize_func col) {
 	// Project pc onto this depth map using image camera cam.
 	// Uses z-buffer to keep only point with highest depth value.
 
 	array_2dim<float> z_buffer(super::image_.size(), INFINITY);
 	auto view_transformation = camera_.view_transformation();
-	
-	#pragma omp parallel for
-	for(auto it = begin; it < end; ++it) {
+		
+	#pragma omp parallel for if(0)
+	for(auto it = begin; it < end; ++it) {	
 		auto p = *it;
 		if(! p.valid()) continue;
 		
 		auto ic = camera_.to_image(p);
+				
 		if(! camera_.in_bounds(ic)) continue;
 		
 		float z = camera_.depth(p);
@@ -32,7 +33,8 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator
 		float& old_z = z_buffer[ic];
 		if(z < old_z) {
 			old_z = z;
-			Point np = transformer(p);
+			Point np = p;
+			np.set_color(col(p));
 			np.apply_transformation(view_transformation);
 			super::image_[ic] = np;
 		}
@@ -47,7 +49,7 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 {
 	super::resize_(super::capacity());
 	super::initialize_();
-	
+		
 	super::set_relative_pose(cam.absolute_pose());
 	camera_.set_parent(*this, pose());
 }
@@ -76,19 +78,13 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 
 template<typename Point, typename Image_camera, typename Allocator>
 void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_xyz& pc, const rgb_color& col) {
-	project_(pc.cbegin(), pc.cend(), [col](const point_xyz& p) -> Point {
-		Point p2(p);
-		p2.set_color(col);
-		return p2;
-	});
+	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [col](const point_xyz& p) -> rgb_color { return col; });
 }
 
 
 template<typename Point, typename Image_camera, typename Allocator>
 void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_full& pc) {
-	project_(pc.cbegin(), pc.cend(), [](const point_full& p) -> Point {
-		return Point(p);
-	});
+	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [](const point_full& p) -> rgb_color { return p.get_color(); });
 }
 
 }

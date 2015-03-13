@@ -101,7 +101,7 @@ void results::create_tables_() {
 
 void results::clear() {
 	counter_ = 1;
-	impl_->database.execute("DELETE FRUN state");
+	impl_->database.execute("DELETE FROM state");
 	impl_->database.execute("DELETE FROM run");
 }
 

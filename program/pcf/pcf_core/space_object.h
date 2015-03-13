@@ -60,6 +60,9 @@ public:
 	
 	void set_relative_pose(const pose&);
 	
+	Eigen::Affine3f transformation_from(const space_object&) const;
+	Eigen::Affine3f transformation_to(const space_object&) const;
+	
 	void set_parent(space_object&, const pose& new_relative_pose = pose());
 	void set_no_parent(const pose& new_pose = pose());
 	

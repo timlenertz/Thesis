@@ -10,32 +10,31 @@
 namespace pcf {
 namespace exper {
 
-results::run experiment::run_registration_(const working_point_cloud_type& fixed_unorg, const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
+results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
-	using same_cor_t = same_point_correspondences<working_point_cloud_type, loose_point_cloud_type>;
+
+	same_point_correspondences<working_point_cloud_type, working_point_cloud_type> same_cor(original_point_cloud, original_point_cloud);
 
 	results::run res_run;
 	std::unique_ptr<reg_t> reg(create_registration(fixed, loose, arg));
 
-	clock_t::time_point now = clock_t::now();
+	clock_t::time_point start_time = clock_t::now();
 
-	res_run.success = reg->run([&](const Eigen::Affine3f& estimated_transformation, float error) {
-		same_cor_t same_cor(fixed_unorg, loose);
+	res_run.success = reg->run([&]() {
+		Eigen::Affine3f absolute_transformation = reg->current_loose_transformation() * loose.transformation_to(fixed);
+	
 		mean_square_error actual_error_metric;
-		same_cor(actual_error_metric, estimated_transformation);
+		same_cor(actual_error_metric, absolute_transformation);
 
-		clock_t::time_point before = now;
-		now = clock_t::now();
-		
 		results::state res_state;
-		res_state.error = error;
+		res_state.error = reg->current_error();
 		res_state.actual_error = actual_error_metric();
-		res_state.transformation = estimated_transformation;
-		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(now - before);
+		res_state.transformation = reg->current_loose_transformation();
+		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(clock_t::now() - start_time);
 				
 		if(create_snapshot) {
-			color_image img = create_snapshot(fixed, loose);
+			color_image img = create_snapshot(fixed, loose, reg->current_loose_transformation());
 			res_state.snapshot.reset(new color_image(std::move(img)));
 		}
 		
@@ -89,10 +88,10 @@ results experiment::run(const std::string& db) {
 						// Currently need to create copy of loose for each thread, because it uses the loose's pose
 						working_point_cloud_type displaced_loose = loose;
 						displaced_loose.set_relative_pose(transformation);
-						run_res = run_registration_(fixed_unorg, fixed, displaced_loose, registration_arg);						
+						run_res = run_registration_(fixed, displaced_loose, registration_arg);						
 					} else {
 						loose.set_relative_pose(transformation);
-						run_res = run_registration_(fixed_unorg, fixed, loose, registration_arg);	
+						run_res = run_registration_(fixed, loose, registration_arg);	
 					}
 					
 					run_res.original_transformation = transformation.transformation_from_world();

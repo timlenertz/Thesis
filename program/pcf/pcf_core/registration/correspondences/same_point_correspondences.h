@@ -25,7 +25,7 @@ public:
 		const typename Cloud_fixed::point_type,
 		const typename Cloud_loose::point_type
 	>;
-
+	
 	same_point_correspondences(const Cloud_fixed&, const Cloud_loose&);	
 	template<typename Receiver> void operator()(Receiver&, const Eigen::Affine3f&);
 	

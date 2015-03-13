@@ -23,6 +23,13 @@ inline void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_fu
 
 template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Receiver>
 void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::operator()(Receiver& rec, const Eigen::Affine3f& transformation) {
+	// transformation is current estimate of Loose's transformation relative to Fixed
+	// i.e. Need to apply the inverse transformation to Loose's points when looking for correspondences,
+	//      with the remaining transformation.
+
+	auto begin_it = loose_.begin_relative_to(fixed_, transformation);
+	auto end_it = loose_.end_relative_to();
+
 #ifdef _OPENMP
 
 	#pragma omp parallel
@@ -30,7 +37,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 		Receiver rec_part;
 		
 		#pragma omp for
-		for(auto it = loose_.begin_relative_to(fixed_, transformation.inverse()); it < loose_.end_relative_to(); ++it)
+		for(auto it = begin_it; it < end_it; ++it)
 			process_point_(*it, it.real_point(), rec_part);
 		
 		#pragma omp critical
@@ -51,9 +58,9 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 	}
 
 	auto worker = [&](Receiver& rec_part, std::ptrdiff_t from, std::ptrdiff_t to) {
-		auto init_it = loose_.begin_relative_to(fixed_, transformation.inverse());
-		auto end_it = init_it + to;
-		for(auto it = init_it + from; it != end_it; ++it)
+		auto part_end_it = begin_it + to;
+		auto part_begin_it = begin_it + from;
+		for(auto it = part_begin_it; it != part_end_it; ++it)
 			process_point_(*it, it.real_point(), rec_part);
 	};
 	

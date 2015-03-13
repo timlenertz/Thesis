@@ -142,5 +142,17 @@ space_bounding_box space_object::space_box() {
 }
 
 
+Eigen::Affine3f space_object::transformation_from(const space_object& obj) const {
+	Eigen::Affine3f obj_to_world = obj.absolute_pose().transformation_to_world();
+	Eigen::Affine3f world_to_this = absolute_pose().transformation_from_world();
+	return world_to_this * obj_to_world;
+}
+
+
+Eigen::Affine3f space_object::transformation_to(const space_object& obj) const {
+	return transformation_from(obj).inverse();
+}
+
+
 
 }

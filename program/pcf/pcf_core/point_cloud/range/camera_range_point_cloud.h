@@ -19,8 +19,8 @@ class camera_range_point_cloud : public range_point_cloud<Point, Allocator> {
 private:
 	Image_camera camera_;
 	
-	template<typename Iterator, typename Transformer>
-	void project_(Iterator begin, Iterator end, Transformer transform);
+	template<typename Iterator, typename Colorize_func>
+	void project_(Iterator begin, Iterator end, Colorize_func);
 
 public:
 	camera_range_point_cloud(const Image_camera&, const Allocator& alloc = Allocator());

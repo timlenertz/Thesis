@@ -40,7 +40,7 @@ public:
 	using create_registration_function_type =
 		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
 	using create_snapshot_function_type =
-		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&);
+		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&, const Eigen::Affine3f& transformation);
 		
 
 	const working_point_cloud_type original_point_cloud;
@@ -60,7 +60,7 @@ public:
 	
 private:
 	static float arg_(unsigned i, unsigned n);
-	results::run run_registration_(const working_point_cloud_type& fixed_unorg, const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg) const;
+	results::run run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const;
 
 public:
 	template<typename Other_cloud>
