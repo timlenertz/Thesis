@@ -15,32 +15,32 @@ static void hi_lo(const std::string& pc_name, const std::string& db_name) {
 	std::vector<bool> fixed_points_mask;
 	
 	e.fixed_modifier = [&](auto& fixed, float arg) {
-		//fixed.downsample_random(portion_for_fixed);
-		//fixed_points_mask = fixed.valid_points_mask();
+		fixed.downsample_random(portion_for_fixed);
+		fixed_points_mask = fixed.valid_points_mask();
 	};
 	e.fixed_modifier_runs = 1;
 	
 	e.loose_modifier = [&](auto& loose, float arg) {
 		std::cout << "loose from " << loose.number_of_valid_points() << "..";
 		// Take out the points that are in fixed
-		//loose.filter_mask(fixed_points_mask, true);
+		loose.filter_mask(fixed_points_mask, true);
 		// Additionally downsample to amount arg of points
-		//loose.downsample_random(0.95);
+		loose.downsample_random(0.95*arg);
 		std::cout << "to " << loose.number_of_valid_points() << "!" << std::endl;
 	};
 	e.loose_modifier_runs = 1;
 	
 	e.displacer = [](float arg) -> pose {
-		return pose().random_displacement(0.1);
+		return pose().random_displacement(0.03);
 	};
 	e.displacer_runs = 1;
 	
 	e.create_registration = [&](const auto& fixed, const auto& loose, float arg) {
-		auto r = create_iterative_closest_point_registration(fixed, loose, probability_point_filter(0.04));
+		auto r = create_iterative_closest_point_registration(fixed, loose, probability_point_filter(0.001));
 		r->stop_on_divergence = false;
 		r->divergence_error_threshold = 0.0;
 		r->minimal_error = 0.0;
-		r->maximal_iterations = 30;
+		r->maximal_iterations = 20;
 		return r;
 	};
 	e.registration_runs = 1;
@@ -48,9 +48,9 @@ static void hi_lo(const std::string& pc_name, const std::string& db_name) {
 	
 	e.create_snapshot = [&](const auto& fixed, const auto& loose, const Eigen::Affine3f& transformation) -> color_image {
 		projection_image_camera cam(
-			pose::from_string("0.0298457,0.235577,-0.209215,-0.0610413,0.95505,0.263673,0.120958"),
+			pose::from_string("87.6637,4.43218,-197.475,0.0101374,0.98337,0.00917513,0.181096"),
 			projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 3.0/2.0),
-			300, 200
+			600, 400
 		);
 		camera_range_point_cloud_full<projection_image_camera> rpc(cam);
 		unorganized_point_cloud_xyz loose_t(loose);
@@ -63,10 +63,12 @@ static void hi_lo(const std::string& pc_name, const std::string& db_name) {
 	
 	e.run_parallel = false;
 	
-	e.run(db_name);
+	results res = e.run(db_name);
+	
+	res.export_run_animation("v.mov", res[0], "jpeg");
 }
 
 int main(int argc, const char* argv[]) {
-	hi_lo("../misc/ply/bunny.ply", "hilo.db");
+	hi_lo("../misc/ply/dragon.ply", "hilo.db");
 	return EXIT_SUCCESS;
 }

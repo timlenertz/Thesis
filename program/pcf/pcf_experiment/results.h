@@ -94,6 +94,8 @@ public:
 	std::size_t number_of_runs() const;
 	run operator[](int) const;
 	
+	void export_run_animation(const std::string& filename, const run&, const char* format = "mp4v") const;
+	
 	data_point_set query(const std::string& query) const;
 	
 	data_point_set scatterplot(input_variable, output_variable, bool success_only) const;

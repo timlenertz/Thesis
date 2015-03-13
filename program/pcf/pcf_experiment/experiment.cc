@@ -22,7 +22,7 @@ results::run experiment::run_registration_(const fixed_point_cloud_type& fixed, 
 	clock_t::time_point start_time = clock_t::now();
 
 	res_run.success = reg->run([&]() {
-		Eigen::Affine3f absolute_transformation = reg->current_loose_transformation() * loose.transformation_to(fixed);
+		Eigen::Affine3f absolute_transformation = reg->current_loose_transformation() * loose.transformation_from(fixed);
 	
 		mean_square_error actual_error_metric;
 		same_cor(actual_error_metric, absolute_transformation);

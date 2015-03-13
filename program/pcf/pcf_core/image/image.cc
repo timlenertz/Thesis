@@ -1,4 +1,5 @@
 #include "image.h"
+#include <iostream>
 
 namespace pcf {
 

@@ -11,7 +11,8 @@ void point_transform_iterator<Point>::load_transformed_point_() const {
 template<typename Point>
 point_transform_iterator<Point>::point_transform_iterator(Point* p, const Eigen::Affine3f& t) :
 transformation_(t), point_(p), should_load_transformed_point_(true) {
-	load_transformed_point_();
+	// defer loading transformed point to operator*
+	// it may be invalid (end iterator)
 }
 
 

@@ -1,7 +1,9 @@
 #include "results.h"
 #include "sqlite3pp.h"
 #include "../pcf_core/util/misc.h"
+#include "../pcf_core/util/random.h"
 #include "../pcf_core/image/color_image.h"
+#include <opencv2/opencv.hpp>
 #include <iostream>
 
 namespace pcf {
@@ -49,11 +51,6 @@ Eigen::Affine3f results::blob_to_transformation_(const void* raw_data) {
 	const float* data = static_cast<const float*>(raw_data);
 	Eigen::Matrix4f mat = Eigen::Map<const Eigen::Matrix4f>(data);
 	return Eigen::Affine3f(mat);
-}
-
-
-color_image results::blob_to_color_image_(const void* raw_data, std::size_t sz) {
-
 }
 
 
@@ -177,9 +174,9 @@ results::run results::operator[](int i) const {
 	rn.loose_modifier_arg = row.get<float>(4);
 	
 	sqlite3pp::query state_query(impl_->database, 
-		"SELECT step, error, actual_error, transformation, time FROM state WHERE run_id=? ORDER BY step ASC"
+		"SELECT error, actual_error, transformation, time, snapshot FROM state WHERE run_id=? ORDER BY step ASC"
 	);
-	state_query.bind(1, (int)i);
+	state_query.bind(1, i + 1);
 	
 	
 	for(auto it = state_query.begin(); it != state_query.end(); ++it) {
@@ -189,6 +186,13 @@ results::run results::operator[](int i) const {
 		st.actual_error = row.get<float>(1);
 		st.transformation = blob_to_transformation_(row.get<const void*>(2));
 		st.time = std::chrono::milliseconds( row.get<int>(3) );
+		
+		const void* snapshot_data = row.get<const void*>(4);
+		if(snapshot_data != nullptr) {
+			std::size_t sz = row.column_bytes(4);
+			color_image img = color_image::import_from_memory(snapshot_data, sz);
+			st.snapshot.reset( new color_image(std::move(img)) );
+		}
 		
 		rn.evolution.push_back(std::move(st));
 	}
@@ -233,6 +237,23 @@ results::data_point_set results::scatterplot(input_variable iv, output_variable 
 	
 	return query(q);
 }
+
+
+
+void results::export_run_animation(const std::string& filename, const run& rn, const char* format) const {
+	double fps = 3;
+	cv::VideoWriter vid;
+	vid.open(
+		filename,
+		CV_FOURCC(format[0], format[1], format[2], format[3]),
+		fps,
+		rn.evolution[0].snapshot->brg_opencv_matrix().size(),
+		true
+	);
+	for(const state& st : rn.evolution)
+		vid << st.snapshot->brg_opencv_matrix();
+}
+
 
 }
 }
