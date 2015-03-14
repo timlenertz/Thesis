@@ -20,7 +20,7 @@ private:
 	Image_camera camera_;
 	
 	template<typename Iterator, typename Colorize_func>
-	void project_(Iterator begin, Iterator end, Colorize_func);
+	void project_(Iterator begin, Iterator end, Colorize_func, bool depth_test = true);
 
 public:
 	camera_range_point_cloud(const Image_camera&, const Allocator& alloc = Allocator());

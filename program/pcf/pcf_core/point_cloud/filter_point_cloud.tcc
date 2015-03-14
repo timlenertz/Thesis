@@ -29,7 +29,7 @@ void filter_point_cloud<Point, Allocator>::downsample_random(float ratio) {
 	random_generator& rng = get_random_generator();
 	
 	const std::size_t total = super::number_of_valid_points();
-	const std::size_t expected = ratio * total;
+	const std::size_t expected = (1.0f - ratio) * total;
 	std::size_t left = total;
 	std::size_t needed = expected;
 	

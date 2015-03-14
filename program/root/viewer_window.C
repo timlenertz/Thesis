@@ -4,8 +4,6 @@
 #include <map>
 
 
-namespace pcfui {
-
 namespace {
 	const int default_window_width_ = 800;
 	const int default_window_height_ = 600;
@@ -202,6 +200,4 @@ void viewer_window::draw_() {
 
 void viewer_window::select_object(pcf::space_object& obj) {
 	object_motion_controller_.object = &obj;
-}
-
 }

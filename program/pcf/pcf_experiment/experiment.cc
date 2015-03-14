@@ -14,22 +14,15 @@ run_result experiment::run_registration_(const fixed_point_cloud_type& fixed, co
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
 
-	same_point_correspondences<working_point_cloud_type, working_point_cloud_type> same_cor(original_point_cloud, original_point_cloud);
-
 	run_result res_run;
 	std::unique_ptr<reg_t> reg(create_registration(fixed, loose, arg));
 
 	clock_t::time_point start_time = clock_t::now();
 
 	res_run.success = reg->run([&]() {
-		Eigen::Affine3f absolute_transformation = reg->current_loose_transformation() * loose.transformation_from(fixed);
-	
-		mean_square_error actual_error_metric;
-		same_cor(actual_error_metric, absolute_transformation);
-
 		run_result::state res_state;
 		res_state.error = reg->current_error();
-		res_state.actual_error = actual_error_metric();
+		res_state.actual_error = actual_error_(reg->current_loose_transformation() * loose.transformation_from(fixed));
 		res_state.transformation = reg->current_loose_transformation();
 		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(clock_t::now() - start_time);
 				
@@ -45,6 +38,15 @@ run_result experiment::run_registration_(const fixed_point_cloud_type& fixed, co
 
 	return res_run;
 }
+
+
+float experiment::actual_error_(const Eigen::Affine3f& transformation) const {
+	using cor_t = same_point_correspondences<working_point_cloud_type, working_point_cloud_type>;
+	cor_t same_cor(original_point_cloud, original_point_cloud);
+	mean_square_error actual_error_metric;
+	same_cor(actual_error_metric, transformation);
+	return actual_error_metric();
+}	
 
 
 float experiment::arg_(unsigned i, unsigned n) {
@@ -79,10 +81,11 @@ results experiment::run(const std::string& db) {
 			for(unsigned k = 0; k < displacer_runs; ++k) {
 				pose transformation;
 				float displacer_arg = arg_(k, displacer_runs);
-				if(displacer) transformation = displacer(displacer_arg);
 				
 				#pragma omp parallel for if(registration_runs > 1 && run_parallel)
 				for(unsigned l = 0; l < registration_runs; ++l) {
+					if(displacer) transformation = displacer(displacer_arg);
+				
 					float registration_arg = arg_(l, registration_runs);
 					run_result run_res;
 					
@@ -101,16 +104,19 @@ results experiment::run(const std::string& db) {
 					run_res.displacer_arg = displacer_arg;
 					run_res.fixed_modifier_arg = fixed_modifier_arg;
 					run_res.loose_modifier_arg = loose_modifier_arg;
+					run_res.fixed_number_of_points = fixed_unorg.number_of_valid_points();
+					run_res.loose_number_of_points = loose.number_of_valid_points();
 					
-					if(run_callback) run_callback(run_res);
-					
+					std::ptrdiff_t i;
 					#pragma omp critical
 					{
-						res.add(run_res);
+						i = res.add(run_res, add_snapshots_to_results);
 						++counter;
 						float ferr = run_res.evolution.back().error;
 						std::cout << counter << " from " << total << " (suc: " << run_res.success << ", states: " << run_res.evolution.size() << ", err: " << ferr << ")" << std::endl;
 					}
+					
+					if(run_callback) run_callback(run_res, i);
 				}
 			}
 		}

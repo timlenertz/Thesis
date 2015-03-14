@@ -72,6 +72,8 @@ void results::create_tables_() {
 			"final_error REAL, "
 			"final_actual_error REAL, "
 			"final_time INTEGER, "
+			"fixed_number_of_points INTEGER, "
+			"loose_number_of_points INTEGER, "
 			"number_of_states INTEGER"
 		")"
 	);
@@ -99,8 +101,8 @@ void results::clear() {
 	impl_->database.execute("DELETE FROM run");
 }
 
-void results::add(const run_result& rn) {
-	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, actual_success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+std::ptrdiff_t results::add(const run_result& rn, bool add_snapshot) {
+	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, actual_success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, fixed_number_of_points, loose_number_of_points, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	sqlite3pp::command insert_state(impl_->database, "INSERT INTO state (run_id, step, error, actual_error, transformation, time, snapshot) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 	sqlite3pp::transaction tr(impl_->database);
@@ -116,7 +118,9 @@ void results::add(const run_result& rn) {
 		insert_run.bind(9, rn.evolution.back().error);
 		insert_run.bind(10, rn.evolution.back().actual_error);
 		insert_run.bind(11, (int)rn.evolution.back().time.count());
-		insert_run.bind(12, (int)rn.evolution.size());
+		insert_run.bind(12, (int)rn.fixed_number_of_points);
+		insert_run.bind(13, (int)rn.loose_number_of_points);
+		insert_run.bind(14, (int)rn.evolution.size());
 		insert_run.execute();
 		
 		auto run_id = impl_->database.last_insert_rowid();
@@ -132,7 +136,7 @@ void results::add(const run_result& rn) {
 			insert_state.bind(5, transformation_to_blob_(st.transformation), sizeof(float)*16, false);
 			insert_state.bind(6, (int)st.time.count());
 			
-			if(st.snapshot)
+			if(st.snapshot && add_snapshot)
 				st.snapshot->export_png_to_memory([&insert_state](const void* buf, std::size_t sz) {
 					insert_state.bind(7, buf, (int)sz, false);
 				});
@@ -146,7 +150,7 @@ void results::add(const run_result& rn) {
 	auto err = tr.commit();
 	if(err) throw std::runtime_error("Could not commit transaction to add experiment run.");
 	
-	++counter_;
+	return counter_++;
 }
 
 
@@ -161,7 +165,7 @@ run_result results::operator[](int i) const {
 	run_result rn;
 
 	sqlite3pp::query run_query(impl_->database,
-		"SELECT success, actual_success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg FROM run WHERE id=?"
+		"SELECT success, actual_success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg, fixed_number_of_points, loose_number_of_points FROM run WHERE id=?"
 	);
 	run_query.bind(1, i + 1);
 	const auto& row = *run_query.begin();
@@ -171,6 +175,8 @@ run_result results::operator[](int i) const {
 	rn.displacer_arg = row.get<float>(3);
 	rn.fixed_modifier_arg = row.get<float>(4);
 	rn.loose_modifier_arg = row.get<float>(5);
+	rn.fixed_number_of_points = row.get<int>(6);
+	rn.loose_number_of_points = row.get<int>(7);
 	
 	sqlite3pp::query state_query(impl_->database, 
 		"SELECT error, actual_error, transformation, time, snapshot FROM state WHERE run_id=? ORDER BY step ASC"

@@ -8,8 +8,6 @@
 #include <array>
 
 
-namespace pcfui {
-
 class viewer_window : public TObject {
 private:
 	class event_handler : public TGEventHandler {
@@ -84,8 +82,6 @@ public:
 	
 	void select_object(pcf::space_object& obj);
 };
-
-}
 
 
 

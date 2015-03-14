@@ -12,11 +12,19 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 }
 
 template<typename Point, typename Image_camera, typename Allocator> template<typename Iterator, typename Colorize_func>
-void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end, Colorize_func col) {
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project_(Iterator begin, Iterator end, Colorize_func col, bool depth_test) {
 	// Project pc onto this depth map using image camera cam.
 	// Uses z-buffer to keep only point with highest depth value.
 
 	array_2dim<float> z_buffer(super::image_.size(), INFINITY);
+	if(depth_test) {
+		for(std::ptrdiff_t y = 0; y < super::height(); ++y)
+		for(std::ptrdiff_t x = 0; x < super::width(); ++x) {
+			const Point& p = super::at(x, y);
+			if(p.valid()) z_buffer[{x, y}] = p.coordinates().norm();
+		}
+	}
+	
 	auto view_transformation = camera_.view_transformation();
 		
 	#pragma omp parallel for if(0)

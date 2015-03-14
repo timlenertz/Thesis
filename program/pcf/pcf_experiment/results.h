@@ -51,7 +51,7 @@ public:
 	results& operator=(results&&) = delete;
 	
 	void clear();
-	void add(const run_result&);
+	std::ptrdiff_t add(const run_result&, bool add_snapshot = true);
 	
 	std::size_t number_of_runs() const;
 	run_result operator[](int) const;

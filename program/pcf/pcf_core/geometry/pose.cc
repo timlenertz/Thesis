@@ -51,10 +51,10 @@ std::string pose::to_string() const {
 		position[0],
 		position[1],
 		position[2],
+		orientation.w(),
 		orientation.x(),
 		orientation.y(),
-		orientation.z(),
-		orientation.w()
+		orientation.z()
 	});
 }
 
