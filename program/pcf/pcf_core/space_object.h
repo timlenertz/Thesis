@@ -59,6 +59,7 @@ public:
 	pose absolute_pose() const;
 	
 	void set_relative_pose(const pose&);
+	void set_no_relative_pose() { set_relative_pose(pose()); }
 	
 	Eigen::Affine3f transformation_from(const space_object&) const;
 	Eigen::Affine3f transformation_to(const space_object&) const;

@@ -1,11 +1,23 @@
-Detail registration
-	Densification of low resolution cloud
-	Use of continous representation (Gaussian distribution)
-	Depth maps+photos image analysis
-	Monoplottings
-	Point cloud <-> depth map <-> image
+Framework is set up for:
+	ICP variants
+	kNN
+	Closest point
+	Projection/Backprojection
+	Manual editing
+	Image analysis (OpenCV)
+	Range point cloud grid
 
-3 methods
-	Range image superresolution of low resolution pc
-	Downsample high resolution pc, and then refine
-	Density invariant continuous representation of both
+Methods for registration.
+Output is the transformation matrix -> no loss possible.
+
+Registration of low and high res.
+	Define an error metric (at scale of high res).
+	Goal: Augment information in low res.
+
+Registration on the level of range images
+	For near-planar surfaces.
+	For example 012 engraving.
+	Pass from image 2D transformation to 3D point set transformation
+	Define camera s.t. most of it is in picture for both.
+	3+ images: Range Images HI, LO, photographs
+	

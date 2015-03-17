@@ -6,6 +6,12 @@ namespace pcf {
 projection_image_camera::projection_image_camera(const pose& ps, const projection_frustum& fr, std::size_t imw, std::size_t imh) :
 	projection_camera(ps, fr),
 	image_camera(imw, imh) { }
+
+
+projection_image_camera::projection_image_camera(const pose& ps, const projection_bounding_box& bb, std::size_t imw, std::size_t imh) :
+	projection_camera(ps, bb),
+	image_camera(imw, imh) { }
+	
 	
 
 projection_image_camera::projection_image_camera(const projection_camera& cam, std::size_t imw, std::size_t imh) :
@@ -22,13 +28,17 @@ auto projection_image_camera::to_image(const Eigen::Vector3f& p) const -> image_
 }
 
 
-void projection_image_camera::adjust_field_of_view_x() {		
-	frustum_.adjust_fov_x_to_aspect_ratio( image_aspect_ratio() );
+void projection_image_camera::adjust_field_of_view_x() {
+	projection_frustum fr = relative_viewing_frustum();
+	fr.adjust_fov_x_to_aspect_ratio( image_aspect_ratio() );
+	set_relative_viewing_frustum(fr);
 }
 
 
 void projection_image_camera::adjust_field_of_view_y() {		
-	frustum_.adjust_fov_y_to_aspect_ratio( image_aspect_ratio() );
+	projection_frustum fr = relative_viewing_frustum();
+	fr.adjust_fov_y_to_aspect_ratio( image_aspect_ratio() );
+	set_relative_viewing_frustum(fr);
 }
 
 

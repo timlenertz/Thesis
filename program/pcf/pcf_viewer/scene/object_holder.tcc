@@ -47,6 +47,7 @@ scene_object_holder<Scene_object, Space_object, Construction_args...>::scene_obj
 
 	Scene_object* sobj = create_scene_object_();
 	scene_object_.reset(sobj);
+	pose_was_updated_();
 	add_to_scene_(*sobj);
 }
 

@@ -25,6 +25,7 @@
 #include "geometry/math_constants.h"
 #include "geometry/plane.h"
 #include "geometry/pose.h"
+#include "geometry/projection_bounding_box.h"
 #include "geometry/projection_frustum.h"
 #include "geometry/spherical_coordinates.h"
 #include "image/color_image.h"

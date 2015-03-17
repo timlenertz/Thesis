@@ -4,11 +4,15 @@
 namespace pcf {
 
 projection_camera::projection_camera(const pose& ps, const projection_frustum& fr) :
-	camera(ps), frustum_(fr) { }
+	camera(ps), projection_matrix_(fr.matrix) { }
+
+
+projection_camera::projection_camera(const pose& ps, const projection_bounding_box& bb) :
+	camera(ps), projection_matrix_(bb.orthogonal_projection_matrix()) { }
 
 
 projection_camera::projection_camera(const camera& cam) :
-	camera(cam), frustum_(cam.relative_viewing_frustum()) { }
+	camera(cam), projection_matrix_(cam.relative_viewing_frustum().matrix) { } // Not working for orthogonal
 
 
 angle projection_camera::angle_between_(const Eigen::Vector3f& v, const Eigen::Vector3f& u) {
@@ -76,18 +80,28 @@ bool projection_camera::has_viewing_frustum() const {
 
 
 projection_frustum projection_camera::relative_viewing_frustum() const {
-	return frustum_;
+	return projection_frustum(projection_matrix_);
 }
 
 
 void projection_camera::set_relative_viewing_frustum(const projection_frustum& fr) {
-	frustum_ = fr;
+	projection_matrix_ = fr.matrix;
+}
+
+
+bool projection_camera::is_orthogonal() const {
+	return (projection_matrix_(3, 2) == 0.0);
+}
+
+
+bool projection_camera::is_perspective() const {
+	return ! is_orthogonal();
 }
 
 
 
 Eigen::Projective3f projection_camera::projection_transformation() const {
-	return Eigen::Projective3f(frustum_.matrix);
+	return Eigen::Projective3f(projection_matrix_);
 }
 
 

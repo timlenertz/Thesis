@@ -18,6 +18,10 @@ void motion_controller::tick() {
 
 	// Exit if no object
 	if(! object) return;
+	
+	if(! inertia) {
+		
+	}
 
 	// See how much time passed since last call
 	time_point<clock> now = clock::now();
