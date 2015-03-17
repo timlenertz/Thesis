@@ -87,6 +87,8 @@ public:
 	void rotate_y_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY())); }
 	void rotate_z_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())); }
 	
+	void look_at(const space_object&);
+	
 	/**
 	Get bounding box enclosing the space object.
 	Throws exception if not implemented by subclass.

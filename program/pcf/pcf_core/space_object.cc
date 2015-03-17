@@ -4,6 +4,8 @@
 #include "geometry/bounding_box.h"
 #include <stdexcept>
 
+#include <iostream>
+
 namespace pcf {
 
 space_object::space_object(const pose& ps, space_object& par) :
@@ -79,10 +81,10 @@ const pose& space_object::relative_pose() const {
 
 
 pose space_object::absolute_pose() const {
+	pose ps = pose_;
 	if(has_parent_space_object())
-		return pose_.transform( parent_space_object().absolute_pose().transformation_to_world() );
-	else
-		return pose_;
+		ps.transform( parent_space_object().absolute_pose().transformation_to_world() );
+	return ps;
 }
 
 
@@ -124,7 +126,7 @@ void space_object::handle_update() {
 
 
 void space_object::transform_(const Eigen::Affine3f& t) {
-	pose_ = pose_.transform(t);
+	pose_.transform(t);
 	recursive_notify_pose_update_();
 }
 
@@ -153,6 +155,14 @@ Eigen::Affine3f space_object::transformation_from(const space_object& obj) const
 	return transformation_to(obj).inverse();
 }
 
+
+void space_object::look_at(const space_object& obj) {
+	Eigen::Vector3f at_obj = transformation_from(obj) * Eigen::Vector3f::Zero();
+	Eigen::Vector3f at_depth(0, 0, 1);
+	pose_.orientation.setFromTwoVectors(at_depth, at_obj);
+	pose_.orientation.normalize();
+	recursive_notify_pose_update_();
+}
 
 
 }

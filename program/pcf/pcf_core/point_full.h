@@ -14,7 +14,7 @@ class ALIGNAS(32) point_full : public point_xyz {
 public:
 	Eigen::Vector3f normal;
 	rgb_color color;
-	std::uint8_t unused;
+	std::uint8_t weight;
 	
 	point_full();
 	point_full(const point_full&) = default;

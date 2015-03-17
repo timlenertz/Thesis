@@ -42,14 +42,22 @@ public:
 	/// Affine transformation from pose coordinate system to world space.
 	Eigen::Affine3f transformation_to_world() const;
 	
-	pose transform(const Eigen::Affine3f&) const;
+	void transform(const Eigen::Affine3f&);
 	
 	Eigen::Vector3f euler_angles(std::ptrdiff_t a0 = 0, std::ptrdiff_t a1 = 1, std::ptrdiff_t a2 = 2) const;
 	
 	std::string to_string() const;
 	static pose from_string(const std::string&);
 	
-	pose random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0)) const;
+	void random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0));
+	
+	Eigen::Vector3f transform_from_world(const Eigen::Vector3f& p) const {
+		return transformation_from_world() * p;
+	}
+	
+	Eigen::Vector3f transform_to_world(const Eigen::Vector3f& p) const {
+		return transformation_to_world() * p;
+	}
 };
 
 
