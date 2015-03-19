@@ -114,14 +114,16 @@ void filter_point_cloud<Point, Allocator>::downsample_projection(const Image_cam
 		auto& p = *it;
 		if(! p.valid()) continue;
 		
-		float z;
-		auto ic = cam.to_image(p, z);
+		auto ic = cam.to_image(p);
 		if(! cam.in_bounds(ic)) continue;
 
 		auto& old_point = points_buffer[{ic[0], ic[1]}];
-		auto old_z = cam.depth(p);
-		if(z < old_z) {
+		if(old_point == nullptr) {
 			old_point = &p;
+		} else {
+			float z = cam.depth(p);
+			float old_z = cam.depth(*old_point);
+			if(z < old_z) old_point = &p;
 		}
 	}
 

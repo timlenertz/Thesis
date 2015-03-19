@@ -1,7 +1,9 @@
 #ifndef PCF_POINT_ALGORITHM_H_
 #define PCF_POINT_ALGORITHM_H_
 
+#include <Eigen/Eigen>
 #include "point.h"
+#include "geometry/plane.h"
 
 namespace pcf {
 
@@ -18,6 +20,24 @@ Iterator must yield point_full objects.
 */
 template<typename Iterator>
 void set_unique_color(Iterator begin, Iterator end, rgb_color);
+
+
+/**
+Normalize weights of given set of points.
+Multiplies the points' weights by a constant factor such that they sum up to the number of points. Necessary for usage in some algorithms.
+*/
+template<typename Iterator>
+void normalize_point_weights(Iterator begin, Iterator end);
+
+
+template<typename Iterator>
+plane fit_plane_to_points(Iterator begin, Iterator end);
+
+template<typename Iterator>
+Eigen::Vector3f center_of_mass(Iterator begin, Iterator end);
+
+template<typename Iterator>
+Eigen::Vector3f weighted_center_of_mass(Iterator begin, Iterator end);
 
 }
 

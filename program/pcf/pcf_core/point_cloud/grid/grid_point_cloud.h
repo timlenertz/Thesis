@@ -46,12 +46,16 @@ private:
 	
 	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
 	
-	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel = true) const;
+	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel) const;
+	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel);
 	
 	bool in_bounds_(const cell_coordinates&) const;
 	void move_into_bounds_(cell_coordinates&) const;
 	
 	void build_grid_();
+	
+	template<typename That, typename Condition_func, typename Callback_func>
+	static void nearest_neighbors_(That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel);
 
 public:	
 	template<typename Other_cloud>
@@ -68,7 +72,15 @@ public:
 	const Point& closest_point(const Other_point& from, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 	
 	template<typename Condition_func, typename Callback_func>
-	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const {
+		nearest_neighbors_(this, k, cond, callback, parallel);	
+	}
+	
+	template<typename Condition_func, typename Callback_func>
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) {
+		nearest_neighbors_(this, k, cond, callback, parallel);	
+	}
+	
 	
 	std::size_t number_of_cells() const { return cell_offsets_.size(); }
 	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }
@@ -120,6 +132,9 @@ public:
 
 using grid_point_cloud_xyz = grid_point_cloud<point_xyz>;
 using grid_point_cloud_full = grid_point_cloud<point_full>;
+
+extern template class grid_point_cloud<point_xyz>;
+extern template class grid_point_cloud<point_full>;
 
 }
 

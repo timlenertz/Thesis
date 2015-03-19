@@ -5,11 +5,13 @@
 #include <stdexcept>
 #include <cassert>
 #include <utility>
+#include <functional>
 #include <memory>
 #include <limits>
 #include <cstring>
 #include <random>
 #include <cmath>
+#include <vector>
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include "../point.h"
@@ -17,6 +19,7 @@
 #include "../util/default_allocator.h"
 #include "segment.h"
 #include "segment_union.h"
+#include "selection.h"
 #include "../io/point_cloud_exporter.h"
 #include "transform_iterator.h"
 
@@ -84,6 +87,9 @@ public:
 
 	using iterator = Point*;
 	using const_iterator = const Point*;
+	
+	using selection = point_cloud_selection<Point>;
+	using const_selection = point_cloud_selection<const Point>;
 
 	using transform_iterator = point_transform_iterator<Point>;
 	
@@ -126,6 +132,9 @@ public:
 	
 	const Point& random_point() const;
 	Point& random_point();
+	
+	selection empty_selection() { return selection(); }
+	const_selection empty_selection() const { return const_selection(); }
 
 	bounding_box box(float ep) const { return full_segment().box(ep); }
 	bounding_box box() const override { return box(0); }

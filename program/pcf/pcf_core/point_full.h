@@ -26,6 +26,9 @@ public:
 	
 	const rgb_color& get_color() const { return color; }
 	void set_color(const rgb_color& col) { color = col; }
+	
+	float get_weight() const { return weight; }
+	void set_weight(float w) { weight = w; }
 };
 
 }

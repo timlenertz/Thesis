@@ -1,6 +1,8 @@
 POINT CLOUD PROGRAMMING
 - better to store working point cloud in separate buffers for xyz,colors,normals,etc
+- benefit from point class inheritance
 - support masking, differentiate between invalid points and masked points
+- define type for position (!= point)
 
 CPP
 - not mix class/struct (predeclarations problem)

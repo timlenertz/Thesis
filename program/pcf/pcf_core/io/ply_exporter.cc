@@ -35,6 +35,7 @@ ply_exporter::ply_exporter(const std::string& filename, bool full, bool ascii, l
 		write_line_("property uchar red");
 		write_line_("property uchar green");
 		write_line_("property uchar blue");
+		write_line_("property float weight");
 	}
 	
 	write_line_("end_header");
@@ -113,13 +114,15 @@ void ply_exporter::write_binary_(const point_full& p) {
 	file_.write(reinterpret_cast<const char*>( p.data() ), 3 * sizeof(float));
 	file_.write(reinterpret_cast<const char*>( p.normal.data() ), 3 * sizeof(float));
 	file_.write(reinterpret_cast<const char*>( &p.color ), 3);
+	file_.write(reinterpret_cast<const char*>( &p.weight ), sizeof(float));
 }
 
 
 void ply_exporter::write_ascii_(const point_full& p) {
 	file_ << p[0] << ' ' << p[1] << ' ' << p[2]
 		<< ' ' << p.normal[0] << ' ' << p.normal[1] << ' ' << p.normal[2]
-		<< ' ' << (unsigned)p.color.r << ' ' << (unsigned)p.color.g << ' ' << (unsigned)p.color.b;
+		<< ' ' << (unsigned)p.color.r << ' ' << (unsigned)p.color.g << ' ' << (unsigned)p.color.b
+		<< ' ' << p.weight;
 	end_line(file_, line_delimitor_);
 }
 

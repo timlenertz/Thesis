@@ -169,9 +169,9 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 template<typename Point, typename Allocator>
 bool grid_point_cloud<Point, Allocator>::verify() const {
 	for(std::size_t i = 0; i < cell_offsets_.size(); ++i) {	
-		segment seg = segment_for_index_(i);	
-		bool ok = std::all_of(seg.cbegin(), seg.cend(), [this, i](const Point& p) {
-			return (index_for_cell_(cell_for_point_(p)) == i);
+		const_segment seg = segment_for_index_(i);	
+		bool ok = std::all_of(seg.begin(), seg.end(), [this, i](const Point& p) {
+			return (index_for_cell_(cell_for_point(p)) == i);
 		});
 		if(! ok) return false;
 	}
@@ -275,7 +275,7 @@ closest_point(const Other_point& ref, float accepting_distance, float rejecting_
 template<typename Point, typename Allocator> template<typename Callback_func>
 void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) const {
 	std::ptrdiff_t i = 0;
-	#pragma omp parallel for schedule(static, 1)
+	#pragma omp parallel for schedule(static, 1) if(par)
 	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
 		cell_coordinates c(x, 0, 0);		
 		const_segment seg = segment_for_cell(c);
@@ -291,21 +291,44 @@ void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, 
 }
 
 
-template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
-void grid_point_cloud<Point, Allocator>::nearest_neighbors
-(std::size_t k, Condition_func cond, Callback_func callback, bool parallel) const {
+template<typename Point, typename Allocator> template<typename Callback_func>
+void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) {
+	std::ptrdiff_t i = 0;
+	#pragma omp parallel for schedule(static, 1) if(par)
+	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
+		cell_coordinates c(x, 0, 0);		
+		segment seg = segment_for_cell(c);
+	
+		for(c[1] = 0; c[1] < number_of_cells_[1]; ++c[1]) {
+			for(c[2] = 0; c[2] < number_of_cells_[2]; ++c[2]) {
+				callback(c, i, seg);
+				seg = segment(seg.end(), super::begin() + cell_offsets_[i]);
+				++i;
+			}
+		}
+	}
+}
+
+
+template<typename Point, typename Allocator> template<typename That, typename Condition_func, typename Callback_func>
+void grid_point_cloud<Point, Allocator>::nearest_neighbors_
+(That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel) {
 	const float cbrt3 = std::cbrt(3.0f);
 	
+	using segment_t = decltype(that->segment_for_index_(0)); // const or non-const
+	using point_ptr_t = decltype(that->segment_for_index_(0).data()); // const or non-const
+	using selection_t = decltype(that->empty_selection());
+	
 	// For each cell...
-	iterate_cells_([this, k, cbrt3, &cond, &callback](const cell_coordinates& c, std::ptrdiff_t i, const segment& seg) {
-		subspace s_at_least_k = cell_subspace(c); // Smallest cubic subspace around c which contains >= k points
-		subspace s_ultimate = cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
+	that->iterate_cells_([that, k, cbrt3, &cond, &callback](const cell_coordinates& c, std::ptrdiff_t i, segment_t& seg) {
+		subspace s_at_least_k = that->cell_subspace(c); // Smallest cubic subspace around c which contains >= k points
+		subspace s_ultimate = that->cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
 		std::size_t p = 0; // Number of expansions to form s_at_least_k
 		
-		std::vector<Point*> knn;
+		typename selection_t::vector_type knn;
 	
 		// Now iterate through points in this cell
-		for(const Point& pt : seg) {
+		for(auto&& pt : seg) {
 			auto cmp = [&pt](const Point* a, const Point* b) {
 				float da = distance_sq(pt, *a);
 				float db = distance_sq(pt, *b);
@@ -329,56 +352,56 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors
 			// largest offsets from point to sides of cell
 			float off[3];
 			for(std::ptrdiff_t i = 0; i < 3; ++i) {
-				float pt_rel = pt[i] - origin_[i];
-				float off_l = pt_rel - (cell_length_ * c[i]);
-				float off_r = (cell_length_ * (c[i]+1)) - pt_rel;
+				float pt_rel = pt[i] - that->origin_[i];
+				float off_l = pt_rel - (that->cell_length_ * c[i]);
+				float off_r = (that->cell_length_ * (c[i]+1)) - pt_rel;
 				off[i] = std::max(off_l, off_r);
 			}
 
 			// Insphere radius
-			float d_short =  std::min({ cell_length_ - off[0], cell_length_ - off[1], cell_length_ - off[2] });
-			float r_in_sq = (cell_length_ * p) + d_short;
+			float d_short =  std::min({ that->cell_length_ - off[0], that->cell_length_ - off[1], that->cell_length_ - off[2] });
+			float r_in_sq = (that->cell_length_ * p) + d_short;
 			r_in_sq *= r_in_sq;
 						
 			// Load points inside insphere
-			for(Point& pt2 : s_at_least_k) {
+			for(auto&& pt2 : that->segment_union_for_subspace(s_at_least_k)) {
 				float d = distance_sq(pt, pt2);
 				if(d <= r_in_sq) knn.push_back(&pt2);
 			}
 			
-			if(knn.size() == k) {
-				// Exactly k points in insphere: these are kNN
-				callback(pt, knn);
-				continue;
-			} else if(knn.size() > k) {
+			if(knn.size() > k) {
 				// More than k points in insphere: need to sort out k nearest
 				std::nth_element(knn.begin(), knn.begin()+(k-1), knn.end(), cmp);
-				callback(pt, knn);
-				continue;
-			}
-			
-			// Less than k points in insphere: Need to add some from outsphere
+
+			} else if(knn.size() < k) {
+				// Less than k points in insphere: Need to add some from outsphere
 	
-			// Outsphere radius
-			float r_out_sq = 0;
-			for(std::ptrdiff_t i = 0; i < 3; ++i) {
-				float d = off[i] + (cell_length_ * p);
-				r_out_sq += d * d;
-			}
+				// Outsphere radius
+				float r_out_sq = 0;
+				for(std::ptrdiff_t i = 0; i < 3; ++i) {
+					float d = off[i] + (that->cell_length_ * p);
+					r_out_sq += d * d;
+				}
 			
-			// Add points between insphere and outsphere
-			std::size_t insphere_end = knn.size(); // End of insphere points in knn array
-			for(Point& pt2 : s_ultimate) {
-				float d = distance_sq(pt, pt2);
-				if(d > r_in_sq && d <= r_out_sq) knn.push_back(&pt2);
-			}
+				// Add points between insphere and outsphere
+				std::size_t insphere_end = knn.size(); // End of insphere points in knn array
+				for(auto&& pt2 : that->segment_union_for_subspace(s_ultimate)) {
+					float d = distance_sq(pt, pt2);
+					if(d > r_in_sq && d <= r_out_sq) knn.push_back(&pt2);
+				}
 			
-			// Sort these additional points
-			std::nth_element(knn.begin()+insphere_end, knn.begin()+(k-1), knn.end(), cmp);
-			callback(pt, knn);
+				// Sort these additional points
+				std::nth_element(knn.begin()+insphere_end, knn.begin()+(k-1), knn.end(), cmp);
+			}
+
+			// Invoke callback.
+			knn.erase(knn.begin() + k, knn.end());
+			callback(pt, selection_t(knn));
 		}
 	}, parallel);
 }
+
+
 
 
 }

@@ -30,6 +30,7 @@ Registration on the level of (range) images
 	vary correspondence weight according to local density?
 	-> density map (as XYZI point cloud with closest point finding; or voxel octree)
 	-> use kNN, maybe limit to same plane
+	-> or normal vector VS camera direction
 	-> adjust according to point cloud density (frontal points grid)
 	--> ICP focusses on the good data
 

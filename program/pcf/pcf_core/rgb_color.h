@@ -31,6 +31,10 @@ struct rgb_color {
 	std::array<float, 3> to_float() const;
 };
 
+rgb_color operator*(float, const rgb_color&);
+rgb_color operator+(const rgb_color&, const rgb_color&);
+rgb_color operator-(const rgb_color&, const rgb_color&);
+
 }
 
 #endif

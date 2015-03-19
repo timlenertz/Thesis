@@ -48,6 +48,9 @@ struct ALIGNAS(16) point_xyz {
 	const rgb_color& get_color() const { return default_color(); }
 	void set_color(const rgb_color&) { throw std::logic_error("No color in point_xyz."); }
 	
+	float get_weight() const { return 1.0; }
+	void set_weight(float) { throw std::logic_error("No weight in point_xyz."); }
+	
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }
 	void invalidate() { homogeneous_coordinates[3] = 0; }
