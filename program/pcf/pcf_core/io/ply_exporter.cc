@@ -111,18 +111,26 @@ void ply_exporter::write_ascii_(const point_xyz& p) {
 
 
 void ply_exporter::write_binary_(const point_full& p) {
+	Eigen::Vector3f normal = p.get_normal();
+	float weight = p.get_weight();
+	rgb_color col = p.get_color();
+	
 	file_.write(reinterpret_cast<const char*>( p.data() ), 3 * sizeof(float));
-	file_.write(reinterpret_cast<const char*>( p.normal.data() ), 3 * sizeof(float));
-	file_.write(reinterpret_cast<const char*>( &p.color ), 3);
-	file_.write(reinterpret_cast<const char*>( &p.weight ), sizeof(float));
+	file_.write(reinterpret_cast<const char*>( normal.data() ), 3 * sizeof(float));
+	file_.write(reinterpret_cast<const char*>( &col ), 3);
+	file_.write(reinterpret_cast<const char*>( &weight ), 1);
 }
 
 
 void ply_exporter::write_ascii_(const point_full& p) {
+	Eigen::Vector3f normal = p.get_normal();
+	float weight = p.get_weight();
+	rgb_color col = p.get_color();
+
 	file_ << p[0] << ' ' << p[1] << ' ' << p[2]
-		<< ' ' << p.normal[0] << ' ' << p.normal[1] << ' ' << p.normal[2]
-		<< ' ' << (unsigned)p.color.r << ' ' << (unsigned)p.color.g << ' ' << (unsigned)p.color.b
-		<< ' ' << p.weight;
+		<< ' ' << normal[0] << ' ' << normal[1] << ' ' << normal[2]
+		<< ' ' << (unsigned)col.r << ' ' << (unsigned)col.g << ' ' << (unsigned)col.b
+		<< ' ' << weight;
 	end_line(file_, line_delimitor_);
 }
 

@@ -8,8 +8,12 @@ shader_program_uniform& shader_program_uniform::operator=(bool b) {
 }
 
 shader_program_uniform& shader_program_uniform::operator=(float f) {
-	glUniform1i(id_, f);
+	glUniform1f(id_, f);
 	return *this;
+}
+
+shader_program_uniform& shader_program_uniform::operator=(double f) {
+	return operator=(float(f));
 }
 
 shader_program_uniform& shader_program_uniform::operator=(const rgb_color& col) {

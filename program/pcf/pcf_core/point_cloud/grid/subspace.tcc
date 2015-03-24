@@ -52,7 +52,7 @@ bool grid_point_cloud<Point, Allocator>::subspace::expand() {
 	bool any_change = false;
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
 		if(origin[i] > 0) { --origin[i]; any_change = true; }
-		if(extremity[i]+1 < cloud_.number_of_cells_[i]) { ++extremity[i]; any_change = true; }
+		if(extremity[i]+1 < cloud_.cells_.size(i)) { ++extremity[i]; any_change = true; }
 	}
 	return any_change;
 }
@@ -72,13 +72,13 @@ std::size_t grid_point_cloud<Point, Allocator>::subspace::number_of_points() con
 	cell_coordinates c(0, 0, 0);	
 	for(c[0] = origin[0]; c[0] <= extremity[0]; ++c[0]) {
 		for(c[1] = origin[1]; c[1] <= extremity[1]; ++c[1]) {
-			std::ptrdiff_t i = cloud_.index_for_cell_(c);
-		
-			std::ptrdiff_t i_begin = i + origin[2] - 1;
-			std::ptrdiff_t i_end = i + extremity[2];
-
-			std::ptrdiff_t off_begin = (i_begin == -1 ? 0 : cloud_.cell_offsets_[i_begin]);
-			std::ptrdiff_t off_end = cloud_.cell_offsets_[i_end];
+			std::ptrdiff_t addr = cloud_.cells_.index_to_address(c);
+			std::ptrdiff_t addr_begin = addr + origin[2] - 1;
+			std::ptrdiff_t addr_end = addr + extremity[2];
+			
+			auto raw_it = cloud_.cells_.cbegin_raw();
+			std::ptrdiff_t off_begin = (addr_begin == -1) ? 0 : *(raw_it + addr_begin);
+			std::ptrdiff_t off_end = *(raw_it + addr_end);
 			n += off_end - off_begin;
 		}
 	}
@@ -90,8 +90,8 @@ template<typename Point, typename Allocator>
 bounding_box grid_point_cloud<Point, Allocator>::subspace::box() const {
 	bounding_box b;
 	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		b.origin[i] = cloud_.origin_[i] + (cloud_.cell_length_ * origin[i]);
-		b.extremity[i] = cloud_.origin_[i] + (cloud_.cell_length_ * (extremity[i]+1));
+		b.origin[i] = cloud_.box_.origin[i] + (cloud_.cell_length_ * origin[i]);
+		b.extremity[i] = cloud_.box_.origin[i] + (cloud_.cell_length_ * (extremity[i]+1));
 	}
 	return b;
 }

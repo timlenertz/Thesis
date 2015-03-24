@@ -3,6 +3,7 @@
 #include "space_object_wrapper.h"
 #include "geometry/bounding_box.h"
 #include <stdexcept>
+#include <mutex>
 
 #include <iostream>
 
@@ -107,6 +108,14 @@ void space_object::set_no_parent(const pose& new_pose) {
 	detach_from_parent_();
 	pose_ = new_pose;
 	recursive_notify_pose_update_();
+}
+
+
+void space_object::make_sibling(const space_object& obj, const pose& new_pose) {
+	attach_to_parent_();
+	parent_ = obj.parent_;
+	pose_ = new_pose;
+	detach_from_parent_();
 }
 
 

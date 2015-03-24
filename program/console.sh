@@ -12,4 +12,4 @@ do
 	INIT="${INIT}${EXPR} "
 done < root/initialize.txt
 
-${ROOT} -l -e "$INIT"
+${ROOT} -l -e "$INIT" -e "using namespace pcf;"

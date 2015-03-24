@@ -30,6 +30,7 @@ Eigen::Affine3f pose::transformation_to_world() const {
 void pose::transform(const Eigen::Affine3f& t) {
 	position += t.translation();
 	orientation = orientation * t.rotation();
+	orientation.normalize();
 }
 
 Eigen::Vector3f pose::euler_angles(std::ptrdiff_t a0, std::ptrdiff_t a1, std::ptrdiff_t a2) const {

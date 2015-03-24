@@ -1,6 +1,8 @@
 #include <cmath>
 #include <cassert>
 #include <ostream>
+#include "../util/misc.h"
+
 
 #include "bounding_box.h"
 
@@ -53,13 +55,13 @@ bool bounding_box::contains(const bounding_box& cub) const {
 
 std::array<Eigen::Vector3f, 8> bounding_box::corners() const {
 	return {
-		// Left cube
+		// Left square
 		Eigen::Vector3f(origin[0], origin[1], origin[2]),
 		Eigen::Vector3f(origin[0], origin[1], extremity[2]),
 		Eigen::Vector3f(origin[0], extremity[1], origin[2]),
 		Eigen::Vector3f(origin[0], extremity[1], extremity[2]),
 		
-		// Right cube
+		// Right square
 		Eigen::Vector3f(extremity[0], origin[1], origin[2]),
 		Eigen::Vector3f(extremity[0], origin[1], extremity[2]),
 		Eigen::Vector3f(extremity[0], extremity[1], origin[2]),
@@ -71,13 +73,13 @@ std::array<Eigen::Vector3f, 8> bounding_box::corners() const {
 std::array<bounding_box::edge, 12> bounding_box::edges() const {
 	auto corn = corners();
 	return {
-		// Left cube
+		// Left square
 		edge(corn[0], corn[1]),
 		edge(corn[1], corn[3]),
 		edge(corn[3], corn[2]),
 		edge(corn[2], corn[0]),
 		
-		// Right cube
+		// Right square
 		edge(corn[0+4], corn[1+4]),
 		edge(corn[1+4], corn[3+4]),
 		edge(corn[3+4], corn[2+4]),
@@ -88,6 +90,19 @@ std::array<bounding_box::edge, 12> bounding_box::edges() const {
 		edge(corn[1], corn[1+4]),
 		edge(corn[2], corn[2+4]),
 		edge(corn[3], corn[3+4])
+	};
+}
+
+
+std::array<bounding_box::face, 6> bounding_box::faces() const {
+	auto corn = corners();
+	return {
+		face { corn[0], corn[1], corn[3], corn[2] }, // left
+		face { corn[0+4], corn[1+4], corn[3+4], corn[2+4] }, // right
+		face { corn[2], corn[2+4], corn[3+4], corn[3] }, // top
+		face { corn[0], corn[0+4], corn[1+4], corn[1] }, // bottom
+		face { corn[0], corn[0+4], corn[2+4], corn[2] }, // back
+		face { corn[1], corn[1+4], corn[3+4], corn[3] }, // back
 	};
 }
 
@@ -146,6 +161,28 @@ float maximal_distance_sq(const Eigen::Vector3f& p, const bounding_box& b) {
 		if(d > max_dist) max_dist = d;
 	}
 	return max_dist;
+}
+
+
+std::string bounding_box::to_string() const {
+	return implode_to_string<float>(',', {
+		origin[0],
+		origin[1],
+		origin[2],
+		extremity[0],
+		extremity[1],
+		extremity[2]
+	});
+}
+
+
+bounding_box bounding_box::from_string(const std::string& str) {
+	std::vector<float> p = explode_from_string<float>(',', str);
+	if(p.size() != 6)
+		throw std::invalid_argument("Invalid string to convert to bounding box.");
+	Eigen::Vector3f o(p[0], p[1], p[2]);	
+	Eigen::Vector3f e(p[3], p[4], p[5]);
+	return bounding_box(o, e);	
 }
 
 

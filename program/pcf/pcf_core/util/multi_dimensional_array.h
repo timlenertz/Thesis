@@ -15,6 +15,8 @@ the new array.
 template<typename T, std::size_t Dim, typename Allocator = aligned_allocator<T>>
 class multi_dimensional_array : public multi_dimensional_buffer<T, Dim> {
 	using super = multi_dimensional_buffer<T, Dim>;
+
+public:
 	using typename super::sizes_type;
 	using typename super::indices_type;
 	
@@ -23,7 +25,7 @@ private:
 
 public:
 	explicit multi_dimensional_array(const sizes_type&, const Allocator& alloc = Allocator());
-	explicit multi_dimensional_array(const sizes_type&, const T& init = T(), const Allocator& alloc = Allocator());
+	explicit multi_dimensional_array(const sizes_type&, const T& init, const Allocator& alloc = Allocator());
 	
 	multi_dimensional_array(const multi_dimensional_array&);
 	multi_dimensional_array(const multi_dimensional_array&, const Allocator& alloc);

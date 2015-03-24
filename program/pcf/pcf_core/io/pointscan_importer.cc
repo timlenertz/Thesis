@@ -78,9 +78,9 @@ namespace {
 	}
 	
 	inline void read_color(point_full& pt, const sc_color& data) {
-		pt.color.r = data[0];
-		pt.color.g = data[1];
-		pt.color.b = data[2];
+		pt.set_color(rgb_color(
+			data[0], data[1], data[2]
+		));
 	}
 }
 

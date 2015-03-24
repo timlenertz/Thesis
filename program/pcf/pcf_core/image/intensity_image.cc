@@ -1,15 +1,15 @@
-#include "range_image.h"
+#include "intensity_image.h"
 #include <opencv2/opencv.hpp>
 #include <cstdint>
 #include <cmath>
 
 namespace pcf {
 
-range_image::range_image(std::size_t w, std::size_t h) :
+intensity_image::intensity_image(std::size_t w, std::size_t h) :
 	image(w, h, CV_32FC1) { }
 
 
-std::pair<float, float> range_image::minimum_and_maximum() const {
+std::pair<float, float> intensity_image::minimum_and_maximum() const {
 	float mn = INFINITY;
 	float mx = 0;
 	for(cv::MatConstIterator_<float> it = matrix_.begin<float>(); it != matrix_.end<float>(); ++it) {
@@ -23,7 +23,7 @@ std::pair<float, float> range_image::minimum_and_maximum() const {
 }
 
 
-void range_image::export_visualization_to_image_file(const std::string& path) const {
+void intensity_image::export_visualization_to_image_file(const std::string& path) const {
 	auto min_max = minimum_and_maximum();
 	float mn = min_max.first, mx = min_max.second;
 	float rn = mx - mn;

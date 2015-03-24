@@ -23,6 +23,8 @@
 namespace pcf {
 
 class scene_object_shader_program;
+class scene_bounding_box;
+class scene_point_cloud;
 
 /**
 Scene composed of camera and scene objects.
@@ -44,7 +46,7 @@ private:
 	void notify_camera_update_();
 
 	template<typename Scene_object, typename... Args>
-	void add_with_holder_(Args&...);
+	Scene_object& add_with_holder_(Args&...);
 	
 	const scene_object_holder_base& holder_with_name_(const std::string&) const;
 	scene_object_holder_base& holder_with_name_(const std::string&);
@@ -77,9 +79,9 @@ public:
 	bool has_object_with_name(const std::string&) const;
 
 	void clear();	
-	void add(point_cloud_xyz&);
-	void add(point_cloud_full&);
-	void add(space_bounding_box&);
+	scene_point_cloud& add(point_cloud_xyz&);
+	scene_point_cloud& add(point_cloud_full&);
+	scene_bounding_box& add(space_bounding_box&);
 	
 	template<typename Object_1, typename Object_2, typename... Other_objects>
 	void add(Object_1& obj1, Object_2& obj2, Other_objects&... others) {
@@ -93,9 +95,10 @@ public:
 
 
 template<typename Scene_object, typename... Args>
-void scene::add_with_holder_(Args&... args) {
+Scene_object& scene::add_with_holder_(Args&... args) {
 	auto holder = new scene_object_holder<Scene_object, Args...>(*this, args...);
 	holders_.emplace_back(holder);
+	return holder->get_scene_object();
 }
 
 }

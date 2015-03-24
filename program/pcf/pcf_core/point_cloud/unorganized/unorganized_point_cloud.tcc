@@ -7,6 +7,15 @@
 
 namespace pcf {
 
+template<typename Point, typename Allocator>
+unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(std::size_t sz, std::size_t cap, const Allocator& alloc) :
+	super( (cap != 0) ? cap : sz, alloc)
+{
+	if(sz > super::capacity()) throw std::invalid_argument("Size larger than capacity.");
+	super::resize_(sz);
+	super::initialize_();
+}
+
 
 template<typename Point, typename Allocator>
 unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_importer& imp, const Allocator& alloc) :
@@ -31,17 +40,23 @@ void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen
 }
 
 
-template<typename Point, typename Allocator>
-void unorganized_point_cloud<Point, Allocator>::apply_pose() {	
-	const Eigen::Affine3f& t = super::relative_pose().transformation_to_world();
-	apply_transformation(t);
-	super::set_relative_pose(pose());
-}
+
 
 
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::shuffle() {
 	std::shuffle(super::begin(), super::end(), get_random_generator());
+}
+
+
+template<typename Point, typename Allocator> template<typename Other_iterator>
+auto unorganized_point_cloud<Point, Allocator>::insert(typename super::iterator pos, Other_iterator begin, Other_iterator end)
+-> typename super::iterator {
+	for(auto it = begin; it < end; ++it) {
+		if(pos == super::end()) throw std::invalid_argument("Cannot insert points past the end of the point cloud.");
+		if(it->valid()) *(pos++) = *(it);
+	}
+	return pos;
 }
 
 
@@ -123,6 +138,43 @@ closest_point(const Other_point& query, float accepting_distance, float rejectin
 	if(it == super::cend()) return super::invalid_point_();
 	else return *it;
 }
+
+
+template<typename Point, typename Allocator>
+void unorganized_point_cloud<Point, Allocator>::apply_pose() {	
+	const Eigen::Affine3f& t = super::relative_pose().transformation_to_world();
+	apply_transformation(t);
+	super::set_relative_pose(pose());
+}
+
+
+
+template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
+void unorganized_point_cloud<Point, Allocator>::nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool par) const {
+	#pragma omp parallel for if(par)
+	for(auto it = super::begin(); it < super::end(); ++it) {
+		const Point& ref = *it;
+		if(! cond(ref)) continue;
+		
+		auto closest = find_nearest_neighbors(ref, super::begin(), super::end(), k);
+		callback(ref, closest);
+	}
+}
+
+
+
+template<typename Point, typename Allocator> template<typename Condition_func, typename Callback_func>
+void unorganized_point_cloud<Point, Allocator>::nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool par) {
+	#pragma omp parallel for if(par)
+	for(auto it = super::begin(); it < super::end(); ++it) {
+		Point& ref = *it;
+		if(! cond(ref)) continue;
+		
+		auto closest = find_nearest_neighbors(ref, super::begin(), super::end(), k);
+		callback(ref, closest);
+	}
+}
+
 
 
 }

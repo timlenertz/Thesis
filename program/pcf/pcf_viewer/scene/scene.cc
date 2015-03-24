@@ -63,17 +63,17 @@ void scene::erase_object_(scene_object& sobj) {
 }
 
 
-void scene::add(point_cloud_xyz& pc) {
-	add_with_holder_<scene_point_cloud>(pc);
+scene_point_cloud& scene::add(point_cloud_xyz& pc) {
+	return add_with_holder_<scene_point_cloud>(pc);
 }
 
 
-void scene::add(point_cloud_full& pc) {
-	add_with_holder_<scene_point_cloud>(pc);
+scene_point_cloud& scene::add(point_cloud_full& pc) {
+	return add_with_holder_<scene_point_cloud>(pc);
 }
 
-void scene::add(space_bounding_box& box) {
-	add_with_holder_<scene_bounding_box>(box);
+scene_bounding_box& scene::add(space_bounding_box& box) {
+	return add_with_holder_<scene_bounding_box>(box);
 }
 
 
@@ -135,6 +135,8 @@ void scene::set_background_color(const rgb_color& col) {
 
 void scene::gl_initialize_() {
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	for(auto& obj : objects_)
 		if(! obj->initialized()) obj->initialize();

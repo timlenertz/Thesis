@@ -1,3 +1,6 @@
+#include <mutex>
+#include <utility>
+#include <functional>
 #include "iterative_correspondences_registration.h"
 
 namespace pcf {
@@ -29,6 +32,26 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 	if(cb) cb();
 	
 	return (current_error_ <= minimal_error);
+}
+
+
+void iterative_correspondences_registration_base::apply_loose_transformation(space_object& loose_point_cloud) {
+	loose_point_cloud.transform(current_loose_transformation_);
+	current_loose_transformation_.setIdentity();
+}
+
+
+std::future<bool> iterative_correspondences_registration_base::run_live(space_object& loose_point_cloud) {
+	std::packaged_task<bool()> task([&] {
+		auto cb = [&] {
+			apply_loose_transformation(loose_point_cloud);
+		};
+		return run(cb);
+	});
+	auto fut = task.get_future();
+	std::thread th(std::move(task));
+	th.detach();
+	return fut;
 }
 
 }

@@ -91,6 +91,12 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const poi
 
 
 template<typename Point, typename Image_camera, typename Allocator>
+void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_full& pc, const rgb_color& col) {
+	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [col](const point_full& p) -> rgb_color { return col; });
+}
+
+
+template<typename Point, typename Image_camera, typename Allocator>
 void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_full& pc) {
 	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [](const point_full& p) -> rgb_color { return p.get_color(); });
 }

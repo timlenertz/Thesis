@@ -13,14 +13,17 @@ Transformation estimation which uses correlation matrix.
 */
 class correlation_matrix_transformation_estimation {
 protected:
-	Eigen::Vector3f fixed_sum_ = Eigen::Vector3f::Zero();
-	Eigen::Vector3f loose_sum_ = Eigen::Vector3f::Zero();
-	std::size_t count_ = 0;
+	Eigen::Vector3f fixed_weighted_sum_ = Eigen::Vector3f::Zero();
+	Eigen::Vector3f loose_weighted_sum_ = Eigen::Vector3f::Zero();
+	float total_weight_;
 	std::vector<registration_correspondence> cors_;
 
 protected:
 	correlation_matrix_transformation_estimation() = default;
 	Eigen::Matrix3f correlation_matrix_() const;
+	
+	Eigen::Vector3f fixed_center_() const;
+	Eigen::Vector3f loose_center_() const;
 
 public:
 	correlation_matrix_transformation_estimation& operator<<(const registration_correspondence&);

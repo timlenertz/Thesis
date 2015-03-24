@@ -18,6 +18,8 @@ class unorganized_point_cloud : public filter_point_cloud<Point, Allocator> {
 	using super = filter_point_cloud<Point, Allocator>;
 
 public:
+	explicit unorganized_point_cloud(std::size_t size, std::size_t capacity = 0, const Allocator& alloc = Allocator());
+
 	/// Copy-construct from existing point cloud.
 	/// If all_val and other is not all-valid, erases invalid points.
 	template<typename Other_point, typename Other_allocator>
@@ -37,6 +39,9 @@ public:
 	
 	/// Create point cloud from importer.
 	explicit unorganized_point_cloud(point_cloud_importer&, const Allocator& = Allocator());
+	
+	template<typename Other_iterator>
+	typename super::iterator insert(typename super::iterator pos, Other_iterator begin, Other_iterator end);
 
 	/// Erase invalid points from the point cloud.
 	void erase_invalid_points();	
@@ -47,7 +52,7 @@ public:
 	/// Applies transformation corresponding to space object's pose.
 	/// Applies the transformation of the space object's pose relative to its parent, and then sets this pose to identity.
 	void apply_pose();
-	
+		
 	/// Randomize internal order of points.
 	void shuffle();
 
@@ -66,9 +71,15 @@ public:
 	void add_random_noise_in_box(std::size_t amount, const bounding_box& box);
 
 	/// Find closest point to given query point.
-	/// Trivial implementation; tests against point. Structured point clouds provide more efficient algorithms.
+	/// Trivial implementation; tests every point. Structured point clouds provide more efficient algorithms.
 	template<typename Other_point>
 	const Point& closest_point(const Other_point&, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
+	
+	template<typename Condition_func, typename Callback_func>
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const;
+	
+	template<typename Condition_func, typename Callback_func>
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false);
 };
 
 extern template class unorganized_point_cloud<point_xyz>;

@@ -1,6 +1,9 @@
 #ifndef PCF_POINT_CLOUD_ALGORITHM_H_
 #define PCF_POINT_CLOUD_ALGORITHM_H_
 
+#include "point_cloud/point_cloud.h"
+#include "point_cloud/grid/grid_point_cloud.h"
+
 namespace pcf {
 
 /**
@@ -14,7 +17,10 @@ template<typename Cloud>
 void compute_normals(Cloud&);
 
 template<typename Cloud>
-void set_local_density_weights(Cloud&);
+void set_local_density_weights(Cloud&, std::size_t k);
+
+
+extern template void set_local_density_weights(grid_point_cloud_full&, std::size_t);
 
 }
 

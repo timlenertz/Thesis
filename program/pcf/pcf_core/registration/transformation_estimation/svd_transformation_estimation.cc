@@ -3,9 +3,8 @@
 namespace pcf {
 
 Eigen::Affine3f svd_transformation_estimation::operator() () const {
-	Eigen::Vector3f fixed_center = fixed_sum_ / count_;
-	Eigen::Vector3f loose_center = loose_sum_ / count_;
-
+	Eigen::Vector3f fixed_center = fixed_center_();
+	Eigen::Vector3f loose_center = loose_center_();
 	Eigen::Matrix3f W = correlation_matrix_();
 	
 	Eigen::JacobiSVD<Eigen::Matrix3f> svd(W, Eigen::ComputeFullU | Eigen::ComputeFullV);

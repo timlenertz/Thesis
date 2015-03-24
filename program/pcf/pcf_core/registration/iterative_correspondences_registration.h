@@ -7,6 +7,8 @@
 #include <utility>
 #include <functional>
 #include <vector>
+#include <future>
+#include "../space_object.h"
 #include "transformation_estimation/svd_transformation_estimation.h"
 #include "../geometry/pose.h"
 
@@ -34,8 +36,8 @@ public:
 	using iteration_callback = std::function<void()>;
 	
 	float minimal_error = 0;
-	std::size_t maximal_iterations = -1;
-	bool stop_on_divergence = true;
+	std::size_t maximal_iterations = 30;
+	bool stop_on_divergence = false;
 	float divergence_error_threshold = 0.0;
 	
 	virtual ~iterative_correspondences_registration_base() { }
@@ -44,9 +46,12 @@ public:
 	const Eigen::Affine3f& current_loose_transformation() const { return current_loose_transformation_; }
 	const Eigen::Affine3f& estimated_transformation() const { return estimated_transformation_; }
 
+	void reset();
 	bool run(const iteration_callback& = iteration_callback());
 
-	void reset();
+	void apply_loose_transformation(space_object& loose_point_cloud);
+	std::future<bool> run_live(space_object& loose_point_cloud);
+
 	virtual void compute_estimated_transformation_and_error() = 0;
 };
 

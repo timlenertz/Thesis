@@ -1,5 +1,6 @@
 #include <cmath>
 #include <utility>
+#include "../../image/intensity_image.h"
 #include "../../image/range_image.h"
 #include "../../image/color_image.h"
 #include "../../io/range_point_cloud_importer.h"
@@ -92,6 +93,19 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() const {
 	}
 	return ri;
 }
+
+
+template<typename Point, typename Allocator>
+intensity_image range_point_cloud<Point, Allocator>::weights_to_intensity_image() const {
+	intensity_image ii(width(), height());
+	for(auto it = image_.begin(); it != image_.end(); ++it) {
+		auto ind = it.index();
+		if(it->valid()) ii.at(ind[0], ind[1]) = it->get_weight();
+		else ii.invalidate(ind[0], ind[1]);
+	}
+	return ii;
+}
+
 
 
 template<typename Point, typename Allocator>

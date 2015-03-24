@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "point.h"
 #include "point_algorithm.h"
+#include "point_filter/accept.h"
 #include "point_filter/probability.h"
 #include "util/random.h"
 #include "geometry/math_constants.h"
@@ -31,27 +32,25 @@ void compute_normals(Cloud& pc) {
 	auto got_knn = [&](point_full& pt, const typename Cloud::selection& knn) {
 		plane pla = fit_plane_to_points(knn.begin(), knn.end());
 		
-		pt.normal = pla.normal;
+		pt.set_normal( pla.normal );
 	}; 
 	pc.nearest_neighbors(10, probability_point_filter(1.0), got_knn, false);
 }
 
 
 template<typename Cloud>
-void set_local_density_weights(Cloud& pc) {
-	std::size_t k = 20;
-	auto got_knn = [&](point_full& p, const typename Cloud::selection& knn) {
+void set_local_density_weights(Cloud& pc, std::size_t k) {
+	auto got_knn = [&](point_full& p, const typename Cloud::selection& knn) {	
 		auto sq_dist = [&p](const point_full& q) { return distance_sq(p, q); };
 		auto cmp = [&sq_dist](const point_full& a, const point_full& b) { return sq_dist(a) < sq_dist(b); };
 		auto max_distance_it = std::max_element(knn.begin(), knn.end(), cmp);
-		float max_distance = distance(p, *max_distance_it);
 		
-		float area = pi * max_distance*max_distance;
+		float area = pi * sq_dist(*max_distance_it);
 		float density = (float)k / area;
 		
-		p.color = (density - 400000.0)/500000.0 * rgb_color::white;
+		p.set_weight(density);
 	}; 
-	pc.nearest_neighbors(k, probability_point_filter(1.0), got_knn, false);
+	pc.nearest_neighbors(k, accept_point_filter(), got_knn, false);
 }
 
 

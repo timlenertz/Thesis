@@ -9,6 +9,7 @@
 #include <cmath>
 #include "../point_cloud.h"
 #include "../../geometry/bounding_box.h"
+#include "../../util/multi_dimensional_array.h"
 
 namespace pcf {
 
@@ -30,28 +31,18 @@ public:
 	using segment_union = typename super::segment_union;
 	using const_segment_union = typename super::const_segment_union;
 
-	class cell_coordinates;
+	using cell_coordinates = array_3dim<std::ptrdiff_t>::indices_type;
 	class subspace;
 
 private:
 	const float cell_length_;
+	const bounding_box box_;
+	array_3dim<std::ptrdiff_t> cells_;
 
-	Eigen::Vector3f origin_;
-		
-	std::size_t number_of_cells_[3];
-	std::vector<std::ptrdiff_t> cell_offsets_;
-
-	segment segment_for_index_(std::ptrdiff_t i);
-	const_segment segment_for_index_(std::ptrdiff_t i) const;
-	
-	std::ptrdiff_t index_for_cell_(const cell_coordinates&) const;
-	
 	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel) const;
 	template<typename Callback_func> void iterate_cells_(Callback_func callback, bool parallel);
 	
-	bool in_bounds_(const cell_coordinates&) const;
-	void move_into_bounds_(cell_coordinates&) const;
-	
+	array_3dim<std::ptrdiff_t>::sizes_type cells_array_sizes_() const;
 	void build_grid_();
 	
 	template<typename That, typename Condition_func, typename Callback_func>
@@ -68,22 +59,24 @@ public:
 	
 	bool verify() const;
 	
+	void test_colorize();
+	
 	template<typename Other_point>
 	const Point& closest_point(const Other_point& from, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
 	
 	template<typename Condition_func, typename Callback_func>
-	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) const {
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = true) const {
 		nearest_neighbors_(this, k, cond, callback, parallel);	
 	}
 	
 	template<typename Condition_func, typename Callback_func>
-	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = false) {
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = true) {
 		nearest_neighbors_(this, k, cond, callback, parallel);	
 	}
 	
 	
-	std::size_t number_of_cells() const { return cell_offsets_.size(); }
-	std::size_t number_of_cells(std::ptrdiff_t i) const { return number_of_cells_[i]; }
+	std::size_t number_of_cells() const { return cells_.total_size(); }
+	std::size_t number_of_cells(std::ptrdiff_t i) const { return cells_.size(i); }
 	std::size_t number_of_empty_cells() const;
 	
 	subspace full_subspace() const;
@@ -104,31 +97,6 @@ float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alp
 template<typename Cloud>
 float default_grid_cell_length(const Cloud& pc);
 
-
-/**
-Coordinates of a cell in the grid point cloud.
-*/
-template<typename Point, typename Allocator>
-class grid_point_cloud<Point, Allocator>::cell_coordinates {
-private:
-	std::array<std::ptrdiff_t, 3> c_;
-	
-public:
-	cell_coordinates() { c_ = {0, 0, 0}; }
-	cell_coordinates(std::ptrdiff_t x, std::ptrdiff_t y, std::ptrdiff_t z) { c_ = {x, y, z}; }
-	cell_coordinates(const cell_coordinates&) = default;
-	
-	std::ptrdiff_t& operator[](std::ptrdiff_t i) { return c_[i]; }
-	const std::ptrdiff_t& operator[](std::ptrdiff_t i) const { return c_[i]; }
-	
-	bool operator==(const cell_coordinates& c) const { return c_ == c.c_; }
-	bool operator!=(const cell_coordinates& c) const { return c_ != c.c_; }
-		
-	friend std::ostream& operator<<(std::ostream& str, const cell_coordinates& c) {
-		str << "(" << c.c_[0] << ", " << c.c_[1] << ", " << c.c_[2] << ")";
-		return str;
-	}
-};
 
 using grid_point_cloud_xyz = grid_point_cloud<point_xyz>;
 using grid_point_cloud_full = grid_point_cloud<point_full>;

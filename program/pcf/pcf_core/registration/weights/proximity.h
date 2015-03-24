@@ -17,7 +17,11 @@ public:
 	explicit correspondences_proximity_weights(float max_dist) :
 		maximal_distance_(max_dist) { }
 
-	float operator()(const point_xyz&, const point_xyz&) const;
+	float operator()(const point_xyz& a, const point_xyz& b) const {
+		float d = distance(a, b);
+		if(d < maximal_distance_) return 1.0f - d/maximal_distance_;
+		else return 0.0f;
+	}
 };
 
 }

@@ -7,6 +7,7 @@
 #include <Eigen/Geometry>
 #include <set>
 #include <string>
+#include <mutex>
 
 namespace pcf {
 
@@ -44,10 +45,11 @@ protected:
 	/// Either through explicit change of this object's relative pose, or through change of ancestor's relative pose.
 	virtual void pose_was_updated_();
 
+	space_object(const space_object&);
+	
 public:
 	explicit space_object(const pose& = pose());
 	space_object(const pose&, space_object& par);
-	space_object(const space_object&);
 	
 	virtual ~space_object();
 
@@ -66,6 +68,8 @@ public:
 	
 	void set_parent(space_object&, const pose& new_relative_pose = pose());
 	void set_no_parent(const pose& new_pose = pose());
+	
+	void make_sibling(const space_object&, const pose& new_pose = pose());
 	
 	const std::string& get_name() const { return name_; }
 	void set_name(const std::string& nm) { name_ = nm; }

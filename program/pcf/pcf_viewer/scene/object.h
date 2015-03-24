@@ -37,6 +37,8 @@ public:
 	
 	const scene& get_scene() const { return scene_; }
 	
+	void take_parameters(const scene_object&) { } // TODO change
+	
 	bool visible() const;
 	void set_visible(bool);
 };

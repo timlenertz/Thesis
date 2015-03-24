@@ -26,9 +26,9 @@ Runs an iterative point cloud registration algorithm on a set of different input
 */
 class experiment {
 public:
-	using fixed_point_cloud_type = kdtree_point_cloud_xyz;
-	using loose_point_cloud_type = unorganized_point_cloud_xyz;
-	using working_point_cloud_type = unorganized_point_cloud_xyz;
+	using fixed_point_cloud_type = kdtree_point_cloud_full;
+	using loose_point_cloud_type = unorganized_point_cloud_full;
+	using working_point_cloud_type = unorganized_point_cloud_full;
 	
 	using modifier_function_type =
 		void (working_point_cloud_type& pc, float arg);

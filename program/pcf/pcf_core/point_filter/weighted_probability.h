@@ -25,7 +25,7 @@ public:
 	
 	bool operator()(const point_full& p) {
 		float r = random_real(0.0f, 1.0f);
-		return (r < probability_ * p.weight);
+		return (r < probability_ * p.get_weight());
 	}
 };
 

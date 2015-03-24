@@ -60,8 +60,8 @@ public:
 	scene_object_holder(scene&, Space_object&, Construction_args...);
 	~scene_object_holder();
 	
-	const scene_object& get_scene_object() const { return *scene_object_; }
-	scene_object& get_scene_object() { return *scene_object_; }
+	const Scene_object& get_scene_object() const { return *scene_object_; }
+	Scene_object& get_scene_object() { return *scene_object_; }
 };
 
 }

@@ -5,6 +5,7 @@
 #include <array>
 #include <cmath>
 #include <utility>
+#include <string>
 #include <Eigen/Eigen>
 
 
@@ -17,6 +18,7 @@ Point is inside iff for every coordinate i, origin_i <= p_i < extremity_i.
 */
 struct bounding_box {
 	using edge = std::pair<Eigen::Vector3f, Eigen::Vector3f>;
+	using face = std::array<Eigen::Vector3f, 4>;
 
 	Eigen::Vector3f origin;
 	Eigen::Vector3f extremity;
@@ -37,6 +39,10 @@ struct bounding_box {
 	
 	std::array<Eigen::Vector3f, 8> corners() const;
 	std::array<edge, 12> edges() const;
+	std::array<face, 6> faces() const;
+	
+	std::string to_string() const;
+	static bounding_box from_string(const std::string&);
 		
 	friend std::ostream& operator<<(std::ostream&, const bounding_box&);
 };

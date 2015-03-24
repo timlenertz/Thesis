@@ -58,12 +58,14 @@ bounding_box point_cloud_segment<Point>::box(float ep) const {
 
 template<typename Point>
 Eigen::Vector3f point_cloud_segment<Point>::center_of_mass() const {
+	std::size_t n = 0;
 	Eigen::Vector4f sum = Eigen::Vector4f::Zero();
 	for(auto&& p : *this) {
 		if(! p.valid()) continue;
 		sum += p.homogeneous_coordinates;
+		++n;
 	}
-	return (sum / size()).head(3);
+	return (sum / n).head(3);
 }
 
 

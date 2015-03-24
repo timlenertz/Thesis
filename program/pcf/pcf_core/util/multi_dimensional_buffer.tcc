@@ -27,11 +27,43 @@ auto multi_dimensional_buffer<T, Dim>::to_offset_(const indices_type& mi) const 
 	return idx;
 }
 
+template<typename T, std::size_t Dim>
+std::ptrdiff_t multi_dimensional_buffer<T, Dim>::index_to_address(const indices_type& mi) const {
+	return to_offset_(mi);
+}
+
+
+template<typename T, std::size_t Dim>
+auto multi_dimensional_buffer<T, Dim>::address_to_index(const std::ptrdiff_t& addr) const -> indices_type {
+	iterator it = begin();
+	it += addr;
+	return it.index(); // TODO make better
+}
+
+
 
 template<typename T, std::size_t Dim>
 multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const sizes_type& sz, T* data, T* data_end) :
 	sizes_(sz), begin_(data), end_(data_end) { }
 
+
+template<typename T, std::size_t Dim>
+bool multi_dimensional_buffer<T, Dim>::in_bounds(const indices_type& mi) const {
+	for(std::ptrdiff_t i = 0; i < Dim; ++i)
+		if(mi[i] < 0 || mi[i] >= sizes_[i]) return false;
+	return true;
+}
+
+
+template<typename T, std::size_t Dim>
+auto multi_dimensional_buffer<T, Dim>::move_into_bounds(const indices_type& mi) const -> indices_type {
+	indices_type mi2 = mi;
+	for(std::ptrdiff_t i = 0; i < Dim; ++i) {
+		if(mi[i] < 0) mi2[i] = 0;
+		else if(mi[i] >= sizes_[i]) mi2[i] = sizes_[i] - 1;
+	}
+	return mi2;
+}
 
 
 template<typename T, std::size_t Dim>

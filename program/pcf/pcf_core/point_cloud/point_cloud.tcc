@@ -51,6 +51,7 @@ point_cloud<Point, Allocator>::point_cloud(std::size_t allocate_size, bool all_v
 template<typename Point, typename Allocator>
 point_cloud<Point, Allocator>::
 point_cloud(point_cloud&& pc, bool all_val) :
+	space_object(pc),
 	allocator_( std::move(pc.allocator_) ),
 	allocated_size_(pc.allocated_size_),
 	all_valid_(all_val),
@@ -73,6 +74,8 @@ point_cloud<Point, Allocator>::
 point_cloud(const point_cloud<Other_point, Other_allocator>& pc, bool all_val, std::size_t cap, const Allocator& alloc) :
 	point_cloud( (cap > 0 ? cap : pc.size()) , all_val, alloc)
 {
+	make_sibling(pc, pc.relative_pose());
+
 	// Copy points one-by-one into new buffer.
 	// If this is all valid but other is not, take only valid points.
 	Point* buf = begin_;
@@ -182,5 +185,9 @@ auto point_cloud<Point, Allocator>::end_relative_to() const -> transform_iterato
 
 
 
-// super::absolute_pose().view_transformation_inverse()
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::move_center_of_mass_to_origin() {	
+	move(-center_of_mass());	
+}
+
 }

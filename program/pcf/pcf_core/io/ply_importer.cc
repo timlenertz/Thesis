@@ -241,9 +241,11 @@ void ply_importer::read_ascii_point_(point_full& pt, const char* props[]) const 
 		strtof(props[x_.index], nullptr),
 		strtof(props[y_.index], nullptr),
 		strtof(props[z_.index], nullptr),
-		strtol(props[r_.index], nullptr, 10),
-		strtol(props[g_.index], nullptr, 10),
-		strtol(props[b_.index], nullptr, 10)
+		rgb_color(
+			strtol(props[r_.index], nullptr, 10),
+			strtol(props[g_.index], nullptr, 10),
+			strtol(props[b_.index], nullptr, 10)
+		)
 	);
 	else pt = point_xyz(
 		strtof(props[x_.index], nullptr),
@@ -267,9 +269,11 @@ void ply_importer::read_binary_point_(point_full& pt, char* data) const {
 		read_binary_property_<float>(x_, data),
 		read_binary_property_<float>(y_, data),
 		read_binary_property_<float>(z_, data),
-		read_binary_property_<std::uint8_t>(r_, data),
-		read_binary_property_<std::uint8_t>(g_, data),
-		read_binary_property_<std::uint8_t>(b_, data)
+		rgb_color(
+			read_binary_property_<std::uint8_t>(r_, data),
+			read_binary_property_<std::uint8_t>(g_, data),
+			read_binary_property_<std::uint8_t>(b_, data)
+		)
 	);
 	else pt = point_xyz(
 		read_binary_property_<float>(x_, data),

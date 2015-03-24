@@ -21,9 +21,11 @@ template<typename Scene_object, typename Space_object, typename... Construction_
 void scene_object_holder<Scene_object, Space_object, Construction_args...>::object_was_updated_() {
 	scene_object* old_obj = scene_object_.release();
 	erase_from_scene_(*old_obj);
-	delete old_obj;
 		
 	Scene_object* new_obj = create_scene_object_();
+	new_obj->take_parameters(*(Scene_object*)old_obj);
+	delete old_obj;
+
 	scene_object_.reset(new_obj);
 	add_to_scene_(*new_obj);
 }

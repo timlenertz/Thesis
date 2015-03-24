@@ -1,4 +1,5 @@
 #include <cmath>
+#include <set>
 #include <iostream>
 
 namespace pcf {
@@ -21,9 +22,68 @@ Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, floa
 }
 
 
+template<typename Point, typename Iterator>
+point_cloud_selection<Point> find_nearest_neighbors(const Point& ref, Iterator begin, Iterator end, std::size_t k) {
+	auto cmp = [&](Point* a, Point* b) {
+		float da = distance_sq(*a, ref);
+		float db = distance_sq(*b, ref);
+		return (da < db);
+	};
+	std::set<Point*, decltype(cmp)> closest(cmp);
+	
+	for(Iterator it = begin; it != end; ++it) {
+		Point& pt = *it;
+		if(closest.size() < k) {
+			closest.insert(&pt);
+		} else {
+			float d = distance_sq(*it, ref);
+			Point* furthest_of_the_closest = *closest.rbegin();
+			if(d < distance_sq(*furthest_of_the_closest, ref)) {
+				closest.erase(furthest_of_the_closest);
+				closest.insert(&pt);
+			}
+		}
+	}
+	
+	point_cloud_selection<Point> sel;
+	for(Point* pt : closest)
+		sel.add(*pt);
+	return sel;
+}
+
+
 template<typename Iterator>
 void set_unique_color(Iterator begin, Iterator end, rgb_color col) {
-	for(Iterator it = begin; it != end; ++it) it->color = col;
+	for(Iterator it = begin; it != end; ++it) it->set_color(col);
+}
+
+
+template<typename Iterator>
+void colorize_by_weight(Iterator begin, Iterator end, const rgb_color& col_min, const rgb_color& col_max) {
+	float min_w = +INFINITY;
+	float max_w = 0;
+	for(Iterator it = begin; it != end; ++it) {
+		float w = it->get_weight();
+		if(w < min_w) min_w = w;
+		if(w > max_w) max_w = w;
+	}
+	float diff = max_w - min_w;
+	if(diff == 0)
+		for(Iterator it = begin; it != end; ++it) it->set_color(col_min);
+	else
+		for(Iterator it = begin; it != end; ++it) {
+			float w = it->get_weight();
+			float rw = (w - min_w) / diff;
+			rgb_color col = (1.0 - rw)*col_min + rw*col_max;
+			std::cout << (int)col.r << " w=" << w << " mm (" << min_w << ", " << max_w << ") rw=" << rw << std::endl;
+			it->set_color(col);
+		}
+}
+
+
+template<typename Iterator>
+void set_unique_weight(Iterator begin, Iterator end, std::uint8_t w) {
+	for(Iterator it = begin; it != end; ++it) it->set_weight(w);
 }
 
 
@@ -32,12 +92,14 @@ void normalize_point_weights(Iterator begin, Iterator end) {
 	float sum_of_weights = 0.0;
 	std::size_t number_of_points = 0;
 	for(Iterator it = begin; it != end; ++it) {
-		sum_of_weights += it->weight;
+		sum_of_weights += it->get_weight();
 		++number_of_points;
 	}
 	float factor = (float)number_of_points / sum_of_weights;
-	for(Iterator it = begin; it != end; ++it)
-		it->weight *= factor;
+	for(Iterator it = begin; it != end; ++it) {
+		float w = it->get_weight();
+		it->set_weight(w * factor);
+	}
 }
 
 

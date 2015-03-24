@@ -118,6 +118,7 @@ void ply_writer<point_full>::write_binary_(const point_full& p) {
 
 
 void ply_writer<point_full>::write_ascii_(const point_full& p) {
+	rgb_color col = 
 	file_ << p[0] << ' ' << p[1] << ' ' << p[2]
 		<< ' ' << p.normal[0] << ' ' << p.normal[1] << ' ' << p.normal[2]
 		<< ' ' << (unsigned)p.color.r << ' ' << (unsigned)p.color.g << ' ' << (unsigned)p.color.b;

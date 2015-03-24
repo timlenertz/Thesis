@@ -33,6 +33,7 @@ public:
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
 
 	void project(const point_cloud_xyz&, const rgb_color& col = point_xyz::default_color());
+	void project(const point_cloud_full&, const rgb_color& col);
 	void project(const point_cloud_full&);
 
 	// TODO copy, move constructor

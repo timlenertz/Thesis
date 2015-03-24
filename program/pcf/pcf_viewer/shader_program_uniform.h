@@ -19,6 +19,7 @@ public:
 	
 	shader_program_uniform& operator=(bool);
 	shader_program_uniform& operator=(float);
+	shader_program_uniform& operator=(double);
 	shader_program_uniform& operator=(const rgb_color&);
 	shader_program_uniform& operator=(const Eigen::Vector3f&);
 	shader_program_uniform& operator=(const Eigen::Vector4f&);

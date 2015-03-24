@@ -45,11 +45,15 @@ struct ALIGNAS(16) point_xyz {
 	bool operator!=(const point_xyz& pt) const { return ! operator==(pt); }
 	
 	static const rgb_color& default_color() { return rgb_color::white; }
+
 	const rgb_color& get_color() const { return default_color(); }
 	void set_color(const rgb_color&) { throw std::logic_error("No color in point_xyz."); }
+		
+	Eigen::Vector3f get_normal() const { return Eigen::Vector3f::Zero(); }
+	void set_normal(const Eigen::Vector3f&) { throw std::logic_error("No normal in point_xyz."); }
 	
 	float get_weight() const { return 1.0; }
-	void set_weight(float) { throw std::logic_error("No weight in point_xyz."); }
+	void set_weight(float w) { throw std::logic_error("No weight in point_xyz.");}
 	
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }

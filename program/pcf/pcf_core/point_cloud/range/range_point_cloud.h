@@ -17,6 +17,7 @@ namespace pcf {
 
 class range_point_cloud_importer;
 class range_image;
+class intensity_image;
 class color_image;
 
 /**
@@ -50,6 +51,7 @@ public:
 	Point& at(std::ptrdiff_t x, std::ptrdiff_t y);
 		
 	range_image to_range_image() const;
+	intensity_image weights_to_intensity_image() const;
 	color_image to_color_image(rgb_color bg = rgb_color::black) const;
 	
 	void colorize(const color_image&);

@@ -49,8 +49,15 @@ public:
 	T& operator[](const indices_type&);
 	const T& operator[](const indices_type&) const;
 	
+	bool in_bounds(const indices_type&) const;
+	indices_type move_into_bounds(const indices_type&) const;
+	
 	sizes_type size() const { return sizes_; }
+	std::size_t size(std::ptrdiff_t i) const { return sizes_[i]; }
 	std::size_t total_size() const { return (end_ - begin_); }
+	
+	std::ptrdiff_t index_to_address(const indices_type&) const;
+	indices_type address_to_index(const std::ptrdiff_t&) const; 
 	
 	iterator begin() { return iterator(sizes_, begin_, zero_index_()); }
 	const_iterator begin() const { return const_iterator(sizes_, begin_, zero_index_()); }

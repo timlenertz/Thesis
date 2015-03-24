@@ -25,6 +25,15 @@ public:
 	coordinates(const coordinates&) = default;
 	coordinates& operator=(const coordinates&) = default;
 	
+	bool operator==(const coordinates& c) const {
+		for(std::ptrdiff_t i = 0; i < Dim; ++i)
+			if(coord_[i] != c.coord_[i]) return false;
+		return true;
+	};
+	bool operator!=(const coordinates& c) const {
+		return ! operator==(c);
+	}
+	
 	static std::size_t size() { return Dim; }
 	
 	const T& operator[](std::ptrdiff_t i) const { return coord_[i]; }
@@ -57,6 +66,13 @@ public:
 	coordinates(const coordinates&) = default;
 	coordinates& operator=(const coordinates&) = default;
 	
+	bool operator==(const coordinates& c) const {
+		return (x == c.x) && (y == c.y);
+	};
+	bool operator!=(const coordinates& c) const {
+		return ! operator==(c);
+	}
+
 	static std::size_t size() { return 2; }
 	
 	const T& operator[](std::ptrdiff_t i) const { return i ? y : x; }
@@ -89,6 +105,13 @@ public:
 		x(*coord.begin()), y(*(coord.begin()+1)), z(*(coord.begin()+2)) { }
 	coordinates(const coordinates&) = default;
 	coordinates& operator=(const coordinates&) = default;
+	
+	bool operator==(const coordinates& c) const {
+		return (x == c.x) && (y == c.y) && (z == c.z);
+	};
+	bool operator!=(const coordinates& c) const {
+		return ! operator==(c);
+	}
 	
 	static std::size_t size() { return 3; }
 	

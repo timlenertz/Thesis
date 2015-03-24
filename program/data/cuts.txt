@@ -1,0 +1,21 @@
+lo cut: -17.6605,-5.41663,1.72615,-14.3355,-2.02658,6.63569
+hi cut: -7.11634,-5.53676,-2.2105,-5.63491,-2.51254,1.64889
+
+lo pose: 16.764,3.82095,-4.20347,1,0,0,0
+hi pose: 5.78633,4.91419,1.24274,0.995499,-0.00072259,-0.0845465,0.0428211
+
+
+using namespace pcf;
+auto lo = hdv_scan_cut("005", "-17.6605,-5.41663,1.72615,-14.3355,-2.02658,6.63569", "16.764,3.82095,-4.20347,1,0,0,0");
+auto hi = hdv_scan_cut("012", "-7.11634,-5.53676,-2.2105,-5.63491,-2.51254,1.64889", "5.78633,4.91419,1.24274,0.995499,-0.00072259,-0.0845465,0.0428211");
+viewer_window vw;
+vw->add(lo, hi);
+
+using namespace pcf;
+grid_point_cloud_full pc2(import_point_cloud("../misc/ply/dragon.ply"));
+set_local_density_weights(pc2, 20);
+
+ps = hi.relative_pose();
+ps.orientation = Eigen::AngleAxisf(0.01, Eigen::Vector3f::UnitZ()) * ps.orientation;
+hi.set_relative_pose(ps);
+

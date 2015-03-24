@@ -1,0 +1,17 @@
+#ifndef PCF_ARTIFICIAL_POINT_CLOUD_H_
+#define PCF_ARTIFICIAL_POINT_CLOUD_H_
+
+#include "unorganized_point_cloud.h"
+#include "../../geometry/bounding_box.h"
+
+namespace pcf {
+
+/// Create point cloud of a sphere centered at origin.
+/// The points are randomly distributed on the surface at a uniform density.
+unorganized_point_cloud_xyz make_sphere_point_cloud(float radius, std::size_t number_of_points);
+
+unorganized_point_cloud_xyz make_sphere_point_cloud_with_density(float radius, float density);
+
+}
+
+#endif

@@ -3,6 +3,9 @@ POINT CLOUD PROGRAMMING
 - benefit from point class inheritance
 - support masking, differentiate between invalid points and masked points
 - define type for position (!= point)
+- no inherit point cloud from space object, make space object reference the data
+- better name for unorganized_pc
+- invalidatable_point 
 
 CPP
 - not mix class/struct (predeclarations problem)

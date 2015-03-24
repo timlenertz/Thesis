@@ -140,6 +140,10 @@ public:
 	bounding_box box() const override { return box(0); }
 	
 	Eigen::Vector3f center_of_mass() const { return full_segment().center_of_mass(); }
+	
+	/// Translates pose such that center of mass is at origin.
+	/// Does not alter the points coordinates.
+	void move_center_of_mass_to_origin();
 };
 
 extern template class point_cloud<point_xyz>;

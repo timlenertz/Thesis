@@ -2,7 +2,9 @@
 #define PCF_POINT_ALGORITHM_H_
 
 #include <Eigen/Eigen>
+#include <cstdint>
 #include "point.h"
+#include "point_cloud/selection.h"
 #include "geometry/plane.h"
 
 namespace pcf {
@@ -14,12 +16,20 @@ If any point is closer than \a accepting_distance, that one may be accepted. Poi
 template<typename Point, typename Iterator>
 Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, float accepting_distance = 0);
 
+
+template<typename Point, typename Iterator>
+point_cloud_selection<Point> find_nearest_neighbors(const Point& ref, Iterator begin, Iterator end, std::size_t k);
+
+
 /**
 Sets all points to given color.
 Iterator must yield point_full objects.
 */
 template<typename Iterator>
 void set_unique_color(Iterator begin, Iterator end, rgb_color);
+
+template<typename Iterator>
+void colorize_by_weight(Iterator begin, Iterator end, const rgb_color& col_min = rgb_color::black, const rgb_color& col_max = rgb_color::white);
 
 
 /**
@@ -28,6 +38,9 @@ Multiplies the points' weights by a constant factor such that they sum up to the
 */
 template<typename Iterator>
 void normalize_point_weights(Iterator begin, Iterator end);
+
+template<typename Iterator>
+void set_unique_weight(Iterator begin, Iterator end, std::uint8_t w);
 
 
 template<typename Iterator>

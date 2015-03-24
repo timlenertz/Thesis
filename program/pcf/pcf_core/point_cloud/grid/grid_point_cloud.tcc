@@ -9,6 +9,9 @@
 
 namespace pcf {
 
+namespace {
+	float bounding_box_expansion_ = 0.0001;
+}
 
 template<typename Cloud>
 float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alpha) {
@@ -26,6 +29,7 @@ float optimal_grid_cell_length_for_knn(const Cloud& pc, std::size_t k, float alp
 	std::size_t nb_filled = 0;
 	std::vector<bool> filled(total_nb, false);
 	for(const typename Cloud::point_type& p : pc) {
+		if(! p.valid()) continue;
 		grid_point_cloud_xyz::cell_coordinates c;
 		for(std::ptrdiff_t i = 0; i < 3; ++i) c[i] = std::floor( (p[i] - box.origin[i]) / len );
 		
@@ -51,18 +55,33 @@ float default_grid_cell_length(const Cloud& pc) {
 }
 
 
+template<typename Point, typename Allocator>
+array_3dim<std::ptrdiff_t>::sizes_type grid_point_cloud<Point, Allocator>::cells_array_sizes_() const {
+	array_3dim<std::ptrdiff_t>::sizes_type msz;
+	auto bounding_side_lengths = super::box(bounding_box_expansion_).side_lengths();
+	for(std::ptrdiff_t i = 0; i < 3; ++i) msz[i] = std::ceil(bounding_side_lengths[i] / cell_length_);
+	return msz;
+}
+
+
+
 template<typename Point, typename Allocator> template<typename Other_cloud>
 grid_point_cloud<Point, Allocator>::grid_point_cloud(const Other_cloud& pc, float cell_len, const Allocator& alloc) :
 super(pc, true, 0, alloc),
-cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)) {
+cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)),
+box_(super::box(bounding_box_expansion_)),
+cells_(cells_array_sizes_()) {
 	build_grid_();
 }
+
 
 
 template<typename Point, typename Allocator>
 grid_point_cloud<Point, Allocator>::grid_point_cloud(super&& pc, float cell_len) :
 super(std::move(pc), true),
-cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)) {
+cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)),
+box_(super::box(bounding_box_expansion_)),
+cells_(cells_array_sizes_()) {
 	build_grid_();
 }
 
@@ -72,106 +91,53 @@ template<typename Point, typename Allocator> template<typename Other_point>
 auto grid_point_cloud<Point, Allocator>::cell_for_point(const Other_point& p) const -> cell_coordinates {
 	cell_coordinates c;
 	for(std::ptrdiff_t i = 0; i < 3; ++i)
-		c[i] = std::floor( (p[i] - origin_[i]) / cell_length_ );
+		c[i] = std::floor( (p[i] - box_.origin[i]) / cell_length_ );
 	return c;
 }
 
 
 template<typename Point, typename Allocator>
-std::ptrdiff_t grid_point_cloud<Point, Allocator>::index_for_cell_(const cell_coordinates& c) const {
-	std::ptrdiff_t idx = 0;
-	idx += c[0] * number_of_cells_[1]*number_of_cells_[2];
-	idx += c[1] * number_of_cells_[2];
-	idx += c[2];
-	return idx;
-}
-
-
-template<typename Point, typename Allocator>
-auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) -> segment {
-	assert(i >= 0 && i < cell_offsets_.size());
-	return segment(
-		super::begin() + (i == 0 ? 0 : cell_offsets_[i - 1]),
-		super::begin() + cell_offsets_[i]
-	);
-}
-
-
-template<typename Point, typename Allocator>
-auto grid_point_cloud<Point, Allocator>::segment_for_index_(std::ptrdiff_t i) const -> const_segment {
-	assert(i >= 0 && i < cell_offsets_.size());
-	return const_segment(
-		super::cbegin() + (i == 0 ? 0 : cell_offsets_[i - 1]),
-		super::cbegin() + cell_offsets_[i]
-	);
-}
-
-
-template<typename Point, typename Allocator>
 void grid_point_cloud<Point, Allocator>::build_grid_() {
-	bounding_box bounding_cub = super::box(0.1);
-	origin_ = bounding_cub.origin;
-	
-	Eigen::Vector3f bounding_side_lengths = bounding_cub.side_lengths();
-	for(std::ptrdiff_t i = 0; i < 3; ++i) number_of_cells_[i] = std::ceil(bounding_side_lengths[i] / cell_length_);
-	
 	// First split into X segments
-	std::vector<segment> x_segs(number_of_cells_[0]);
-	super::full_segment().partition_into_segments([this](const Point& p) {
-		return std::floor( (p[0] - origin_[0]) / cell_length_ );
-	}, number_of_cells_[0], x_segs.begin());
-
-	// Split each into Y segments
-	std::vector<segment> y_segs(number_of_cells_[0] * number_of_cells_[1]);
-	std::size_t y_off = number_of_cells_[1];
+	std::size_t number_of_x_segments = cells_.size(0);
+	std::vector<segment> x_segs(number_of_x_segments);
+	super::full_segment().partition_into_segments([&](const Point& p) {
+		return std::floor( (p[0] - box_.origin[0]) / cell_length_ );
+	}, number_of_x_segments, x_segs.begin());
 	
-	#pragma omp parallel for
+	// Split them into (Y, Z) segments 	
+	// Handle each X segment in parallel
+	//#pragma omp parallel for (doesn't work?? TODO)
 	for(std::ptrdiff_t i = 0; i < x_segs.size(); ++i) {
 		segment& x_seg = x_segs[i];
 
-		std::vector<segment> y_segs_part(number_of_cells_[1]);
-		x_seg.partition_into_segments([this](const Point& p) {
-			return std::floor( (p[1] - origin_[1]) / cell_length_ );
-		}, number_of_cells_[1], y_segs_part.begin());
-
-		#pragma omp critical
-		{
-			auto out_y_seg = y_segs.begin() + y_off*i;
-			for(const segment& y_seg : y_segs_part) *(out_y_seg++) = y_seg;
-		}
-	}
-
-	// Split each into final Z segments
-	cell_offsets_ = std::vector<std::ptrdiff_t>(number_of_cells_[0] * number_of_cells_[1] * number_of_cells_[2]);
-	std::size_t cell_off = number_of_cells_[2];
-	
-	#pragma omp parallel for
-	for(std::ptrdiff_t i = 0; i < y_segs.size(); ++i) {
-		segment& y_seg = y_segs[i];
+		std::size_t number_of_yz_segments_per_x = cells_.size(1) * cells_.size(2);
+		std::vector<segment> yz_segs(number_of_yz_segments_per_x);
 		
-		std::vector<segment> cells_part(number_of_cells_[2]);
-		y_seg.partition_into_segments([this](const Point& p) {
-			return std::floor( (p[2] - origin_[2]) / cell_length_ );
-		}, number_of_cells_[2], cells_part.begin());
+		x_seg.partition_into_segments([&](const Point& p) {
+			std::ptrdiff_t y_off = std::floor( (p[1] - box_.origin[1]) / cell_length_ );
+			std::ptrdiff_t z_off = std::floor( (p[2] - box_.origin[2]) / cell_length_ );
+			return y_off*cells_.size(2) + z_off;
+		}, number_of_yz_segments_per_x, yz_segs.begin());
 
 		#pragma omp critical
 		{
-			auto out_cell = cell_offsets_.begin() + cell_off*i;
-			for(const segment& cell : cells_part) *(out_cell++) = (cell.end() - super::cbegin());
+			auto out_it = cells_.begin_raw() + i*number_of_yz_segments_per_x;
+			for(const segment& seg : yz_segs) *(out_it++) = (seg.end() - super::cbegin());
 		}
 	}
-	
-	assert(super::cbegin()+cell_offsets_.back() == super::cend());
 }
+
 
 
 
 template<typename Point, typename Allocator>
 bool grid_point_cloud<Point, Allocator>::verify() const {
-	for(std::size_t i = 0; i < cell_offsets_.size(); ++i) {	
-		const_segment seg = segment_for_index_(i);	
-		bool ok = std::all_of(seg.begin(), seg.end(), [this, i](const Point& p) {
-			return (index_for_cell_(cell_for_point(p)) == i);
+	for(auto cell_it = cells_.begin(); cell_it != cells_.end(); ++cell_it) {
+		cell_coordinates c = cell_it.index();
+		const_segment seg = segment_for_cell(c);
+		bool ok = std::all_of(seg.begin(), seg.end(), [&](const Point& p) {
+			return (cell_for_point(p) == c);
 		});
 		if(! ok) return false;
 	}
@@ -179,20 +145,12 @@ bool grid_point_cloud<Point, Allocator>::verify() const {
 }
 
 
-
 template<typename Point, typename Allocator>
-bool grid_point_cloud<Point, Allocator>::in_bounds_(const cell_coordinates& c) const {
-	for(std::ptrdiff_t i = 0; i < 3; ++i) if((c[i] < 0) || (c[i] >= number_of_cells_[i])) return false;
-	return true;
-}
-
-
-
-template<typename Point, typename Allocator>
-void grid_point_cloud<Point, Allocator>::move_into_bounds_(cell_coordinates& c) const {
-	for(std::ptrdiff_t i = 0; i < 3; ++i) {
-		if(c[i] < 0) c[i] = 0;
-		else if(c[i] >= number_of_cells_[i]) c[i] = number_of_cells_[i] - 1;
+void grid_point_cloud<Point, Allocator>::test_colorize() {
+	for(auto cell_it = cells_.begin(); cell_it != cells_.end(); ++cell_it) {
+		cell_coordinates c = cell_it.index();
+		segment seg = segment_for_cell(c);
+		for(Point& p : seg) if((c[0]+c[1]+c[2]) % 2 == 0) p.set_color(rgb_color::red);
 	}
 }
 
@@ -202,7 +160,7 @@ auto grid_point_cloud<Point, Allocator>::full_subspace() const -> subspace {
 	return subspace(
 		*this,
 		cell_coordinates(),
-		cell_coordinates(number_of_cells_[0] - 1, number_of_cells_[1] - 1, number_of_cells_[2] - 1)
+		cell_coordinates(cells_.size(0) - 1, cells_.size(1) - 1, cells_.size(2) - 1)
 	);
 }
 
@@ -215,15 +173,31 @@ auto grid_point_cloud<Point, Allocator>::cell_subspace(const cell_coordinates& c
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::segment_for_cell(const cell_coordinates& c) -> segment {
-	std::ptrdiff_t i = index_for_cell_(c);
-	return segment_for_index_(i);
+	const std::ptrdiff_t& end_of_cell_offset = cells_[c];
+	
+	std::ptrdiff_t end_of_previous_cell_offset;
+	if(c == cell_coordinates(0, 0, 0)) end_of_previous_cell_offset = 0;
+	else end_of_previous_cell_offset = *(&end_of_cell_offset - 1);
+
+	return segment(
+		super::begin() + end_of_previous_cell_offset, 
+		super::begin() + end_of_cell_offset
+	);
 }
 
 
 template<typename Point, typename Allocator>
 auto grid_point_cloud<Point, Allocator>::segment_for_cell(const cell_coordinates& c) const -> const_segment {
-	std::ptrdiff_t i = index_for_cell_(c);
-	return segment_for_index_(i);
+	const std::ptrdiff_t& end_of_cell_offset = cells_[c];
+	std::ptrdiff_t end_of_previous_cell_offset;
+	
+	if(c == cell_coordinates(0, 0, 0)) end_of_previous_cell_offset = 0;
+	else end_of_previous_cell_offset = *(&end_of_cell_offset - 1);
+
+	return const_segment(
+		super::cbegin() + end_of_previous_cell_offset, 
+		super::cbegin() + end_of_cell_offset
+	);
 }
 
 
@@ -247,7 +221,7 @@ template<typename Point, typename Allocator>
 std::size_t grid_point_cloud<Point, Allocator>::number_of_empty_cells() const {
 	std::size_t n = 0;
 	std::ptrdiff_t b = 0;
-	for(std::ptrdiff_t e : cell_offsets_) {
+	for(auto e : cells_) {
 		if(b == e) ++n;
 		b = e;
 	}
@@ -260,7 +234,7 @@ template<typename Point, typename Allocator> template<typename Other_point>
 const Point& grid_point_cloud<Point, Allocator>::
 closest_point(const Other_point& ref, float accepting_distance, float rejecting_distance) const {
 	cell_coordinates c = cell_for_point(ref);
-	move_into_bounds_(c);
+	c = cells_.move_into_bounds(c);
 	
 	subspace s = cell_subspace(c);
 	while(s.number_of_points() == 0 && s.expand());
@@ -276,14 +250,14 @@ template<typename Point, typename Allocator> template<typename Callback_func>
 void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) const {
 	std::ptrdiff_t i = 0;
 	#pragma omp parallel for schedule(static, 1) if(par)
-	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
+	for(std::ptrdiff_t x = 0; x < cells_.size(0); ++x) {
 		cell_coordinates c(x, 0, 0);		
 		const_segment seg = segment_for_cell(c);
 	
-		for(c[1] = 0; c[1] < number_of_cells_[1]; ++c[1]) {
-			for(c[2] = 0; c[2] < number_of_cells_[2]; ++c[2]) {
+		for(c[1] = 0; c[1] < cells_.size(1); ++c[1]) {
+			for(c[2] = 0; c[2] < cells_.size(2); ++c[2]) {
 				callback(c, i, seg);
-				seg = const_segment(seg.end(), super::begin() + cell_offsets_[i]);
+				seg = const_segment(seg.end(), super::begin() + cells_[c]);
 				++i;
 			}
 		}
@@ -295,14 +269,14 @@ template<typename Point, typename Allocator> template<typename Callback_func>
 void grid_point_cloud<Point, Allocator>::iterate_cells_(Callback_func callback, bool par) {
 	std::ptrdiff_t i = 0;
 	#pragma omp parallel for schedule(static, 1) if(par)
-	for(std::ptrdiff_t x = 0; x < number_of_cells_[0]; ++x) {
+	for(std::ptrdiff_t x = 0; x < cells_.size(0); ++x) {
 		cell_coordinates c(x, 0, 0);		
 		segment seg = segment_for_cell(c);
 	
-		for(c[1] = 0; c[1] < number_of_cells_[1]; ++c[1]) {
-			for(c[2] = 0; c[2] < number_of_cells_[2]; ++c[2]) {
+		for(c[1] = 0; c[1] < cells_.size(1); ++c[1]) {
+			for(c[2] = 0; c[2] < cells_.size(2); ++c[2]) {
 				callback(c, i, seg);
-				seg = segment(seg.end(), super::begin() + cell_offsets_[i]);
+				seg = segment(seg.end(), super::begin() + cells_[c]);
 				++i;
 			}
 		}
@@ -315,8 +289,8 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 (That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel) {
 	const float cbrt3 = std::cbrt(3.0f);
 	
-	using segment_t = decltype(that->segment_for_index_(0)); // const or non-const
-	using point_ptr_t = decltype(that->segment_for_index_(0).data()); // const or non-const
+	using segment_t = decltype(that->full_segment()); // const or non-const
+	using point_ptr_t = decltype(that->data()); // const or non-const
 	using selection_t = decltype(that->empty_selection());
 	
 	// For each cell...
@@ -324,7 +298,7 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 		subspace s_at_least_k = that->cell_subspace(c); // Smallest cubic subspace around c which contains >= k points
 		subspace s_ultimate = that->cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
 		std::size_t p = 0; // Number of expansions to form s_at_least_k
-		
+						
 		typename selection_t::vector_type knn;
 	
 		// Now iterate through points in this cell
@@ -352,7 +326,7 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 			// largest offsets from point to sides of cell
 			float off[3];
 			for(std::ptrdiff_t i = 0; i < 3; ++i) {
-				float pt_rel = pt[i] - that->origin_[i];
+				float pt_rel = pt[i] - that->box_.origin[i];
 				float off_l = pt_rel - (that->cell_length_ * c[i]);
 				float off_r = (that->cell_length_ * (c[i]+1)) - pt_rel;
 				off[i] = std::max(off_l, off_r);
@@ -382,7 +356,7 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 					float d = off[i] + (that->cell_length_ * p);
 					r_out_sq += d * d;
 				}
-			
+							
 				// Add points between insphere and outsphere
 				std::size_t insphere_end = knn.size(); // End of insphere points in knn array
 				for(auto&& pt2 : that->segment_union_for_subspace(s_ultimate)) {
@@ -396,7 +370,9 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 
 			// Invoke callback.
 			knn.erase(knn.begin() + k, knn.end());
-			callback(pt, selection_t(knn));
+
+			selection_t sel(knn);
+			//callback(pt, sel);
 		}
 	}, parallel);
 }
