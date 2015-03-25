@@ -1,4 +1,5 @@
 #include <string>
+#include <algorithm>
 
 pcf::range_point_cloud_full hdv_scan(const std::string& id) {
 	std::string path = "../hdv/Scan_" + id + ".scan";
@@ -44,18 +45,41 @@ pcf::unorganized_point_cloud_full dragon() {
 
 
 
-TGraph* scatterplot(const char* name, const pcf::exper::results::data_point_set& pts) {
+template<typename Points_container>
+TGraph* scatterplot(const Points_container& pts, const std::string& name = "scatterplot") {
 	std::size_t n = pts.size();
 	std::unique_ptr<float[]> x(new float [n]);
 	std::unique_ptr<float[]> y(new float [n]);
 	for(std::ptrdiff_t i = 0; i < n; ++i) {
-		x[i] = pts[i].x;
-		y[i] = pts[i].y;
+		x[i] = pts[i][0];
+		y[i] = pts[i][1];
 	}
 	TGraph* graph = new TGraph(n, x.get(), y.get());
 	
-	TCanvas* can = new TCanvas(name);
+	TCanvas* can = new TCanvas(name.c_str());
 	graph->Draw("A*");
 	
 	return graph;
+}
+
+
+template<typename Iterator>
+TH1* histogram(Iterator begin, Iterator end, const std::string& name = "histogram") {
+	auto minmax = std::minmax_element(begin, end);
+	std::string hname = name + "_hist";
+	TH1* h = new TH1F(hname.c_str(), name.c_str(), 1000, *minmax.first, *minmax.second);
+	for(Iterator it = begin; it != end; ++it) h->Fill(*it);
+	
+	TCanvas* can = new TCanvas(name.c_str());
+	h->Draw();
+	
+	return h;
+}
+
+
+template<typename Iterator>
+TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "density") {
+	std::vector<float> weights;
+	for(Iterator it = begin; it != end; ++it) weights.push_back(it->get_weight());
+	return histogram(weights.begin(), weights.end(), name);
 }

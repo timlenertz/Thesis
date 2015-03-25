@@ -17,10 +17,11 @@
 #include "../point.h"
 #include "../space_object.h"
 #include "../util/default_allocator.h"
+#include "../util/dereference_iterator.h"
 #include "segment.h"
 #include "segment_union.h"
-#include "selection.h"
 #include "../io/point_cloud_exporter.h"
+#include "selection.h"
 #include "transform_iterator.h"
 
 namespace pcf {
@@ -90,6 +91,8 @@ public:
 	
 	using selection = point_cloud_selection<Point>;
 	using const_selection = point_cloud_selection<const Point>;
+	using selection_iterator = typename selection::iterator;
+	using const_selection_iterator = typename const_selection::iterator;
 
 	using transform_iterator = point_transform_iterator<Point>;
 	
@@ -132,9 +135,6 @@ public:
 	
 	const Point& random_point() const;
 	Point& random_point();
-	
-	selection empty_selection() { return selection(); }
-	const_selection empty_selection() const { return const_selection(); }
 
 	bounding_box box(float ep) const { return full_segment().box(ep); }
 	bounding_box box() const override { return box(0); }

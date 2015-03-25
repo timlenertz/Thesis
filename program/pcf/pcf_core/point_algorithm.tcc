@@ -59,25 +59,21 @@ void set_unique_color(Iterator begin, Iterator end, rgb_color col) {
 
 
 template<typename Iterator>
-void colorize_by_weight(Iterator begin, Iterator end, const rgb_color& col_min, const rgb_color& col_max) {
-	float min_w = +INFINITY;
-	float max_w = 0;
+void colorize_by_weight(Iterator begin, Iterator end, float min_w, float max_w, const rgb_color& col_min, const rgb_color& col_max) {
 	for(Iterator it = begin; it != end; ++it) {
 		float w = it->get_weight();
-		if(w < min_w) min_w = w;
-		if(w > max_w) max_w = w;
-	}
-	float diff = max_w - min_w;
-	if(diff == 0)
-		for(Iterator it = begin; it != end; ++it) it->set_color(col_min);
-	else
-		for(Iterator it = begin; it != end; ++it) {
-			float w = it->get_weight();
+		rgb_color col;
+		if(w < min_w) {
+			col = col_min;
+		} else if(w > max_w) {
+			col = col_max;
+		} else {
+			float diff = max_w - min_w;
 			float rw = (w - min_w) / diff;
-			rgb_color col = (1.0 - rw)*col_min + rw*col_max;
-			std::cout << (int)col.r << " w=" << w << " mm (" << min_w << ", " << max_w << ") rw=" << rw << std::endl;
-			it->set_color(col);
+			col = (1.0 - rw)*col_min + rw*col_max;
 		}
+		it->set_color(col);
+	}
 }
 
 

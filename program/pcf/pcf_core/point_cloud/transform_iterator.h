@@ -27,7 +27,11 @@ public:
 	point_transform_iterator(Point*, const Eigen::Affine3f& = Eigen::Affine3f());
 	point_transform_iterator(const point_transform_iterator&) = default;
 	
-	point_transform_iterator& operator=(const point_transform_iterator&) = default;
+	point_transform_iterator& operator=(const point_transform_iterator& it) {
+		transformation_ = it.transformation_;
+		point_ = it.point_;
+		return *this;
+	}
 	
 	bool operator==(const point_transform_iterator&) const;
 	bool operator!=(const point_transform_iterator&) const;

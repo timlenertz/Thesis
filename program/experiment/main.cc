@@ -53,6 +53,7 @@ int main(int argc, const char* argv[]) {
 		4.0
 	);*/
 	
+	/*
 	grid_point_cloud_full gpc(hdv_lo());
 	set_local_density_weights(gpc, 20);
 	
@@ -67,6 +68,14 @@ int main(int argc, const char* argv[]) {
 	img.flip(true, false);
 	//img.export_to_image_file("a.png");
 	img.export_visualization_to_image_file("a.png");
+	*/
+	
+	grid_point_cloud_full b = import_point_cloud("../misc/ply/dragon.ply");
+	set_local_density_weights(b, 20);
+	colorize_by_weight(b.begin(), b.end());
+	ply_exporter expor("d.ply");
+	b.export_with(expor);
+	
 
 	return EXIT_SUCCESS;
 }

@@ -17,7 +17,7 @@ ply_exporter::ply_exporter(const std::string& filename, bool full, bool ascii, l
 	else if(host_is_little_endian) write_line_("format binary_little_endian 1.0");
 	else write_line_("format binary_big_endian 1.0");
 	
-	write_line_("comment PLY file generated using pcf::ply_writer");
+	write_line_("comment PLY file generated using pcf::ply_exporter");
 	
 	file_ << "element vertex ";
 	file_ << std::flush;
@@ -118,7 +118,7 @@ void ply_exporter::write_binary_(const point_full& p) {
 	file_.write(reinterpret_cast<const char*>( p.data() ), 3 * sizeof(float));
 	file_.write(reinterpret_cast<const char*>( normal.data() ), 3 * sizeof(float));
 	file_.write(reinterpret_cast<const char*>( &col ), 3);
-	file_.write(reinterpret_cast<const char*>( &weight ), 1);
+	file_.write(reinterpret_cast<const char*>( &weight ), sizeof(float));
 }
 
 

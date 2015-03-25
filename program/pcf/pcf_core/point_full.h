@@ -10,24 +10,18 @@ namespace pcf {
 
 /**
 Point of a cloud, consisting of X, Y, Z coordinates, RGB color information, normal vector and weight.
-Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers. Normal vector represents direction only. Weight is encoded as the squared norm of the normal vector. Points cannot have weight 0, and weight read/write less efficient.
+Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers. 
 */
 class ALIGNAS(32) point_full : public point_xyz {
-public:
-	Eigen::Vector3f normal = no_normal_();
-	rgb_color color = default_color();
-
 private:
-	union {
-		struct {
-			bool has_normal_ : 1;
-			bool zero_weight_ : 1;
-		};
-		std::uint8_t flags_;
-	};
-	
-	static Eigen::Vector3f no_normal_(float w = 1.0) { return Eigen::Vector3f(std::sqrt(w), 0.0, 0.0); }
-	
+	float normal_a_ = 0.0;
+	float normal_b_ = 0.0;
+	float weight_ = 1.0;
+
+public:
+	rgb_color color = default_color();
+	std::uint8_t unused;
+
 public:
 	point_full() :
 		point_xyz() { }
@@ -60,8 +54,8 @@ public:
 	Eigen::Vector3f get_normal(bool normalized = true) const;
 	void set_normal(const Eigen::Vector3f&);
 	
-	float get_weight() const;
-	void set_weight(float);
+	float get_weight() const { return weight_; }
+	void set_weight(float w) { weight_ = w; }
 
 	void swap(point_full&);
 

@@ -303,6 +303,8 @@ void scene_point_cloud::gl_draw_() {
 
 	shader_program_->use();
 	shader_program_->mvp_matrix = mvp_matrix_;
+	
+	glPointSize(point_size);
 		
 	glBindVertexArray(vertex_array_object_);
 	glDrawArrays(GL_POINTS, 0, renderer_point_buffer_size_);

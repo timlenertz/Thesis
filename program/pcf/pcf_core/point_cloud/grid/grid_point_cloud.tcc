@@ -107,7 +107,7 @@ void grid_point_cloud<Point, Allocator>::build_grid_() {
 	
 	// Split them into (Y, Z) segments 	
 	// Handle each X segment in parallel
-	//#pragma omp parallel for (doesn't work?? TODO)
+	//#pragma omp parallel for
 	for(std::ptrdiff_t i = 0; i < x_segs.size(); ++i) {
 		segment& x_seg = x_segs[i];
 
@@ -291,15 +291,15 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 	
 	using segment_t = decltype(that->full_segment()); // const or non-const
 	using point_ptr_t = decltype(that->data()); // const or non-const
-	using selection_t = decltype(that->empty_selection());
-	
+	using iterator_t = dereference_iterator<typename std::vector<point_ptr_t>::const_iterator>;
+
 	// For each cell...
 	that->iterate_cells_([that, k, cbrt3, &cond, &callback](const cell_coordinates& c, std::ptrdiff_t i, segment_t& seg) {
 		subspace s_at_least_k = that->cell_subspace(c); // Smallest cubic subspace around c which contains >= k points
 		subspace s_ultimate = that->cell_subspace(c); // Smallest cubic subspace around c which contains kNN for all point in c
 		std::size_t p = 0; // Number of expansions to form s_at_least_k
 						
-		typename selection_t::vector_type knn;
+		std::vector<point_ptr_t> knn;
 	
 		// Now iterate through points in this cell
 		for(auto&& pt : seg) {
@@ -367,12 +367,12 @@ void grid_point_cloud<Point, Allocator>::nearest_neighbors_
 				// Sort these additional points
 				std::nth_element(knn.begin()+insphere_end, knn.begin()+(k-1), knn.end(), cmp);
 			}
+			
+			if(knn.size() < k) continue;
 
-			// Invoke callback.
-			knn.erase(knn.begin() + k, knn.end());
-
-			selection_t sel(knn);
-			//callback(pt, sel);
+			iterator_t begin(knn.begin());
+			iterator_t end(knn.begin() + k);
+			callback(pt, begin, end);
 		}
 	}, parallel);
 }

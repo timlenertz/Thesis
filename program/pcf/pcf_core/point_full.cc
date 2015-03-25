@@ -4,52 +4,32 @@ namespace pcf {
 
 point_full& point_full::operator=(const point_xyz& pt) {
 	point_xyz::operator=(pt);
-	normal = no_normal_();
-	color = default_color();
-	has_normal_ = false;
-	zero_weight_ = false;
+	normal_a_ = 0.0;
+	normal_b_ = 0.0;
+	weight_ = 1.0;
 	return *this;
 }
 
 Eigen::Vector3f point_full::get_normal(bool normalized) const {
-	if(has_normal_) {
-		if(normalized || zero_weight_) return normal.normalized();
-		else return normal;
-	} else {
-		return Eigen::Vector3f::Zero();
-	}
+	return Eigen::Vector3f(
+		(normal_b_ + normal_a_) / 2.0f,
+		(normal_b_ - normal_a_) / 2.0f,
+		std::sqrt(1.0f - normal_a_*normal_b_)
+	);
 }
 
 void point_full::set_normal(const Eigen::Vector3f& n) {
-	if(n.isZero()) {
-		normal = no_normal_(get_weight());
-		has_normal_ = false;
-	} else {
-		normal = get_weight() * n.normalized();
-		has_normal_ = true;	
-	}
-}
-
-float point_full::get_weight() const {
-	if(zero_weight_) return 0.0;
-	else return normal.squaredNorm();
-}
-
-void point_full::set_weight(float w) {
-	normal.normalize();
-	if(w == 0.0) {
-		zero_weight_ = true;
-	} else {
-		normal *= std::sqrt(w);
-		zero_weight_ = false;
-	}
+	Eigen::Vector3f nn = n.normalized();
+	normal_a_ = nn[0] - nn[1];
+	normal_b_ = nn[0] + nn[1];
 }
 
 void point_full::swap(point_full& p) {
 	homogeneous_coordinates.swap(p.homogeneous_coordinates);
-	normal.swap(p.normal);
 	std::swap(color, p.color);
-	std::swap(flags_, p.flags_);
+	std::swap(normal_a_, p.normal_a_);
+	std::swap(normal_b_, p.normal_b_);
+	std::swap(weight_, p.weight_);
 }
 
 std::ostream& operator<<(std::ostream& str, const point_full& p) {

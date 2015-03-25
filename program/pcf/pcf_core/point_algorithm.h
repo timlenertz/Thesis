@@ -4,8 +4,8 @@
 #include <Eigen/Eigen>
 #include <cstdint>
 #include "point.h"
-#include "point_cloud/selection.h"
 #include "geometry/plane.h"
+#include "point_cloud/selection.h"
 
 namespace pcf {
 
@@ -29,7 +29,7 @@ template<typename Iterator>
 void set_unique_color(Iterator begin, Iterator end, rgb_color);
 
 template<typename Iterator>
-void colorize_by_weight(Iterator begin, Iterator end, const rgb_color& col_min = rgb_color::black, const rgb_color& col_max = rgb_color::white);
+void colorize_by_weight(Iterator begin, Iterator end, float min_w, float max_w, const rgb_color& col_min = rgb_color::black, const rgb_color& col_max = rgb_color::white);
 
 
 /**
@@ -51,6 +51,8 @@ Eigen::Vector3f center_of_mass(Iterator begin, Iterator end);
 
 template<typename Iterator>
 Eigen::Vector3f weighted_center_of_mass(Iterator begin, Iterator end);
+
+
 
 }
 

@@ -29,8 +29,8 @@ float median_closest_point_distance(const Cloud& pc, std::size_t samples) {
 
 template<typename Cloud>
 void compute_normals(Cloud& pc) {
-	auto got_knn = [&](point_full& pt, const typename Cloud::selection& knn) {
-		plane pla = fit_plane_to_points(knn.begin(), knn.end());
+	auto got_knn = [&](point_full& pt, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {
+		plane pla = fit_plane_to_points(knn_begin, knn_end);
 		
 		pt.set_normal( pla.normal );
 	}; 
@@ -40,13 +40,15 @@ void compute_normals(Cloud& pc) {
 
 template<typename Cloud>
 void set_local_density_weights(Cloud& pc, std::size_t k) {
-	auto got_knn = [&](point_full& p, const typename Cloud::selection& knn) {	
+	auto got_knn = [&](point_full& p, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {	
 		auto sq_dist = [&p](const point_full& q) { return distance_sq(p, q); };
 		auto cmp = [&sq_dist](const point_full& a, const point_full& b) { return sq_dist(a) < sq_dist(b); };
-		auto max_distance_it = std::max_element(knn.begin(), knn.end(), cmp);
+		auto max_distance_it = std::max_element(knn_begin, knn_end, cmp);
 		
+		std::ptrdiff_t n = knn_end - knn_begin;
 		float area = pi * sq_dist(*max_distance_it);
-		float density = (float)k / area;
+		std::cout << n << " ar:" << area << std::endl;
+		float density = (float)n / area;
 		
 		p.set_weight(density);
 	}; 
