@@ -1,6 +1,7 @@
 #include <cmath>
 #include <set>
 #include <iostream>
+#include "field/field.h"
 
 namespace pcf {
 
@@ -61,6 +62,7 @@ void set_unique_color(Iterator begin, Iterator end, rgb_color col) {
 template<typename Iterator>
 void colorize_by_weight(Iterator begin, Iterator end, float min_w, float max_w, const rgb_color& col_min, const rgb_color& col_max) {
 	for(Iterator it = begin; it != end; ++it) {
+		if(! it->valid()) continue;
 		float w = it->get_weight();
 		rgb_color col;
 		if(w < min_w) {
@@ -138,5 +140,37 @@ plane fit_plane_to_points(Iterator begin, Iterator end) {
 	return plane(center, norm);
 }
 
+
+template<typename Iterator>
+bounding_box compute_bounding_box(Iterator begin, Iterator end, float ep) {
+	const float inf = INFINITY;
+	Eigen::Vector4f mn(+inf, +inf, +inf, 0);
+	Eigen::Vector4f mx(-inf, -inf, -inf, 0);
+
+	#pragma omp parallel
+	{
+		Eigen::Vector4f mn_part(+inf, +inf, +inf, 0);
+		Eigen::Vector4f mx_part(-inf, -inf, -inf, 0);
+		
+		#pragma omp for
+		for(Iterator p = begin; p < end; ++p) {
+			if(! p->valid()) continue;
+			const Eigen::Vector4f pc = p->homogeneous_coordinates;
+			
+			mn_part = mn_part.cwiseMin(pc);
+			mx_part = mx_part.cwiseMax(pc);
+		}
+		
+		#pragma omp critical
+		{
+			mn = mn.cwiseMin(mn_part);
+			mx = mx.cwiseMax(mx_part);
+		}
+	}
+		
+	mx += Eigen::Vector4f(ep, ep, ep, 0);
+	
+	return bounding_box(mn.head(3), mx.head(3));
+}
 
 }

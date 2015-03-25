@@ -50,11 +50,13 @@ void unorganized_point_cloud<Point, Allocator>::shuffle() {
 
 
 template<typename Point, typename Allocator> template<typename Other_iterator>
-auto unorganized_point_cloud<Point, Allocator>::insert(typename super::iterator pos, Other_iterator begin, Other_iterator end)
+auto unorganized_point_cloud<Point, Allocator>::insert(typename super::iterator pos_start, Other_iterator begin, Other_iterator end)
 -> typename super::iterator {
+	typename super::iterator pos = pos_start;
 	for(auto it = begin; it < end; ++it) {
+		if(! it->valid()) continue;
 		if(pos == super::end()) throw std::invalid_argument("Cannot insert points past the end of the point cloud.");
-		if(it->valid()) *(pos++) = *(it);
+		*(pos++) = *(it);
 	}
 	return pos;
 }

@@ -1,21 +1,21 @@
 namespace pcf {
 
-template<typename Point, typename Iterator>
+template<typename Iterator, typename Point>
 unorganized_point_cloud<Point> merge_point_clouds(Iterator begin, Iterator end) {
 	using point_cloud_type = typename Iterator::value_type;
 
 	std::size_t total_size = 0;
-	for(const auto& pc_it = begin; pc_it != end; ++pc_it)
+	for(auto pc_it = begin; pc_it != end; ++pc_it)
 		total_size += pc_it->number_of_valid_points();
-	
-	const point_cloud_type& first_pc = *begin;
-	
-	unorganized_point_cloud<Point> pc(total_size);
-	auto it = pc.begin();
-	for(const auto& pc_it = begin; pc_it != end; ++pc_it) {
+		
+	unorganized_point_cloud<Point> out_pc(total_size);
+	auto it = out_pc.begin();
+	for(auto pc_it = begin; pc_it != end; ++pc_it) {
 		const point_cloud_type& pc = *pc_it;
-		it = pc.insert(it, pc.begin_relative_to(first_pc), pc.end_relative_to());
+		it = out_pc.insert(it, pc.begin_relative_to(out_pc), pc.end_relative_to());
 	}
+	
+	return out_pc;
 }
 
 

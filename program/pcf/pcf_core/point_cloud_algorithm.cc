@@ -2,6 +2,6 @@
 
 namespace pcf {
 
-template void set_local_density_weights(grid_point_cloud_full&, std::size_t);
+template void compute_local_density_weights(grid_point_cloud_full&, std::size_t, float);
 
 }

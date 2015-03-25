@@ -7,7 +7,7 @@
 
 namespace pcf {
 
-template<typename Point, typename Iterator>
+template<typename Iterator, typename Point = typename Iterator::value_type::point_type>
 unorganized_point_cloud<Point> merge_point_clouds(Iterator begin, Iterator end);
 
 template<typename Point, typename Other_point>

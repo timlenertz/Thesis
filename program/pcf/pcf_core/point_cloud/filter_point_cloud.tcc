@@ -10,10 +10,6 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Filter>
 void filter_point_cloud<Point, Allocator>::filter(Filter filt, bool par) {
-	filt.reset();
-
-	Point* np = super::begin_;
-
 	#pragma omp parallel for if(par)
 	for(Point* p = super::begin_; p < super::end_; ++p) {
 		if(! p->valid()) continue;

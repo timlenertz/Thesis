@@ -6,6 +6,7 @@
 #include "point_filter/probability.h"
 #include "util/random.h"
 #include "geometry/math_constants.h"
+#include "field/field.h"
 #include <iostream>
 
 namespace pcf {
@@ -39,21 +40,20 @@ void compute_normals(Cloud& pc) {
 
 
 template<typename Cloud>
-void set_local_density_weights(Cloud& pc, std::size_t k) {
+void compute_local_density_weights(Cloud& pc, std::size_t k, float ratio) {
 	auto got_knn = [&](point_full& p, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {	
+		auto dist = [&p](const point_full& q) { return distance(p, q); };
 		auto sq_dist = [&p](const point_full& q) { return distance_sq(p, q); };
 		auto cmp = [&sq_dist](const point_full& a, const point_full& b) { return sq_dist(a) < sq_dist(b); };
-		auto max_distance_it = std::max_element(knn_begin, knn_end, cmp);
+		auto minmax_dist_it = std::minmax_element(knn_begin, knn_end, cmp);
 		
-		std::ptrdiff_t n = knn_end - knn_begin;
-		float area = pi * sq_dist(*max_distance_it);
-		std::cout << n << " ar:" << area << std::endl;
-		float density = (float)n / area;
+		float area = pi * sq_dist(*minmax_dist_it.second);
+		float density = (float)k / area;
 		
 		p.set_weight(density);
 	}; 
-	pc.nearest_neighbors(k, accept_point_filter(), got_knn, false);
+	if(ratio == 1.0) pc.nearest_neighbors(k, accept_point_filter(), got_knn);
+	else pc.nearest_neighbors(k, probability_point_filter(ratio), got_knn);
 }
-
 
 }

@@ -10,13 +10,14 @@ namespace pcf {
 
 /**
 Point of a cloud, consisting of X, Y, Z coordinates, RGB color information, normal vector and weight.
-Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers. 
+Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers.
+Due to space constraint normal is stored using two values (a, b), where a = x-y and b = x+y.
 */
 class ALIGNAS(32) point_full : public point_xyz {
 private:
 	float normal_a_ = 0.0;
 	float normal_b_ = 0.0;
-	float weight_ = 1.0;
+	float weight_ = NAN;
 
 public:
 	rgb_color color = default_color();
@@ -56,6 +57,7 @@ public:
 	
 	float get_weight() const { return weight_; }
 	void set_weight(float w) { weight_ = w; }
+	bool has_weight() const { return ! isnan(weight_); }
 
 	void swap(point_full&);
 

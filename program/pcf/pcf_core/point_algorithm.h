@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "point.h"
 #include "geometry/plane.h"
+#include "geometry/bounding_box.h"
 #include "point_cloud/selection.h"
 
 namespace pcf {
@@ -45,6 +46,9 @@ void set_unique_weight(Iterator begin, Iterator end, std::uint8_t w);
 
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end);
+
+template<typename Iterator>
+bounding_box compute_bounding_box(Iterator begin, Iterator end, float ep = 0.0);
 
 template<typename Iterator>
 Eigen::Vector3f center_of_mass(Iterator begin, Iterator end);

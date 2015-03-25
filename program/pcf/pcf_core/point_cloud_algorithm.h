@@ -17,10 +17,10 @@ template<typename Cloud>
 void compute_normals(Cloud&);
 
 template<typename Cloud>
-void set_local_density_weights(Cloud&, std::size_t k);
+void compute_local_density_weights(Cloud&, std::size_t k, float ratio = 1.0);
 
 
-extern template void set_local_density_weights(grid_point_cloud_full&, std::size_t);
+extern template void compute_local_density_weights(grid_point_cloud_full&, std::size_t, float);
 
 }
 

@@ -134,7 +134,22 @@ Testing effectiveness of ICP variants on types of data.\
 \b Methods\
 
 \b0 j\
+	\
 	Ideas:\
+		filter out good data\
+		exploit visual information from projection \
+\
+	ICP with adjusted point weights\
+		Take points that are visible from the other camera too\
+\
+		Drop points with low local density\
+		Local density estimation\
+		Kriging of density\
+			Implementation in Octree structure\
+\
+	Ideas:\
+		Near-planar: build depth map\
+\
 		- Superresolution of low res pc\
 		- Downsample high res pc\
 		- Continuous representation\

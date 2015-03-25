@@ -18,3 +18,4 @@ since 2 september 	collecting/reading +/- relevant papers
 			built user interface, visualizer, ICP toolkit
 2 february		finished exams, restarting
 10 march		ROOT/cling interface, visualizer, experiment module, etc.
+25 march		relief registration problem, merge, density/knn calc, field (kriging)

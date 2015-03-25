@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include "../point_algorithm.h"
 
 namespace pcf {
 
@@ -24,35 +25,7 @@ bool point_cloud_segment<Point>::intersects(const point_cloud_segment& seg) cons
 
 template<typename Point>
 bounding_box point_cloud_segment<Point>::box(float ep) const {
-	const float inf = INFINITY;
-	Eigen::Vector4f mn(+inf, +inf, +inf, 0);
-	Eigen::Vector4f mx(-inf, -inf, -inf, 0);
-
-	
-	#pragma omp parallel
-	{
-		Eigen::Vector4f mn_part(+inf, +inf, +inf, 0);
-		Eigen::Vector4f mx_part(-inf, -inf, -inf, 0);
-		
-		#pragma omp for
-		for(Point* p = begin_; p < end_; ++p) {
-			if(! p->valid()) continue;
-			const Eigen::Vector4f pc = p->homogeneous_coordinates;
-			
-			mn_part = mn_part.cwiseMin(pc);
-			mx_part = mx_part.cwiseMax(pc);
-		}
-		
-		#pragma omp critical
-		{
-			mn = mn.cwiseMin(mn_part);
-			mx = mx.cwiseMax(mx_part);
-		}
-	}
-		
-	mx += Eigen::Vector4f(ep, ep, ep, 0);
-	
-	return bounding_box(mn.head(3), mx.head(3));
+	return compute_bounding_box(begin_, end_);
 }
 
 
