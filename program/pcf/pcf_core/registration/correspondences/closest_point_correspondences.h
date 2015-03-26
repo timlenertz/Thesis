@@ -54,7 +54,8 @@ public:
 	closest_point_correspondences(const closest_point_correspondences&) = default;
 	closest_point_correspondences(closest_point_correspondences&&) = default;
 	
-	template<typename Receiver> void operator()(Receiver&, const Eigen::Affine3f& transformation);
+	template<typename Receiver>
+	void operator()(Receiver&, const Eigen::Affine3f& transformation = Eigen::Affine3f::Identity());
 	
 	const Cloud_fixed& fixed_point_cloud() const { return fixed_; }
 	const Cloud_loose& loose_point_cloud() const { return loose_; }

@@ -9,35 +9,37 @@
 
 namespace pcf {
 
-unorganized_point_cloud_xyz make_sphere_point_cloud(float radius, std::size_t sz) {
-	unorganized_point_cloud_xyz pc(sz);
-	for(point_xyz& p : pc) {
+unorganized_point_cloud_full make_sphere_point_cloud(float radius, std::size_t sz) {
+	unorganized_point_cloud_full pc(sz);
+	for(point_full& p : pc) {
 		float theta = random_real<float>(0, two_pi);
 		float phi = std::acos( random_real<float>(-1, 1) );
-		p = point_xyz(
-			radius * std::cos(theta) * std::sin(phi),
-			radius * std::sin(theta) * std::sin(phi),
-			radius * std::cos(phi)		
+		Eigen::Vector3f unit_pt(
+			std::cos(theta) * std::sin(phi),
+			std::sin(theta) * std::sin(phi),
+			std::cos(phi)		
 		);
+		p = point_full(radius * unit_pt);
+		p.set_normal(unit_pt);
 	}
 	return pc;
 }
 
 
-unorganized_point_cloud_xyz make_sphere_point_cloud_with_density(float radius, float density) {
+unorganized_point_cloud_full make_sphere_point_cloud_with_density(float radius, float density) {
 	float n = density * four_pi * radius * radius;
 	return make_sphere_point_cloud(radius, n);
 }
 
 
-unorganized_point_cloud_xyz make_relief_point_cloud(float width, float density) {
+unorganized_point_cloud_full make_relief_point_cloud(float width, float density) {
 	struct sphere {
 		float radius;
 		Eigen::Vector3f origin;
 	};
 	std::vector<sphere> spheres;
 	
-	std::vector<unorganized_point_cloud_xyz> clouds;
+	std::vector<unorganized_point_cloud_full> clouds;
 	
 	auto point_in_any_sphere = [&](const Eigen::Vector3f& p, const sphere* except = nullptr) {
 		for(const sphere& s : spheres) {
@@ -62,7 +64,7 @@ unorganized_point_cloud_xyz make_relief_point_cloud(float width, float density) 
 	for(const sphere& s : spheres) {
 		auto pc = make_sphere_point_cloud_with_density(s.radius, density);
 		pc.move(s.origin);
-		pc.filter([&](const point_xyz& p) {
+		pc.filter([&](const point_full& p) {
 			Eigen::Vector3f wp = Eigen::Vector3f(p) + s.origin;
 			return
 				(wp[2] > 0.0) &&
@@ -75,13 +77,16 @@ unorganized_point_cloud_xyz make_relief_point_cloud(float width, float density) 
 	}
 	
 	std::size_t number_of_plane_points = density * width * width;
-	unorganized_point_cloud_xyz pc(number_of_plane_points);
-	unorganized_point_cloud_xyz::iterator it = pc.begin();
+	unorganized_point_cloud_full pc(number_of_plane_points);
+	unorganized_point_cloud_full::iterator it = pc.begin();
 	for(std::size_t i = 0; i < number_of_plane_points; ++i) {
-		Eigen::Vector3f pt = Eigen::Vector3f::Zero();
-		pt[0] = random_real<float>(-hw, +hw);
-		pt[1] = random_real<float>(-hw, +hw);
-		if(not point_in_any_sphere(pt)) *(it++) = point_xyz(pt);
+		point_full pt(
+			random_real<float>(-hw, +hw),
+			random_real<float>(-hw, +hw),
+			0
+		);
+		pt.set_normal(Eigen::Vector3f(0.0, 0.0, 1.0));
+		if(not point_in_any_sphere(pt)) *(it++) = pt;
 	}
 	clouds.push_back(std::move(pc));
 

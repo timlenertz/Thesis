@@ -15,7 +15,7 @@ Value list_field<Value, Weight_func>::get_(const Eigen::Vector3f& pos, float& co
 		#pragma omp for
 		for(auto it = samples_.begin(); it < samples_.end(); ++it) {
 			const sample& samp = *it;
-			float weight = weight_func_(pos, samp.position);
+			float weight = super::weight_func_(pos, samp.position);
 			total_weight_part += weight;
 			weighted_sum_part += weight * samp.value;
 		}

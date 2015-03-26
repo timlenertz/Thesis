@@ -8,11 +8,11 @@ namespace pcf {
 
 /// Create point cloud of a sphere centered at origin.
 /// The points are randomly distributed on the surface at a uniform density.
-unorganized_point_cloud_xyz make_sphere_point_cloud(float radius, std::size_t number_of_points);
+unorganized_point_cloud_full make_sphere_point_cloud(float radius, std::size_t number_of_points);
 
-unorganized_point_cloud_xyz make_sphere_point_cloud_with_density(float radius, float density);
+unorganized_point_cloud_full make_sphere_point_cloud_with_density(float radius, float density);
 
-unorganized_point_cloud_xyz make_relief_point_cloud(float width, float density);
+unorganized_point_cloud_full make_relief_point_cloud(float width, float density);
 
 }
 

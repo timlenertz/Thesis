@@ -17,7 +17,7 @@ class field {
 public:
 	using position_type = Eigen::Vector3f;
 	
-private:
+protected:
 	Weight_func weight_func_;
 	
 	virtual Value get_(const position_type&, float& confidence) const = 0;

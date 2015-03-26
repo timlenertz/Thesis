@@ -14,6 +14,7 @@
 #include "../../pcf_core/rgb_color.h"
 #include "../../pcf_core/space_object_observer.h"
 #include "../../pcf_core/space_object_wrapper.h"
+#include "../../pcf_core/registration/correspondences/registration_correspondences_list.h"
 #include "../gl_object.h"
 #include "object.h"
 #include "object_holder.h"
@@ -25,6 +26,7 @@ namespace pcf {
 class scene_object_shader_program;
 class scene_bounding_box;
 class scene_point_cloud;
+class scene_registration_correspondences;
 
 /**
 Scene composed of camera and scene objects.
@@ -82,7 +84,8 @@ public:
 	scene_point_cloud& add(point_cloud_xyz&);
 	scene_point_cloud& add(point_cloud_full&);
 	scene_bounding_box& add(space_bounding_box&);
-	
+	scene_registration_correspondences& add(space_registration_correspondences_list&);
+		
 	template<typename Object_1, typename Object_2, typename... Other_objects>
 	void add(Object_1& obj1, Object_2& obj2, Other_objects&... others) {
 		add(obj1);
@@ -90,6 +93,8 @@ public:
 		add(others...);
 	}
 	void add() { }
+	
+	void add_scene_object(scene_object& obj) { return add_object_(obj); }
 };
 
 

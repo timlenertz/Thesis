@@ -17,6 +17,7 @@
 #include "scene/object.h"
 #include "scene/object_holder.h"
 #include "scene/point_cloud.h"
+#include "scene/registration_correspondences.h"
 #include "scene/scene.h"
 #include "scene/shader_program.h"
 

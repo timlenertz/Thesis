@@ -3,6 +3,7 @@
 #include "shader_program.h"
 #include "bounding_box.h"
 #include "point_cloud.h"
+#include "registration_correspondences.h"
 #include "../../pcf_core/space_object_wrapper.h"
 
 
@@ -74,6 +75,10 @@ scene_point_cloud& scene::add(point_cloud_full& pc) {
 
 scene_bounding_box& scene::add(space_bounding_box& box) {
 	return add_with_holder_<scene_bounding_box>(box);
+}
+
+scene_registration_correspondences& scene::add(space_registration_correspondences_list& lst) {
+	return add_with_holder_<scene_registration_correspondences>(lst);
 }
 
 

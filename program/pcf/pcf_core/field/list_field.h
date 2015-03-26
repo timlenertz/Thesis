@@ -27,12 +27,12 @@ private:
 
 	std::vector<sample> samples_;
 	
-	Value get_(const position_type&, float& confidence) const override;
-	void set_(const Value&, const position_type&) override;
+	Value get_(const Eigen::Vector3f&, float& confidence) const override;
+	void set_(const Value&, const Eigen::Vector3f&) override;
 
 public:
-	explicit field(const Weight_func& wf = Weight_func()) : field(wf) { }
-	~field() { }
+	explicit list_field(const Weight_func& wf = Weight_func()) : super(wf) { }
+	~list_field() { }
 	
 	void clear();
 };

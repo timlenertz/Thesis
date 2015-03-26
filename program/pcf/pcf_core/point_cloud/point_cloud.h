@@ -146,6 +146,7 @@ public:
 	void move_center_of_mass_to_origin();
 };
 
+
 extern template class point_cloud<point_xyz>;
 extern template class point_cloud<point_full>;
 

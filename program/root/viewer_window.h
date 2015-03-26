@@ -80,6 +80,9 @@ public:
 	*/
 	pcf::viewer& operator->() { return viewer_; }
 	
+	pcf::viewer& viewer() { return viewer_; }
+	pcf::scene& scene() { return *viewer_; }
+	
 	void select_object(pcf::space_object& obj);
 };
 
