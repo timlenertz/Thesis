@@ -10,13 +10,13 @@ Assigns weight according to weights of the two points.
 Ratio indicates to what level each point's weight is taken. 0.0 means take first point's weight,
 1.0 second point's weight, 0.5 mean of both.
 */
-class correspondences_points_weights {
+class points_correspondences_weights {
 private:
 	const float ratio1_;
 	const float ratio2_;
 
 public:
-	explicit correspondences_points_weights(float ratio = 0.5) :
+	explicit points_correspondences_weights(float ratio = 0.5) :
 		ratio1_(1.0f - ratio), ratio2_(ratio) { }
 
 	template<typename Point1, typename Point2>

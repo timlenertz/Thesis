@@ -9,12 +9,12 @@ namespace pcf {
 Assigns greater weight to point pairs that are closer.
 When distance is greater than given maximal distance, assigns weight 0, i.e. the pair is rejected.
 */
-class correspondences_proximity_weights {
+class proximity_correspondences_weights {
 private:
 	const float maximal_distance_;
 
 public:
-	explicit correspondences_proximity_weights(float max_dist) :
+	explicit proximity_correspondences_weights(float max_dist) :
 		maximal_distance_(max_dist) { }
 
 	float operator()(const point_xyz& a, const point_xyz& b) const {

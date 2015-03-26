@@ -19,7 +19,7 @@ void main() {
 	
 	float a;
 	float diff = max_weight - min_weight;
-	if(max_weight != min_weight) a = (vertex_weight - min_weight) / diff;
+	if(diff != 0.0) a = (vertex_weight - min_weight) / diff;
 	else a = 0.0;
 
 	vec3 col = (1.0 - a)*min_edge_color + a*max_edge_color;
