@@ -4,6 +4,7 @@ namespace pcf {
 
 point_full& point_full::operator=(const point_xyz& pt) {
 	point_xyz::operator=(pt);
+	color = default_color();
 	normal_a_ = 0.0;
 	normal_b_ = 0.0;
 	weight_ = NAN;

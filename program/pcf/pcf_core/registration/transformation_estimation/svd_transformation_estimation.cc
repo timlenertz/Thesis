@@ -17,7 +17,7 @@ Eigen::Affine3f svd_transformation_estimation::operator() () const {
 	Eigen::Matrix3f R = V * U.transpose();
 	Eigen::Vector3f t = loose_center - R * fixed_center;
 		
-	return Eigen::Translation3f(t) * Eigen::AngleAxisf(R);
+	return (Eigen::Translation3f(t) * Eigen::AngleAxisf(R)).inverse();
 }
 
 }

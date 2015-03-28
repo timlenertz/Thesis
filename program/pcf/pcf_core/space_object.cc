@@ -2,6 +2,8 @@
 #include "space_object_observer.h"
 #include "space_object_wrapper.h"
 #include "geometry/bounding_box.h"
+#include "geometry/spherical_coordinates.h"
+#include "util/random.h"
 #include <stdexcept>
 #include <mutex>
 
@@ -165,12 +167,41 @@ Eigen::Affine3f space_object::transformation_from(const space_object& obj) const
 }
 
 
+void space_object::rotate_x_axis(angle a, const Eigen::Vector3f& c) {
+	Eigen::Translation3f t(c);
+	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitX()) * t.inverse());
+}
+
+
+void space_object::rotate_y_axis(angle a, const Eigen::Vector3f& c) {
+	Eigen::Translation3f t(c);
+	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY()) * t.inverse());
+}
+
+
+void space_object::rotate_z_axis(angle a, const Eigen::Vector3f& c) {
+	Eigen::Translation3f t(c);
+	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ()) * t.inverse());
+}
+
+
+
 void space_object::look_at(const space_object& obj) {
 	Eigen::Vector3f at_obj = transformation_from(obj) * Eigen::Vector3f::Zero();
 	Eigen::Vector3f at_depth(0, 0, 1);
 	pose_.orientation.setFromTwoVectors(at_depth, at_obj);
 	pose_.orientation.normalize();
 	recursive_notify_pose_update_();
+}
+
+
+void space_object::random_displacement(float translation_mag, angle rotation_mag) {
+	Eigen::Translation3f translation( spherical_coordinates::random_direction(translation_mag).to_cartesian() );
+	
+	Eigen::Vector3f rotation_axis = spherical_coordinates::random_direction().to_cartesian();
+	Eigen::Affine3f rotation( Eigen::AngleAxisf(rotation_mag, rotation_axis) );
+	
+	transform(translation * rotation);
 }
 
 

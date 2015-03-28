@@ -173,15 +173,26 @@ auto point_cloud<Point, Allocator>::end_transform() const -> transform_iterator 
 
 template<typename Point, typename Allocator>
 auto point_cloud<Point, Allocator>::begin_relative_to(const space_object& obj, const Eigen::Affine3f& transform) const -> transform_iterator {
-	Eigen::Affine3f this_to_world = absolute_pose().transformation_to_world();
-	Eigen::Affine3f world_to_obj = obj.absolute_pose().transformation_from_world();
-	return transform_iterator(begin_, transform * world_to_obj * this_to_world);
+	return transform_iterator(begin_, transform * transformation_from(obj));
 }
 
 template<typename Point, typename Allocator>
 auto point_cloud<Point, Allocator>::end_relative_to() const -> transform_iterator {
 	return transform_iterator(end_);
 }
+
+
+
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::begin_absolute(const Eigen::Affine3f& transform) const -> transform_iterator {
+	return transform_iterator(begin_, transform * absolute_pose().transformation_to_world());
+}
+
+template<typename Point, typename Allocator>
+auto point_cloud<Point, Allocator>::end_absolute() const -> transform_iterator {
+	return transform_iterator(end_);
+}
+
 
 
 

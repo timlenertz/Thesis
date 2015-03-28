@@ -22,12 +22,12 @@ run_result experiment::run_registration_(const fixed_point_cloud_type& fixed, co
 	res_run.success = reg->run([&]() {
 		run_result::state res_state;
 		res_state.error = reg->current_error();
-		res_state.actual_error = actual_error_(reg->current_loose_transformation() * loose.transformation_from(fixed));
-		res_state.transformation = reg->current_loose_transformation();
+		res_state.actual_error = actual_error_(reg->accumulated_transformation() * loose.transformation_from(fixed));
+		res_state.transformation = reg->accumulated_transformation();
 		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(clock_t::now() - start_time);
 				
 		if(create_snapshot) {
-			color_image img = create_snapshot(fixed, loose, reg->current_loose_transformation());
+			color_image img = create_snapshot(fixed, loose, reg->accumulated_transformation());
 			res_state.snapshot.reset(new color_image(std::move(img)));
 		}
 		

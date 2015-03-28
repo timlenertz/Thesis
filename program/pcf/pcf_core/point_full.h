@@ -20,21 +20,21 @@ private:
 	float weight_ = NAN;
 
 public:
-	rgb_color color = default_color();
+	rgb_color color;
 	std::uint8_t unused;
 
 public:
 	point_full() :
-		point_xyz() { }
+		point_xyz(), color(default_color()) { }
 
 	point_full(const point_xyz& pt) :
-		point_xyz(pt) { }
+		point_xyz(pt), color(default_color()) { }
 
 	point_full(const Eigen::Vector3f& v) :
-		point_xyz(v) { }
+		point_xyz(v), color(default_color()) { }
 
 	point_full(float x, float y, float z) :
-		point_xyz(x, y, z) { }
+		point_xyz(x, y, z), color(default_color()) { }
 
 	point_full(float x, float y, float z, const rgb_color& col) :
 		point_xyz(x, y, z), color(col) { }

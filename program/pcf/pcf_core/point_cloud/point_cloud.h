@@ -129,6 +129,9 @@ public:
 	
 	transform_iterator begin_transform(const Eigen::Affine3f&) const;
 	transform_iterator end_transform() const;
+
+	transform_iterator begin_absolute(const Eigen::Affine3f&) const;
+	transform_iterator end_absolute() const;
 	
 	transform_iterator begin_relative_to(const space_object&, const Eigen::Affine3f& transform = Eigen::Affine3f::Identity()) const;
 	transform_iterator end_relative_to() const;

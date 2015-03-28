@@ -87,11 +87,13 @@ public:
 	void move_y(float y) { move(0, y, 0); }
 	void move_z(float z) { move(0, 0, z); }
 	
-	void rotate_x_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitX())); }
-	void rotate_y_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY())); }
-	void rotate_z_axis(angle a) { transform(Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())); }
+	void rotate_x_axis(angle a, const Eigen::Vector3f& c = Eigen::Vector3f::Zero());
+	void rotate_y_axis(angle a, const Eigen::Vector3f& c = Eigen::Vector3f::Zero());
+	void rotate_z_axis(angle a, const Eigen::Vector3f& c = Eigen::Vector3f::Zero());
 	
 	void look_at(const space_object&);
+	
+	void random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0));
 	
 	/**
 	Get bounding box enclosing the space object.

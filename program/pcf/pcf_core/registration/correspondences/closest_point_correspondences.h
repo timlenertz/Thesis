@@ -20,7 +20,7 @@ template<
 	typename Cloud_fixed,
 	typename Cloud_loose,
 	typename Selection_func = accept_point_filter,
-	typename Weight_func = equal_correspondences_weights
+	typename Weight_func = correspondences_equal_weights
 >
 class closest_point_correspondences {
 public:
