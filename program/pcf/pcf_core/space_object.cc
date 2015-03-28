@@ -84,10 +84,10 @@ const pose& space_object::relative_pose() const {
 
 
 pose space_object::absolute_pose() const {
-	pose ps = pose_;
+	Eigen::Affine3f trans = pose_.transformation_to_world();
 	if(has_parent_space_object())
-		ps.transform( parent_space_object().absolute_pose().transformation_to_world() );
-	return ps;
+		trans = parent_space_object().absolute_pose().transformation_to_world() * trans;
+	return pose(trans);
 }
 
 
@@ -137,7 +137,9 @@ void space_object::handle_update() {
 
 
 void space_object::transform_(const Eigen::Affine3f& t) {
-	pose_.transform(t);
+	Eigen::Affine3f pose_transformation = pose_.transformation_to_world();
+	pose_transformation = t * pose_transformation;
+	pose_ = pose(pose_transformation);
 	recursive_notify_pose_update_();
 }
 
@@ -168,19 +170,19 @@ Eigen::Affine3f space_object::transformation_from(const space_object& obj) const
 
 
 void space_object::rotate_x_axis(angle a, const Eigen::Vector3f& c) {
-	Eigen::Translation3f t(c);
+	Eigen::Translation3f t(c + pose_.position);
 	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitX()) * t.inverse());
 }
 
 
 void space_object::rotate_y_axis(angle a, const Eigen::Vector3f& c) {
-	Eigen::Translation3f t(c);
+	Eigen::Translation3f t(c + pose_.position);
 	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitY()) * t.inverse());
 }
 
 
 void space_object::rotate_z_axis(angle a, const Eigen::Vector3f& c) {
-	Eigen::Translation3f t(c);
+	Eigen::Translation3f t(c + pose_.position);
 	transform(t * Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ()) * t.inverse());
 }
 

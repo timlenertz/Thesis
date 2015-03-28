@@ -81,6 +81,13 @@ public:
 		transform_(Eigen::Affine3f(t));
 	}
 	
+	template<typename Transformation>
+	void transform(const Transformation& rt, const space_object& relative_to) {
+		Eigen::Affine3f btw = relative_to.absolute_pose().transformation_to_world();
+		Eigen::Affine3f t = btw * rt * btw.inverse();
+		transform_(t);
+	}
+	
 	void move(const Eigen::Vector3f& t) { transform(Eigen::Translation3f(t)); }
 	void move(float x, float y, float z) { move(Eigen::Vector3f(x, y, z)); }
 	void move_x(float x) { move(x, 0, 0); }

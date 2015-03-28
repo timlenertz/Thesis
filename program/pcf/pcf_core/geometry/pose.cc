@@ -27,12 +27,6 @@ Eigen::Affine3f pose::transformation_to_world() const {
 	return Eigen::Translation3f(position) * orientation;
 }
 
-void pose::transform(const Eigen::Affine3f& t) {
-	position += t.translation();
-	orientation = orientation * t.rotation();
-	orientation.normalize();
-}
-
 Eigen::Vector3f pose::euler_angles(std::ptrdiff_t a0, std::ptrdiff_t a1, std::ptrdiff_t a2) const {
 	return orientation.toRotationMatrix().eulerAngles(a0, a1, a2);
 }
@@ -65,16 +59,6 @@ pose pose::from_string(const std::string& str) {
 	Eigen::Vector3f position(p[0], p[1], p[2]);
 	Eigen::Quaternionf orientation(p[3], p[4], p[5], p[6]);
 	return pose(position, orientation);
-}
-
-
-void pose::random_displacement(float translation_mag, angle rotation_mag) {
-	Eigen::Translation3f translation( spherical_coordinates::random_direction(translation_mag).to_cartesian() );
-	
-	Eigen::Vector3f rotation_axis = spherical_coordinates::random_direction().to_cartesian();
-	Eigen::Affine3f rotation( Eigen::AngleAxisf(rotation_mag, rotation_axis) );
-	
-	transform(translation * rotation);
 }
 
 }

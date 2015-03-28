@@ -47,8 +47,8 @@ public:
 	void reset();
 	bool run(const iteration_callback& = iteration_callback());
 
-	void apply_loose_transformation(space_object& fx, space_object& ls, space_object& lsorig);
-	std::future<bool> run_live(space_object& fx, space_object& ls, space_object& lsorig);
+	void apply_loose_transformation(space_object& fx, space_object& ls);
+	std::future<bool> run_live(space_object& fx, space_object& ls);
 
 	virtual void compute_estimated_transformation_and_error() = 0;
 };

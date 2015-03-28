@@ -58,15 +58,15 @@ void motion_controller::tick() {
 
 
 void motion_controller::rotate(angle horizontal, angle vertical) {
-	if(object) object->transform(
-		Eigen::AngleAxisf(-vertical, Eigen::Vector3f::UnitX()) *
-		Eigen::AngleAxisf(-horizontal, Eigen::Vector3f::UnitY())
-	);
+	if(object) {
+		object->rotate_y_axis(horizontal);
+		object->rotate_x_axis(vertical);
+	}
 }
 
 
 void motion_controller::roll(angle a) {
-	if(object) object->rotate_z_axis(a);
+	if(object) object->rotate_z_axis(-a);
 }
 
 
