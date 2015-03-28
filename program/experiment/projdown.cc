@@ -46,7 +46,7 @@ void projdown(const std::string& pc_name, const std::string& db_name, const pose
 	
 	e.displacer = [](float arg) -> pose {
 		pose ps;
-		ps.random_displacement(0.1, 0.03*pi);
+		//ps.random_displacement(0.1, 0.03*pi);
 		return ps;
 	};
 	e.displacer_runs = 3;

@@ -27,7 +27,7 @@ void hilo(const std::string& pc_name, const std::string& db_name, const pose& ca
 	
 	e.displacer = [](float arg) -> pose {
 		pose ps;
-		ps.random_displacement(1.0*arg + 0.1, (0.1*arg + 0.03)*pi);
+		//ps.random_displacement(1.0*arg + 0.1, (0.1*arg + 0.03)*pi);
 		return ps;
 	};
 	e.displacer_runs = 5;

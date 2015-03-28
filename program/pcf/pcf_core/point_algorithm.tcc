@@ -124,6 +124,20 @@ Eigen::Vector3f weighted_center_of_mass(Iterator begin, Iterator end) {
 	return weighted_sum / total_weight;
 }
 
+
+template<typename Iterator>
+void orient_normals_to_point(Iterator begin, Iterator end, const Eigen::Vector3f& o, bool away) {
+	for(Iterator it = begin; it != end; ++it) {
+		auto& p = *it;
+		if(! p.valid()) continue;
+		
+		Eigen::Vector3f po = o - p.coordinates();
+		Eigen::Vector3f n = p.get_normal(false);
+		float dot = po.dot(n);
+		if( (dot < 0.0) != away ) p.flip_normal();
+	}
+}
+
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end) {
 	std::size_t n = end - begin;
@@ -131,12 +145,16 @@ plane fit_plane_to_points(Iterator begin, Iterator end) {
 
 	Eigen::MatrixX3f mat(n, 3);
 	std::ptrdiff_t i = 0;
-	for(Iterator it = begin; it != end; ++it, ++i)
-		mat.row(i) = ( (Eigen::Vector3f)*it ).transpose();
+	for(Iterator it = begin; it != end; ++it, ++i) {
+		const auto& pt = *it;
+		mat(i, 0) = pt[0];
+		mat(i, 1) = pt[1];
+		mat(i, 2) = pt[2];
+	}
 
 	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeThinV | Eigen::ComputeThinU);
 	Eigen::Vector3f norm = svd.solve(-Eigen::Vector3f::Ones());
-		
+
 	return plane(center, norm);
 }
 

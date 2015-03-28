@@ -20,7 +20,12 @@ template<typename Cloud>
 void compute_local_density_weights(Cloud&, std::size_t k, float ratio = 1.0);
 
 
+template<typename Cloud>
+void test_knn(Cloud&);
+
+
 extern template void compute_local_density_weights(grid_point_cloud_full&, std::size_t, float);
+extern template void compute_normals(grid_point_cloud_full&);
 
 }
 

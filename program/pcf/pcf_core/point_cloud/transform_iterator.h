@@ -23,6 +23,9 @@ private:
 	
 	void load_transformed_point_() const;
 	
+	template<typename That, typename Condition_func, typename Callback_func>
+	static void nearest_neighbors_(That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel);
+	
 public:
 	point_transform_iterator(Point*, const Eigen::Affine3f& = Eigen::Affine3f());
 	point_transform_iterator(const point_transform_iterator&) = default;

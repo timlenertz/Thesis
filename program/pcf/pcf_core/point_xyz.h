@@ -51,6 +51,7 @@ struct ALIGNAS(16) point_xyz {
 		
 	Eigen::Vector3f get_normal() const { return Eigen::Vector3f::Zero(); }
 	void set_normal(const Eigen::Vector3f&) { }
+	void flip_normal() { }
 	
 	float get_weight() const { return 1.0; }
 	void set_weight(float w) { }

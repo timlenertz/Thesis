@@ -159,7 +159,7 @@ void unorganized_point_cloud<Point, Allocator>::nearest_neighbors(std::size_t k,
 		if(! cond(ref)) continue;
 		
 		auto closest = find_nearest_neighbors(ref, super::begin(), super::end(), k);
-		callback(ref, closest);
+		callback(ref, closest.begin(), closest.end());
 	}
 }
 
@@ -173,7 +173,7 @@ void unorganized_point_cloud<Point, Allocator>::nearest_neighbors(std::size_t k,
 		if(! cond(ref)) continue;
 		
 		auto closest = find_nearest_neighbors(ref, super::begin(), super::end(), k);
-		callback(ref, closest);
+		callback(ref, closest.begin(), closest.end());
 	}
 }
 

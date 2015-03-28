@@ -1,9 +1,14 @@
 #include <cmath>
+#include <cassert>
 #include <utility>
+#include <cmath>
+#include <algorithm>
+#include <iostream>
 #include "../../image/intensity_image.h"
 #include "../../image/range_image.h"
 #include "../../image/color_image.h"
 #include "../../io/range_point_cloud_importer.h"
+#include "../../point.h"
 
 namespace pcf {
 
@@ -134,6 +139,65 @@ void range_point_cloud<Point, Allocator>::colorize(const color_image& im) {
 			rgb_color col = im.at(x, y);
 			p.set_color(col);
 		}
+	}
+}
+
+template<typename Point, typename Allocator> template<typename That, typename Condition_func, typename Callback_func>
+void range_point_cloud<Point, Allocator>::nearest_neighbors_
+(That that, std::size_t k, Condition_func cond, Callback_func callback, bool par) {
+	const std::size_t maximal_expansions = 100;
+	
+	using point_ptr_t = decltype(that->data());
+	using iterator_t = dereference_iterator<typename std::vector<point_ptr_t>::const_iterator>;
+
+	//#pragma omp parallel for if(par)
+	for(auto it = that->image_.begin(); it != that->image_.end(); ++it) {
+		auto& ref = *it;
+		if(! it->valid()) continue;
+		if(! cond(ref)) continue;
+		
+		std::vector<point_ptr_t> knn;
+		knn.reserve(k * 2);
+		if(ref.valid()) knn.push_back(&ref);
+	
+		auto process = [&](point_ptr_t p) {
+			if(p->valid()) knn.push_back(p);
+		};
+		auto cmp = [&](point_ptr_t a, point_ptr_t b) {
+			float da = distance_sq(ref, *a);
+			float db = distance_sq(ref, *b);
+			return (da < db);
+		};
+	
+	
+		image_coordinates ref_ic = it.index();
+		image_coordinates o = ref_ic, e = ref_ic;
+		image_coordinates ic = ref_ic;
+		std::size_t expansions = 0;
+		while(knn.size() < k && ++expansions < maximal_expansions) {
+			if(o.y > 0) {
+				ic.y = --o.y;
+				for(ic.x = o.x; ic.x <= e.x; ++ic.x) process(&that->image_[ic]);
+			}
+			if(e.y < that->height() - 1) {
+				ic.y = ++e.y;
+				for(ic.x = o.x; ic.x <= e.x; ++ic.x) process(&that->image_[ic]);
+			}
+			if(o.x > 0) {
+				ic.x = --o.x;
+				for(ic.y = o.y; ic.y <= e.y; ++ic.y) process(&that->image_[ic]);
+			}
+			if(e.x < that->width() - 1) {
+				ic.x = ++e.x;
+				for(ic.y = o.y; ic.y <= e.y; ++ic.y) process(&that->image_[ic]);
+			}		
+		}
+		
+		std::nth_element(knn.begin(), knn.begin()+(k-1), knn.end(), cmp);
+		iterator_t begin(knn.begin());
+		iterator_t end(knn.begin() + k);
+
+		callback(ref, begin, end);
 	}
 }
 

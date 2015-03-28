@@ -57,7 +57,6 @@ public:
 	std::size_t total_size() const { return (end_ - begin_); }
 	
 	std::ptrdiff_t index_to_address(const indices_type&) const;
-	indices_type address_to_index(const std::ptrdiff_t&) const; 
 	
 	iterator begin() { return iterator(sizes_, begin_, zero_index_()); }
 	const_iterator begin() const { return const_iterator(sizes_, begin_, zero_index_()); }

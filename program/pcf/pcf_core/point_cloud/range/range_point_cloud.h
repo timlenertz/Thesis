@@ -28,6 +28,10 @@ template<typename Point, typename Allocator = default_allocator<Point>>
 class range_point_cloud : public filter_point_cloud<Point, Allocator> {
 	using super = filter_point_cloud<Point, Allocator>;
 
+private:
+	template<typename That, typename Condition_func, typename Callback_func>
+	static void nearest_neighbors_(That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel);
+
 protected:
 	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
 	multi_dimensional_buffer<Point, 2> image_;
@@ -36,6 +40,8 @@ protected:
 	static multi_dimensional_buffer<Point, 2> create_image_(bool row_major, std::size_t w, std::size_t h, Point* buf);
 
 public:
+	using image_coordinates = typename multi_dimensional_buffer<Point, 2>::indices_type;
+
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 	
 	template<typename Other_point, typename Other_allocate>
@@ -55,6 +61,16 @@ public:
 	color_image to_color_image(rgb_color bg = rgb_color::black) const;
 	
 	void colorize(const color_image&);
+		
+	template<typename Condition_func, typename Callback_func>
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = true) const {
+		nearest_neighbors_(this, k, cond, callback, parallel);	
+	}
+	
+	template<typename Condition_func, typename Callback_func>
+	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = true) {
+		nearest_neighbors_(this, k, cond, callback, parallel);	
+	}
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

@@ -52,30 +52,9 @@ int main(int argc, const char* argv[]) {
 		pose::from_string("4.15846,0.876933,2.20932,-0.0618967,0.561422,0.0666719,0.822514"),
 		4.0
 	);*/
-	
-	/*
-	grid_point_cloud_full gpc(hdv_lo());
-	set_local_density_weights(gpc, 20);
-	
-	projection_image_camera cam(
-		pose::from_string("4.86971,-0.0192937,1.28612,0.00660215,0.604592,-0.013184,0.796399"),
-		projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 12.0/16.0),
-		1600, 1200
-	);
-	auto rpc = project(gpc, cam);
-	rpc.project(gpc);
-	auto img = rpc.weights_to_intensity_image();
-	img.flip(true, false);
-	//img.export_to_image_file("a.png");
-	img.export_visualization_to_image_file("a.png");
-	*/
-	
-	grid_point_cloud_full b = import_point_cloud("../misc/ply/dragon.ply");
-	set_local_density_weights(b, 20);
-	colorize_by_weight(b.begin(), b.end());
-	ply_exporter expor("d.ply");
-	b.export_with(expor);
-	
+
+	auto lo = hdv_lo();
+	test_knn(lo);
 
 	return EXIT_SUCCESS;
 }

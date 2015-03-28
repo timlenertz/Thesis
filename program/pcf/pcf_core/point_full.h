@@ -21,8 +21,15 @@ private:
 
 public:
 	rgb_color color;
-	std::uint8_t unused;
 
+private:
+	union {
+		struct {
+			bool normal_z_sign_ : 1;
+		};
+		std::uint8_t flags_;
+	};
+	
 public:
 	point_full() :
 		point_xyz(), color(default_color()) { }
@@ -54,6 +61,7 @@ public:
 	
 	Eigen::Vector3f get_normal(bool normalized = true) const;
 	void set_normal(const Eigen::Vector3f&);
+	void flip_normal();
 	
 	float get_weight() const { return weight_; }
 	void set_weight(float w) { weight_ = w; }

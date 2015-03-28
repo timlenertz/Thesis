@@ -35,7 +35,16 @@ void compute_normals(Cloud& pc) {
 		
 		pt.set_normal( pla.normal );
 	}; 
-	pc.nearest_neighbors(10, probability_point_filter(1.0), got_knn, false);
+	pc.nearest_neighbors(10, accept_point_filter(), got_knn);
+}
+
+
+template<typename Cloud>
+void test_knn(Cloud& pc) {
+	auto got_knn = [&](point_full& pt, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {
+		set_unique_color(knn_begin, knn_end, rgb_color::red);
+	}; 
+	pc.nearest_neighbors(100, probability_point_filter(10.0 / pc.number_of_valid_points()), got_knn);
 }
 
 

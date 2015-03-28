@@ -43,6 +43,8 @@ void normalize_point_weights(Iterator begin, Iterator end);
 template<typename Iterator>
 void set_unique_weight(Iterator begin, Iterator end, std::uint8_t w);
 
+template<typename Iterator>
+void orient_normals_to_point(Iterator begin, Iterator end, const Eigen::Vector3f& ref, bool away = false);
 
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end);

@@ -33,14 +33,6 @@ std::ptrdiff_t multi_dimensional_buffer<T, Dim>::index_to_address(const indices_
 }
 
 
-template<typename T, std::size_t Dim>
-auto multi_dimensional_buffer<T, Dim>::address_to_index(const std::ptrdiff_t& addr) const -> indices_type {
-	iterator it = begin();
-	it += addr;
-	return it.index(); // TODO make better
-}
-
-
 
 template<typename T, std::size_t Dim>
 multi_dimensional_buffer<T, Dim>::multi_dimensional_buffer(const sizes_type& sz, T* data, T* data_end) :
