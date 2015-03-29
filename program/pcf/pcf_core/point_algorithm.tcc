@@ -143,18 +143,20 @@ plane fit_plane_to_points(Iterator begin, Iterator end) {
 	std::size_t n = end - begin;
 	Eigen::Vector3f center = center_of_mass(begin, end);
 
-	Eigen::MatrixX3f mat(n, 3);
+	Eigen::MatrixXf mat(n, 4);
 	std::ptrdiff_t i = 0;
 	for(Iterator it = begin; it != end; ++it, ++i) {
 		const auto& pt = *it;
 		mat(i, 0) = pt[0];
 		mat(i, 1) = pt[1];
 		mat(i, 2) = pt[2];
+		mat(i, 3) = 1.0;
 	}
 
-	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeThinV | Eigen::ComputeThinU);
-	Eigen::Vector3f norm = svd.solve(-Eigen::Vector3f::Ones());
-
+	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeThinV);
+	auto v = svd.matrixV();
+	Eigen::Vector3f norm(v(0, 0), v(0, 1), v(0, 2));
+		
 	return plane(center, norm);
 }
 

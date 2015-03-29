@@ -7,6 +7,7 @@ point_full& point_full::operator=(const point_xyz& pt) {
 	color = default_color();
 	normal_a_ = 0.0;
 	normal_b_ = 0.0;
+	has_normal_ = false;
 	weight_ = NAN;
 	return *this;
 }

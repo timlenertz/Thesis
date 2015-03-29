@@ -9,6 +9,8 @@
 \b0 Recalage et fusion de mod\'e8les num\'e9ris\'e9s tridimensionnels de grande taille\
 
 \i0\fs34 \
+0/20 \
+\
 
 \b Abstract
 \b0 \
@@ -112,57 +114,46 @@ State of the Art and classification of point cloud registration methods.\
 		Examples of data sets to align\
 		\
 \
-\
 
-\b Experiments
+\b Method
 \b0 \
-Testing effectiveness of ICP variants on types of data.\
+	Hilo:\
+		Coarse, Fine, Refine\
 \
-	Aim of experiments\
-		Evaluate registration algorithms:\
-			stability\
-			convergence time\
-			quality ...\
-		On different data set types\
-	\
-	Methodology\
-	Present results (graphs)\
-	--> Conclusion about requirements for new algorithm\
+	Experiment on relief\
+		ICP with different weight settings\
+			Local density\
+			Planarity\
+			Visibility from both cameras\
+			Normal compatibility\
+			Proximity limit\
 \
+		Hilo\
+			Represent 6D transformation field in 2D\
+			Find local minimum area = lost information in Lo\
+			Evaluate samples to find better candidate\
+			Kriging along field\
+\
+		Image analysis\
+			Idea: zoom out to recognize objects\
+			Use orthogonal projection\
+			Image registration on projection, translate to 3D affine transform\
+			Hough transform\
+			Registration with photos\
+			Depth map wrt to planar surface\
+			Use photo's relief based on lightning and surface colors\
+		\
 \
 
-\b Methods\
-
-\b0 j\
-	\
-	Ideas:\
-		filter out good data\
-		exploit visual information from projection \
-\
-	ICP with adjusted point weights\
-		Take points that are visible from the other camera too\
-\
-		Drop points with low local density\
-		Local density estimation\
-		Kriging of density\
-			Implementation in Octree structure\
-\
-	Ideas:\
-		Near-planar: build depth map\
-\
-		- Superresolution of low res pc\
-		- Downsample high res pc\
-		- Continuous representation\
-		- PC - photo - PC error minimization\
-			(combine Perspective-to-Point and ICP)\
-	\
-\
-Side Problems\
+\b Side Problems
+\b0 \
 	Visualization\
 	Structures for efficient closest point finding (kdtree vs grid)\
 \
 \
-Implementation\
+
+\b Implementation
+\b0 \
 	Architecture\
 	Dependencies (Eigen, OpenCV)\
 	Efficient use of C++ (inlining, static polymorphism)\

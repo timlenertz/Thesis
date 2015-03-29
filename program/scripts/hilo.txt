@@ -1,0 +1,25 @@
+auto corw = [](const point_full& a, const point_full& b)->float {
+	if(distance(a, b) > 0.3) return 0.0;
+	else return b.get_weight();
+};
+
+kdtree_point_cloud_full hi(hdv_hi());
+grid_point_cloud_full lo(hdv_lo(), 0.2);
+compute_local_density_weights(lo, 20);
+colorize_by_weight(lo.begin(), lo.end(), 2000, 10000);
+normalize_point_weights(lo.begin(), lo.end());
+
+viewer_window vw;
+vw->camera().set_relative_pose(pose::from_string("4.2147,1.99909,0.763614,-0.116265,0.620531,0.139388,0.762886"));
+vw->add(hi);
+auto& slo = vw->add(lo)
+slo.point_size = 3;
+vw->set_background_color(rgb_color::black);
+vw.select_object(lo);
+
+auto reg = make_iterative_closest_point_registration(hi, lo, probability_point_filter(0.5), corw);
+
+reg.maximal_iterations = -1;
+reg.run_live(hi, lo);
+
+

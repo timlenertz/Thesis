@@ -32,7 +32,7 @@ template<typename Cloud>
 void compute_normals(Cloud& pc) {
 	auto got_knn = [&](point_full& pt, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {
 		plane pla = fit_plane_to_points(knn_begin, knn_end);
-		
+		std::cout << pla.normal << std::endl;
 		pt.set_normal( pla.normal );
 	}; 
 	pc.nearest_neighbors(10, accept_point_filter(), got_knn);

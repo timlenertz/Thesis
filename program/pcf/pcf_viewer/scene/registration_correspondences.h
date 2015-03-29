@@ -34,9 +34,10 @@ private:
 	float max_weight_;
 
 public:
-	rgb_color min_edge_color = rgb_color::blue;
-	rgb_color max_edge_color = rgb_color::red;
-	float edge_alpha = 1.0;
+	rgb_color min_edge_color = rgb_color::white;
+	rgb_color max_edge_color = rgb_color::yellow;
+	float min_edge_alpha = 0.3;
+	float max_edge_alpha = 1.0;
 
 	scene_registration_correspondences(const scene& sc, const space_registration_correspondences_list&);
 };

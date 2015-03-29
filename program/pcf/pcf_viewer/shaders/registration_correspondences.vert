@@ -9,7 +9,8 @@ uniform float min_weight;
 uniform float max_weight;
 uniform vec3 min_edge_color;
 uniform vec3 max_edge_color;
-uniform float edge_alpha;
+uniform float min_edge_alpha;
+uniform float max_edge_alpha;
 
 
 void main() {
@@ -22,6 +23,8 @@ void main() {
 	if(diff != 0.0) a = (vertex_weight - min_weight) / diff;
 	else a = 0.0;
 
-	vec3 col = (1.0 - a)*min_edge_color + a*max_edge_color;
-	fragment_color = vec4(col, edge_alpha);
+	vec4 mincol = vec4(min_edge_color, min_edge_alpha);
+	vec4 maxcol = vec4(max_edge_color, max_edge_alpha);
+
+	fragment_color = (1.0 - a)*mincol + a*maxcol;
 }

@@ -3,7 +3,15 @@ namespace pcf {
 template<typename Point>
 void point_transform_iterator<Point>::load_transformed_point_() const {
 	transformed_point_ = *point_;
-	if(transformed_point_.valid()) transformed_point_.apply_transformation(transformation_);
+	if(transformed_point_.valid()) {
+		transformed_point_.apply_transformation(transformation_);
+		if(transformed_point_.has_normal()) {
+			Eigen::Vector3f n = transformed_point_.get_normal();
+			Eigen::Vector4f hn(n[0], n[1], n[2], 0.0);
+			hn = transformation_ * hn;
+			//transformed_point_.set_normal(hn.head(3));
+		}
+	}
 	should_load_transformed_point_ = false;
 }
 

@@ -46,7 +46,7 @@ void scene_registration_correspondences::gl_initialize_() {
 
 void scene_registration_correspondences::initialize_edges_() {
 	// Generate OpenGL vertex buffer
-	std::size_t sz = number_of_correspondences_ * 2 * 3 * sizeof(float);
+	std::size_t sz = number_of_correspondences_ * 2 * 4 * sizeof(float);
 	glGenBuffers(1, &edges_vertex_buffer_);
 	glBindBuffer(GL_ARRAY_BUFFER, edges_vertex_buffer_);
 	glBufferData(GL_ARRAY_BUFFER, sz, (const GLvoid*)pending_data_.get(), GL_STATIC_DRAW);
@@ -76,7 +76,8 @@ void scene_registration_correspondences::gl_draw_() {
 	shader_program_->mvp_matrix = mvp_matrix_;
 	shader_program_->uniform("min_edge_color") = min_edge_color;
 	shader_program_->uniform("max_edge_color") = max_edge_color;
-	shader_program_->uniform("edge_alpha") = edge_alpha;
+	shader_program_->uniform("min_edge_alpha") = min_edge_alpha;
+	shader_program_->uniform("max_edge_alpha") = max_edge_alpha;
 	shader_program_->uniform("min_weight") = min_weight_;
 	shader_program_->uniform("max_weight") = max_weight_;
 	

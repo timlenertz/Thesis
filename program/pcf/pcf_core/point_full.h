@@ -26,25 +26,26 @@ private:
 	union {
 		struct {
 			bool normal_z_sign_ : 1;
+			bool has_normal_ : 1;
 		};
 		std::uint8_t flags_;
 	};
 	
 public:
 	point_full() :
-		point_xyz(), color(default_color()) { }
+		point_xyz(), color(default_color()) { has_normal_ = false; }
 
 	point_full(const point_xyz& pt) :
-		point_xyz(pt), color(default_color()) { }
+		point_xyz(pt), color(default_color()) { has_normal_ = false; }
 
 	point_full(const Eigen::Vector3f& v) :
-		point_xyz(v), color(default_color()) { }
+		point_xyz(v), color(default_color()) { has_normal_ = false; }
 
 	point_full(float x, float y, float z) :
-		point_xyz(x, y, z), color(default_color()) { }
+		point_xyz(x, y, z), color(default_color()) { has_normal_ = false; }
 
 	point_full(float x, float y, float z, const rgb_color& col) :
-		point_xyz(x, y, z), color(col) { }
+		point_xyz(x, y, z), color(col) { has_normal_ = false; }
 		
 	point_full(const point_full&) = default;
 
@@ -61,6 +62,7 @@ public:
 	
 	Eigen::Vector3f get_normal(bool normalized = true) const;
 	void set_normal(const Eigen::Vector3f&);
+	bool has_normal() const { return has_normal_; }
 	void flip_normal();
 	
 	float get_weight() const { return weight_; }

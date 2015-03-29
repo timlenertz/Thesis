@@ -51,10 +51,12 @@ struct ALIGNAS(16) point_xyz {
 		
 	Eigen::Vector3f get_normal() const { return Eigen::Vector3f::Zero(); }
 	void set_normal(const Eigen::Vector3f&) { }
+	bool has_normal() const { return false; }
 	void flip_normal() { }
 	
 	float get_weight() const { return 1.0; }
 	void set_weight(float w) { }
+	bool has_weight() const { return false; }
 	
 	bool valid() const { return (homogeneous_coordinates[3] == 1); }
 	explicit operator bool () const { return valid(); }
