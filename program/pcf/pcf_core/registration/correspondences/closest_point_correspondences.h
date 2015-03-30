@@ -3,10 +3,15 @@
 
 #include <cmath>
 #include "registration_correspondence.h"
-#include "../weights/equal.h"
 #include "../../point_filter/accept.h"
+#include "../../point.h"
 
 namespace pcf {
+
+class equal_equal_correspondences_weights_ {
+public:
+	float operator()(const point_xyz&, const point_xyz&) const { return 1.0; }
+};
 
 /**
 Point correspondences between closest points from two clouds.
@@ -20,7 +25,7 @@ template<
 	typename Cloud_fixed,
 	typename Cloud_loose,
 	typename Selection_func = accept_point_filter,
-	typename Weight_func = equal_correspondences_weights
+	typename Weight_func = equal_equal_correspondences_weights_
 >
 class closest_point_correspondences {
 public:

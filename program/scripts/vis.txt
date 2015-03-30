@@ -8,6 +8,7 @@ range_image_camera cam1(ps1, angle::degrees(60), angle::degrees(60), 600, 600);
 range_image_camera cam2(ps2, angle::degrees(60), angle::degrees(60), 600, 600);
 
 auto og = make_relief_point_cloud(5.0, 100000);
+og.set_point_indices();
 
 auto fx = project(og, cam1);
 auto lo = project(og, cam2);
@@ -22,32 +23,21 @@ vw.select_object(lo);
 vw->camera().set_relative_pose(vps);
 
 auto weight_func = [&](const point_full& fx_p, const point_full& lo_p) -> float {
-	if(distance(fx_p, lo_p) > 0.4) return 0.0;
-
-	Vector3f fx_n = fx_p.get_normal();
-	Vector3f lo_n = lo_p.get_normal();
-	float d = fx_n.dot(lo_n);
-	if(d > 0.5) return d*d;
-	else return 0.0;
-
-	Vector3f lo_cam = lo.transformation_to(fx) * Eigen::Vector3f::Zero();
-	Vector3f fx_cam = Vector3f::Zero();
-
-	Vector3f fx_to_ls_cam = (fx_p.coordinates() - lo_cam).normalized();
-	Vector3f lo_to_fx_cam = (lo_p.coordinates() - fx_cam).normalized();
-	
-	float fx_visibility = fx_to_ls_cam.dot(fx_n);
-	if(fx_visibility < 0) fx_visibility *= -1;
-
-	float lo_visibility = lo_to_fx_cam.dot(lo_n);
-	if(lo_visibility < 0) lo_visibility *= -1;
-
-	return fx_visibility;// * lo_visibility;
+	const point_full& fx_real_p = *(og.begin() + fx_p.get_index());
+	const point_full& lo_real_p = *(og.begin() + lo_p.get_index());
+	float d = distance(fx_real_p, lo_real_p);
+		
+	const float max_d = 0.2;
+	if(d > max_d) return 0.0;
+	else return (d/max_d);
 };
 
 kdtree_point_cloud_full fxt = fx;
 
 auto reg = make_iterative_closest_point_registration(fxt, lo, accept_point_filter(), weight_func);
+reg.run_live(fxt, lo);
+
+
 
 reg.compute_estimated_transformation_and_error();
 space_registration_correspondences_list lst;
@@ -55,4 +45,3 @@ lst.set_parent(fx);
 reg.correspondences(*lst);
 vw->add(lst);
 
-//reg.run_live(fxt, lo);

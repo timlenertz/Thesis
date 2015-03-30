@@ -8,6 +8,8 @@
 
 namespace pcf {
 
+class point_ext;
+
 /**
 Point of a cloud, consisting of X, Y, Z coordinates, RGB color information, normal vector and weight.
 Due to the point_xyz base class it does not quality as C++ POD type, but is still be used as such in the project. Works correctly in tested compilers.
@@ -47,10 +49,13 @@ public:
 	point_full(float x, float y, float z, const rgb_color& col) :
 		point_xyz(x, y, z), color(col) { has_normal_ = false; }
 		
+	point_full(const point_ext& pt);
+	
 	point_full(const point_full&) = default;
 
 
 	point_full& operator=(const point_full&) = default;
+	point_full& operator=(const point_ext&);
 	point_full& operator=(const Eigen::Vector3f& v) {
 		return operator=(point_xyz(v));
 	}

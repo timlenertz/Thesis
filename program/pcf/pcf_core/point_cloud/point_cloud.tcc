@@ -194,6 +194,12 @@ auto point_cloud<Point, Allocator>::end_absolute() const -> transform_iterator {
 }
 
 
+template<typename Point, typename Allocator>
+void point_cloud<Point, Allocator>::set_point_indices() {
+	std::ptrdiff_t i = 0;
+	for(Point& pt : *this) pt.set_index(i++);
+}
+
 
 
 template<typename Point, typename Allocator>

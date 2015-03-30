@@ -14,19 +14,9 @@ namespace pcf {
 
 template<typename Point, typename Allocator> template<typename Other_cloud>
 pov_point_cloud<Point, Allocator>::pov_point_cloud(Other_cloud&& pc, const Allocator& alloc) :
-super(std::forward<Other_cloud>(pc), compute_leaf_capacity_(pc), true, alloc) {
+super(std::forward<Other_cloud>(pc), 0, true, alloc) {
 	prepare_tree_();
 }
-
-
-template<typename Point, typename Allocator> template<typename Other_cloud>
-std::size_t pov_point_cloud<Point, Allocator>::compute_leaf_capacity_(const Other_cloud& pc) {
-	std::size_t cap = pc.number_of_valid_points() / 100000;
-	if(cap < 1000) cap = 1000;
-	return cap;
-}
-
-
 
 
 template<typename Point, typename Allocator>
@@ -126,7 +116,7 @@ extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const
 	std::size_t ndsize = nd.size();
 	assert(n <= ndsize);
 		
-	if(n == ndsize || nd.is_leaf()) {
+	if(n == ndsize || nd.is_leaf() || true) {
 		// Copy all points
 		std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
 	

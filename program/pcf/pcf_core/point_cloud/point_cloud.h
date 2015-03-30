@@ -111,6 +111,8 @@ public:
 	std::size_t number_of_valid_points() const;
 	std::size_t number_of_invalid_points() const;
 	bool contains_invalid_points() const;
+	
+	void set_point_indices();
 
 	segment full_segment() { return segment(begin_, end_); }
 	const_segment full_segment() const { return const_segment(begin_, end_); }	

@@ -4,6 +4,10 @@
 #include "hilo.h"
 #include "projdown.h"
 
+#include <pcf/core.h>
+#include <pcf/viewer.h>
+
+
 using namespace pcf;
 
 pcf::range_point_cloud_full hdv_scan(const std::string& id) {
@@ -39,46 +43,7 @@ pcf::range_point_cloud_full hdv_hi() {
 }
 
 static void r() {
-	using namespace Eigen;
-
-	pose ps1 = pose::from_string("0.0111054,-5.34705,3.16065,0.888177,0.459471,0.00140555,0.00514437");
-	pose ps2 = pose::from_string("1.19905,5.00239,3.73934,0.0271785,0.0955291,0.430536,0.897092");
-	pose vps = pose::from_string("-3.91371,0.746101,4.11871,0.631202,0.178814,-0.261022,-0.70815");
-
-	range_image_camera cam1(ps1, angle::degrees(60), angle::degrees(60), 600, 600);
-	range_image_camera cam2(ps2, angle::degrees(60), angle::degrees(60), 600, 600);
-
-	auto og = make_relief_point_cloud(5.0, 100000);
-
-	auto fx = project(og, cam1);
-	auto lo = project(og, cam2);
-	set_unique_color(lo.begin(), lo.end(), rgb_color::red);
-
-	lo.random_displacement(0.2);
-
-	auto weight_func = [&](const point_full& fx_p, const point_full& lo_p) -> float {
-		Vector3f fx_n = fx_p.get_normal();
-		Vector3f lo_n = lo_p.get_normal();
-
-		Vector3f lo_cam = lo.transformation_to(fx) * Eigen::Vector3f::Zero();
-		Vector3f fx_cam = Vector3f::Zero();
-
-		Vector3f fx_to_ls_cam = (fx_p.coordinates() - lo_cam).normalized();
-		Vector3f lo_to_fx_cam = (lo_p.coordinates() - fx_cam).normalized();
-	
-		float fx_visibility = -fx_to_ls_cam.dot(fx_n);
-		if(fx_visibility < 0) fx_visibility = 0;
-
-		float lo_visibility = -lo_to_fx_cam.dot(lo_n);
-		if(lo_visibility < 0) lo_visibility = 0;
-
-		return fx_visibility * lo_visibility;
-	};
-
-	kdtree_point_cloud_full fxt = fx;
-
-	auto reg = make_iterative_closest_point_registration(fxt, lo, accept_point_filter(), weight_func);
-	//reg.run_live(fxt, lo);
+	pov_point_cloud_full b = import_point_cloud("../misc/ply/bunny.ply");
 }
 
 
@@ -95,6 +60,8 @@ int main(int argc, const char* argv[]) {
 		pose::from_string("4.15846,0.876933,2.20932,-0.0618967,0.561422,0.0666719,0.822514"),
 		4.0
 	);*/
+	
+	r();
 
 	return EXIT_SUCCESS;
 }

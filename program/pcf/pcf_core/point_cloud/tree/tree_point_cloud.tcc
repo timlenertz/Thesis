@@ -57,7 +57,7 @@ auto tree_point_cloud<Traits, Point, Allocator>::root() const -> const_node_hand
 
 
 template<typename Traits, typename Point, typename Allocator>
-void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {	
+void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	using node_handle_list = std::vector<node_handle>;
 
 	root_box_ = Traits::root_box(super::full_segment());
@@ -66,7 +66,7 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 	// Creates node tree, and segment point cloud in-place.
 	node_handle_list todo, next_todo; // nodes to split at current and next iteration
 	todo.push_back(root());
-	
+		
 	std::size_t depth = 0;
 	while(todo.size() && depth != Traits::maximal_depth) {
 		// todo contains set of nodes at same level.
