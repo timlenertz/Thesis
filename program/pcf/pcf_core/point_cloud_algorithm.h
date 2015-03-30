@@ -19,7 +19,6 @@ void compute_normals(Cloud&);
 template<typename Cloud>
 void compute_local_density_weights(Cloud&, std::size_t k, float ratio = 1.0);
 
-
 template<typename Cloud>
 void test_knn(Cloud&);
 

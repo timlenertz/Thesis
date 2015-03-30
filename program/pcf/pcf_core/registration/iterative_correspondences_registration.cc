@@ -35,6 +35,12 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 }
 
 
+void iterative_correspondences_registration_base::step() {
+	this->compute_estimated_transformation_and_error();
+	accumulated_transformation_ = estimated_transformation_ * accumulated_transformation_;
+}
+
+
 void iterative_correspondences_registration_base::apply_loose_transformation(space_object& fx, space_object& ls) {
 	ls.transform(accumulated_transformation_, fx);
 	accumulated_transformation_.setIdentity();

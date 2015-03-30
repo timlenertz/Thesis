@@ -138,6 +138,27 @@ void orient_normals_to_point(Iterator begin, Iterator end, const Eigen::Vector3f
 	}
 }
 
+
+template<typename Iterator>
+void compute_normal_direction_weights(Iterator begin, Iterator end, const Eigen::Vector3f& ref, angle maximal_angle) {
+	float min_cos = std::cos(maximal_angle);
+
+	for(Iterator it = begin; it != end; ++it) {
+		auto& p = *it;
+		if(! p.valid()) continue;
+		
+		Eigen::Vector3f n = p.get_normal(true);
+		Eigen::Vector3f pr = (ref - p.coordinates()).normalized();
+		float cos_angle = n.dot(pr);
+		
+		float w = 0.0;		
+		if(cos_angle > min_cos) w = (cos_angle - min_cos) / (1.0 - min_cos);
+		else w = 0.0;
+		
+		it->set_weight(w);
+	}
+}
+
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end) {
 	std::size_t n = end - begin;

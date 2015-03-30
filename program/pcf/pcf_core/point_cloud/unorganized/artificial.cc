@@ -49,10 +49,10 @@ unorganized_point_cloud_full make_relief_point_cloud(float width, float density)
 		return false;
 	};
 		
-	std::size_t number_of_spheres = 5;
+	std::size_t number_of_spheres = 35;
 	for(std::size_t i = 0; i < number_of_spheres; ++i) {
 		sphere s;
-		s.radius = random_real<float>(width/20.0, width/2.0);
+		s.radius = random_real<float>(width/20.0, width/7.0);
 		s.origin[0] = random_real<float>(-width/3.0, +width/3.0);
 		s.origin[1] = random_real<float>(-width/3.0, +width/3.0);
 		s.origin[2] = random_real<float>(-0.7*s.radius, -0.5*s.radius);

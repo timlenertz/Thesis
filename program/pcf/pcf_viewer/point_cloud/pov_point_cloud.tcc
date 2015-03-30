@@ -116,7 +116,7 @@ extract_points_(Point* buffer, std::size_t n, const const_node_handle& nd) const
 	std::size_t ndsize = nd.size();
 	assert(n <= ndsize);
 		
-	if(n == ndsize || nd.is_leaf() || true) {
+	if(n == ndsize || nd.is_leaf()) {
 		// Copy all points
 		std::memcpy( (void*)buffer, (const void*)nd.seg().data(), n * sizeof(Point) );
 	

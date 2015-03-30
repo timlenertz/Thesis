@@ -45,6 +45,7 @@ public:
 	const Eigen::Affine3f& estimated_transformation() const { return estimated_transformation_; }
 
 	void reset();
+	void step();
 	bool run(const iteration_callback& = iteration_callback());
 
 	void apply_loose_transformation(space_object& fx, space_object& ls);

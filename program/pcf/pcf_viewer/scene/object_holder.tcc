@@ -27,6 +27,7 @@ void scene_object_holder<Scene_object, Space_object, Construction_args...>::obje
 	delete old_obj;
 
 	scene_object_.reset(new_obj);
+	pose_was_updated_();
 	add_to_scene_(*new_obj);
 }
 

@@ -6,6 +6,7 @@
 #include "point.h"
 #include "geometry/plane.h"
 #include "geometry/bounding_box.h"
+#include "geometry/angle.h"
 #include "point_cloud/selection.h"
 
 namespace pcf {
@@ -45,6 +46,9 @@ void set_unique_weight(Iterator begin, Iterator end, std::uint8_t w);
 
 template<typename Iterator>
 void orient_normals_to_point(Iterator begin, Iterator end, const Eigen::Vector3f& ref, bool away = false);
+
+template<typename Iterator>
+void compute_normal_direction_weights(Iterator begin, Iterator end, const Eigen::Vector3f& ref, angle maximal_angle);
 
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end);
