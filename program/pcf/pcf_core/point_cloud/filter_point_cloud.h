@@ -58,6 +58,10 @@ public:
 	template<typename Image_camera>
 	void downsample_projection(const Image_camera&);
 
+	/// Project using the given image camera, and keep only points on image.
+	template<typename Image_camera>
+	void downsample_projection_depth(const Image_camera&, float depth_tolerance);
+
 	/// Keep only points that are visible to given camera.
 	/// Camera must be an image_camera. Applies z-buffering and keeps only closest point for each image pixel.
 	template<typename Camera>

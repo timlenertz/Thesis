@@ -21,6 +21,7 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 	std::size_t iteration_count = 1;	
 	while(iteration_count++ < maximal_iterations && current_error_ > minimal_error) {
 		previous_error = current_error_;
+		if(iteration_preprocess) iteration_preprocess();
 		this->compute_estimated_transformation_and_error();
 	
 		float error_diff = previous_error - current_error_;
@@ -35,7 +36,8 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 }
 
 
-void iterative_correspondences_registration_base::step() {
+void iterative_correspondences_registration_base::iteration() {
+	if(iteration_preprocess) iteration_preprocess();
 	this->compute_estimated_transformation_and_error();
 	accumulated_transformation_ = estimated_transformation_ * accumulated_transformation_;
 }
@@ -47,10 +49,11 @@ void iterative_correspondences_registration_base::apply_loose_transformation(spa
 }
 
 
-std::future<bool> iterative_correspondences_registration_base::run_live(space_object& fx, space_object& ls) {
-	std::packaged_task<bool()> task([&] {
+std::future<bool> iterative_correspondences_registration_base::run_live(space_object& fx, space_object& ls, const iteration_callback& cb2) {
+	std::packaged_task<bool()> task([&, cb2] {
 		auto cb = [&] {
 			apply_loose_transformation(fx, ls);
+			if(cb2) cb2();
 		};
 		return run(cb);
 	});

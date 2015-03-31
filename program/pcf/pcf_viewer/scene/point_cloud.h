@@ -44,6 +44,7 @@ protected:
 	void gl_initialize_() override;
 	void gl_uninitialize_() override;
 	void gl_draw_() override;
+	void gl_initialize_done_() override;
 
 public:
 	unsigned point_size = 2;

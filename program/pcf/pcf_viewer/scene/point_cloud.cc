@@ -257,10 +257,12 @@ void scene_point_cloud::gl_initialize_() {
 	void* buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	loader_point_buffer_mapping_ = static_cast<point_full*>(buf);
-	
-	glPointSize(2);
 }
 
+
+void scene_point_cloud::gl_initialize_done_() {
+	mvp_was_updated_();
+}
 
 void scene_point_cloud::update_vertex_array_object_buffer_() {
 	std::size_t stride = sizeof(point_full);

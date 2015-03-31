@@ -7,7 +7,8 @@ void gl_object::initialize() {
 	if(initialized_) throw std::logic_error("GL object was already initialized.");
 	
 	this->gl_initialize_();
-	initialized_ = true;	
+	initialized_ = true;
+	this->gl_initialize_done_();
 }
 
 void gl_object::uninitialize() {

@@ -35,7 +35,7 @@ public:
 	using displacer_function_type =
 		pose (float arg);
 	using create_registration_function_type =
-		iterative_correspondences_registration_base* (const fixed_point_cloud_type&, const loose_point_cloud_type&, float arg);
+		iterative_correspondences_registration_base* (fixed_point_cloud_type&, loose_point_cloud_type&, float arg);
 	using create_snapshot_function_type =
 		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&, const Eigen::Affine3f& transformation);
 	using run_callback_function_type =
@@ -62,7 +62,7 @@ public:
 	
 private:
 	static float arg_(unsigned i, unsigned n);
-	run_result run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const;
+	run_result run_registration_(fixed_point_cloud_type& fixed, loose_point_cloud_type& loose, float arg) const;
 
 	float actual_error_(const Eigen::Affine3f& transformation) const;
 

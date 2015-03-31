@@ -33,7 +33,6 @@ private:
 	static void nearest_neighbors_(That that, std::size_t k, Condition_func cond, Callback_func callback, bool parallel);
 
 protected:
-	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
 	multi_dimensional_buffer<Point, 2> image_;
 	const bool row_major_order_;
 
@@ -41,6 +40,8 @@ protected:
 
 public:
 	using image_coordinates = typename multi_dimensional_buffer<Point, 2>::indices_type;
+
+	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
 
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 	

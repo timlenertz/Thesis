@@ -62,6 +62,8 @@ public:
 	Eigen::Vector3f transform_to_world(const Eigen::Vector3f& p) const {
 		return transformation_to_world() * p;
 	}
+	
+	static pose random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0));
 };
 
 

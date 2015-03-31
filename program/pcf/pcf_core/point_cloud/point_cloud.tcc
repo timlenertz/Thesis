@@ -11,8 +11,8 @@ namespace pcf {
 
 template<typename Point, typename Allocator>
 void point_cloud<Point, Allocator>::check_correct_alignment_() const {
-	if((std::uintptr_t)begin_ % ALIGNOF(Point))
-		throw std::runtime_error("Point cloud data not properly aligned.");
+	/*if((std::uintptr_t)begin_ % ALIGNOF(Point))
+		throw std::runtime_error("Point cloud data not properly aligned.");*/
 }
 
 template<typename Point, typename Allocator>

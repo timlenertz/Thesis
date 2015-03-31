@@ -10,7 +10,7 @@
 namespace pcf {
 namespace exper {
 
-run_result experiment::run_registration_(const fixed_point_cloud_type& fixed, const loose_point_cloud_type& loose, float arg) const {
+run_result experiment::run_registration_(fixed_point_cloud_type& fixed, loose_point_cloud_type& loose, float arg) const {
 	using reg_t = iterative_correspondences_registration_base;
 	using clock_t = std::chrono::system_clock;
 

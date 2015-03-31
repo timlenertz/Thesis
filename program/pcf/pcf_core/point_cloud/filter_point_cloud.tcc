@@ -2,6 +2,7 @@
 #include <cstring>
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
 #include "../util/random.h"
 #include "../util/coordinates.h"
 
@@ -130,6 +131,49 @@ void filter_point_cloud<Point, Allocator>::downsample_projection(const Image_cam
 	for(Point* pt : points_buffer)
 		if(pt != nullptr) pt->revalidate();
 }
+
+
+template<typename Point, typename Allocator> template<typename Image_camera>
+void filter_point_cloud<Point, Allocator>::downsample_projection_depth(const Image_camera& cam, float depth_tolerance) {
+	// Image with minimal depths (squared)
+	multi_dimensional_array<float, 2> depth_sq_buffer({ cam.image_width(), cam.image_height() }, +INFINITY);
+	
+	// Project, and keep closest distance
+	#pragma omp parallel for
+	for(auto it = super::begin(); it < super::end(); ++it) {
+		auto& p = *it;
+		if(! p.valid()) continue;
+		
+		auto ic = cam.to_image(p);
+		if(! cam.in_bounds(ic)) continue;
+		
+		float d_sq = cam.depth_sq(p);
+		float &old_d_sq = depth_sq_buffer[ic];
+		if(d_sq < old_d_sq) old_d_sq = d_sq;
+	}
+	
+	// Invalidate all points
+	for(Point& pt : *this) pt.invalidate();
+
+	// Restore points whose depth is in range
+	#pragma omp parallel for
+	for(auto it = super::begin(); it < super::end(); ++it) {
+		auto& p = *it;
+		auto ic = cam.to_image(p);
+		if(! cam.in_bounds(ic)) continue;
+		
+		float d_sq = cam.depth_sq(p);
+		
+		float min_d_sq = depth_sq_buffer[ic];
+		if(d_sq >= min_d_sq) {
+			float min_d = std::sqrt(min_d_sq);
+			float max_d = min_d + depth_tolerance;
+			float d = std::sqrt(d_sq);
+			if(d <= max_d) p.revalidate();
+		}
+	}
+}
+
 
 
 

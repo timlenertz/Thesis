@@ -31,12 +31,14 @@ protected:
 	float current_error_ = NAN;
 	
 public:
+	using iteration_preprocess_callback = std::function<void()>;
 	using iteration_callback = std::function<void()>;
 	
 	float minimal_error = 0;
 	std::size_t maximal_iterations = 30;
 	bool stop_on_divergence = false;
 	float divergence_error_threshold = 0.0;
+	iteration_preprocess_callback iteration_preprocess;
 	
 	virtual ~iterative_correspondences_registration_base() { }
 	
@@ -45,11 +47,11 @@ public:
 	const Eigen::Affine3f& estimated_transformation() const { return estimated_transformation_; }
 
 	void reset();
-	void step();
+	void iteration();
 	bool run(const iteration_callback& = iteration_callback());
 
 	void apply_loose_transformation(space_object& fx, space_object& ls);
-	std::future<bool> run_live(space_object& fx, space_object& ls);
+	std::future<bool> run_live(space_object& fx, space_object& ls, const iteration_callback& = iteration_callback());
 
 	virtual void compute_estimated_transformation_and_error() = 0;
 };

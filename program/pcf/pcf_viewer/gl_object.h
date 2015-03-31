@@ -14,6 +14,7 @@ private:
 protected:
 	bool should_draw_ = true;
 	virtual void gl_initialize_() { }
+	virtual void gl_initialize_done_() { }
 	virtual void gl_uninitialize_() { }
 	virtual void gl_draw_() = 0;
 

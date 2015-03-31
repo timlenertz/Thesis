@@ -1,6 +1,6 @@
 auto corw = [](const point_full& a, const point_full& b)->float {
 	if(distance(a, b) > 0.3) return 0.0;
-	else return b.get_weight();
+	else return 1.0;//b.get_weight();
 };
 
 kdtree_point_cloud_full hi(hdv_hi());
@@ -19,7 +19,7 @@ vw.select_object(lo);
 
 auto reg = make_iterative_closest_point_registration(hi, lo, probability_point_filter(0.5), corw);
 
-reg.maximal_iterations = -1;
-reg.run_live(hi, lo);
-
+reg.maximal_iterations = 10;
+auto fut = reg.run_live(hi, lo);
+fut.get();
 

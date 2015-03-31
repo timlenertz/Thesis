@@ -93,4 +93,9 @@ unorganized_point_cloud_full make_relief_point_cloud(float width, float density)
 	return merge_point_clouds(clouds.begin(), clouds.end());
 }
 
+
+range_point_cloud_full make_relief_range_point_cloud(float width, float density) {
+	
+}
+
 }
