@@ -1,13 +1,14 @@
 \contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
-\contentsline {chapter}{\numberline {2}3D Documentation}{4}{chapter.2}
-\contentsline {section}{\numberline {2.1}Laser scanning}{4}{section.2.1}
-\contentsline {section}{\numberline {2.2}Photogrammetry}{4}{section.2.2}
-\contentsline {section}{\numberline {2.3}Range Image}{4}{section.2.3}
-\contentsline {section}{\numberline {2.4}Point Cloud}{4}{section.2.4}
-\contentsline {section}{\numberline {2.5}Terminology}{4}{section.2.5}
-\contentsline {chapter}{\numberline {3}State of the Art}{5}{chapter.3}
-\contentsline {chapter}{\numberline {4}Large Model Registration}{6}{chapter.4}
-\contentsline {chapter}{\numberline {5}Methodology}{7}{chapter.5}
-\contentsline {chapter}{\numberline {6}Implementation}{8}{chapter.6}
-\contentsline {chapter}{\numberline {7}Results and Application}{9}{chapter.7}
-\contentsline {chapter}{\numberline {8}Conclusion}{10}{chapter.8}
+\contentsline {chapter}{\numberline {2}State of the Art}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Preliminary mathematics}{4}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Geometric transformations}{4}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}3D Scanning}{4}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Introduction}{4}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Typical workflow}{4}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Point cloud}{4}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}3D scanner technology}{5}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Photogrammetry}{5}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Raw data}{5}{subsection.2.2.6}
+\contentsline {subsection}{\numberline {2.2.7}Operations}{5}{subsection.2.2.7}
+\contentsline {chapter}{\numberline {3}Large model registration}{6}{chapter.3}
+\contentsline {chapter}{\numberline {4}Method}{7}{chapter.4}

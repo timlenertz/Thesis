@@ -1,13 +1,14 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
-\BOOKMARK [0][-]{chapter.2}{3D Documentation}{}% 2
-\BOOKMARK [1][-]{section.2.1}{Laser scanning}{chapter.2}% 3
-\BOOKMARK [1][-]{section.2.2}{Photogrammetry}{chapter.2}% 4
-\BOOKMARK [1][-]{section.2.3}{Range Image}{chapter.2}% 5
-\BOOKMARK [1][-]{section.2.4}{Point Cloud}{chapter.2}% 6
-\BOOKMARK [1][-]{section.2.5}{Terminology}{chapter.2}% 7
-\BOOKMARK [0][-]{chapter.3}{State of the Art}{}% 8
-\BOOKMARK [0][-]{chapter.4}{Large Model Registration}{}% 9
-\BOOKMARK [0][-]{chapter.5}{Methodology}{}% 10
-\BOOKMARK [0][-]{chapter.6}{Implementation}{}% 11
-\BOOKMARK [0][-]{chapter.7}{Results and Application}{}% 12
-\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 13
+\BOOKMARK [0][-]{chapter.2}{State of the Art}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Preliminary mathematics}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Geometric transformations}{section.2.1}% 4
+\BOOKMARK [1][-]{section.2.2}{3D Scanning}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.1}{Introduction}{section.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.2.2}{Typical workflow}{section.2.2}% 7
+\BOOKMARK [2][-]{subsection.2.2.3}{Point cloud}{section.2.2}% 8
+\BOOKMARK [2][-]{subsection.2.2.4}{3D scanner technology}{section.2.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.5}{Photogrammetry}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.6}{Raw data}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.7}{Operations}{section.2.2}% 12
+\BOOKMARK [0][-]{chapter.3}{Large model registration}{}% 13
+\BOOKMARK [0][-]{chapter.4}{Method}{}% 14

@@ -1,0 +1,19 @@
+Math preliminaries to include
+	Homogeneous coordinates
+	Transformation matrices
+	Quaternion
+	Passing into different coordinate systemes
+	Least squares
+	RANSAC ?
+	1, 2, p Norm
+	SVD
+	Iterative reweighted least squares (IRLS) [article]
+	Mutual Information
+
+
+CS preliminaries
+	Octree, kdtree
+	Closest point finding
+	KNN finding
+	Subspace grid pc algorithm
+	

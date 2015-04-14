@@ -9,7 +9,7 @@ void point_transform_iterator<Point>::load_transformed_point_() const {
 			Eigen::Vector3f n = transformed_point_.get_normal();
 			Eigen::Vector4f hn(n[0], n[1], n[2], 0.0);
 			hn = transformation_ * hn;
-			//transformed_point_.set_normal(hn.head(3));
+			transformed_point_.set_normal(hn.head(3));
 		}
 	}
 	should_load_transformed_point_ = false;

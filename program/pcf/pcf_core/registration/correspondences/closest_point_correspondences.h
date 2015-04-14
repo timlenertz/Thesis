@@ -8,9 +8,14 @@
 
 namespace pcf {
 
-class equal_equal_correspondences_weights_ {
+class equal_correspondences_weights_ {
 public:
 	float operator()(const point_xyz&, const point_xyz&) const { return 1.0; }
+};
+
+class accept_any_correspondence_ {
+public:
+	bool operator()(const point_xyz&, const point_xyz&) const { return true; }
 };
 
 /**
@@ -25,7 +30,8 @@ template<
 	typename Cloud_fixed,
 	typename Cloud_loose,
 	typename Selection_func = accept_point_filter,
-	typename Weight_func = equal_equal_correspondences_weights_
+	typename Weight_func = equal_correspondences_weights_,
+	typename Correspondence_condition_func = accept_any_correspondence_
 >
 class closest_point_correspondences {
 public:
@@ -39,9 +45,10 @@ private:
 	const Cloud_loose& loose_;
 	Selection_func selection_func_;
 	Weight_func weight_func_;
+	Correspondence_condition_func correspondence_condition_func_;
 	
 	template<typename Receiver>
-	void process_point_(const loose_point_type& transformed, const loose_point_type& real, Receiver&);
+	void process_point_(const loose_point_type& transformed, const loose_point_type& real, Receiver&) const;
 
 public:
 	float accepting_distance = 0;
@@ -53,14 +60,14 @@ public:
 	>;
 
 	closest_point_correspondences
-	(const Cloud_fixed& cf, const Cloud_loose& cl, const Selection_func& sel = Selection_func(), const Weight_func& wgh = Weight_func()) :
-		fixed_(cf), loose_(cl), selection_func_(sel), weight_func_(wgh) { }
+	(const Cloud_fixed& cf, const Cloud_loose& cl, const Selection_func& sel = Selection_func(), const Weight_func& wgh = Weight_func(), const Correspondence_condition_func& ccond = Correspondence_condition_func()) :
+		fixed_(cf), loose_(cl), selection_func_(sel), weight_func_(wgh), correspondence_condition_func_(ccond) { }
 	
 	closest_point_correspondences(const closest_point_correspondences&) = default;
 	closest_point_correspondences(closest_point_correspondences&&) = default;
 	
 	template<typename Receiver>
-	void operator()(Receiver&, const Eigen::Affine3f& transformation = Eigen::Affine3f::Identity());
+	void operator()(Receiver&, const Eigen::Affine3f& transformation = Eigen::Affine3f::Identity()) const;
 	
 	const Cloud_fixed& fixed_point_cloud() const { return fixed_; }
 	const Cloud_loose& loose_point_cloud() const { return loose_; }

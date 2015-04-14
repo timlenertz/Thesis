@@ -115,11 +115,11 @@ void tree_point_cloud<Traits, Point, Allocator>::build_tree_() {
 
 
 
-template<typename Traits, typename Point, typename Allocator>
+template<typename Traits, typename Point, typename Allocator> template<typename Condition_func>
 const Point& tree_point_cloud<Traits, Point, Allocator>::
-closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance) const {
+closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance, const Condition_func& cond) const {
 	auto r = root();
-	auto it = r.closest_point(query, accepting_distance, rejecting_distance);
+	auto it = r.closest_point(query, accepting_distance, rejecting_distance, cond);
 	if(it != r.end()) return *it;
 	else return super::invalid_point_();
 }

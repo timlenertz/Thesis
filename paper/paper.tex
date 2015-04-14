@@ -22,48 +22,59 @@
 \tableofcontents
 
 \chapter{Introduction}
-blah
-
-\chapter{3D Documentation}
-The process of acquiring measurements on the shape of a physical object and constructing a digital model of it is sometimes called 3D documentation. Depending on the area of study and the type of scan, different models are used to describe the object.
-
-A first step is to define the \emph{model} of the object that should result from the documentation project. This includes which parts and aspects of the physical object should be included, how it is represented mathematically, and which type of data is used to approximate the model.
-
-In the most common case, the object is modelled as one or more continuous mathematical surfaces. Each surface point may be attributed with additional information such as a colour, temperature or other information. The object is considered to be motionless and solid, and its insides are not of interest. For example a small artefact may be modelled as one closed coloured surface. When the goal is to document an entire environment such as a building or a cave, some inside corridors may be included in the model, and certain smaller elements may need to be represented in higher detail. This type of 3D documentation is the focus of this paper. Depending on how the scans are done, \emph{noise} data about objects that are not part of the model may be acquired, and will need to be filtered out. These may be parts of the scanning equipment, objects lying on the ground, people walking by, birds, and others.
-
-The basic way of digitally representing such a model is using a \emph{point cloud}, that is a discrete set of points located on the surfaces. Each \emph{point} is represented using three X, Y, Z euclidian coordinates in a common reference frame defined for the model, and possibly RGB colour information, coordinates of a surface normal vector, and other data. These points should be densely distributed on the surfaces, in relation to the required level of detail. Information on the connectivity of the points that form the surfaces is not included, but can often be deduced algorithmically.
-
-A way to include connectivity information into a point cloud is to define \emph{faces}, that is, two-dimensional geometric primitives (usually triangles) delimited by the points, which are called \emph{vertices} in this case. 3D models in computer graphics are usually represented this way.
-
-
- 
-
-
-
-\section{Laser scanning}
-
-\section{Photogrammetry}
-
-\section{Range Image}
-
-\section{Point Cloud}
-
-\section{Terminology}
 
 \chapter{State of the Art}
+\section{Preliminary mathematics}
+This section introduces some mathematical notions that will be used in this paper.
 
-\chapter{Large Model Registration}
+\subsection{Geometric transformations}
 
-\chapter{Methodology}
+\section{3D Scanning}
+This section will give an overall overview of the process of 3D scanning, including the technology involved in obtaining 3D data, the operations that are performed to process it, and the final results that a 3D scanning project aims to obtain.
 
-\chapter{Implementation}
+\subsection{Introduction}
+The general goal of a 3D documentation project is to create a digital model of a physical three-dimensional object. Different methodologies exist for all sizes and types of objects.
 
-\chapter{Results and Application}
+Possibly the most simple case is to scan the surface of a single, solid object. Mathematically, the object is idealised as a closed and continuous two-dimensional surface in three-dimensional space, whose space is approximated by the scanned data points. Examples include artefacts such as the commonly used \emph{Stanford Bunny}, models of teeth or bones for manufacturing of prosthesis, ...
 
-\chapter{Conclusion}
+For larger of more complex objects, or objects embedded in a more complex environment, filtering out the targeted object from the scans becomes a harder problem. This is for instance the case for buildings, archeological sites or rock formations.
+
+In these cases, data is typically collected using a combination of 3D scanning and photogrammetry. 3D scanners emit light and detect the reflections from the object, in order to record a set of three-dimensional coordinates of points that lie on the object surface. Photogrammetry consists of taking multiple photographic pictures of the object, and algorithmically recover depth information by comparing photos from different camera poses.
+
+
+
+Volumetric CT scanning, airborne terrain scan (forestry), city model, molecules, ...
+
+\subsection{Typical workflow}
+
+
+\subsection{Point cloud}
+Data obtained from 3D scanning is recorded in the form of a \emph{point cloud}. An unorganized point cloud is defined as a set $P = \{ (x_i, y_i, z_i) \p}$ of \emph{points}, each of which have spatial coordinates set in a coordinate system specific for this scan. Each point can be attributed with additional information, such as an RGB color, a scalar values, or the normal vector of the surface at that point. Laser scanners usually collect an intensity value that records the strength of the reflected light beam from that point.
+
+Point clouds hold no information about the connectivity of the points that form a surface of the object.
+
+Additional information can be contained in the ordering of the points in the set. Laser scanners probe their field of view by sending out rays in different directions in a well-defined order. Typically the elevation and azimuth angles are gradually incremented or reset in a line-by-line manner, forming a two-dimensional grid in the field of view. Knowing the width and height of this grid, the ordered point cloud corresponds to a \emph{range image}: Each pixel in the range image corresponds to either a point $p_i \in P$, or an invalid point $\epsilon$, in case when no reflected ray in the direction is was pointing at. The range image can be described as the function $\mathbb{N}^2 \rightarrow P \cup \{ \epsilon \}$. Again in the case of a stationary laser scanner, the pixel coordinates would map to the azimuth and elevation angles of the point in spherical coordinates. The exact nature of this mapping is determined by the scanner.
+
+
+
+\subsection{3D scanner technology}
+
+
+
+\subsection{Photogrammetry}
+
+\subsection{Raw data}
+
+\subsection{Operations}
+
+
+\chapter{Large model registration}
+
+
+\chapter{Method}
+
 
 \bibliographystyle{authordate1}
-\nocite{*}
 \bibliography{../reference/references}
 
 \end{document}

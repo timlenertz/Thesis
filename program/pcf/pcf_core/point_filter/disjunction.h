@@ -28,11 +28,11 @@ public:
 		filter2_.reset();
 	}
 	
-	bool operator()(const point_xyz& pt) {
+	bool operator()(const point_xyz& pt) const {
 		return filter1_(pt) || filter2_(pt);
 	}
 	
-	bool operator()(const point_full& pt) {
+	bool operator()(const point_full& pt) const {
 		return filter1_(pt) || filter2_(pt);
 	}
 };

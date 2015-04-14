@@ -8,12 +8,15 @@
 namespace pcf {
 
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Receiver>
-inline void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::process_point_
-(const loose_point_type& lp, const loose_point_type& rlp, Receiver& rec) {
+template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func, typename Correspondence_condition_func> template<typename Receiver>
+inline void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func, Correspondence_condition_func>::process_point_
+(const loose_point_type& lp, const loose_point_type& rlp, Receiver& rec) const {
 	if(!lp.valid() || !selection_func_(lp)) return;
 
-	const auto& fp = fixed_.closest_point(lp, accepting_distance, rejecting_distance);
+	auto cond = [&](const fixed_point_type& fp)->bool {
+		return correspondence_condition_func_(fp, lp);
+	};
+	const auto& fp = fixed_.closest_point(lp, accepting_distance, rejecting_distance, cond);
 	if(!fp.valid()) return;
 
 	float w = weight_func_(fp, lp);
@@ -21,8 +24,8 @@ inline void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_fu
 }
 
 
-template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func> template<typename Receiver>
-void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func>::operator()(Receiver& rec, const Eigen::Affine3f& transformation) {
+template<typename Cloud_fixed, typename Cloud_loose, typename Selection_func, typename Weight_func, typename Correspondence_condition_func> template<typename Receiver>
+void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Weight_func, Correspondence_condition_func>::operator()(Receiver& rec, const Eigen::Affine3f& transformation) const {
 	// transformation is current estimate of Loose's transformation relative to Fixed
 	// i.e. Need to apply the inverse transformation to Loose's points when looking for correspondences,
 	//      with the remaining transformation.

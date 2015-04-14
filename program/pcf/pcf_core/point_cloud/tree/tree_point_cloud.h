@@ -78,7 +78,12 @@ public:
 
 	bool verify() const { return verify_(root()); }
 
-	const Point& closest_point(const point_xyz& query, float accepting_distance = 0, float rejecting_distance = INFINITY) const;
+	template<typename Condition_func>
+	const Point& closest_point(const point_xyz& query, float accepting_distance, float rejecting_distance, const Condition_func&) const;
+
+	const Point& closest_point(const point_xyz& query, float accepting_distance = 0, float rejecting_distance = INFINITY) const {
+		return closest_point(query, accepting_distance, rejecting_distance, [](const point_xyz&){ return true; });
+	}
 };
 
 }

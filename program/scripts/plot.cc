@@ -1,2 +1,1 @@
-auto q = "SELECT ABS(loose_modifier_arg - fixed_modifier_arg), final_actual_error FROM run";
-scatterplot("test", pcf::exper::results("output/projdown.db").query(q))
+scatterplot(pcf::exper::results("output/hilo.db").query("SELECT make_loose_arg, final_actual_error FROM run WHERE make_loose_arg<0.99 AND make_loose_arg>0.01"))

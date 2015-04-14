@@ -7,21 +7,28 @@ namespace pcf {
 
 template<typename Point, typename Iterator>
 Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, float accepting_distance) {
-	float min_distance = INFINITY;
+	return find_closest_point(ref, begin, end, accepting_distance, [](const point_xyz&){ return true; });
+}
+
+
+template<typename Point, typename Iterator, typename Condition_func>
+Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, float accepting_distance, const Condition_func& cond) {
+	float accepting_distance_sq = accepting_distance*accepting_distance;
+	
+	float min_distance_sq = INFINITY;
 	Iterator closest_point = end;
 	
 	for(Iterator it = begin; it != end; ++it) {
 		float d = distance_sq(*it, ref);
-		if(d < min_distance) {
-			min_distance = d;
+		if(d < min_distance_sq && cond(*it)) {
+			min_distance_sq = d;
 			closest_point = it;
-			if(d <= accepting_distance) break;
+			if(d <= accepting_distance_sq) break;
 		}
 	}
 	
 	return closest_point;
 }
-
 
 template<typename Point, typename Iterator>
 point_cloud_selection<Point> find_nearest_neighbors(const Point& ref, Iterator begin, Iterator end, std::size_t k) {
@@ -166,17 +173,20 @@ plane fit_plane_to_points(Iterator begin, Iterator end) {
 
 	Eigen::MatrixXf mat(n, 4);
 	std::ptrdiff_t i = 0;
-	for(Iterator it = begin; it != end; ++it, ++i) {
+	for(Iterator it = begin; it != end; ++it) {
 		const auto& pt = *it;
+		if(! pt.valid()) continue;
 		mat(i, 0) = pt[0];
 		mat(i, 1) = pt[1];
 		mat(i, 2) = pt[2];
 		mat(i, 3) = 1.0;
+		++i;
 	}
+	mat.resize(i, 4);
 
-	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeThinV);
+	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeFullV);
 	auto v = svd.matrixV();
-	Eigen::Vector3f norm(v(0, 0), v(0, 1), v(0, 2));
+	Eigen::Vector3f norm(v(2, 0), v(2, 1), v(2, 2));
 		
 	return plane(center, norm);
 }

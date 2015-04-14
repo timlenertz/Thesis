@@ -5,6 +5,6 @@
 #include <pcf/experiment.h>
 #include <string>
 
-void projdown(int seed, const std::string& db_name);
+void projdown(const std::string& pc_name, const std::string& db_name, const pcf::pose& cam_pose, float circle_radius);
 
 #endif

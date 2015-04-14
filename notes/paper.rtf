@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
 {\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
 {\colortbl;\red255\green255\blue255;}
 \paperw11900\paperh16840\margl1440\margr1440\vieww17360\viewh16540\viewkind0
@@ -9,7 +9,6 @@
 \b0 Recalage et fusion de mod\'e8les num\'e9ris\'e9s tridimensionnels de grande taille\
 
 \i0\fs34 \
-0/20 \
 \
 
 \b Abstract
@@ -117,34 +116,45 @@ State of the Art and classification of point cloud registration methods.\
 		\
 \
 
-\b Method
-\b0 \
-	Hilo:\
-		Coarse, Fine, Refine\
+\b Method\
+
+\b0 	Delimit\
+		Approximatively planar (relief)\
+		High res + low res\
+		Some overlap\
 \
-	Experiment on relief\
-		ICP with different weight settings\
-			Local density\
-			Planarity\
-			Visibility from both cameras\
-			Normal compatibility\
-			Proximity limit\
+	Part 1: Finding good correspondences\
+		Model of surface (disks relief)\
+		Metric for correspondences quality\
+	\
+	Part 2: Registration with help of image analysis\
+		Idea: Separate treatment of Z and XY directions\
+		Procedure:\
+			1. Find correspondences\
+			2. Align plane to Hi\
+			3. Minimize difference of distances to plane\
+			4. Make orthogonal projections on plane\
+			5. Superresolution of Lo [Do2012]\
+			6. Colorize according to normal, others [Cors2009]\
+			7. Move on plane to maximize estimated MI [Viol1997]\
+			8. Iterate until convergence\
 \
-		Hilo\
-			Represent 6D transformation field in 2D\
-			Find local minimum area = lost information in Lo\
-			Evaluate samples to find better candidate\
-			Kriging along field\
-\
-		Image analysis\
-			Idea: zoom out to recognize objects\
-			Use orthogonal projection\
-			Image registration on projection, translate to 3D affine transform\
-			Hough transform\
-			Registration with photos\
-			Depth map wrt to planar surface\
-			Use photo's relief based on lightning and surface colors\
+	Develop least squares formulae\
+	And entropy estimation and MI gradient formulae\
+	Test on model (w/ known correspondences) and on real data set (012+005)\
+	\
+	\
+	Part 3: Getting additional input from photos\
+		Idea: generate orthophoto with current plane, then include in MI maximization\
+		Correspondences of SIFT markers on images and pc projections\
+		Deduce camera parameters for photos\
 		\
+\
+
+\b Practical workflow\
+	
+\b0 Example on hdv scans, tutorial\
+	Preprocessing etc\
 \
 
 \b Side Problems

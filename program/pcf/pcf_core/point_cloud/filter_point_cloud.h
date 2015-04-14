@@ -54,13 +54,13 @@ public:
 	/// Puts regular axis-aligned cubic grid over point cloud, and keeps exactly one point for each grid cell that contained at least one point. If keep_first, keeps the first point found to be inside a cell. Else, keeps the point closest to the cell's center. Does not displace points.
 	void downsample_grid(float cell_sz, bool keep_first = false);
 	
-	/// Project using the given image camera, and keep only points on image.
+	/// Project using the given image camera, and keep only one point per image pixel.
 	template<typename Image_camera>
 	void downsample_projection(const Image_camera&);
 
-	/// Project using the given image camera, and keep only points on image.
+	/// Project to range image using the given image camera, and keep only points within a certain depth range.
 	template<typename Image_camera>
-	void downsample_projection_depth(const Image_camera&, float depth_tolerance);
+	void projection_filter(const Image_camera&, float depth_tolerance);
 
 	/// Keep only points that are visible to given camera.
 	/// Camera must be an image_camera. Applies z-buffering and keeps only closest point for each image pixel.

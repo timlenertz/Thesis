@@ -83,3 +83,13 @@ TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "
 	for(Iterator it = begin; it != end; ++it) weights.push_back(it->get_weight());
 	return histogram(weights.begin(), weights.end(), name);
 }
+
+
+
+template<typename In, typename Out, typename Inter = float>
+Out map_num(In x, In mn_in, In mx_in, Out mn_out, Out mx_out) {
+	Inter range_in = mx_in - mn_in;
+	Inter range_out = mx_out - mn_out;
+	Inter a = (x - mn_in) / range_in;
+	return (a * range_out) + mn_out;
+}

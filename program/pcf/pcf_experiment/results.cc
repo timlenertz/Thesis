@@ -67,8 +67,8 @@ void results::create_tables_() {
 			"original_transformation BLOB, "
 			"registration_arg REAL, "
 			"displacer_arg REAL, "
-			"fixed_modifier_arg REAL, "
-			"loose_modifier_arg REAL, "
+			"make_fixed_arg REAL, "
+			"make_loose_arg REAL, "
 			"final_error REAL, "
 			"final_actual_error REAL, "
 			"final_time INTEGER, "
@@ -102,7 +102,7 @@ void results::clear() {
 }
 
 std::ptrdiff_t results::add(const run_result& rn, bool add_snapshot) {
-	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, actual_success, original_transformation, registration_arg, displacer_arg, fixed_modifier_arg, loose_modifier_arg, final_error, final_actual_error, final_time, fixed_number_of_points, loose_number_of_points, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	sqlite3pp::command insert_run(impl_->database, "INSERT INTO run (id, success, actual_success, original_transformation, registration_arg, displacer_arg, make_fixed_arg, make_loose_arg, final_error, final_actual_error, final_time, fixed_number_of_points, loose_number_of_points, number_of_states) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	sqlite3pp::command insert_state(impl_->database, "INSERT INTO state (run_id, step, error, actual_error, transformation, time, snapshot) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 	sqlite3pp::transaction tr(impl_->database);
@@ -113,8 +113,8 @@ std::ptrdiff_t results::add(const run_result& rn, bool add_snapshot) {
 		insert_run.bind(4, transformation_to_blob_(rn.original_transformation), sizeof(float)*16, false);
 		insert_run.bind(5, rn.registration_arg);
 		insert_run.bind(6, rn.displacer_arg);
-		insert_run.bind(7, rn.fixed_modifier_arg);
-		insert_run.bind(8, rn.loose_modifier_arg);
+		insert_run.bind(7, rn.make_fixed_arg);
+		insert_run.bind(8, rn.make_loose_arg);
 		insert_run.bind(9, rn.evolution.back().error);
 		insert_run.bind(10, rn.evolution.back().actual_error);
 		insert_run.bind(11, (int)rn.evolution.back().time.count());
@@ -165,7 +165,7 @@ run_result results::operator[](int i) const {
 	run_result rn;
 
 	sqlite3pp::query run_query(impl_->database,
-		"SELECT success, actual_success, original_transformation, displacer_arg, fixed_modifier_arg, loose_modifier_arg, fixed_number_of_points, loose_number_of_points FROM run WHERE id=?"
+		"SELECT success, actual_success, original_transformation, displacer_arg, make_fixed_arg, make_loose_arg, fixed_number_of_points, loose_number_of_points FROM run WHERE id=?"
 	);
 	run_query.bind(1, i + 1);
 	const auto& row = *run_query.begin();
@@ -173,8 +173,8 @@ run_result results::operator[](int i) const {
 	rn.actual_success = (row.get<int>(1) != 0);
 	rn.original_transformation = blob_to_transformation_(row.get<const void*>(2));
 	rn.displacer_arg = row.get<float>(3);
-	rn.fixed_modifier_arg = row.get<float>(4);
-	rn.loose_modifier_arg = row.get<float>(5);
+	rn.make_fixed_arg = row.get<float>(4);
+	rn.make_loose_arg = row.get<float>(5);
 	rn.fixed_number_of_points = row.get<int>(6);
 	rn.loose_number_of_points = row.get<int>(7);
 	

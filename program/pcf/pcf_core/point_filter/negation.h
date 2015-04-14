@@ -20,11 +20,11 @@ public:
 	explicit point_filter_negation(Args&&... args) :
 		filter_(std::forward<Args>(args)...) { }
 	
-	bool operator()(const point_xyz& pt) {
+	bool operator()(const point_xyz& pt) const {
 		return ! filter_(pt);
 	}
 	
-	bool operator()(const point_full& pt) {
+	bool operator()(const point_full& pt) const {
 		return ! filter_(pt);
 	}
 };

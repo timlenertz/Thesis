@@ -5,6 +5,6 @@
 #include <pcf/experiment.h>
 #include <string>
 
-void hilo(const std::string& pc_name, const std::string& db_name, const pcf::pose& cam_pose);
+void hilo(int seed, const std::string& db_name);
 
 #endif

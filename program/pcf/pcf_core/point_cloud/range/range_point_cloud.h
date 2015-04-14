@@ -41,7 +41,7 @@ protected:
 public:
 	using image_coordinates = typename multi_dimensional_buffer<Point, 2>::indices_type;
 
-	range_point_cloud(std::size_t w, std::size_t h, bool row_major, const Allocator&);
+	range_point_cloud(std::size_t w, std::size_t h, bool row_major = false, const Allocator& = Allocator());
 
 	explicit range_point_cloud(range_point_cloud_importer&, const Allocator& = Allocator());
 	

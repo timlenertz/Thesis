@@ -18,6 +18,10 @@ If any point is closer than \a accepting_distance, that one may be accepted. Poi
 template<typename Point, typename Iterator>
 Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, float accepting_distance = 0);
 
+template<typename Point, typename Iterator, typename Condition_func>
+Iterator find_closest_point(const Point& ref, Iterator begin, Iterator end, float accepting_distance, const Condition_func& cond);
+
+
 
 template<typename Point, typename Iterator>
 point_cloud_selection<Point> find_nearest_neighbors(const Point& ref, Iterator begin, Iterator end, std::size_t k);

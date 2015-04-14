@@ -18,12 +18,12 @@ public:
 	explicit weighted_probability_point_filter(float prob) :
 		probability_(prob) { }
 
-	bool operator()(const point_xyz&) {
+	bool operator()(const point_xyz&) const {
 		float r = random_real(0.0f, 1.0f);
 		return (r < probability_);
 	}
 	
-	bool operator()(const point_full& p) {
+	bool operator()(const point_full& p) const {
 		float r = random_real(0.0f, 1.0f);
 		return (r < probability_ * p.get_weight());
 	}

@@ -134,7 +134,7 @@ void filter_point_cloud<Point, Allocator>::downsample_projection(const Image_cam
 
 
 template<typename Point, typename Allocator> template<typename Image_camera>
-void filter_point_cloud<Point, Allocator>::downsample_projection_depth(const Image_camera& cam, float depth_tolerance) {
+void filter_point_cloud<Point, Allocator>::projection_filter(const Image_camera& cam, float depth_tolerance) {
 	// Image with minimal depths (squared)
 	multi_dimensional_array<float, 2> depth_sq_buffer({ cam.image_width(), cam.image_height() }, +INFINITY);
 	

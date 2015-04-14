@@ -3,12 +3,12 @@ cmake_minimum_required(VERSION 3.1)
 
 find_package(OpenCV REQUIRED)
 
-file(GLOB_RECURSE CPP_SRC "./*.cc")
+set(CPP_SRC "./main.cc")
 
 set(CMAKE_INSTALL_PREFIX ../../dist)
 set(CMAKE_INSTALL_RPATH "@executable_path/lib")
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fopenmp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
 
 include_directories(SYSTEM ../external/include/)
 include_directories(SYSTEM ../dist/include/)

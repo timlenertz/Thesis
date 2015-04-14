@@ -20,7 +20,7 @@ public:
 	crop_point_filter(Args&&... args) :
 		object_(std::forward<Args>(args)...) { }
 	
-	bool operator()(const point_xyz& pt) {
+	bool operator()(const point_xyz& pt) const {
 		return object_.contains(pt.coordinates());
 	}
 };

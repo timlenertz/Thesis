@@ -4,45 +4,40 @@
 using namespace pcf;
 using namespace pcf::exper;
 
-void hilo(const std::string& pc_name, const std::string& db_name, const pose& cam_pose) {
-	auto pc = import_point_cloud(pc_name);
-	experiment e(pc);
+void hilo(int seed, const std::string& db_name) {
+	float width = 5.0;
+	float full_density = 5000;
+
+	experiment e;
 	
-	const float portion_for_fixed = 0.7;
-	std::vector<bool> fixed_points_mask;
-	
-	e.fixed_modifier = [&](auto& fixed, float arg) {
-		fixed.downsample_random(portion_for_fixed);
-		fixed_points_mask = fixed.valid_points_mask();
+	e.make_fixed = [&](float arg) -> experiment::working_point_cloud_type {
+		return make_relief_point_cloud(width, full_density, seed);
 	};
-	e.fixed_modifier_runs = 1;
+	e.make_fixed_runs = 1;
 	
-	e.loose_modifier = [&](auto& loose, float arg) {
-		// Take out the points that are in fixed
-		loose.filter_mask(fixed_points_mask, true);
-		// Additionally downsample to amount arg of points
-		loose.downsample_grid(0.08*arg + 0.01);
+	e.make_loose = [&](const experiment::fixed_point_cloud_type&, float arg) -> experiment::working_point_cloud_type {
+		float a = (0.35-0.2)*arg + 0.2; 
+		float density = full_density * (1.0 - a)*(1.0 - a);
+		return make_relief_point_cloud(width, density, seed);
 	};
-	e.loose_modifier_runs = 15;
-	
+	e.make_loose_runs = 10;
+		
 	e.displacer = [](float arg) -> pose {
-		pose ps;
-		//ps.random_displacement(1.0*arg + 0.1, (0.1*arg + 0.03)*pi);
-		return ps;
+		return pose::random_displacement(0.5*arg + 0.1, angle::degrees(15.0*arg + 3.0));
 	};
-	e.displacer_runs = 5;
+	e.displacer_runs = 4;
 	
 	e.create_registration = [&](const auto& fixed, const auto& loose, float arg) {
-		auto r = create_iterative_closest_point_registration(fixed, loose);
-		r->stop_on_divergence = true;
+		auto r = create_iterative_closest_point_registration(fixed, loose, accept_point_filter());
+		r->stop_on_divergence = false;
 		r->divergence_error_threshold = 0.1;
-		r->minimal_error = 0.00005;
+		r->minimal_error = 0.000001;
 		r->maximal_iterations = 100;
 		return r;
 	};
-	e.registration_runs = 5;
+	e.registration_runs = 3;
 	
-	e.minimal_actual_error = 0.0005;
+	e.minimal_actual_error = 0.0001;
 	
 	e.run_callback = [](const run_result& run, std::ptrdiff_t i) {
 		run.export_animation("output/v"+std::to_string(i++)+".mov", "mp4v");
@@ -51,8 +46,8 @@ void hilo(const std::string& pc_name, const std::string& db_name, const pose& ca
 	
 	e.create_snapshot = [&](const auto& fixed, const auto& loose, const Eigen::Affine3f& transformation) -> color_image {
 		projection_image_camera cam(
-			cam_pose,
-			projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 3.0/2.0),
+			pose::from_string("0.220013,-4.92678,3.35604,0.912652,0.408613,0.00823912,0.00583399"),
+			projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 2.0/3.0),
 			1200, 800
 		);
 		camera_range_point_cloud_full<projection_image_camera> rpc(cam);

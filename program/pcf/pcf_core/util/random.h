@@ -20,29 +20,29 @@ random_generator& get_random_generator();
 /**
 Generate random integer in [mn, mx].
 */
-template<typename T>
-T random_integer(T mn, T mx) {
+template<typename T, typename Gen = random_generator>
+T random_integer(T mn, T mx, Gen& gen = get_random_generator()) {
 	std::uniform_int_distribution<T> dist(mn, mx - 1);
-	return dist( get_random_generator() );
+	return dist(gen);
 }
 
 
 /**
 Generate random integer in [0, mx].
 */
-template<typename T>
-T random_integer(T mx) {
-	return random_integer<T>(0, mx);
+template<typename T, typename Gen = random_generator>
+T random_integer(T mx, Gen& gen = get_random_generator()) {
+	return random_integer<T>(0, mx, gen);
 }
 
 
 /**
 Generate random real in [mn, mx[.
 */
-template<typename T>
-T random_real(T mn, T mx) {
+template<typename T, typename Gen = random_generator>
+T random_real(T mn, T mx, Gen& gen = get_random_generator()) {
 	std::uniform_real_distribution<T> dist(mn, mx);
-	return dist( get_random_generator() );
+	return dist(gen);
 }
 
 

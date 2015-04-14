@@ -121,6 +121,9 @@ public:
 	const Point* data() const { return begin_; }
 	const Point* cdata() const { return begin_; }
 	
+	Point& operator[](std::ptrdiff_t i) { return *(begin_ + i); }
+	const Point& operator[](std::ptrdiff_t i) const { return *(begin_ + i); }
+	
 	iterator begin() { return begin_; }
 	const_iterator begin() const { return begin_; }
 	const_iterator cbegin() const { return begin_; }

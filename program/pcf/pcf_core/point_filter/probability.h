@@ -17,7 +17,7 @@ public:
 	explicit probability_point_filter(float prob) :
 		probability_(prob) { }
 
-	bool operator()(const point_xyz&) {
+	bool operator()(const point_xyz&) const {
 		float r = random_real(0.0f, 1.0f);
 		return (r < probability_);
 	}

@@ -21,7 +21,7 @@ public:
 	segment_point_filter(const segment_type& seg) :
 		segment_(seg) { }
 		
-	bool operator()(const Point& pt) {
+	bool operator()(const Point& pt) const {
 		return segment_.contains(pt);
 	}
 };

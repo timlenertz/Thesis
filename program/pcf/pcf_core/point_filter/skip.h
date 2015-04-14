@@ -13,7 +13,7 @@ Stateful point filter.
 class skip_point_filter : public point_filter {
 private:
 	const std::size_t k_;
-	std::size_t counter_ = 0;
+	mutable std::size_t counter_ = 0;
 	
 public:
 	skip_point_filter(std::size_t k) :
@@ -23,7 +23,7 @@ public:
 		counter_ = 0;
 	}
 
-	bool operator()(const point_xyz&) {
+	bool operator()(const point_xyz&) const {
 		if(++counter_ == k_) {
 			counter_ = 0;
 			return true;

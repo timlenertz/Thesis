@@ -61,8 +61,13 @@ public:
 	bool has_child(std::ptrdiff_t i) const;
 	bool is_leaf() const;
 	node_handle_ child(std::ptrdiff_t i) const;
-	
-	iterator closest_point(const point_xyz&, float accepting_distance, float rejecting_distance) const;
+
+	template<typename Condition_func>
+	iterator closest_point(const point_xyz&, float accepting_distance, float rejecting_distance, const Condition_func&) const;
+
+	iterator closest_point(const point_xyz& ref, float accepting_distance, float rejecting_distance) const {
+		return closest_point(ref, accepting_distance, rejecting_distance, []{ return true; });
+	}
 };
 
 }

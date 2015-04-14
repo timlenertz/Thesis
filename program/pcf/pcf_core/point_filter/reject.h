@@ -10,7 +10,7 @@ Reject every point.
 */
 class reject_point_filter : public point_filter {
 public:
-	bool operator()(const point_xyz&) {
+	bool operator()(const point_xyz&) const {
 		return false;
 	}
 };

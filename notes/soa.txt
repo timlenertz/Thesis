@@ -1,0 +1,50 @@
+POINT SET REGISTRATION
+
+Survey
+	Basics [Bell2014]
+	Rigid / Non-rigid
+	Full Survey [Tam2007] [Salv2006]
+	
+
+Iterative Closest Point
+	Basic description [Besl1992]
+	Closest point criterion [Liu2004]
+	Variants [Lark2010] [Rusi2001]
+	Estimation step
+		Point to point, point to plane [Chen1991]
+		Mean-square-error estimation methods [Loru1995]
+		Generalized ICP [Sega2009]
+		Least-squares problems [Pigh2007]
+		Iteratively Reweighted Least Squares [Pigh2007]
+		Unsigned l1 distance (p=1) [Flor2010]
+		Sparse ICP (p<1) [Boua2013]
+	
+
+Levenberg-Marquardt algorithm [Fitz2001]
+
+
+4-Point Congruent Set
+
+Normal Distribution Transform
+	
+
+Coarse
+	Extended Gaussian Image [Maka2006]
+	
+
+
+POINT SET PROCESSING
+	kNN [Zhao2014] [Sank2007]
+	Computing normals [Holz2012]
+
+IMAGE TO POINT CLOUD REGISTRATION
+	Mutual Information maximization [Viol1997]
+	Illumination-related properties [Cors2009]
+
+
+IMAGE REGISTRATION
+	
+
+
+FEATURE DETECTORS
+	Survey [Tuyt2007]

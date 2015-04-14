@@ -21,20 +21,29 @@ private:
 	const Cloud_loose& loose_;
 
 public:
-	using correspondence_type = point_correspondence<
-		const typename Cloud_fixed::point_type,
-		const typename Cloud_loose::point_type
-	>;
+	using correspondence_type = registration_correspondence;
+	
+	enum {
+		same_index,
+		index_attribute,
+		known_transformation
+	} mode = same_index;
+	Eigen::Affine3f real_loose_transformation;
 	
 	same_point_correspondences(const Cloud_fixed&, const Cloud_loose&);	
 
 	template<typename Receiver>
-	void operator()(Receiver&, const Eigen::Affine3f& = Eigen::Affine3f::Identity());
+	void operator()(Receiver&, const Eigen::Affine3f& = Eigen::Affine3f::Identity()) const;
 	
 	const Cloud_fixed& fixed_point_cloud() const { return fixed_; }
 	const Cloud_loose& loose_point_cloud() const { return loose_; }
 };
 
+template<typename Cloud_fixed, typename Cloud_loose>
+same_point_correspondences<Cloud_fixed, Cloud_loose> make_same_point_correspondences
+(const Cloud_fixed& cf, const Cloud_loose& cl) {
+	return same_point_correspondences<Cloud_fixed, Cloud_loose>(cf, cl);
+};
 
 }
 

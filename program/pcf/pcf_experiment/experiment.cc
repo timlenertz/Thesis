@@ -22,7 +22,7 @@ run_result experiment::run_registration_(fixed_point_cloud_type& fixed, loose_po
 	res_run.success = reg->run([&]() {
 		run_result::state res_state;
 		res_state.error = reg->current_error();
-		res_state.actual_error = actual_error_(reg->accumulated_transformation() * loose.transformation_from(fixed));
+		res_state.actual_error = actual_error_(fixed, reg->accumulated_transformation() * loose.transformation_from(fixed));
 		res_state.transformation = reg->accumulated_transformation();
 		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(clock_t::now() - start_time);
 				
@@ -40,11 +40,13 @@ run_result experiment::run_registration_(fixed_point_cloud_type& fixed, loose_po
 }
 
 
-float experiment::actual_error_(const Eigen::Affine3f& transformation) const {
-	using cor_t = same_point_correspondences<working_point_cloud_type, working_point_cloud_type>;
-	cor_t same_cor(original_point_cloud, original_point_cloud);
+float experiment::actual_error_(const fixed_point_cloud_type& fixed, const Eigen::Affine3f& transformation) const {
 	mean_square_error actual_error_metric;
-	same_cor(actual_error_metric, transformation);
+	for(const auto& fp : fixed) {
+		if(! fp.valid()) continue;
+		Eigen::Vector3f lp = transformation * fp.coordinates();
+		actual_error_metric << registration_correspondence(fp, lp, 1.0);
+	}
 	return actual_error_metric();
 }	
 
@@ -56,26 +58,20 @@ float experiment::arg_(unsigned i, unsigned n) {
 
 
 results experiment::run(const std::string& db) {
-	unsigned total = fixed_modifier_runs * loose_modifier_runs * displacer_runs * registration_runs;
+	unsigned total = make_fixed_runs * make_loose_runs * displacer_runs * registration_runs;
 	unsigned counter = 0;
 
 	results res(db);
 	res.clear();
 	
-	std::size_t cap = original_point_cloud.size() + additional_capacity;
-
-	for(unsigned i = 0; i < fixed_modifier_runs; ++i) {
-		working_point_cloud_type fixed_unorg(original_point_cloud, cap);
-		fixed_unorg.set_relative_pose(pose());
-		float fixed_modifier_arg = arg_(i, fixed_modifier_runs);
-		if(fixed_modifier) fixed_modifier(fixed_unorg, fixed_modifier_arg);
-		fixed_point_cloud_type fixed(std::move(fixed_unorg));
+	for(unsigned i = 0; i < make_fixed_runs; ++i) {
+		float make_fixed_arg = arg_(i, make_fixed_runs);
+		working_point_cloud_type fixed_unorg = make_fixed(make_fixed_arg);
+		fixed_point_cloud_type fixed = fixed_unorg;
 		
-		for(unsigned j = 0; j < loose_modifier_runs; ++j) {
-			working_point_cloud_type loose(original_point_cloud, cap);
-			loose.set_relative_pose(pose());
-			float loose_modifier_arg = arg_(j, loose_modifier_runs);
-			if(loose_modifier) loose_modifier(loose, loose_modifier_arg);
+		for(unsigned j = 0; j < make_loose_runs; ++j) {
+			float make_loose_arg = arg_(j, make_loose_runs);
+			working_point_cloud_type loose = make_loose(fixed, make_loose_arg);
 			
 			#pragma omp parallel for if(displacer_runs > 1 && run_parallel)
 			for(unsigned k = 0; k < displacer_runs; ++k) {
@@ -102,8 +98,8 @@ results experiment::run(const std::string& db) {
 					run_res.original_transformation = transformation.transformation_from_world();
 					run_res.registration_arg = registration_arg;
 					run_res.displacer_arg = displacer_arg;
-					run_res.fixed_modifier_arg = fixed_modifier_arg;
-					run_res.loose_modifier_arg = loose_modifier_arg;
+					run_res.make_fixed_arg = make_fixed_arg;
+					run_res.make_loose_arg = make_loose_arg;
 					run_res.fixed_number_of_points = fixed_unorg.number_of_valid_points();
 					run_res.loose_number_of_points = loose.number_of_valid_points();
 					

@@ -41,8 +41,8 @@ public:
 	Eigen::Affine3f original_transformation; ///< Initial transformation applied to loose point cloud.
 	float registration_arg; ///< Argument for registration.
 	float displacer_arg; ///< Argument for displacer.
-	float fixed_modifier_arg; ///< Argument for fixed point cloud modifier.
-	float loose_modifier_arg; ///< Argument for loose point cloud modifier.
+	float make_fixed_arg; ///< Argument for fixed point cloud modifier.
+	float make_loose_arg; ///< Argument for loose point cloud modifier.
 	std::size_t loose_number_of_points;
 	std::size_t fixed_number_of_points;
 	
