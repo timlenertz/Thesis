@@ -11,7 +11,6 @@ namespace {
 	const pcf::angle rotation_per_click_ = pcf::pi / 200.0;
 	const Long_t refresh_rate_ = 20;
 	const float slow_factor_ = 6.0;
-	
 }
 
 

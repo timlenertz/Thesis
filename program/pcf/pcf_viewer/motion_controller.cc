@@ -20,7 +20,6 @@ void motion_controller::tick() {
 	if(! object) return;
 	
 	if(! inertia) {
-		
 	}
 
 	// See how much time passed since last call
@@ -58,15 +57,23 @@ void motion_controller::tick() {
 
 
 void motion_controller::rotate(angle horizontal, angle vertical) {
-	if(object) {
-		object->rotate_y_axis(horizontal);
-		object->rotate_x_axis(vertical);
-	}
+	if(! object) return;
+	
+	Eigen::AngleAxisf rot_vert(-vertical, Eigen::Vector3f::UnitX());
+	Eigen::AngleAxisf rot_hori(-horizontal, (camera_.absolute_pose().transformation_from_world().rotation() * Eigen::Vector3f::UnitY()).normalized());
+	
+	Eigen::Affine3f trans(rot_hori * rot_vert);		
+	object->transform(trans, camera_);
 }
 
 
 void motion_controller::roll(angle a) {
-	if(object) object->rotate_z_axis(-a);
+	if(! object) return;
+		
+	Eigen::Affine3f trans(
+		Eigen::AngleAxisf(a, Eigen::Vector3f::UnitZ())
+	);
+	object->transform(trans, camera_);
 }
 
 
