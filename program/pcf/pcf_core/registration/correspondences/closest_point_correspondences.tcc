@@ -37,7 +37,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 
 	#pragma omp parallel
 	{
-		Receiver rec_part;
+		Receiver rec_part(rec);
 		
 		#pragma omp for
 		for(auto it = begin_it; it < end_it; ++it)
@@ -67,7 +67,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 			process_point_(*it, it.real_point(), rec_part);
 	};
 	
-	std::vector<Receiver> rec_parts(num_threads);
+	std::vector<Receiver> rec_parts(num_threads, rec);
 	std::vector<std::thread> threads;
 		
 	const std::size_t total = loose_.size();

@@ -59,8 +59,8 @@ void motion_controller::tick() {
 void motion_controller::rotate(angle horizontal, angle vertical) {
 	if(! object) return;
 	
-	Eigen::AngleAxisf rot_vert(-vertical, Eigen::Vector3f::UnitX());
-	Eigen::AngleAxisf rot_hori(-horizontal, (camera_.absolute_pose().transformation_from_world().rotation() * Eigen::Vector3f::UnitY()).normalized());
+	Eigen::AngleAxisf rot_vert(vertical, Eigen::Vector3f::UnitX());
+	Eigen::AngleAxisf rot_hori(horizontal, (camera_.absolute_pose().transformation_from_world().rotation() * Eigen::Vector3f::UnitY()).normalized());
 	
 	Eigen::Affine3f trans(rot_hori * rot_vert);		
 	object->transform(trans, camera_);

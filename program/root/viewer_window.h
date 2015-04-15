@@ -70,7 +70,8 @@ public:
 	Mask_t key_mask_for_slow = kKeyMod1Mask;
 	
 	float movement_speed = 0.003;
-
+	bool flip_mouse_y = false;
+	
 	explicit viewer_window(const std::string& title = "Viewer");
 	~viewer_window();
 	

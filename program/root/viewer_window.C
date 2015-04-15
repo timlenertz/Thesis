@@ -46,7 +46,7 @@ Bool_t viewer_window::event_handler::HandleMotion(Event_t* ev) {
 		Int_t diff_y = ev->fY - win_.drag_position_y_;
 		win_.drag_position_x_ = ev->fX;
 		win_.drag_position_y_ = ev->fY;
-		ctr.rotate(diff_x * rotation_per_cursor_pixel_, diff_y * rotation_per_cursor_pixel_);
+		ctr.rotate(diff_x * rotation_per_cursor_pixel_, diff_y * rotation_per_cursor_pixel_ * (win_.flip_mouse_y ? -1 : 1));
 	}
 	return kTRUE;
 }
@@ -188,7 +188,6 @@ Bool_t viewer_window::HandleTimer(TTimer*) {
 void viewer_window::init_() {
 	gl_widget_->MakeCurrent();
 }
-
 
 void viewer_window::draw_() {
 	gl_widget_->MakeCurrent();
