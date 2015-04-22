@@ -169,6 +169,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_full& pc
 	pov_point_cloud_(pc)
 {
 	setup_loader_();
+	render_normals = true;
 }
 
 
@@ -179,6 +180,7 @@ scene_point_cloud::scene_point_cloud(const scene& sc, const point_cloud_xyz& pc,
 {
 	set_unique_color(pov_point_cloud_.begin(), pov_point_cloud_.end(), col);
 	setup_loader_();
+	render_normals = false;
 }
 
 
@@ -269,7 +271,8 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 	
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Winvalid-offsetof"
-	std::ptrdiff_t color_offset = offsetof(point_full, color);
+	const std::ptrdiff_t color_offset = offsetof(point_full, color);
+	const std::ptrdiff_t normal_offset = offsetof(point_full, normal);
 	// unsafe use of offsetof, but works
 	#pragma GCC diagnostic pop
 	
@@ -281,6 +284,9 @@ void scene_point_cloud::update_vertex_array_object_buffer_() {
 	
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, stride, reinterpret_cast<const GLvoid*>(color_offset));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<const GLvoid*>(normal_offset));
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -305,6 +311,7 @@ void scene_point_cloud::gl_draw_() {
 
 	shader_program_->use();
 	shader_program_->mvp_matrix = mvp_matrix_;
+	shader_program_->uniform("camera_position") = scene_.camera().absolute_pose().position;
 	
 	glPointSize(point_size);
 		

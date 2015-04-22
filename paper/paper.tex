@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \usepackage{gnuplottex}
 \usepackage{fullpage}
 \usepackage{wrapfig}
@@ -11,6 +12,8 @@
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\matr}[1]{\mathbf{#1}}
 
 \begin{document}
 
@@ -73,6 +76,86 @@ Additional information can be contained in the ordering of the points in the set
 
 \chapter{Method}
 
+\subsection{Least-square error minimization}
+Point-to-point would minimize
+
+\begin{equation}
+	\argmin_{\matr{M}} \sum_{i} \| \matr{M} \vec{q_i} - \vec{p_i} \|^2
+\end{equation}
+
+Here
+
+\begin{equation}
+	\argmin_{\matr{M}} \sum_{i} \left[ d(\matr{M} \vec{q_i}, A) - d(\vec{p_i}, A) \right]^2
+\end{equation}
+
+That is
+
+\begin{equation}
+	d(\vec{p}, A) = (\vec{a} - \vec{p}) \vec{n} 
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+	d(\vec{p}, A) - d(\vec{q}, A) & = (\vec{a} - \vec{p}) \vec{n} - (\vec{a} - \vec{q}) \vec{n}  \\
+	& = \vec{r} \vec{n} - \vec{p} \vec{n} - \vec{r} \vec{n} - \vec{p} \vec{n} \\
+	& = \vec{p} \vec{n} - \vec{p} \vec{n} \\
+	& = (\vec{q} - \vec{p}) \vec{n}
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+	\matr{R} = \matr{R_x} \matr{R_y} & = \left[ \begin{matrix}
+		1 & 0 & 0 \\
+		0 & \cos \theta_x & \sin \theta_x \\
+		0 & - \sin \theta_x & \cos \theta_x
+	\end{matrix} \right] \left[ \begin{matrix}
+		\cos \theta_y & 0 & - \sin \theta_y \\
+		0 & 1 & 0 \\
+		\sin \theta_y & 0 & \cos \theta_y
+	\end{matrix} \right] \\
+	& = \left[ \begin{matrix}
+		\cos \theta_y & 0 & - \sin \theta_y \\
+		0 & \cos \theta_x & \sin \theta_y \cos \theta_y \\
+		\cos \theta_x \sin \theta_y & - \sin \theta_x & \cos \theta_x \cos \theta_y
+	\end{matrix} \right]
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+	d & = a (\vec{q_x} \cos \theta_y - \vec{q_z} \sin \theta_y) \\
+	& + b (\vec{q_y} \cos \theta_x + \vec{q_z} \sin \theta_x \cos \theta_y) \\
+	& + c (\vec{q_x} \cos \theta_x \sin \theta_y - \vec{q_y} \sin \theta_x + \vec{q_z} \cos \theta_x \cos \theta_y) \\
+	& + t_z \\
+	& - a \vec{p_x} - b \vec{p_y} - c \vec{p_z}
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+	\cos \theta_x & \approx 1 \\
+	\cos \theta_y & \approx 1 \\
+	\sin \theta_x & \approx \theta_x \\
+	\sin \theta_y & \approx \theta_y \\
+	\sin \theta_x \cos \theta_y & \approx \theta_x \\
+	\sin \theta_y \cos \theta_x & \approx \theta_y \\
+	\cos \theta_x \cos \theta_y & \approx 1
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+	d & = a (\vec{q_x} - \vec{q_z} \theta_y) + b (\vec{q_y} + \vec{q_z} \theta_x)+ c (\vec{q_x} \theta_y - \vec{q_y} \theta_x + \vec{q_z}) + t_z - a \vec{p_x} - b \vec{p_y} - c \vec{p_z} \\
+	& = \theta_x (b \vec{q_z} - c \vec{q_y}) + \theta_y (c \vec{q_x} - a \vec{q_z}) + t_z - \left[ (a \vec{p_x} + b \vec{p_y} + c \vec{p_z}) - (a \vec{q_x} + b \vec{q_y} + c \vec{q_z}) \right]
+\end{aligned}
+\end{equation}
 
 \bibliographystyle{authordate1}
 \bibliography{../reference/references}

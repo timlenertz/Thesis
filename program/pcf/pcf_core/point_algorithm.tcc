@@ -171,24 +171,25 @@ plane fit_plane_to_points(Iterator begin, Iterator end) {
 	std::size_t n = end - begin;
 	Eigen::Vector3f center = center_of_mass(begin, end);
 
-	Eigen::MatrixXf mat(n, 4);
-	std::ptrdiff_t i = 0;
+	Eigen::Matrix3f A = Eigen::Matrix3f::Zero();
+	Eigen::Vector3f b = Eigen::Vector3f::Zero();
 	for(Iterator it = begin; it != end; ++it) {
-		const auto& pt = *it;
-		if(! pt.valid()) continue;
-		mat(i, 0) = pt[0];
-		mat(i, 1) = pt[1];
-		mat(i, 2) = pt[2];
-		mat(i, 3) = 1.0;
-		++i;
-	}
-	mat.resize(i, 4);
-
-	Eigen::JacobiSVD<Eigen::MatrixX3f> svd(mat, Eigen::ComputeFullV);
-	auto v = svd.matrixV();
-	Eigen::Vector3f norm(v(2, 0), v(2, 1), v(2, 2));
+		const auto& p = *it;
+		if(! p.valid()) continue;
 		
-	return plane(center, norm);
+		Eigen::Matrix3f A_term;
+		A_term <<
+			p[0]*p[0], p[0]*p[1], p[0],
+			p[0]*p[1], p[1]*p[1], p[1],
+			p[0], p[1], 1.0;
+		Eigen::Vector3f b_term( p[0]*p[2], p[1]*p[2], p[2] );
+
+		A += A_term;
+		b += b_term;
+	}
+	
+	Eigen::Vector3f x = A.inverse() * b;
+	return plane(x[0], x[1], -1.0, x[2]);
 }
 
 
@@ -222,6 +223,23 @@ bounding_box compute_bounding_box(Iterator begin, Iterator end, float ep) {
 	mx += Eigen::Vector4f(ep, ep, ep, 0);
 	
 	return bounding_box(mn.head(3), mx.head(3));
+}
+
+
+
+template<typename Iterator>
+void compute_lambertian_illumination_weights(Iterator begin, Iterator end, const Eigen::Vector3f& light_source) {
+	for(Iterator it = begin; it != end; ++it) {
+		auto& p = *it;
+		if(! p.valid()) continue;
+		
+		Eigen::Vector3f n = p.get_normal(true);
+		Eigen::Vector3f l = (p.coordinates() - light_source).normalized();
+		
+		float w = l.dot(n);
+		if(w < 0) w = 0.0;
+		it->set_weight(w);
+	}
 }
 
 }

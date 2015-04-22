@@ -80,6 +80,11 @@ point_full relief::at(float x, float y) const {
 		der_x -= e.depth * dx / q;
 		der_y -= e.depth * dy / q;
 	}
+	
+	const float fac = 0.5;
+	z *= fac;
+	der_x *= fac;
+	der_y *= fac;
 			
 	point_full p(x - width_/2.0, y - width_/2.0, z);
 	p.set_normal(-Eigen::Vector3f(der_x, der_y, -1));

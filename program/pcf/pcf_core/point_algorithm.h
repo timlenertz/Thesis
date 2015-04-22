@@ -37,6 +37,10 @@ void set_unique_color(Iterator begin, Iterator end, rgb_color);
 template<typename Iterator>
 void colorize_by_weight(Iterator begin, Iterator end, float min_w, float max_w, const rgb_color& col_min = rgb_color::black, const rgb_color& col_max = rgb_color::white);
 
+template<typename Iterator>
+void compute_lambertian_illumination_weights(Iterator begin, Iterator end, const Eigen::Vector3f& light_source);
+
+
 
 /**
 Normalize weights of given set of points.
