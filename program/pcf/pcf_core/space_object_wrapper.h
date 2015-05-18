@@ -27,6 +27,13 @@ public:
 	const T& operator*() const { return object_; }
 	T* operator->() { return &object_; }
 	const T* operator->() const { return &object_; }
+	
+	void apply_pose() {
+		const Eigen::Affine3f& t = relative_pose().transformation_to_world();
+		object_.apply_transformation(t);
+		set_no_relative_pose();
+		handle_update();
+	}
 };
 
 using space_bounding_box = space_object_wrapper<bounding_box>;

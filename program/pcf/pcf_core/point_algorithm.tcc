@@ -168,9 +168,6 @@ void compute_normal_direction_weights(Iterator begin, Iterator end, const Eigen:
 
 template<typename Iterator>
 plane fit_plane_to_points(Iterator begin, Iterator end) {
-	std::size_t n = end - begin;
-	Eigen::Vector3f center = center_of_mass(begin, end);
-
 	Eigen::Matrix3f A = Eigen::Matrix3f::Zero();
 	Eigen::Vector3f b = Eigen::Vector3f::Zero();
 	for(Iterator it = begin; it != end; ++it) {

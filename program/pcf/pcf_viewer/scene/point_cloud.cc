@@ -12,8 +12,10 @@
 #include <stdexcept>
 #include <chrono>
 
-#include "../shaders/point_cloud.frag.h"
-#include "../shaders/point_cloud.vert.h"
+namespace {
+	#include "../shaders/point_cloud.frag.h"
+	#include "../shaders/point_cloud.vert.h"
+}
 
 namespace pcf {
 

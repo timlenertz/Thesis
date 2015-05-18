@@ -4,8 +4,10 @@
 #include <memory>
 #include <cmath>
 
-#include "../shaders/registration_correspondences.frag.h"
-#include "../shaders/registration_correspondences.vert.h"
+namespace pcf {
+	#include "../shaders/registration_correspondences.frag.h"
+	#include "../shaders/registration_correspondences.vert.h"
+}
 
 namespace pcf {
 

@@ -2,8 +2,10 @@
 #include "shader_program.h"
 #include "scene.h"
 
-#include "../shaders/single_color.frag.h"
-#include "../shaders/single_color.vert.h"
+namespace pcf {
+	#include "../shaders/single_color.frag.h"
+	#include "../shaders/single_color.vert.h"
+}
 
 namespace pcf {
 
@@ -97,11 +99,9 @@ void scene_bounding_box::gl_draw_() {
 	
 	if(draw_faces) {
 		glBindVertexArray(faces_vertex_array_object_);
-		glDepthMask(GL_FALSE);
 		shader_program_->uniform("color") = faces_color;
 		shader_program_->uniform("alpha") = faces_alpha;
 		glDrawArrays(GL_TRIANGLES, 0, 6 * 2 * 3);
-		glDepthMask(GL_TRUE);
 	}
 	
 	glBindVertexArray(edges_vertex_array_object_);

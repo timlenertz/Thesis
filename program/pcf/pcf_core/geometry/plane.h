@@ -2,6 +2,8 @@
 #define PCF_PLANE_H_
 
 #include <Eigen/Eigen>
+#include <string>
+#include "pose.h"
 
 namespace pcf {
 
@@ -15,6 +17,7 @@ struct plane {
 	
 	plane() = default;
 	plane(const plane&) = default;
+	explicit plane(const pose&);
 	
 	/// Create from coefficients.
 	/// Creates plane for equation ax + by + cz = d. Resulting plane is normalized.
@@ -34,6 +37,15 @@ struct plane {
 	/// Project point on plane.
 	/// Result is the point on plane that is closest to the given point.
 	Eigen::Vector3f project(const Eigen::Vector3f&) const;
+	
+	Eigen::Vector3f origin() const;
+	
+	pose to_pose() const;
+	
+	void apply_transformation(const Eigen::Affine3f&);
+
+	std::string to_string() const;
+	static plane from_string(const std::string&);
 };
 
 

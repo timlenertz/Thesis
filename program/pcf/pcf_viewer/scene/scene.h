@@ -25,6 +25,7 @@ namespace pcf {
 
 class scene_object_shader_program;
 class scene_bounding_box;
+class scene_plane;
 class scene_point_cloud;
 class scene_registration_correspondences;
 
@@ -84,6 +85,7 @@ public:
 	scene_point_cloud& add(point_cloud_xyz&);
 	scene_point_cloud& add(point_cloud_full&);
 	scene_bounding_box& add(space_bounding_box&);
+	scene_plane& add(space_plane&);
 	scene_registration_correspondences& add(space_registration_correspondences_list&);
 		
 	template<typename Object_1, typename Object_2, typename... Other_objects>
