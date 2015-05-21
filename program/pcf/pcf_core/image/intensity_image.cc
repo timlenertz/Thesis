@@ -5,6 +5,9 @@
 
 namespace pcf {
 
+const float intensity_image::invalid_value = 0.0f;
+
+
 intensity_image::intensity_image(std::size_t w, std::size_t h) :
 	image(w, h, CV_32FC1) { }
 

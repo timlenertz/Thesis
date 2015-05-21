@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <iostream>
+#include <opencv2/opencv.hpp>
 
 namespace pcf {
 
@@ -85,6 +86,27 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 
 
 template<typename Point, typename Image_camera, typename Allocator>
+camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const range_image& ri, const Image_camera& cam, bool projected_depth, const Allocator& alloc) :
+	super(ri.width(), ri.height(), false, alloc),
+	camera_(cam)
+{
+	if( (ri.width() != cam.image_width()) || (ri.height() != cam.image_height()) )
+		throw std::invalid_argument("Camera image size and range image size don't match.");
+
+	super::resize_(super::capacity());
+		
+	for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
+		auto ind = it.index();
+		if(ri.valid(ind[0], ind[1]))
+			if(projected_depth) *it = camera_.point_with_projected_depth(ind, ri.at(ind[0], ind[1]));
+			else *it = camera_.point(ind, ri.at(ind[0], ind[1]));
+		else
+			it->invalidate();
+	}
+}
+
+
+template<typename Point, typename Image_camera, typename Allocator>
 void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_xyz& pc, const rgb_color& col) {
 	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [col](const point_xyz& p) -> rgb_color { return col; });
 }
@@ -99,6 +121,87 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const poi
 template<typename Point, typename Image_camera, typename Allocator>
 void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const point_cloud_full& pc) {
 	project_(pc.begin_relative_to(*this), pc.end_relative_to(), [](const point_full& p) -> rgb_color { return p.get_color(); });
+}
+
+
+template<typename Point, typename Image_camera, typename Allocator>
+range_image camera_range_point_cloud<Point, Image_camera, Allocator>::to_range_image(bool projected_depth) const {
+	if(projected_depth) {
+		range_image ri(super::width(), super::height());
+		for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
+			auto ind = it.index();
+			if(it->valid()) ri.at(ind[0], ind[1]) = camera_.projected_depth(*it);
+			else ri.invalidate(ind[0], ind[1]);
+		}
+		return ri;
+	} else {
+		return super::to_range_image();
+	}
+}
+
+
+/////////////// 
+
+
+
+template<typename Point, typename Image_camera, typename Allocator>
+range_image camera_range_point_cloud<Point, Image_camera, Allocator>::fill_holes() {
+	using namespace cv;
+
+	// Make multi-scale stack
+	std::stack<Mat> st;
+	float mn = NAN, mx;
+	std::size_t w = super::width(), h = super::height();
+	
+	const float background = 200;
+
+	Image_camera cam = camera_;	
+	do {
+		range_image ri = camera_range_point_cloud(*this, cam).to_range_image(true);
+		bool holes = ri.contains_holes();
+		if(std::isnan(mn)) std::tie(mn, mx) = ri.minimum_and_maximum();
+
+		Mat& mat = ri;
+		mat.setTo(background, (mat == range_image::invalid_value));
+		st.push(mat);
+		
+		w /= 2; h /= 2;
+		cam.set_image_size(w, h);
+		if(! holes) break;
+	} while(w > 1 && h > 1);
+
+	
+	// Merge using the stack
+	Mat merged = st.top();
+	
+	
+	st.pop();
+	
+	while(st.size()) {
+		Mat& hi = st.top();
+		
+		// Enlarge LO to size of HI using bilinear filtering
+		resize(merged, merged, hi.size(), 0, 0, INTER_LINEAR);
+		//merged.setTo(mn, (merged < mn));
+		//merged.setTo(mx, (merged > mx) & (merged != background));
+		
+		// Detect edges in resized LO, fill with pixels from HI
+		Mat corners(merged.size(), CV_8UC1);
+		Sobel(merged, corners, -1, 1, 1, 3);
+		corners = (corners > 100) & (hi != background);
+		hi.copyTo(merged, corners);
+		
+		// Merge using minimum function (i.e. keep closest)
+		merged = min(hi, merged);
+		
+		st.pop();
+	}
+
+		merged.setTo(mn, (merged < mn));
+		merged.setTo(mx, (merged > mx) & (merged != background));
+
+	merged.setTo(range_image::invalid_value, (merged == background));
+	return range_image(merged);
 }
 
 }

@@ -9,8 +9,11 @@ namespace pcf {
 
 class intensity_image : public image {
 public:
+	static const float invalid_value;
+	
 	intensity_image(std::size_t w, std::size_t h);
 	intensity_image(const intensity_image&) = default;
+	intensity_image(const cv::Mat& mat) : image(mat) { }
 	intensity_image& operator=(const intensity_image&) = default;
 
 	bool valid(std::ptrdiff_t x, std::ptrdiff_t y) const;
@@ -26,11 +29,11 @@ public:
 
 	
 inline bool intensity_image::valid(std::ptrdiff_t x, std::ptrdiff_t y) const {
-	return at(x, y) != 0.0f;
+	return at(x, y) != invalid_value;
 }
 
 inline void intensity_image::invalidate(std::ptrdiff_t x, std::ptrdiff_t y) {
-	at(x, y) = 0.0f;
+	at(x, y) = invalid_value;
 }
 
 inline float& intensity_image::at(std::ptrdiff_t x, std::ptrdiff_t y) {

@@ -3,6 +3,7 @@
 
 #include "range_point_cloud.h"
 #include <memory>
+#include <stack>
 
 namespace pcf {
 
@@ -31,18 +32,21 @@ public:
 	/// Create from existing range image with given image camera.
 	/// Range image size must be same as image camera image size.
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
+	camera_range_point_cloud(const range_image&, const Image_camera&, bool projected_depth, const Allocator& alloc = Allocator());
 
 	void project(const point_cloud_xyz&, const rgb_color& col = point_xyz::default_color);
 	void project(const point_cloud_full&, const rgb_color& col);
 	void project(const point_cloud_full&);
 
+	range_image to_range_image(bool projected_depth = false) const;
+
+	range_image fill_holes();
+
 	// TODO copy, move constructor
 };
 
 
-extern template class camera_range_point_cloud<point_xyz, range_image_camera>;
 extern template class camera_range_point_cloud<point_xyz, projection_image_camera>;
-extern template class camera_range_point_cloud<point_full, range_image_camera>;
 extern template class camera_range_point_cloud<point_full, projection_image_camera>;
 
 template<typename Image_camera> using camera_range_point_cloud_xyz = camera_range_point_cloud<point_xyz, Image_camera>;

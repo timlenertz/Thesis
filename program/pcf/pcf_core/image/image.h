@@ -12,6 +12,7 @@ protected:
 	image(std::size_t w, std::size_t h, int type);
 	image(const image&);
 	image(image&&);
+	image(const cv::Mat& mat) : matrix_(mat) { }
 	image() = default;	
 
 	image& operator=(const image&);
@@ -25,6 +26,8 @@ public:
 	void flip(bool vertical, bool horizontal);
 	
 	const cv::Mat& opencv_matrix() const { return matrix_; }
+	operator cv::Mat& () { return matrix_; }
+	operator const cv::Mat& () const { return matrix_; }
 };
 
 }
