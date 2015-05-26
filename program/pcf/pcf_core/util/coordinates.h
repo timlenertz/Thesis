@@ -4,6 +4,7 @@
 #include <array>
 #include <ostream>
 #include <initializer_list>
+#include <Eigen/Eigen>
 
 namespace pcf {
 
@@ -63,6 +64,8 @@ public:
 		x(nx), y(ny) { }
 	coordinates(std::initializer_list<T> coord) :
 		x(*coord.begin()), y(*(coord.begin()+1)) { }
+	coordinates(const Eigen::Vector2i& coord) :
+		x(coord[0]), y(coord[1]) { }
 	coordinates(const coordinates&) = default;
 	coordinates& operator=(const coordinates&) = default;
 	
@@ -87,6 +90,8 @@ public:
 	T* end() { return &y + 1; }
 	const T* end() const { return &y + 1; }
 	const T* cend() const { return &y + 1; }
+	
+	operator Eigen::Vector2i () const { return Eigen::Vector2i(x, y); }
 };
 
 
@@ -103,6 +108,8 @@ public:
 		x(nx), y(ny), z(nz) { }
 	coordinates(std::initializer_list<T> coord) :
 		x(*coord.begin()), y(*(coord.begin()+1)), z(*(coord.begin()+2)) { }
+	coordinates(const Eigen::Vector3i& coord) :
+		x(coord[0]), y(coord[1]), z(coord[3]) { }
 	coordinates(const coordinates&) = default;
 	coordinates& operator=(const coordinates&) = default;
 	
@@ -139,6 +146,8 @@ public:
 	T* end() { return &z + 1; }
 	const T* end() const { return &z + 1; }
 	const T* cend() const { return &z + 1; }	
+	
+	operator Eigen::Vector3i () const { return Eigen::Vector3i(x, y, z); }
 };
 
 

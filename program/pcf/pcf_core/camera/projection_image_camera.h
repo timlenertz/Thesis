@@ -6,6 +6,8 @@
 
 namespace pcf {
 
+struct plane;
+
 /**
 Projection camera which additionally handles mapping onto pixel grid.
 Image pixel XY coordinates linearily map to coordinates on projected plane. This can model a photo camera. Two kinds of depth measure supported: distance to camera (depth), and z-coordinate after application of projection matrix (projected depth). Latter is easier to compute.
@@ -15,6 +17,7 @@ public:
 	projection_image_camera() = default;
 	projection_image_camera(const pose&, const projection_frustum&, std::size_t imw, std::size_t imh);
 	projection_image_camera(const pose&, const projection_bounding_box&, std::size_t imw, std::size_t imh);
+	projection_image_camera(const plane&, float w, float h, std::size_t imw, std::size_t imh = 0);
 	projection_image_camera(const projection_camera&, std::size_t imw, std::size_t imh);
 	projection_image_camera(const projection_image_camera&) = default;
 	

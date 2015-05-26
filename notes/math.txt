@@ -8,7 +8,13 @@ Math preliminaries to include
 	1, 2, p Norm
 	SVD
 	Iterative reweighted least squares (IRLS) [article]
+
+	Entropy
+	Gaussian distribution
+
 	Mutual Information
+	Parzen Window
+	Convergence in mean squares
 
 
 CS preliminaries

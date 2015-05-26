@@ -1,5 +1,7 @@
 #include "projection_image_camera.h"
+#include "../geometry/plane.h"
 #include <stdexcept>
+#include <Eigen/Eigen>
 
 namespace pcf {
 
@@ -17,6 +19,20 @@ projection_image_camera::projection_image_camera(const pose& ps, const projectio
 projection_image_camera::projection_image_camera(const projection_camera& cam, std::size_t imw, std::size_t imh) :
 	projection_camera(cam),
 	image_camera(imw, imh) { }
+
+
+projection_image_camera::projection_image_camera(const plane& pl, float w, float h, std::size_t imw, std::size_t imh) :
+	projection_camera(
+		pose(
+			Eigen::Vector3f::Zero(),
+			Eigen::Quaternionf::FromTwoVectors(pl.normal, Eigen::Vector3f::UnitZ())
+		), 
+		projection_bounding_box::symmetric_orthogonal(w, h)
+	),
+	image_camera(
+		imw,
+		imh ? imh : (imw * h) / w
+	) { }
 
 
 

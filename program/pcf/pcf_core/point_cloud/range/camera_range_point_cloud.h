@@ -8,6 +8,7 @@
 namespace pcf {
 
 class range_image;
+class projected_range_image;
 
 /**
 Range point cloud with associated image camera.
@@ -32,15 +33,15 @@ public:
 	/// Create from existing range image with given image camera.
 	/// Range image size must be same as image camera image size.
 	camera_range_point_cloud(const range_image&, const Image_camera&, const Allocator& alloc = Allocator());
-	camera_range_point_cloud(const range_image&, const Image_camera&, bool projected_depth, const Allocator& alloc = Allocator());
+	camera_range_point_cloud(const projected_range_image&, const Image_camera&, const Allocator& alloc = Allocator());
 
 	void project(const point_cloud_xyz&, const rgb_color& col = point_xyz::default_color);
 	void project(const point_cloud_full&, const rgb_color& col);
 	void project(const point_cloud_full&);
 
-	range_image to_range_image(bool projected_depth = false) const;
+	projected_range_image to_projected_range_image() const;
 
-	range_image fill_holes();
+	projected_range_image fill_holes(float background_depth = 1000.0, float corner_tolerance = 0.2) const;
 
 	// TODO copy, move constructor
 };
@@ -69,11 +70,22 @@ camera_range_point_cloud_xyz<Image_camera> backproject(const range_image& ri, co
 
 
 template<typename Image_camera>
+camera_range_point_cloud_xyz<Image_camera> backproject(const projected_range_image& ri, const Image_camera& cam) {
+	return camera_range_point_cloud_xyz<Image_camera>(ri, cam);
+}
+
+
+template<typename Image_camera>
 camera_range_point_cloud_full<Image_camera> backproject(const range_image& ri, const color_image& ci, const Image_camera& cam) {
 	camera_range_point_cloud_full<Image_camera> rpc(ri, cam);
 	rpc.colorize(ci);
 	return rpc;
 }
+
+
+template<typename Other_cloud, typename Image_camera>
+Image_camera estimate_optimal_camera(const Image_camera& original_cam, const Other_cloud& pc, std::size_t min_w = 10, std::size_t max_w = 3000);
+
 
 }
 

@@ -46,6 +46,12 @@ T random_real(T mn, T mx, Gen& gen = get_random_generator()) {
 }
 
 
+template<typename Gen = random_generator>
+bool random_boolean(float probability, Gen& gen = get_random_generator()) {
+	return (random_real(0.0f, 1.0f) <= 1.0f);
+}
+
+
 /**
 Iterate from begin to end iterator, picking given number of items at random.
 Iterates through the list only once, and Iterator only needs to be an input iterator. Guarantees that expected number of items will be picked, uniformly distributed. Calls callback function for each picked item. List must contain at least that number of items.

@@ -18,7 +18,7 @@ namespace pcf {
 class range_point_cloud_importer;
 class range_image;
 class intensity_image;
-class color_image;
+class rgb_color_image;
 
 /**
 Point cloud corresponding to range image.
@@ -59,7 +59,7 @@ public:
 		
 	range_image to_range_image() const;
 	intensity_image weights_to_intensity_image() const;
-	color_image to_color_image(rgb_color bg = rgb_color::black) const;
+	rgb_color_image to_rgb_color_image(rgb_color bg = rgb_color::black) const;
 		
 	void colorize(const color_image&);
 		
@@ -73,7 +73,7 @@ public:
 		nearest_neighbors_(this, k, cond, callback, parallel);	
 	}
 	
-	void fill_holes();
+	float ratio_of_area_filled() const;
 };
 
 using range_point_cloud_xyz = range_point_cloud<point_xyz>;

@@ -4,9 +4,9 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
-#include "../../image/intensity_image.h"
+#include "../../image/image.h"
 #include "../../image/range_image.h"
-#include "../../image/color_image.h"
+#include "../../image/rgb_color_image.h"
 #include "../../io/range_point_cloud_importer.h"
 #include "../../point.h"
 
@@ -93,8 +93,8 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() const {
 	range_image ri(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
-		if(it->valid()) ri.at(ind[0], ind[1]) = it->coordinates().norm();
-		else ri.invalidate(ind[0], ind[1]);
+		if(it->valid()) ri[ind] = it->coordinates().norm();
+		else ri.invalidate(ind);
 	}
 	return ri;
 }
@@ -105,8 +105,8 @@ intensity_image range_point_cloud<Point, Allocator>::weights_to_intensity_image(
 	intensity_image ii(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
-		if(it->valid()) ii.at(ind[0], ind[1]) = it->get_weight();
-		else ii.invalidate(ind[0], ind[1]);
+		if(it->valid()) ii[ind] = it->get_weight();
+		else ii.invalidate(ind);
 	}
 	return ii;
 }
@@ -114,11 +114,11 @@ intensity_image range_point_cloud<Point, Allocator>::weights_to_intensity_image(
 
 
 template<typename Point, typename Allocator>
-color_image range_point_cloud<Point, Allocator>::to_color_image(rgb_color bg) const {
-	color_image ci(width(), height());
+rgb_color_image range_point_cloud<Point, Allocator>::to_rgb_color_image(rgb_color bg) const {
+	rgb_color_image ci(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
-		rgb_color& col = ci.at(ind[0], ind[1]);
+		rgb_color& col = ci[ind];
 		if(it->valid()) col = it->get_color();
 		else col = bg;
 	}
@@ -199,6 +199,14 @@ void range_point_cloud<Point, Allocator>::nearest_neighbors_
 
 		callback(ref, begin, end);
 	}
+}
+
+
+template<typename Point, typename Allocator>
+float range_point_cloud<Point, Allocator>::ratio_of_area_filled() const {
+	float total = width() * height();
+	float filled = super::number_of_valid_points();
+	return filled / total;
 }
 
 

@@ -1,8 +1,38 @@
 #include <stdexcept>
 #include <iostream>
+#include <cmath>
 #include <opencv2/opencv.hpp>
+#include "../../image/projected_range_image.h"
 
 namespace pcf {
+
+
+template<typename Other_cloud, typename Image_camera>
+Image_camera estimate_optimal_camera(const Image_camera& original_cam, const Other_cloud& pc, std::size_t min_w, std::size_t max_w) {
+	float n = pc.number_of_valid_points();
+	auto sample = [&](std::size_t imw) -> float {
+		Image_camera cam = original_cam;
+		cam.set_image_width(imw);
+		auto rpc = project(pc, cam);
+		float filled = rpc.ratio_of_area_filled();
+		float points = rpc.number_of_valid_points() / n;
+		return (filled - points);
+	};
+	
+	std::size_t lo = min_w, hi = max_w;
+	std::size_t imw;
+	for(;;) {
+		imw = (lo + hi) / 2;
+		float pivot_sample = sample(imw);
+		if(std::abs(pivot_sample) < 0.03) break;
+		else if(pivot_sample > 0) lo = imw;
+		else if(pivot_sample < 0) hi = imw;	
+	}
+	
+	Image_camera cam = original_cam;
+	cam.set_image_width(imw);
+	return cam;
+}
 
 
 template<typename Point, typename Image_camera, typename Allocator> template<typename Other_cloud>
@@ -77,8 +107,8 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 		
 	for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
 		auto ind = it.index();
-		if(ri.valid(ind[0], ind[1]))
-			*it = camera_.point(ind, ri.at(ind[0], ind[1]));
+		if(ri.valid(ind))
+			*it = camera_.point(ind, ri[ind]);
 		else
 			it->invalidate();
 	}	
@@ -86,7 +116,7 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 
 
 template<typename Point, typename Image_camera, typename Allocator>
-camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const range_image& ri, const Image_camera& cam, bool projected_depth, const Allocator& alloc) :
+camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_cloud(const projected_range_image& ri, const Image_camera& cam, const Allocator& alloc) :
 	super(ri.width(), ri.height(), false, alloc),
 	camera_(cam)
 {
@@ -97,9 +127,8 @@ camera_range_point_cloud<Point, Image_camera, Allocator>::camera_range_point_clo
 		
 	for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
 		auto ind = it.index();
-		if(ri.valid(ind[0], ind[1]))
-			if(projected_depth) *it = camera_.point_with_projected_depth(ind, ri.at(ind[0], ind[1]));
-			else *it = camera_.point(ind, ri.at(ind[0], ind[1]));
+		if(ri.valid(ind))
+			*it = camera_.point_with_projected_depth(ind, ri[ind]);
 		else
 			it->invalidate();
 	}
@@ -125,18 +154,14 @@ void camera_range_point_cloud<Point, Image_camera, Allocator>::project(const poi
 
 
 template<typename Point, typename Image_camera, typename Allocator>
-range_image camera_range_point_cloud<Point, Image_camera, Allocator>::to_range_image(bool projected_depth) const {
-	if(projected_depth) {
-		range_image ri(super::width(), super::height());
-		for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
-			auto ind = it.index();
-			if(it->valid()) ri.at(ind[0], ind[1]) = camera_.projected_depth(*it);
-			else ri.invalidate(ind[0], ind[1]);
-		}
-		return ri;
-	} else {
-		return super::to_range_image();
+projected_range_image camera_range_point_cloud<Point, Image_camera, Allocator>::to_projected_range_image() const {
+	projected_range_image ri(super::width(), super::height());
+	for(auto it = super::image_.begin(); it != super::image_.end(); ++it) {
+		auto ind = it.index();
+		if(it->valid()) ri[ind] = camera_.projected_depth(*it);
+		else ri.invalidate(ind);
 	}
+	return ri;
 }
 
 
@@ -145,7 +170,7 @@ range_image camera_range_point_cloud<Point, Image_camera, Allocator>::to_range_i
 
 
 template<typename Point, typename Image_camera, typename Allocator>
-range_image camera_range_point_cloud<Point, Image_camera, Allocator>::fill_holes() {
+projected_range_image camera_range_point_cloud<Point, Image_camera, Allocator>::fill_holes(float background, float corner_tolerance) const {
 	using namespace cv;
 
 	// Make multi-scale stack
@@ -153,42 +178,38 @@ range_image camera_range_point_cloud<Point, Image_camera, Allocator>::fill_holes
 	float mn = NAN, mx;
 	std::size_t w = super::width(), h = super::height();
 	
-	const float background = 200;
-
+	std::size_t minimal_image_width = estimate_optimal_camera(camera_, *this).image_width();
+		
 	Image_camera cam = camera_;	
-	do {
-		range_image ri = camera_range_point_cloud(*this, cam).to_range_image(true);
-		bool holes = ri.contains_holes();
+	for(;;) {
+		projected_range_image ri = camera_range_point_cloud(*this, cam).to_projected_range_image();
 		if(std::isnan(mn)) std::tie(mn, mx) = ri.minimum_and_maximum();
 
 		Mat& mat = ri;
 		mat.setTo(background, (mat == range_image::invalid_value));
 		st.push(mat);
 		
+		if(w < minimal_image_width) break;
+		
 		w /= 2; h /= 2;
 		cam.set_image_size(w, h);
-		if(! holes) break;
-	} while(w > 1 && h > 1);
-
+	}
 	
 	// Merge using the stack
 	Mat merged = st.top();
 	
-	
 	st.pop();
-	
 	while(st.size()) {
 		Mat& hi = st.top();
 		
 		// Enlarge LO to size of HI using bilinear filtering
 		resize(merged, merged, hi.size(), 0, 0, INTER_LINEAR);
-		//merged.setTo(mn, (merged < mn));
-		//merged.setTo(mx, (merged > mx) & (merged != background));
 		
 		// Detect edges in resized LO, fill with pixels from HI
 		Mat corners(merged.size(), CV_8UC1);
 		Sobel(merged, corners, -1, 1, 1, 3);
-		corners = (corners > 100) & (hi != background);
+		unsigned char min_corner = corner_tolerance * 225.0;
+		corners = (corners > min_corner) & (hi != background);
 		hi.copyTo(merged, corners);
 		
 		// Merge using minimum function (i.e. keep closest)
@@ -197,8 +218,8 @@ range_image camera_range_point_cloud<Point, Image_camera, Allocator>::fill_holes
 		st.pop();
 	}
 
-		merged.setTo(mn, (merged < mn));
-		merged.setTo(mx, (merged > mx) & (merged != background));
+	merged.setTo(mn, (merged < mn));
+	merged.setTo(mx, (merged > mx) & (merged != background));
 
 	merged.setTo(range_image::invalid_value, (merged == background));
 	return range_image(merged);
