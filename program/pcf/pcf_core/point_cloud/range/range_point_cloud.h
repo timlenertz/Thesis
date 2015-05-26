@@ -11,13 +11,14 @@
 #include "../../util/coordinates.h"
 #include "../../camera/range_image_camera.h"
 #include "../../camera/projection_image_camera.h"
+#include "../../image/image.h"
+#include "../../image/masked_image.h"
 
 
 namespace pcf {
 
 class range_point_cloud_importer;
 class range_image;
-class intensity_image;
 class rgb_color_image;
 
 /**
@@ -58,11 +59,9 @@ public:
 	Point& at(std::ptrdiff_t x, std::ptrdiff_t y);
 		
 	range_image to_range_image() const;
-	intensity_image weights_to_intensity_image() const;
+	masked_intensity_image weights_to_intensity_image() const;
 	rgb_color_image to_rgb_color_image(rgb_color bg = rgb_color::black) const;
-		
-	void colorize(const color_image&);
-		
+				
 	template<typename Condition_func, typename Callback_func>
 	void nearest_neighbors(std::size_t k, Condition_func cond, Callback_func callback, bool parallel = true) const {
 		nearest_neighbors_(this, k, cond, callback, parallel);	

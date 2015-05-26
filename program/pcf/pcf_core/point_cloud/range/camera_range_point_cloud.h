@@ -75,14 +75,6 @@ camera_range_point_cloud_xyz<Image_camera> backproject(const projected_range_ima
 }
 
 
-template<typename Image_camera>
-camera_range_point_cloud_full<Image_camera> backproject(const range_image& ri, const color_image& ci, const Image_camera& cam) {
-	camera_range_point_cloud_full<Image_camera> rpc(ri, cam);
-	rpc.colorize(ci);
-	return rpc;
-}
-
-
 template<typename Other_cloud, typename Image_camera>
 Image_camera estimate_optimal_camera(const Image_camera& original_cam, const Other_cloud& pc, std::size_t min_w = 10, std::size_t max_w = 3000);
 

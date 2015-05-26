@@ -101,8 +101,8 @@ range_image range_point_cloud<Point, Allocator>::to_range_image() const {
 
 
 template<typename Point, typename Allocator>
-intensity_image range_point_cloud<Point, Allocator>::weights_to_intensity_image() const {
-	intensity_image ii(width(), height());
+masked_intensity_image range_point_cloud<Point, Allocator>::weights_to_intensity_image() const {
+	masked_intensity_image ii(width(), height());
 	for(auto it = image_.begin(); it != image_.end(); ++it) {
 		auto ind = it.index();
 		if(it->valid()) ii[ind] = it->get_weight();
@@ -126,21 +126,6 @@ rgb_color_image range_point_cloud<Point, Allocator>::to_rgb_color_image(rgb_colo
 }
 
 
-
-template<typename Point, typename Allocator>
-void range_point_cloud<Point, Allocator>::colorize(const color_image& im) {
-	if( (im.width() != width()) || (im.height() != height()) )
-		throw std::invalid_argument("Color image must have same size as range point cloud.");
-	
-	for(std::ptrdiff_t y = 0; y < im.height(); ++y)
-	for(std::ptrdiff_t x = 0; x < im.width(); ++x) {
-		Point& p = at(x, y);
-		if(p.valid()) {
-			rgb_color col = im.at(x, y);
-			p.set_color(col);
-		}
-	}
-}
 
 template<typename Point, typename Allocator> template<typename That, typename Condition_func, typename Callback_func>
 void range_point_cloud<Point, Allocator>::nearest_neighbors_

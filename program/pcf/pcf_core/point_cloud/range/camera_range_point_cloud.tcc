@@ -186,7 +186,7 @@ projected_range_image camera_range_point_cloud<Point, Image_camera, Allocator>::
 		if(std::isnan(mn)) std::tie(mn, mx) = ri.minimum_and_maximum();
 
 		Mat& mat = ri;
-		mat.setTo(background, (mat == range_image::invalid_value));
+		mat.setTo(background, ri.mask());
 		st.push(mat);
 		
 		if(w < minimal_image_width) break;
@@ -221,8 +221,9 @@ projected_range_image camera_range_point_cloud<Point, Image_camera, Allocator>::
 	merged.setTo(mn, (merged < mn));
 	merged.setTo(mx, (merged > mx) & (merged != background));
 
-	merged.setTo(range_image::invalid_value, (merged == background));
-	return range_image(merged);
+	projected_range_image ri(merged);
+	ri.mask().setTo(0, (merged == background));
+	return ri;
 }
 
 }

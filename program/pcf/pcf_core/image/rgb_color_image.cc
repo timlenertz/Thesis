@@ -14,7 +14,7 @@ rgb_color_image rgb_color_image::import_from_memory(const void* raw_data, std::s
 		cv::Mat img_mat = cv::imdecode(data_mat, 1);
 		std::free(raw_data_copy);
 
-		color_image img;
+		rgb_color_image img;
 		img.matrix_ = cv::Mat(img_mat.size(), CV_8UC3);
 		cv::cvtColor(img_mat, img.matrix_, CV_BGR2RGB);	
 	

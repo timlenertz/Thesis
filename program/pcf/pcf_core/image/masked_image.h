@@ -20,6 +20,9 @@ public:
 	masked_image& operator=(const super&);
 	masked_image& operator=(const masked_image&);
 	
+	const cv::Mat& mask() const { return mask_; }
+	cv::Mat& mask() { return mask_; }
+	
 	bool valid(const index_2dim& ind) const { return mask_.at<bool>(ind[0], ind[1]); }
 	void validate(const index_2dim& ind) { mask_.at<bool>(ind[0], ind[1]) = true; }
 	void invalidate(const index_2dim& ind) { mask_.at<bool>(ind[0], ind[1]) = false; }
@@ -31,10 +34,10 @@ public:
 	void apply_transformation(const Eigen::Affine2f&);
 };
 
-using masked_intensity_image = image<float, CV_32FC1>;
+using masked_intensity_image = masked_image<float, CV_32FC1>;
 
 }
 
-#include "masked_image.h"
+#include "masked_image.tcc"
 
 #endif

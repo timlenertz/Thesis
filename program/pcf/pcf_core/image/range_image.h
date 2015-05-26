@@ -8,8 +8,10 @@
 namespace pcf {
 
 class range_image : public masked_intensity_image {
+	using super = masked_intensity_image;
+
 public:
-	using image::image;
+	using masked_intensity_image::masked_intensity_image;
 		
 	bool contains_small_holes() const;
 };
