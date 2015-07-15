@@ -3,7 +3,7 @@
 #include <chrono>
 #include <memory>
 #include <utility>
-#include "../pcf_core/image/color_image.h"
+#include "../pcf_core/image/rgb_color_image.h"
 
 #include <iostream>
 
@@ -27,8 +27,8 @@ run_result experiment::run_registration_(fixed_point_cloud_type& fixed, loose_po
 		res_state.time = std::chrono::duration_cast<std::chrono::milliseconds>(clock_t::now() - start_time);
 				
 		if(create_snapshot) {
-			color_image img = create_snapshot(fixed, loose, reg->accumulated_transformation());
-			res_state.snapshot.reset(new color_image(std::move(img)));
+			rgb_color_image img = create_snapshot(fixed, loose, reg->accumulated_transformation());
+			res_state.snapshot.reset(new rgb_color_image(std::move(img)));
 		}
 		
 		res_run.evolution.push_back(std::move(res_state));

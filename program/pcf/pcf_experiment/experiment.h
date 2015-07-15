@@ -39,7 +39,7 @@ public:
 	using create_registration_function_type =
 		iterative_correspondences_registration_base* (fixed_point_cloud_type&, loose_point_cloud_type&, float arg);
 	using create_snapshot_function_type =
-		color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&, const Eigen::Affine3f& transformation);
+		rgb_color_image (const fixed_point_cloud_type&, const loose_point_cloud_type&, const Eigen::Affine3f& transformation);
 	using run_callback_function_type =
 		void (const run_result&, std::ptrdiff_t i);
 	

@@ -1,0 +1,124 @@
+#include <cstdlib>
+#include <iostream>
+#include <random>
+#include <cmath>
+#include <vector>
+#include <opencv2/opencv.hpp>
+
+//#include <pcf/core.h>
+#include "../pcf/pcf_core/pcf_core.h"
+
+using namespace pcf;
+using namespace Eigen;
+using namespace cv;
+
+#include "lib/histogram.h"
+
+int seed = 1;
+
+
+rgb_color_image make_view(point_cloud_full& P, point_cloud_full& Q) {
+	projection_image_camera cam(
+		pose::from_string("4.67801,0.923923,0.532183,-0.0419589,0.664094,0.0471909,0.744978"),
+		projection_frustum::symmetric_perspective_fov_x(angle::degrees(60), 1), 600, 600
+	);
+	camera_range_point_cloud_full<projection_image_camera> rpc(cam);
+	rpc.project(P, rgb_color::red);
+	rpc.project(Q);
+	rgb_color_image im = rpc.to_rgb_color_image();
+	im.flip(true, false);
+	return im;
+}
+
+auto hi_point_cloud() {
+	auto gpc = import_point_cloud("data/hi.ply");
+	set_unique_color(gpc.begin(), gpc.end(), 0xffffff);
+	//compute_normals(gpc);
+	return gpc;
+
+	unorganized_point_cloud_full pc = make_relief_point_cloud(5.0, 1000, seed);
+	projection_image_camera cam(
+		pose::from_string("0.220013,-4.92678,3.35604,0.912652,0.408613,0.00823912,0.00583399"),
+		projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 1.0),
+		400, 400
+	);
+	pc.downsample_projection(cam);
+	//return pc;
+}
+
+auto lo_point_cloud() {
+	auto gpc = import_point_cloud("data/lo.ply");
+	set_unique_color(gpc.begin(), gpc.end(), 0xffffff);
+	//compute_normals(gpc);
+	return gpc;
+
+	unorganized_point_cloud_full pc = make_relief_point_cloud(5.0, 1000, seed);
+	projection_image_camera cam(
+		pose::from_string("-0.0192693,-5.58523,3.69624,0.899365,0.437096,-0.00847658,0.00411958"),
+		projection_frustum::symmetric_perspective_fov_x(angle::degrees(60.0), 1.0),
+		200, 200
+	);
+	pc.downsample_projection(cam);
+	pc.randomly_displace_points(std::uniform_real_distribution<float>(-0.01, 0.01));
+	pc.rotate_x_axis(angle::degrees(20));
+	pc.rotate_y_axis(angle::degrees(10));
+	pc.rotate_z_axis(angle::degrees(5));
+	pc.move_x(0.2);
+	pc.apply_pose();
+	//return pc;
+}
+
+
+
+int main(int argc, const char* argv[]) {
+	if(argc >= 2) seed = std::atoi(argv[1]);
+
+
+	std::cout << "Loading point clouds" << std::endl;
+	auto P = hi_point_cloud();
+	auto Q = lo_point_cloud();
+
+
+	std::cout << "Initial A_P and A_Q..." << std::endl;
+	auto A_P = plane::from_string("-0.988378,-0.118857,-0.0947734,0.460469");
+	auto A_Q = plane::from_string("-0.972168,-0.0736805,-0.222396,0.363365");	
+	A_P.normalize(); A_Q.normalize();
+	
+	make_view(P, Q).export_to_image_file("output/initial.png");
+
+	auto P_cam = estimate_optimal_camera(projection_image_camera(A_P, 6.0, 6.0, 100), P);
+	auto Q_cam = projection_image_camera(A_Q, 6.0, 6.0, P_cam.image_width());
+
+
+	std::cout << "Projecting to plane..." << std::endl;
+	auto P_rpc = project(P, P_cam);
+	auto Q_rpc = project(Q, Q_cam);
+	P_rpc.to_projected_range_image().export_visualization_to_image_file("output/P.png");
+	Q_rpc.to_projected_range_image().export_visualization_to_image_file("output/Q.png");
+	
+	float d_max = 0.3;
+	for(auto& p : P_rpc) if(distance(p, A_P) > d_max) p.invalidate();
+	for(auto& q : Q_rpc) if(distance(q, A_Q) > d_max) q.invalidate();
+
+	P_rpc.to_projected_range_image().export_visualization_to_image_file("output/P2.png");
+	Q_rpc.to_projected_range_image().export_visualization_to_image_file("output/Q2.png");
+return 0;	
+	std::cout << "Filling holes..." << std::endl;
+	auto P_ri = P_rpc.fill_holes();
+	auto Q_ri = Q_rpc.fill_holes();
+	P_ri.export_visualization_to_image_file("output/P_ri.png");
+	Q_ri.export_visualization_to_image_file("output/Q_ri.png");
+	
+
+	std::cout << "Deleting outliers..." << std::endl;
+	//float d_max = 0.1;
+	auto P_rpc2 = backproject(P_ri, P_cam);
+	auto Q_rpc2 = backproject(Q_ri, Q_cam);
+	//for(auto& p : P_rpc2) if(distance(p, A_P) > d_max) p.invalidate();
+	//for(auto& q : Q_rpc2) if(distance(q, A_Q) > d_max) q.invalidate();
+	
+	P_rpc2.to_projected_range_image().export_visualization_to_image_file("output/P2.png");
+	Q_rpc2.to_projected_range_image().export_visualization_to_image_file("output/Q2.png");
+
+
+}

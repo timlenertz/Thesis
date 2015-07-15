@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include "../util/coordinates.h"
+#include "../util/multi_dimensional_buffer.h"
 
 namespace pcf {
 
@@ -17,6 +18,8 @@ public:
 	image(const image&);
 	image(image&&);
 	image(const cv::Mat&);
+	
+	explicit image(const multi_dimensional_buffer<T, 2>&);
 
 	image& operator=(const image&);
 	image& operator=(image&&);
@@ -24,9 +27,15 @@ public:
 	std::size_t width() const;
 	std::size_t height() const;
 	
-	T& operator[](const index_2dim& ind) { return matrix_.at<T>(ind[0], ind[1]); }
-	const T& operator[](const index_2dim& ind) const { return matrix_.at<T>(ind[0], ind[1]); }
+	T& operator[](const index_2dim& ind) { return matrix_.at<T>(ind[1], ind[0]); }
+	const T& operator[](const index_2dim& ind) const { return matrix_.at<T>(ind[1], ind[0]); }
 	
+	T at(const index_2dim& ind, T invalid = T()) const {
+		if(in_bounds(ind)) return operator[](ind);
+		else return invalid;
+	}
+	
+	bool in_bounds(const index_2dim& ind) const { return in_bounds(ind.x, ind.y); }
 	bool in_bounds(std::ptrdiff_t x, std::ptrdiff_t y) const;
 	
 	void flip(bool vertical, bool horizontal);

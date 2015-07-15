@@ -1,0 +1,154 @@
+float gaussian(float x, float psi) {
+	float g = 1.0f / std::sqrt(two_pi * psi);
+	return g * std::exp(-x*x / (2.0f * psi * psi));
+}
+
+float gaussian(float x, float y, float psi) {
+	float g = 1.0f / (two_pi * psi);
+	return g * std::exp(-(x*x + y*y) / (2.0f * psi * psi));
+}
+
+Eigen::Vector2i operator*(const Eigen::Affine2f& T, const Eigen::Vector2i& i) {
+	Eigen::Vector2f i_f(i[0], i[1]);
+	Eigen::Vector2f ti_f = T * i_f;
+	return Eigen::Vector2i(ti_f[0], ti_f[1]);
+}
+
+float image_value(const range_image& P, const Eigen::Vector2i& i, const Eigen::Affine2f& T = Eigen::Affine2f::Identity()) {
+	Eigen::Vector2i ti = T * i;
+	if(P.in_bounds(ti) && P.valid(ti)) return P[ti];
+	else return 0;
+}
+
+struct sample_value {
+	float p, q;
+	Eigen::Vector2i i;
+};
+
+using sample = std::vector<sample_value>;
+
+sample make_sample(const intensity_image& P, const intensity_image& Q, const Eigen::Affine2f& T, std::size_t expected = 100) {
+	const std::size_t w = P.width(), h = P.height();
+	
+	sample S;
+	std::size_t left = w * h, needed = expected;
+	sample_value v;
+	for(v.i[1] = 0; v.i[1] < h; ++v.i[1]) for(v.i[0] = 0; v.i[0] < w; ++v.i[0]) {
+		v.p = image_value(P, v.i);
+		v.q = image_value(Q, v.i, T);
+		
+		if(v.p != 0 && v.q != 0 && random_integer(left) < needed) {
+			S.push_back(v);
+			--needed;			
+		}
+		--left;
+	}
+
+	return S;
+}
+
+
+float probability_density_p(float p, const sample& A, float psi) {
+	float res = 0;
+	for(const auto& a : A) res += gaussian(a.p - p, psi);
+	return res / A.size();
+}
+float probability_density_q(float q, const sample& A, float psi) {
+	float res = 0;
+	for(const auto& a : A) res += gaussian(a.q - q, psi);
+	return res / A.size();
+}
+float probability_density_pq(float p, float q, const sample& A, float psi) {
+	float res = 0;
+	for(const auto& a : A) res += gaussian(a.p - p, a.q - q, psi);
+	return res / A.size();
+}
+
+
+float log2_zero(float z) {
+	if(z == 0) return 0;
+	else return std::log2(z);
+}
+
+
+
+
+float mutual_information(const intensity_image& P, const intensity_image& Q, const Eigen::Affine2f& T, float psi = 0.1) {
+	sample A = make_sample(P, Q, T), B = make_sample(P, Q, T);
+	float H_p = 0, H_q = 0, H_pq = 0;
+
+	for(const auto& a : A) {
+		H_p -= log2_zero(probability_density_p(a.p, B, psi));
+		H_q -= log2_zero(probability_density_q(a.q, B, psi));
+		H_pq -= log2_zero(probability_density_pq(a.p, a.q, B, psi));
+	}
+
+	return (H_p + H_q - H_pq) / A.size();
+}
+
+
+Eigen::Matrix3f mutual_information_derivative(const intensity_image& P, const intensity_image& Q, const Eigen::Affine2f& T, float scale, float psi = 0.1) {
+	sample A = make_sample(P, Q, T), B = make_sample(P, Q, T);
+
+	auto W_q = [&](const auto& b, const auto& a) {
+		float det = 0;
+		for(const auto& a2 : A) det += gaussian(b.q - a2.q, psi);
+		return gaussian(b.q - a.q, psi) / det;
+	};
+	
+	auto W_pq = [&](const auto& b, const auto& a) {
+		float det = 0;
+		for(const auto& a2 : A) det += gaussian(b.p - a2.p, b.q - a2.q, psi);
+		return gaussian(b.p - a.p, b.q - a.q, psi) / det;
+	};
+
+	const std::ptrdiff_t components[6][2] = {
+		{0, 0}, {0, 1}, {1, 0}, {1, 1}, // linear
+		{0, 2}, {1, 2} // translation
+	};
+	const float component_scales[6] = { 0.1, 0.1, 0.1, 0.1, 1.0, 1.0 };
+	
+	Eigen::Matrix3f dT = Eigen::Matrix3f::Zero();
+	dT(2, 2) = 1;
+	for(std::ptrdiff_t i = 0; i < 6; ++i) {
+		Eigen::Affine2f T2 = T;
+		T2.matrix()(components[i][0], components[i][1]) += scale * component_scales[i];
+		//std::cout << "from\n" << T.matrix() << "\nto\n" << T2.matrix() << "\n\n\n\n";
+		
+		float sum = 0;
+		for(const auto& a : A) for(const auto& b : B) {
+			auto im = [&](const sample_value& v, const Eigen::Affine2f& T) { return image_value(Q, v.i, T); };
+			float term = b.q - a.q;
+			term *= W_q(b, a)/psi - W_pq(b, a)/psi;
+			term *= (im(b, T2) - im(a, T2)) - (im(b, T) - im(a, T));
+			sum += term;
+		}
+		sum /= B.size();
+		
+		dT(components[i][0], components[i][1]) = sum;
+	}
+	
+	return dT;
+}
+
+
+
+
+Eigen::Affine2f register_images(const intensity_image& P, intensity_image& Q) {
+	Eigen::Affine2f T = Eigen::Affine2f::Identity();
+	float scale = 10.0;
+	for(int i = 0; i < 10; ++i) {
+		Q.export_visualization_to_image_file("output/Q"+std::to_string(i)+".png");
+		std::cout << "MI = " << mutual_information(P, Q, T) << std::endl;
+		Eigen::Matrix3f dT = mutual_information_derivative(P, Q, T, scale);
+		std::cout << "dT =\n" << dT << std::endl;
+		{
+			Eigen::Affine2f T2 = T;
+			T2.matrix() += dT;
+			Q.apply_transformation(T2);
+		}
+		
+		scale *= 0.7;
+	}
+	return T;
+}

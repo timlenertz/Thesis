@@ -10,7 +10,7 @@
 
 namespace pcf {
 
-class color_image;
+class rgb_color_image;
 
 namespace exper {
 
@@ -27,7 +27,7 @@ public:
 		float actual_error; ///< Error metric at this state, measured knowing the true point correspondences.
 		Eigen::Affine3f transformation; ///< Transformation at this state.
 		std::chrono::milliseconds time; ///< Elapsed time since start of run.
-		std::unique_ptr<color_image> snapshot;
+		std::unique_ptr<rgb_color_image> snapshot;
 	
 		state() = default;
 		state(state&&);

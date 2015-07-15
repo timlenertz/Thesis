@@ -2,7 +2,9 @@
 #define PCF_POINT_CLOUD_ALGORITHM_H_
 
 #include "point_cloud/point_cloud.h"
+#include "point_cloud/unorganized/unorganized_point_cloud.h"
 #include "point_cloud/grid/grid_point_cloud.h"
+#include <array>
 
 namespace pcf {
 
@@ -22,9 +24,14 @@ void compute_local_density_weights(Cloud&, std::size_t k, float ratio = 1.0);
 template<typename Cloud>
 void test_knn(Cloud&);
 
+template<typename Point>
+std::array<unorganized_point_cloud<Point>, 2> split_random_downsampled(const point_cloud<Point>&, float ratio);
+
 
 extern template void compute_local_density_weights(grid_point_cloud_full&, std::size_t, float);
 extern template void compute_normals(grid_point_cloud_full&);
+
+
 
 }
 

@@ -1,1 +1,1 @@
-scatterplot(pcf::exper::results("output/hilo.db").query("SELECT make_loose_arg, final_actual_error FROM run WHERE make_loose_arg<0.99 AND make_loose_arg>0.01"))
+scatterplot(pcf::exper::results("output/bunny.db").query("SELECT loose_number_of_points/fixed_number_of_points, final_actual_error FROM run WHERE loose_number_of_points>1 AND fixed_number_of_points>1"))

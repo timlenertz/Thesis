@@ -2,7 +2,7 @@
 #include "sqlite3pp.h"
 #include "run_result.h"
 #include "../pcf_core/util/misc.h"
-#include "../pcf_core/image/color_image.h"
+#include "../pcf_core/image/rgb_color_image.h"
 
 #include <iostream>
 
@@ -195,8 +195,8 @@ run_result results::operator[](int i) const {
 		const void* snapshot_data = row.get<const void*>(4);
 		if(snapshot_data != nullptr) {
 			std::size_t sz = row.column_bytes(4);
-			color_image img = color_image::import_from_memory(snapshot_data, sz);
-			st.snapshot.reset( new color_image(std::move(img)) );
+			rgb_color_image img = rgb_color_image::import_from_memory(snapshot_data, sz);
+			st.snapshot.reset( new rgb_color_image(std::move(img)) );
 		}
 		
 		rn.evolution.push_back(std::move(st));

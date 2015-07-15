@@ -18,9 +18,6 @@ void motion_controller::tick() {
 
 	// Exit if no object
 	if(! object) return;
-	
-	if(! inertia) {
-	}
 
 	// See how much time passed since last call
 	time_point<clock> now = clock::now();
@@ -29,7 +26,7 @@ void motion_controller::tick() {
 
 	// Bound time step (otherwise jumps occur when timer stalls)
 	if(delta_t > maximal_time_step_) delta_t = maximal_time_step_;
-	if(delta_t < minimal_time_step_) return;
+	if(delta_t < minimal_time_step_ && inertia) return;
 	
 	Eigen::Vector3f target_vel;
 	if(target_velocity_relative_to_camera) {
@@ -41,10 +38,14 @@ void motion_controller::tick() {
 		target_vel = target_velocity;
 	}
 	
-	// Make velocity converge to target velocity
-	Eigen::Vector3f velocity_difference = target_vel - velocity_;	
-	if(delta_t > time_to_target_velocity_) velocity_ = target_vel;
-	else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
+	if(inertia) {
+		// Make velocity converge to target velocity
+		Eigen::Vector3f velocity_difference = target_vel - velocity_;	
+		if(delta_t > time_to_target_velocity_) velocity_ = target_vel;
+		else velocity_ += (velocity_difference * delta_t.count()) / time_to_target_velocity_.count();
+	} else {
+		velocity_ = target_vel;
+	}
 		
 	// Move object according to current velocity and time difference
 	Eigen::Vector3f position_difference = velocity_ * delta_t.count();

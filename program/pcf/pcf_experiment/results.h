@@ -11,7 +11,7 @@
 
 namespace pcf {
 
-class color_image;
+class rgb_color_image;
 
 namespace exper {
 
@@ -39,7 +39,7 @@ private:
 	static const void* transformation_to_blob_(const Eigen::Affine3f&);
 	static Eigen::Affine3f blob_to_transformation_(const void*);
 	
-	color_image blob_to_color_image_(const void*, std::size_t);
+	rgb_color_image blob_to_color_image_(const void*, std::size_t);
 
 public:
 	explicit results(const std::string& db = "");

@@ -85,6 +85,28 @@ TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "
 }
 
 
+template<typename Iterator, typename Other_cloud>
+std::vector<float> closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false) {
+	std::vector<float> distances;
+	for(Iterator it = begin; it != end; ++it) {
+		const auto& p = *it;
+		if(! p.valid()) continue;
+		const auto& q = (nosame ? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } ) : pc.closest_point(p));
+		distances.push_back(distance(p, q));
+	}
+	return distances;
+}
+
+
+
+
+template<typename Iterator, typename Other_cloud>
+TH1* closest_point_distances_histogram(Iterator begin, Iterator end, const Other_cloud& pc, const std::string& name = "distance", bool nosame = false) {
+	auto distances = closest_point_distances(begin, end, pc, nosame);
+	return histogram(distances.begin(), distances.end(), name);
+}
+
+
 
 template<typename In, typename Out, typename Inter = float>
 Out map_num(In x, In mn_in, In mx_in, Out mn_out, Out mx_out) {

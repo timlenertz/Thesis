@@ -1,5 +1,5 @@
 #include "run_result.h"
-#include "../pcf_core/image/color_image.h"
+#include "../pcf_core/image/rgb_color_image.h"
 #include <opencv2/opencv.hpp>
 #include "../pcf_core/util/misc.h"
 

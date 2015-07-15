@@ -29,6 +29,6 @@ vw->add(fx, lo_r);
 vw->camera().set_relative_pose(pose::from_string("0.0298457,0.235577,-0.209215,0.120958,-0.0610413,0.95505,0.263673"));
 vw.movement_speed = 0.001;
 
-auto reg = make_iterative_closest_point_registration(fx, lo_r, probability_point_filter(0.1));
+auto reg = make_iterative_closest_point_registration(lo_r, fx, probability_point_filter(0.1));
 reg.maximal_iterations = -1;
-reg.run_live(fx, lo_r);
+reg.run_live(lo_r, fx);

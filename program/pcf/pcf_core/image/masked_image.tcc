@@ -1,3 +1,5 @@
+#include <iostream>
+
 namespace pcf {
 
 
@@ -16,6 +18,21 @@ masked_image<T, Type>::masked_image(const super& img) :
 	super(img), mask_(img.height(), img.width(), CV_8UC1, 1) { }
 	
 	
+template<typename T, int Type>
+masked_image<T, Type>::masked_image(const multi_dimensional_buffer<T, 2>& buf, const T& mask) :
+masked_image(buf.size().x, buf.size().y) {
+	index_2dim ic;
+	for(ic.y = 0; ic.y != super::height(); ++ic.y)
+	for(ic.x = 0; ic.x != super::width() ; ++ic.x) {
+		T v = buf[ic];
+		if(v == mask) {
+			invalidate(ic);
+		} else {
+			super::operator[](ic) = buf[ic];
+			validate(ic);
+		}
+	}
+}
 
 template<typename T, int Type>
 masked_image<T, Type>& masked_image<T, Type>::operator=(const super& img) {
@@ -53,11 +70,8 @@ std::pair<T, T> masked_image<T, Type>::minimum_and_maximum() const {
 
 template<typename T, int Type>
 void masked_image<T, Type>::export_visualization_to_image_file(const std::string& path) const {
-	auto min_max = minimum_and_maximum();
-	double mn = min_max.first, mx = min_max.second;
-
 	cv::Mat img(super::matrix_.size(), CV_16UC1, 0.0f);
-	cv::normalize(super::matrix_, img, mn, mx, cv::NORM_MINMAX, 1, mask_);
+	cv::normalize(super::matrix_, img, 0x0000, 0xffff, cv::NORM_MINMAX, CV_16UC1, mask_);
 	cv::imwrite(path, img);
 }
 

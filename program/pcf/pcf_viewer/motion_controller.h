@@ -28,7 +28,7 @@ public:
 	space_object* object = nullptr;
 	Eigen::Vector3f target_velocity = Eigen::Vector3f::Zero();
 	bool target_velocity_relative_to_camera = true;
-	bool inertia = true;
+	bool inertia = false;
 	
 	explicit motion_controller(const camera& cam) :
 		camera_(cam) { }

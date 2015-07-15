@@ -65,4 +65,14 @@ void compute_local_density_weights(Cloud& pc, std::size_t k, float ratio) {
 	else pc.nearest_neighbors(k, probability_point_filter(ratio), got_knn);
 }
 
+
+template<typename Point>
+std::array<unorganized_point_cloud<Point>, 2> split_random_downsampled(const point_cloud<Point>& pc, float ratio) {
+	unorganized_point_cloud<Point> p = pc, q = pc;
+	p.downsample_random(ratio);
+	auto mask = p.valid_points_mask();
+	q.filter_mask(mask, false);
+	return {p, q};
+}
+
 }

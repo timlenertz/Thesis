@@ -28,6 +28,7 @@ public:
 	float image_aspect_ratio() const;
 	std::size_t image_width() const { return image_width_; }
 	std::size_t image_height() const { return image_height_; }
+	size_2dim image_size() const { return size_2dim(image_width_, image_height_); }
 	std::size_t image_number_of_pixels() const;
 	void set_image_size(std::size_t imw, std::size_t imh);
 	

@@ -27,6 +27,8 @@ private:
 public:
 	camera_range_point_cloud(const Image_camera&, const Allocator& alloc = Allocator());
 
+	const Image_camera& camera() const { return camera_; }
+
 	template<typename Other_cloud>
 	camera_range_point_cloud(const Other_cloud& pc, const Image_camera& cam, const Allocator& alloc = Allocator());
 

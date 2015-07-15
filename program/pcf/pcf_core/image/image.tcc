@@ -16,6 +16,15 @@ image<T, Type>::image(image&& img) :
 
 
 template<typename T, int Type>
+image<T, Type>::image(const multi_dimensional_buffer<T, 2>& buf) :
+image(buf.size().x, buf.size().y) {
+	index_2dim ic;
+	for(ic.y = 0; ic.y != height(); ++ic.y) for(ic.x = 0; ic.x != width(); ++ic.x)
+		operator[](ic) = buf[ic];
+}
+
+
+template<typename T, int Type>
 image<T, Type>& image<T, Type>::operator=(const image& img) {
 	matrix_ = img.matrix_.clone();
 	return *this;
@@ -84,11 +93,8 @@ std::pair<T, T> image<T, Type>::minimum_and_maximum() const {
 
 template<typename T, int Type>
 void image<T, Type>::export_visualization_to_image_file(const std::string& path) const {
-	auto min_max = minimum_and_maximum();
-	double mn = min_max.first, mx = min_max.second;
-
 	cv::Mat img(matrix_.size(), CV_16UC1, 0.0f);
-	cv::normalize(matrix_, img, mn, mx, cv::NORM_MINMAX, 1);
+	cv::normalize(matrix_, img, 0x0000, 0xffff, cv::NORM_MINMAX, 1);
 	cv::imwrite(path, img);
 }
 

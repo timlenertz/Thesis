@@ -219,7 +219,7 @@ template<typename Point, typename Allocator>
 std::vector<bool> filter_point_cloud<Point, Allocator>::valid_points_mask() const {
 	std::vector<bool> mask(super::size());
 	auto mit = mask.begin();
-	for(const Point& pt : *this) *(++mit) = pt.valid();
+	for(const Point& pt : *this) *(mit++) = pt.valid();
 	return mask;
 }
 
