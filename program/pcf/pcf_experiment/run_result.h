@@ -24,7 +24,7 @@ public:
 	/// State at one iteration of the registration.
 	struct state {
 		float error; ///< Error metric at this state, as measured by the used correspondences algorithm.
-		float actual_error; ///< Error metric at this state, measured knowing the true point correspondences.
+		float actual_error; ///< Avg unsigned distance at this state, measured knowing the true point correspondences.
 		Eigen::Affine3f transformation; ///< Transformation at this state.
 		std::chrono::milliseconds time; ///< Elapsed time since start of run.
 		std::unique_ptr<rgb_color_image> snapshot;
@@ -36,6 +36,7 @@ public:
 	};
 	
 	std::vector<state> evolution; ///< States of the registration.
+	
 	bool success; ///< Whether the registration was deemed successful by registration algorithm.
 	bool actual_success; ///< Whether the registration was successful by looking at real point correspondences.
 	Eigen::Affine3f original_transformation; ///< Initial transformation applied to loose point cloud.

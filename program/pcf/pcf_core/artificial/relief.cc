@@ -329,8 +329,8 @@ void relief::crop(float t, int seed) {
 	if(seed) gen.seed(seed);
 	else gen = get_random_generator();
 	for(Eigen::Vector2f& c : corners_) {
-		c[0] += random_real<float>(-d, +d);
-		c[1] += random_real<float>(-d, +d);
+		c[0] += random_real<float>(-d, +d, gen);
+		c[1] += random_real<float>(-d, +d, gen);
 	}
 }
 
@@ -340,6 +340,23 @@ void relief::uncrop() {
 	corners_[1] = Eigen::Vector2f(width_, 0);
 	corners_[2] = Eigen::Vector2f(width_, width_);
 	corners_[3] = Eigen::Vector2f(0, width_);
+}
+
+
+projection_image_camera relief::camera_at_angle(angle a, float elevation, std::size_t image_width) const {
+	pose ps;
+	ps.position = Eigen::Vector3f(
+		std::cos(a) * width_,
+		std::sin(a) * width_,
+		elevation
+	);
+	ps.look_at(Eigen::Vector3f::Zero());
+	
+	return projection_image_camera(
+		ps,
+		projection_bounding_box::symmetric_orthogonal(width_, width_),
+		image_width, image_width
+	);
 }
 
 

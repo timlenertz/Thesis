@@ -63,6 +63,8 @@ public:
 		return transformation_to_world() * p;
 	}
 	
+	void look_at(const Eigen::Vector3f&);
+	
 	static pose random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0));
 };
 

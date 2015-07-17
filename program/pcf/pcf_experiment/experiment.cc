@@ -41,7 +41,7 @@ run_result experiment::run_registration_(fixed_point_cloud_type& fixed, loose_po
 
 
 float experiment::actual_error_(const fixed_point_cloud_type& fixed, const Eigen::Affine3f& transformation) const {
-	mean_square_error actual_error_metric;
+	mean_absolute_error actual_error_metric;
 	for(const auto& fp : fixed) {
 		if(! fp.valid()) continue;
 		Eigen::Vector3f lp = transformation * fp.coordinates();

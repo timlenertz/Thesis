@@ -1,3 +1,52 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Che, }1991]{Chen1991}
+ 1991 (April).
+\newblock {\em Object modeling by registration of multiple range images}.
+\newblock  Vol. 3.
+\newblock IEEE International Conference on Robotics and Automation.
+
+\bibitem[\protect\citename{Besl \& McKay, }1992]{Besl1992}
+Besl, Paul~J, \& McKay, Neil~D. 1992 (February).
+\newblock A Method for Registration of 3-D Shapes.
+\newblock {\em Pages  239--256 of:} {\em IEEE Transactions on Pattern Analysis
+  and Machine Intelligence},  vol. 14.
+\newblock IEEE.
+
+\bibitem[\protect\citename{Bouaziz {\em et~al.\ }\relax, }2013]{Boua2013}
+Bouaziz, Sofien, Tagliasacchi, Andrea, \& Pauly, Mark. 2013.
+\newblock Sparse Iterative Closest Point.
+\newblock {\em Computer Graphics Forum (Symposium on Geometry Processing)},
+  {\bf 32}(5), 1--11.
+
+\bibitem[\protect\citename{Ky{\"o}stil{\"a} {\em et~al.\ }\relax,
+  }2013]{Kyos2013}
+Ky{\"o}stil{\"a}, Tomi, C., Daniel~Herrera, Kannala, Juho, \& Heikkil{\"a},
+  Hanne. 2013.
+\newblock Merging Overlapping Depth Maps into a Nonredundant Point Cloud.
+\newblock {\em Image Analysis, 18th Scandinavian Conference, SCIA 2013}, {\bf
+  7944}, 567--578.
+
+\bibitem[\protect\citename{Lorusso {\em et~al.\ }\relax, }1995]{Loru1995}
+Lorusso, A., Eggert, D.W., \& FIsher, R.B. 1995.
+\newblock A Comparison of Four Algorithms for Estimating 3-D Rigid
+  Transformations.
+
+\bibitem[\protect\citename{Rusinkiewicz \& Levoy, }2001]{Rusi2001}
+Rusinkiewicz, Szymon, \& Levoy, Marc. 2001.
+\newblock Efficient Variants of the ICP Algorithm.
+\newblock  vol. 3-D Digital Imaging and Modeling.
+\newblock Stanford University.
+
+\bibitem[\protect\citename{Salvi {\em et~al.\ }\relax, }2005]{Salv2006}
+Salvi, Joaquim, Matabosch, Carles, Fofi, David, \& Forest, Josep. 2005.
+\newblock A review of recent range image registration methods with accuracy
+  evaluation.
+\newblock {\em Image and Vision Computing}, August.
+
+\bibitem[\protect\citename{Segal {\em et~al.\ }\relax, }2009]{Sega2009}
+Segal, Aleksandr~V., Haehnel, Dirk, \& Thrun, Sebastian. 2009.
+\newblock Generalized-ICP.
+\newblock {\em Proceedings of Robotics: Science and Systems}.
+
 \end{thebibliography}

@@ -6,6 +6,7 @@
 #include "../pcf_core/point_cloud/grid/grid_point_cloud.h"
 #include "../pcf_core/registration/iterative_correspondences_registration.h"
 #include "../pcf_core/registration/correspondences/same_point_correspondences.h"
+#include "../pcf_core/registration/error_metric/mean_absolute_error.h"
 #include "../pcf_core/geometry/pose.h"
 #include "results.h"
 #include "run_result.h"
@@ -47,6 +48,7 @@ public:
 	std::function<make_loose_function_type> make_loose; ///< Callback which modifies the loose point cloud. If not set, it does not get modified.
 	std::function<displacer_function_type> displacer; ///< Callback which returns initial transformation for loose point cloud.
 	std::function<create_registration_function_type> create_registration; ///< Callback which created registration object.
+	
 	std::function<create_snapshot_function_type> create_snapshot;
 	std::function<run_callback_function_type> run_callback;
 	

@@ -24,10 +24,6 @@ bool iterative_correspondences_registration_base::run(const iteration_callback& 
 		if(iteration_preprocess) iteration_preprocess();
 		this->compute_estimated_transformation_and_error();
 	
-		float error_diff = previous_error - current_error_;
-		if(stop_on_divergence && error_diff <= -divergence_error_threshold)
-			return false;
-
 		accumulated_transformation_ = estimated_transformation_ * accumulated_transformation_;
 		if(cb) cb();
 	}

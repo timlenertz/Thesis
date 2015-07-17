@@ -71,4 +71,12 @@ pose pose::random_displacement(float translation_mag, angle rotation_mag) {
 	return pose(translation * rotation);
 }
 
+
+void pose::look_at(const Eigen::Vector3f& target) {
+	Eigen::Vector3f at_target = target - position;
+	Eigen::Vector3f at_depth(0, 0, 1);
+	orientation.setFromTwoVectors(at_depth, at_target);
+	orientation.normalize();
+}
+
 }

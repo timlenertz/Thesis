@@ -1,1 +1,1 @@
-scatterplot(pcf::exper::results("output/bunny.db").query("SELECT loose_number_of_points/fixed_number_of_points, final_actual_error FROM run WHERE loose_number_of_points>1 AND fixed_number_of_points>1"))
+scatterplot(pcf::exper::results("output/bunny_globmin.db").query("SELECT step, actual_error FROM state"), "bunny_globmin_ev")

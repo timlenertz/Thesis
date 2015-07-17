@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  15 APR 2015 18:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  17 JUL 2015 15:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -445,6 +445,383 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks22
+\thm@bodyfont=\toks23
+\thm@headfont=\toks24
+\thm@notefont=\toks25
+\thm@headpunct=\toks26
+\thm@preskip=\skip55
+\thm@postskip=\skip56
+\thm@headsep=\skip57
+\dth@everypar=\toks27
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/siunitx/siunitx.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3names.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3bootstrap.sty
+Package: l3bootstrap 2014/01/04 v4640 L3 Experimental bootstrap code
+)
+Package: l3names 2014/01/04 v4640 L3 Namespace for primitives
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/etex-pkg/etex.sty
+Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
+\et@xins=\count106
+)
+Package: expl3 2014/01/07 v4646 L3 Experimental code bundle wrapper
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3basics.sty
+Package: l3basics 2014/01/04 v4642 L3 Basic definitions
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3expan.sty
+Package: l3expan 2014/01/04 v4642 L3 Argument expansion
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3tl.sty
+Package: l3tl 2013/12/27 v4625 L3 Token lists
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3seq.sty
+Package: l3seq 2013/12/14 v4623 L3 Sequences and stacks
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3int.sty
+Package: l3int 2013/08/02 v4583 L3 Integers
+\c_max_int=\count107
+\l_tmpa_int=\count108
+\l_tmpb_int=\count109
+\g_tmpa_int=\count110
+\g_tmpb_int=\count111
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3quark.sty
+Package: l3quark 2013/12/14 v4623 L3 Quarks
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3prg.sty
+Package: l3prg 2014/01/04 v4642 L3 Control structures
+\g__prg_map_int=\count112
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3clist.sty
+Package: l3clist 2013/07/28 v4581 L3 Comma separated lists
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3token.sty
+Package: l3token 2013/08/25 v4587 L3 Experimental token manipulation
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3prop.sty
+Package: l3prop 2013/12/14 v4623 L3 Property lists
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3msg.sty
+Package: l3msg 2013/07/28 v4581 L3 Messages
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3file.sty
+Package: l3file 2013/10/13 v4596 L3 File and I/O operations
+\l_iow_line_count_int=\count113
+\l__iow_target_count_int=\count114
+\l__iow_current_line_int=\count115
+\l__iow_current_word_int=\count116
+\l__iow_current_indentation_int=\count117
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3skip.sty
+Package: l3skip 2013/07/28 v4581 L3 Dimensions and skips
+\c_zero_dim=\dimen123
+\c_max_dim=\dimen124
+\l_tmpa_dim=\dimen125
+\l_tmpb_dim=\dimen126
+\g_tmpa_dim=\dimen127
+\g_tmpb_dim=\dimen128
+\c_zero_skip=\skip58
+\c_max_skip=\skip59
+\l_tmpa_skip=\skip60
+\l_tmpb_skip=\skip61
+\g_tmpa_skip=\skip62
+\g_tmpb_skip=\skip63
+\c_zero_muskip=\muskip11
+\c_max_muskip=\muskip12
+\l_tmpa_muskip=\muskip13
+\l_tmpb_muskip=\muskip14
+\g_tmpa_muskip=\muskip15
+\g_tmpb_muskip=\muskip16
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3keys.sty
+Package: l3keys 2013/12/08 v4614 L3 Experimental key-value interfaces
+\g__keyval_level_int=\count118
+\l_keys_choice_int=\count119
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3fp.sty
+Package: l3fp 2014/01/04 v4642 L3 Floating points
+\c__fp_leading_shift_int=\count120
+\c__fp_middle_shift_int=\count121
+\c__fp_trailing_shift_int=\count122
+\c__fp_big_leading_shift_int=\count123
+\c__fp_big_middle_shift_int=\count124
+\c__fp_big_trailing_shift_int=\count125
+\c__fp_Bigg_leading_shift_int=\count126
+\c__fp_Bigg_middle_shift_int=\count127
+\c__fp_Bigg_trailing_shift_int=\count128
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3box.sty
+Package: l3box 2013/07/28 v4581 L3 Experimental boxes
+\c_empty_box=\box29
+\l_tmpa_box=\box30
+\l_tmpb_box=\box31
+\g_tmpa_box=\box32
+\g_tmpb_box=\box33
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3coffins.sty
+Package: l3coffins 2013/12/14 v4624 L3 Coffin code layer
+\l__coffin_internal_box=\box34
+\l__coffin_internal_dim=\dimen129
+\l__coffin_offset_x_dim=\dimen130
+\l__coffin_offset_y_dim=\dimen131
+\l__coffin_x_dim=\dimen132
+\l__coffin_y_dim=\dimen133
+\l__coffin_x_prime_dim=\dimen134
+\l__coffin_y_prime_dim=\dimen135
+\c_empty_coffin=\box35
+\l__coffin_aligned_coffin=\box36
+\l__coffin_aligned_internal_coffin=\box37
+\l_tmpa_coffin=\box38
+\l_tmpb_coffin=\box39
+\l__coffin_display_coffin=\box40
+\l__coffin_display_coord_coffin=\box41
+\l__coffin_display_pole_coffin=\box42
+\l__coffin_display_offset_dim=\dimen136
+\l__coffin_display_x_dim=\dimen137
+\l__coffin_display_y_dim=\dimen138
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3color.sty
+Package: l3color 2012/08/29 v4156 L3 Experimental color support
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3luatex.sty
+Package: l3luatex 2013/07/28 v4581 L3 Experimental LuaTeX-specific functions
+\g__cctab_allocate_int=\count129
+\g__cctab_stack_int=\count130
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3kernel/l3candidates.sty
+Package: l3candidates 2014/01/06 v4643 L3 Experimental additions to l3kernel
+\l__box_top_dim=\dimen139
+\l__box_bottom_dim=\dimen140
+\l__box_left_dim=\dimen141
+\l__box_right_dim=\dimen142
+\l__box_top_new_dim=\dimen143
+\l__box_bottom_new_dim=\dimen144
+\l__box_left_new_dim=\dimen145
+\l__box_right_new_dim=\dimen146
+\l__box_internal_box=\box43
+\l__coffin_bounding_shift_dim=\dimen147
+\l__coffin_left_corner_dim=\dimen148
+\l__coffin_right_corner_dim=\dimen149
+\l__coffin_bottom_corner_dim=\dimen150
+\l__coffin_top_corner_dim=\dimen151
+\l__coffin_scaled_total_height_dim=\dimen152
+\l__coffin_scaled_width_dim=\dimen153
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+))
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2013/12/31 v4634 L3 Experimental document command parser
+\l__xparse_current_arg_int=\count131
+\l__xparse_m_args_int=\count132
+\l__xparse_mandatory_args_int=\count133
+\l__xparse_processor_int=\count134
+\l__xparse_v_nesting_int=\count135
+)
+Package: siunitx 2013/07/31 v2.5s A comprehensive (SI) units package
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen154
+\extrarowheight=\dimen155
+\NC@list=\toks28
+\extratabsurround=\skip64
+\backup@length=\skip65
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2013/12/31 v4634 LaTeX2e option processing using LaTeX3 keys
+)
+Variant \tl_if_blank:VTF already defined; not changing it on line 50
+\l__siunitx_tmp_box=\box44
+\l__siunitx_tmp_dim=\dimen156
+\l__siunitx_tmp_int=\count136
+Variant \prop_get:NVNT already defined; not changing it on line 371
+Variant \prop_get:NVNF already defined; not changing it on line 372
+Variant \prop_get:NVNTF already defined; not changing it on line 373
+\l__siunitx_number_mantissa_length_int=\count137
+\l__siunitx_number_uncert_length_int=\count138
+\l__siunitx_round_int=\count139
+\l__siunitx_process_decimal_int=\count140
+\l__siunitx_process_uncertainty_int=\count141
+\l__siunitx_process_fixed_int=\count142
+\l__siunitx_process_integer_min_int=\count143
+\l__siunitx_process_precision_int=\count144
+\l__siunitx_group_min_int=\count145
+\l__siunitx_angle_marker_box=\box45
+\l__siunitx_angle_unit_box=\box46
+\l__siunitx_angle_marker_dim=\dimen157
+\l__siunitx_angle_unit_dim=\dimen158
+\l__siunitx_unit_int=\count146
+\l__siunitx_unit_denominator_int=\count147
+\l__siunitx_unit_numerator_int=\count148
+\l__siunitx_unit_prefix_int=\count149
+\l__siunitx_unit_prefix_base_int=\count150
+\l__siunitx_unit_prefix_gram_int=\count151
+\l__siunitx_number_product_int=\count152
+\c__siunitx_one_fill_skip=\skip66
+\l__siunitx_table_unit_align_skip=\skip67
+\l__siunitx_table_exponent_dim=\dimen159
+\l__siunitx_table_integer_dim=\dimen160
+\l__siunitx_table_mantissa_dim=\dimen161
+\l__siunitx_table_marker_dim=\dimen162
+\l__siunitx_table_result_dim=\dimen163
+\l__siunitx_table_uncert_dim=\dimen164
+\l__siunitx_table_fill_pre_dim=\dimen165
+\l__siunitx_table_fill_post_dim=\dimen166
+\l__siunitx_table_fill_mid_dim=\dimen167
+\l__siunitx_table_pre_box=\box47
+\l__siunitx_table_post_box=\box48
+\l__siunitx_table_mantissa_box=\box49
+\l__siunitx_table_result_box=\box50
+\l__siunitx_table_number_align_skip=\skip68
+\l__siunitx_table_text_align_skip=\skip69
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareBinaryPrefix with arg. spec. 'mmm' on line
+. 7101.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIPostPower with arg. spec. 'mm' on line
+. 7104.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIPrefix with arg. spec. 'mmm' on line
+. 7107.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIPrePower with arg. spec. 'mm' on line
+. 7110.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIQualifier with arg. spec. 'mm' on line
+. 7113.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIUnit with arg. spec. 'O{}mm' on line
+. 7116.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \DeclareSIUnitWithOptions with arg. spec. 'mmm' on
+. line 7119.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \ang with arg. spec. 'o>{\SplitArgument {2}{;}}m'
+. on line 7134.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \num with arg. spec. 'om' on line 7142.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \numlist with arg. spec. 'o>{\SplitList {;}}m' on
+. line 7150.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \numrange with arg. spec. 'omm' on line 7158.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \SIlist with arg. spec. 'o>{\SplitList {;}}mm' on
+. line 7169.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \SIrange with arg. spec. 'ommm' on line 7180.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \SI with arg. spec. 'omom' on line 7191.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \sisetup with arg. spec. 'm' on line 7194.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \tablenum with arg. spec. 'om' on line 7206.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \si with arg. spec. 'om' on line 7217.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_num:w with arg. spec. 'om' on
+. line 7262.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_numrange:w with arg. spec.
+. 'omm' on line 7264.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_SI:w with arg. spec. 'omom' on
+. line 7266.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_SIlist:w with arg. spec. 'omm'
+. on line 7268.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_SIrange:w with arg. spec.
+. 'ommm' on line 7270.
+.................................................
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining document command \__siunitx_bookmark_si:w with arg. spec. 'om' on
+. line 7271.
+.................................................
+\g__file_internal_ior=\read1
+(/usr/local/texlive/2013/texmf-dist/tex/latex/beamer/translator/translator.sty
+Package: translator 2010/06/12 ver 1.10
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/beamer/translator/translator-lang
+uage-mappings.tex)))
 (/usr/local/texlive/2013/texmf-dist/tex/latex/gnuplottex/gnuplottex.sty
 Package: gnuplottex 2013/11/24 v0.8 gnuplot graphs in LaTeX
 
@@ -459,38 +836,38 @@ Package: moreverb 2008/06/03 v2.3a `more' verbatim facilities
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks22
-\verbatim@line=\toks23
-\verbatim@in@stream=\read1
+\every@verbatim=\toks29
+\verbatim@line=\toks30
+\verbatim@in@stream=\read2
 )
-\tab@position=\count106
-\tab@size=\count107
-\listing@line=\count108
+\tab@position=\count153
+\tab@size=\count154
+\listing@line=\count155
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-20154151126.tex)...disabled (restricted).
+runsystem(touch w18-test-2015717923.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-20154151126.tex)...disabled (restricted).
+runsystem(rm -f w18-test-2015717923.tex)...disabled (restricted).
 
 
 
 Package gnuplottex Warning: Shell escape not enabled.
 (gnuplottex)                You'll need to convert the graphs yourself..
 
-\c@fignum=\count109
+\c@fignum=\count156
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/preprint/fullpage.sty
 Package: fullpage 1999/02/23 1.1 (PWD)
-\FP@margin=\skip55
+\FP@margin=\skip70
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen123
-\WF@size=\dimen124
-\c@WF@wrappedlines=\count110
-\WF@box=\box29
-\WF@everypar=\toks24
+\wrapoverhang=\dimen168
+\WF@size=\dimen169
+\c@WF@wrappedlines=\count157
+\WF@box=\box51
+\WF@everypar=\toks31
 Package: wrapfig 2003/01/31  v 3.6
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
@@ -510,8 +887,7 @@ Package ifluatex Info: LuaTeX not detected.
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
 Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -550,16 +926,16 @@ Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
-\@linkdim=\dimen125
-\Hy@linkcounter=\count111
-\Hy@pagecounter=\count112
+\@linkdim=\dimen170
+\Hy@linkcounter=\count158
+\Hy@pagecounter=\count159
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count113
+\Hy@SavedSpaceFactor=\count160
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -571,17 +947,17 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count114
+\c@Hy@tempcnt=\count161
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty
-\Urlmuskip=\muskip11
+\Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen126
-\Fld@menulength=\count115
-\Field@Width=\dimen127
-\Fld@charsize=\dimen128
+\XeTeXLinkMargin=\dimen171
+\Fld@menulength=\count162
+\Field@Width=\dimen172
+\Fld@charsize=\dimen173
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -591,56 +967,103 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count116
-\c@Item=\count117
-\c@Hfootnote=\count118
+\Hy@abspage=\count163
+\c@Item=\count164
+\c@Hfootnote=\count165
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count119
-\c@bookmark@seq@number=\count120
+\Fld@listcount=\count166
+\c@bookmark@seq@number=\count167
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip56
+\Hy@SectionHShift=\skip71
 )
-(./paper.aux)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count168
+\float@exts=\toks32
+\float@box=\box52
+\@float@everytoks=\toks33
+\@floatcapt=\box53
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen174
+\captionmargin@=\dimen175
+\captionwidth=\dimen176
+\caption@tempdima=\dimen177
+\caption@indent=\dimen178
+\caption@parindent=\dimen179
+\caption@hangindent=\dimen180
+)
+Package caption Info: KOMA-Script document class.
+\c@ContinuedFloat=\count169
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: wrapfig package is loaded.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+\c@subfigure=\count170
+\c@subtable=\count171
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+\TX@col@width=\dimen181
+\TX@old@table=\dimen182
+\TX@old@col=\dimen183
+\TX@target=\dimen184
+\TX@delta=\dimen185
+\TX@cols=\count172
+\TX@ftn=\toks34
+) (./paper.aux
+(./ch1_introduction.aux) (./ch2_state_of_the_art.aux) (./ch3_registration.aux
+
+LaTeX Warning: Label `sec:icp' multiply defined.
+
+) (./ch4_large_models.aux) (./ch5_implementation.aux) (./chA_expriments.aux))
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count121
-\scratchdimen=\dimen129
-\scratchbox=\box30
-\nofMPsegments=\count122
-\nofMParguments=\count123
-\everyMPshowfont=\toks25
-\MPscratchCnt=\count124
-\MPscratchDim=\dimen130
-\MPnumerator=\count125
-\makeMPintoPDFobject=\count126
-\everyMPtoPDFconversion=\toks26
+\scratchcounter=\count173
+\scratchdimen=\dimen186
+\scratchbox=\box54
+\nofMPsegments=\count174
+\nofMParguments=\count175
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count176
+\MPscratchDim=\dimen187
+\MPnumerator=\count177
+\makeMPintoPDFobject=\count178
+\everyMPtoPDFconversion=\toks36
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -656,130 +1079,970 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box31
-Package hyperref Info: Link coloring OFF on input line 18.
+Now handling font encoding TS1 ...
+... processing UTF-8 mapping file for font encoding TS1
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ts1enc.dfu
+File: ts1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A2 (decimal 162)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00A4 (decimal 164)
+   defining Unicode char U+00A5 (decimal 165)
+   defining Unicode char U+00A6 (decimal 166)
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00A8 (decimal 168)
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AC (decimal 172)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00AF (decimal 175)
+   defining Unicode char U+00B0 (decimal 176)
+   defining Unicode char U+00B1 (decimal 177)
+   defining Unicode char U+00B2 (decimal 178)
+   defining Unicode char U+00B3 (decimal 179)
+   defining Unicode char U+00B4 (decimal 180)
+   defining Unicode char U+00B5 (decimal 181)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+00B9 (decimal 185)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+00BC (decimal 188)
+   defining Unicode char U+00BD (decimal 189)
+   defining Unicode char U+00BE (decimal 190)
+   defining Unicode char U+00D7 (decimal 215)
+   defining Unicode char U+00F7 (decimal 247)
+   defining Unicode char U+0192 (decimal 402)
+   defining Unicode char U+02C7 (decimal 711)
+   defining Unicode char U+02D8 (decimal 728)
+   defining Unicode char U+02DD (decimal 733)
+   defining Unicode char U+0E3F (decimal 3647)
+   defining Unicode char U+2016 (decimal 8214)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+203B (decimal 8251)
+   defining Unicode char U+203D (decimal 8253)
+   defining Unicode char U+2044 (decimal 8260)
+   defining Unicode char U+204E (decimal 8270)
+   defining Unicode char U+2052 (decimal 8274)
+   defining Unicode char U+20A1 (decimal 8353)
+   defining Unicode char U+20A4 (decimal 8356)
+   defining Unicode char U+20A6 (decimal 8358)
+   defining Unicode char U+20A9 (decimal 8361)
+   defining Unicode char U+20AB (decimal 8363)
+   defining Unicode char U+20AC (decimal 8364)
+   defining Unicode char U+20B1 (decimal 8369)
+   defining Unicode char U+2103 (decimal 8451)
+   defining Unicode char U+2116 (decimal 8470)
+   defining Unicode char U+2117 (decimal 8471)
+   defining Unicode char U+211E (decimal 8478)
+   defining Unicode char U+2120 (decimal 8480)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2126 (decimal 8486)
+   defining Unicode char U+2127 (decimal 8487)
+   defining Unicode char U+212E (decimal 8494)
+   defining Unicode char U+2190 (decimal 8592)
+   defining Unicode char U+2191 (decimal 8593)
+   defining Unicode char U+2192 (decimal 8594)
+   defining Unicode char U+2193 (decimal 8595)
+   defining Unicode char U+2329 (decimal 9001)
+   defining Unicode char U+232A (decimal 9002)
+   defining Unicode char U+2422 (decimal 9250)
+   defining Unicode char U+25E6 (decimal 9702)
+   defining Unicode char U+25EF (decimal 9711)
+   defining Unicode char U+266A (decimal 9834)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/beamer/translator/dicts/translato
+r-basic-dictionary/translator-basic-dictionary-English.dict
+Dictionary: translator-basic-dictionary, Language: English 
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/siunitx/config/siunitx-abbreviati
+ons.cfg
+File: siunitx-abbreviations.cfg 2013/07/31 v2.5s siunitx: Abbreviated units
+)
+\AtBeginShipoutBox=\box55
+Package hyperref Info: Link coloring OFF on input line 45.
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count127
+\c@section@level=\count179
 )
-LaTeX Info: Redefining \ref on input line 18.
-LaTeX Info: Redefining \pageref on input line 18.
-LaTeX Info: Redefining \nameref on input line 18.
+LaTeX Info: Redefining \ref on input line 45.
+LaTeX Info: Redefining \pageref on input line 45.
+LaTeX Info: Redefining \nameref on input line 45.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write4
 \openout4 = `paper.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+\c__siunitx_mathsf_int=\count180
+LaTeX Font Info:    Try loading font information for U+msa on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 24.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) [1
+)
+\c__siunitx_mathtt_int=\count181
+ [1
 
 
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./pape
-r.toc)
+r.toc [2
+
+])
 \tf@toc=\write5
 \openout5 = `paper.toc'.
 
- [2
 
-]
+[3]
+\openout2 = `ch1_introduction.aux'.
+
+ (./ch1_introduction.tex
 Chapter 1.
-[3
+
+Class scrreprt Warning: \float@addtolists detected!
+(scrreprt)              Implementation of \float@addtolist became
+(scrreprt)              deprecated in KOMA-Script v3.01 2008/11/14 and
+(scrreprt)              has been replaced by more several more flexible
+(scrreprt)              features of package `tocbasic`.
+(scrreprt)              Since Version 3.12 support for deprecated
+(scrreprt)              \float@addtolist interface has been
+(scrreprt)              restricted to only some of the KOMA-Script
+(scrreprt)              features and been removed from others.
+(scrreprt)              Loading of package `scrhack' may help to
+(scrreprt)              avoid this warning, if you are using a
+(scrreprt)              a package that still implements the
+(scrreprt)              deprecated \float@addtolist interface .
+
+) [4
+
 
 ]
+\openout2 = `ch2_state_of_the_art.aux'.
+
+ (./ch2_state_of_the_art.tex
 Chapter 2.
-./paper.tex:55: Undefined control sequence.
-l.55 ...efined as a set $P = \{ (x_i, y_i, z_i) \p
-                                                  }$ of \emph{points}, each ...
+[5
+
+
+
+] [6]
+./ch2_state_of_the_art.tex:66: Undefined control sequence.
+<argument> \citename 
+                     {Ky{\"o}stil{\"a} {\em et\nobreakspace {}al.\ }\relax ,...
+l.66 ...s described for example in \cite{Kyos2013}
+                                                  .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./paper.tex:55: Extra }, or forgotten $.
-l.55 ...fined as a set $P = \{ (x_i, y_i, z_i) \p}
-                                                  $ of \emph{points}, each o...
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
+[7]
 
-[4
+Package caption Warning: \label without proper \caption on input line 83.
+See the caption package documentation for explanation.
 
-] [5]
+
+LaTeX Warning: Reference `fig:pp_projection' on page 8 undefined on input line 
+78.
+
+<fig/pp_projection.pdf, id=422, 366.36874pt x 178.6675pt>
+File: fig/pp_projection.pdf Graphic file (type pdf)
+
+<use fig/pp_projection.pdf>
+Package pdftex.def Info: fig/pp_projection.pdf used on input line 82.
+(pdftex.def)             Requested size: 362.37573pt x 176.73141pt.
+ [8 <./fig/pp_projection.pdf>]
+<fig/transformations_venn.pdf, id=434, 708.6475pt x 555.07375pt>
+File: fig/transformations_venn.pdf Graphic file (type pdf)
+
+<use fig/transformations_venn.pdf>
+Package pdftex.def Info: fig/transformations_venn.pdf used on input line 140.
+(pdftex.def)             Requested size: 362.37573pt x 283.84613pt.
+ [9]
+./ch2_state_of_the_art.tex:149: Undefined control sequence.
+<recently read> \mat 
+                     
+l.149 ...responds to multiplying this matrix $\mat
+                                                  {T}$ by column vector form...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[10 <./fig/transformations_venn.pdf>] [11] [12] [13]
+
+LaTeX Warning: Citation `Eber1999' on page 14 undefined on input line 322.
+
+./ch2_state_of_the_art.tex:325: Undefined control sequence.
+<recently read> \nambla 
+                        
+l.325 ...computed by setting the gradient $\nambla
+                                                   S$ to zero. Since the ter...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[14]
+./ch2_state_of_the_art.tex:340: Undefined control sequence.
+l.340 where $\matr{X}$ is a $n \cross
+                                      m$ matrix. Each row corresponds to a d...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch2_state_of_the_art.tex:369: Undefined control sequence.
+l.369 ...ta point a \emph{weight} $w_i \in \mathds
+                                                  {R}$ is defined. When $w_i...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch2_state_of_the_art.tex:369: Undefined control sequence.
+l.369 ...n $w_i = k \times w_j$ for $k \in \mathds
+                                                  {N}$, the effect is the sa...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[15]
+./ch2_state_of_the_art.tex:373: Undefined control sequence.
+l.373 ...ambda$ such that $\lambda w_i \in \mathds
+                                                  {N}$. This justifies the p...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Citation `Horn1986' on page 16 undefined on input line 378.
+
+[16]
+
+LaTeX Warning: Citation `Horn1986' on page 17 undefined on input line 407.
+
+./ch2_state_of_the_art.tex:407: Undefined control sequence.
+<argument> \citename 
+                     {Besl \& McKay, }1992
+l.407 ... (see \label{sec:icp}) in \cite{Besl1992}
+                                                  . \cite{Loru1995} gives a ...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch2_state_of_the_art.tex:407: Undefined control sequence.
+<argument> \citename 
+                     {Lorusso {\em et\nobreakspace {}al.\ }\relax , }1995
+l.407 ...icp}) in \cite{Besl1992}. \cite{Loru1995}
+                                                   gives a comparison of fou...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (4.83746pt too wide) in paragraph at lines 412--414
+\OT1/cmr/m/n/10 The first and sec-ond terms do not de-pend on $\OT1/cmr/bx/n/10
+ R$\OT1/cmr/m/n/10 , hence the prob-lem is re-duced to max-i-miz-ing $[][] \OML
+/cmm/m/it/10 w[] [][] \OT1/cmr/bx/n/10 R []$\OT1/cmr/m/n/10 . 
+ []
+
+[17]) [18]
+\openout2 = `ch3_registration.aux'.
+
+ (./ch3_registration.tex
 Chapter 3.
-[6
+[19
 
-]
+
+
+] [20]
+./ch3_registration.tex:54: Undefined control sequence.
+<argument> \citename 
+                     {Besl \& McKay, }1992
+l.54 ... (ICP), first described in \cite{Besl1992}
+                                                   and in \cite{Chen1991}. I...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:54: Undefined control sequence.
+<argument> \citename 
+                     {Che, }1991
+l.54 ... in \cite{Besl1992} and in \cite{Chen1991}
+                                                  . It is a pair-wise algori...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Citation `Told2010' on page 21 undefined on input line 54.
+
+./ch3_registration.tex:61: Undefined control sequence.
+<argument> \citename 
+                     {Rusinkiewicz \& Levoy, }2001
+l.61 ...riations of ICP algorithms \cite{Rusi2001}
+                                                  . For all of them the foll...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[21]
+./ch3_registration.tex:81: Undefined control sequence.
+l.81 ...rac{1}{W} \sum_{i} w_i \, \vec{n_{p_i}} \n
+                                                   (p_i - \matr{M} \, q_i)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:85: Undefined control sequence.
+<argument> \citename 
+                     {Segal {\em et\nobreakspace {}al.\ }\relax , }2009
+l.85 ...d, such as Generalized ICP \cite{Sega2009}
+                                                  , Sparse ICP \cite{Boua201...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:85: Undefined control sequence.
+<argument> \citename 
+                     {Bouaziz {\em et\nobreakspace {}al.\ }\relax , }2013
+l.85 ...cite{Sega2009}, Sparse ICP \cite{Boua2013}
+                                                  , and metrics that include...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (25.57864pt too wide) in paragraph at lines 85--86
+[]\OT1/cmr/m/n/10 Several other er-ror met-rics to min-i-mize have been de-vel-
+oped, such as Gen-er-al-ized ICP [[]],
+ []
+
+[22]
+./ch3_registration.tex:87: Undefined control sequence.
+<argument> \citename 
+                     {Lorusso {\em et\nobreakspace {}al.\ }\relax , }1995
+l.87 ...of four methods is made in \cite{Loru1995}
+                                                  . It is concluded that the...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:89: Undefined control sequence.
+<argument> \citename 
+                     {Che, }1991
+l.89 ...f trigonometric functions. \cite{Chen1991}
+                                                   For this the assumption i...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:91: Undefined control sequence.
+<argument> \citename 
+                     {Rusinkiewicz \& Levoy, }2001
+l.91 ...rgence to a local minimum. \cite{Rusi2001}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Citation `???' on page 23 undefined on input line 94.
+
+./ch3_registration.tex:94: Undefined control sequence.
+<argument> \citename 
+                     {Besl \& McKay, }1992
+l.94 ...} The original description \cite{Besl1992}
+                                                   of ICP selects correspond...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./ch3_registration.tex:94: Undefined control sequence.
+<argument> \citename 
+                     {Che, }1991
+l.94 ...int-to-point error metric. \cite{Chen1991}
+                                                   describes a point-to-plan...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+<fig/icp_true_approx_cor.pdf, id=600, 1179.66135pt x 702.87024pt>
+File: fig/icp_true_approx_cor.pdf Graphic file (type pdf)
+
+<use fig/icp_true_approx_cor.pdf>
+Package pdftex.def Info: fig/icp_true_approx_cor.pdf used on input line 106.
+(pdftex.def)             Requested size: 226.48398pt x 134.94096pt.
+
+Underfull \hbox (badness 2698) in paragraph at lines 113--114
+[]\OT1/cmr/m/n/10 Hypothesis (1) trans-lates into $\OML/cmm/m/it/10 d\OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 q[]; q[]\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 <
+ []
+
+[23 <./fig/icp_true_approx_cor.pdf>]
+./ch3_registration.tex:128: Undefined control sequence.
+<argument> \citename 
+                     {Segal {\em et\nobreakspace {}al.\ }\relax , }2009
+l.128 ... ICP}, first described in \cite{Sega2009}
+                                                  , is a generalization that...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+) [24]
+\openout2 = `ch4_large_models.aux'.
+
+ (./ch4_large_models.tex
 Chapter 4.
 
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 79.
+LaTeX Warning: Reference `fig:hdv_dessus' on page 25 undefined on input line 12
+.
 
-(./paper.bbl [7
+<fig/r1_render2.jpg, id=629, 1603.9925pt x 1610.015pt>
+File: fig/r1_render2.jpg Graphic file (type jpg)
+
+<use fig/r1_render2.jpg>
+Package pdftex.def Info: fig/r1_render2.jpg used on input line 26.
+(pdftex.def)             Requested size: 226.48398pt x 227.31677pt.
+
+<fig/r1_render1.jpg, id=630, 2011.515pt x 1503.6175pt>
+File: fig/r1_render1.jpg Graphic file (type jpg)
+
+<use fig/r1_render1.jpg>
+Package pdftex.def Info: fig/r1_render1.jpg used on input line 29.
+(pdftex.def)             Requested size: 226.48398pt x 169.27585pt.
+ [25
+
+
 
 ]
+<fig/relief_B.pdf, id=639, 397.485pt x 173.64874pt>
+File: fig/relief_B.pdf Graphic file (type pdf)
+ <use fig/relief_B.pdf>
+Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
+(pdftex.def)             Requested size: 226.48398pt x 98.94637pt.
 
-LaTeX Warning: Empty `thebibliography' environment or \BreakBibliography
-               before end of `thebibliography' environment on input line 3.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[26 <./fig/r1_render2.jpg> <./fig/r1_render1.jpg>]
+<fig/r1_plain.png, id=648, 915.42pt x 939.51pt>
+File: fig/r1_plain.png Graphic file (type png)
+ <use fig/r1_plain.png>
+Package pdftex.def Info: fig/r1_plain.png used on input line 67.
+(pdftex.def)             Requested size: 452.96796pt x 464.87968pt.
+
+<fig/r1_occlusion.png, id=651, 908.39375pt x 929.4725pt>
+File: fig/r1_occlusion.png Graphic file (type png)
+
+<use fig/r1_occlusion.png>
+Package pdftex.def Info: fig/r1_occlusion.png used on input line 86.
+(pdftex.def)             Requested size: 226.48398pt x 231.72934pt.
+
+<fig/r1_occlusion2.png, id=652, 967.615pt x 820.06375pt>
+File: fig/r1_occlusion2.png Graphic file (type png)
+
+<use fig/r1_occlusion2.png>
+Package pdftex.def Info: fig/r1_occlusion2.png used on input line 89.
+(pdftex.def)             Requested size: 226.48398pt x 191.9392pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[27 <./fig/relief_B.pdf>] [28 <./fig/r1_plain.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 114.
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
+ [29 <./fig/r1_occlusion.png> <./fig/r1_occlusion2.png>]
+<fig/r1_crop.png, id=690, 890.32625pt x 934.49126pt>
+File: fig/r1_crop.png Graphic file (type png)
+ <use fig/r1_crop.png>
+Package pdftex.def Info: fig/r1_crop.png used on input line 124.
+(pdftex.def)             Requested size: 317.07619pt x 332.80902pt.
+
+<fig/r1_ddp.png, id=691, 1035.87pt x 789.95125pt>
+File: fig/r1_ddp.png Graphic file (type png)
+ <use fig/r1_ddp.png>
+Package pdftex.def Info: fig/r1_ddp.png used on input line 132.
+(pdftex.def)             Requested size: 317.07619pt x 241.79662pt.
+ [30]
+[31 <./fig/r1_crop.png> <./fig/r1_ddp.png>]
+<fig/plane_rand_d30000_gridQ.pdf, id=707, 569.12625pt x 386.44376pt>
+File: fig/plane_rand_d30000_gridQ.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_d30000_gridQ.pdf>
+Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 194
+.
+(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
+ [32]
+<fig/plane_rand_d.pdf, id=713, 670.505pt x 465.74pt>
+File: fig/plane_rand_d.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_d.pdf>
+Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 207.
+(pdftex.def)             Requested size: 226.48398pt x 157.31194pt.
+ [33 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees> <./fig/pla
+ne_rand_d.pdf>]
+
+./ch4_large_models.tex:242: Package amsmath Error: Erroneous nesting of equatio
+n structures;
+(amsmath)                trying to recover with `aligned'.
+
+See the amsmath package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.242 \end{align}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+./ch4_large_models.tex:262: Package amsmath Error: Erroneous nesting of equatio
+n structures;
+(amsmath)                trying to recover with `aligned'.
+
+See the amsmath package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.262 \end{align}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[34] <fig/plane_rand_n.pdf, id=794, 1047.915pt x 558.085pt>
+File: fig/plane_rand_n.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_n.pdf>
+Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 289.
+(pdftex.def)             Requested size: 271.78352pt x 144.74101pt.
+
+<fig/plane_rand_d30000.pdf, id=795, 569.12625pt x 386.44376pt>
+File: fig/plane_rand_d30000.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_d30000.pdf>
+Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 296.
+(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
+
+<fig/bunny_grid_closeup.png, id=799, 793.96625pt x 595.22375pt>
+File: fig/bunny_grid_closeup.png Graphic file (type png)
+
+<use fig/bunny_grid_closeup.png>
+Package pdftex.def Info: fig/bunny_grid_closeup.png used on input line 311.
+(pdftex.def)             Requested size: 317.07619pt x 237.7129pt.
+
+<fig/plane_d20000.pdf, id=802, 569.12625pt x 386.44376pt>
+File: fig/plane_d20000.pdf Graphic file (type pdf)
+
+<use fig/plane_d20000.pdf>
+Package pdftex.def Info: fig/plane_d20000.pdf used on input line 322.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/plane_d30000.pdf, id=803, 569.12625pt x 386.44376pt>
+File: fig/plane_d30000.pdf Graphic file (type pdf)
+
+<use fig/plane_d30000.pdf>
+Package pdftex.def Info: fig/plane_d30000.pdf used on input line 325.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+ [35] [36 <./fig/plane_rand_n.pdf> <./fig/plane_rand_d30000.pdf, page is rotate
+d 90 degrees> <./fig/bunny_grid_closeup.png>]
+<fig/sq_grid_d.pdf, id=882, 585.18625pt x 304.13625pt>
+File: fig/sq_grid_d.pdf Graphic file (type pdf)
+ <use fig/sq_grid_d.pdf>
+Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 342.
+(pdftex.def)             Requested size: 271.78352pt x 141.25946pt.
+
+[37 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.pd
+f, page is rotated 90 degrees> <./fig/sq_grid_d.pdf>]
+<fig/sq_grid.pdf, id=1001, 1156.36203pt x 732.85997pt>
+File: fig/sq_grid.pdf Graphic file (type pdf)
+ <use fig/sq_grid.pdf>
+Package pdftex.def Info: fig/sq_grid.pdf used on input line 380.
+(pdftex.def)             Requested size: 362.37573pt x 229.65558pt.
+
+[38 <./fig/sq_grid.pdf>]
+<fig/relief_h01.pdf, id=1035, 569.12625pt x 386.44376pt>
+File: fig/relief_h01.pdf Graphic file (type pdf)
+
+<use fig/relief_h01.pdf>
+Package pdftex.def Info: fig/relief_h01.pdf used on input line 397.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/relief_h05.pdf, id=1036, 569.12625pt x 386.44376pt>
+File: fig/relief_h05.pdf Graphic file (type pdf)
+
+<use fig/relief_h05.pdf>
+Package pdftex.def Info: fig/relief_h05.pdf used on input line 400.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/relief_h10.pdf, id=1037, 569.12625pt x 386.44376pt>
+File: fig/relief_h10.pdf Graphic file (type pdf)
+
+<use fig/relief_h10.pdf>
+Package pdftex.def Info: fig/relief_h10.pdf used on input line 403.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/relief_h40.pdf, id=1038, 569.12625pt x 386.44376pt>
+File: fig/relief_h40.pdf Graphic file (type pdf)
+
+<use fig/relief_h40.pdf>
+Package pdftex.def Info: fig/relief_h40.pdf used on input line 406.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+ [39 <./fig/relief_h01.pdf, page is rotated 90 degrees> <./fig/relief_h05.pdf, 
+page is rotated 90 degrees> <./fig/relief_h10.pdf, page is rotated 90 degrees> 
+<./fig/relief_h40.pdf, page is rotated 90 degrees>]
+
+LaTeX Warning: Reference `sec:ex_bunny_hilo' on page 40 undefined on input line
+ 428.
+
+
+LaTeX Warning: Reference `bunny_first_tcor' on page 40 undefined on input line 
+444.
+
+<fig/bunny_first_tcor.png, id=1222, 475.27562pt x 374.90062pt>
+File: fig/bunny_first_tcor.png Graphic file (type png)
+
+<use fig/bunny_first_tcor.png>
+Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 451.
+(pdftex.def)             Requested size: 317.07619pt x 250.12381pt.
+
+<fig/bunny_05_split.pdf, id=1224, 569.12625pt x 386.44376pt>
+File: fig/bunny_05_split.pdf Graphic file (type pdf)
+
+<use fig/bunny_05_split.pdf>
+Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 462.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/bunny_08_split.pdf, id=1225, 569.12625pt x 386.44376pt>
+File: fig/bunny_08_split.pdf Graphic file (type pdf)
+
+<use fig/bunny_08_split.pdf>
+Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 465.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+./ch4_large_models.tex:471: Package inputenc Error: Unicode char \u8:  not set
+ up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.471 In both cases, $\| q - p \| 
+                                   \approx 0.001$ is a mode in the distribut...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:bunny_closest' on page 40 undefined on input line
+ 473.
+
+[40]) [41] [42 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
+rotated 90 degrees> <./fig/bunny_08_split.pdf, page is rotated 90 degrees>]
+\openout2 = `ch5_implementation.aux'.
+
+
+(./ch5_implementation.tex
+Chapter 5.
+[43
+
+
+
+]
+Chapter 6.
+) [44
+
+]
+\openout2 = `chA_expriments.aux'.
+
+ (./chA_expriments.tex
+Appendix A.
+<fig/bunny_globmin.pdf, id=1341, 569.12625pt x 386.44376pt>
+File: fig/bunny_globmin.pdf Graphic file (type pdf)
+
+<use fig/bunny_globmin.pdf>
+Package pdftex.def Info: fig/bunny_globmin.pdf used on input line 21.
+(pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
+
+<fig/bunny_globsmall.pdf, id=1342, 569.12625pt x 386.44376pt>
+File: fig/bunny_globsmall.pdf Graphic file (type pdf)
+
+<use fig/bunny_globsmall.pdf>
+Package pdftex.def Info: fig/bunny_globsmall.pdf used on input line 27.
+(pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
+
+<fig/bunny_globmed.pdf, id=1343, 569.12625pt x 386.44376pt>
+File: fig/bunny_globmed.pdf Graphic file (type pdf)
+
+<use fig/bunny_globmed.pdf>
+Package pdftex.def Info: fig/bunny_globmed.pdf used on input line 33.
+(pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
+ [45
+
+
+
+ <./fig/bunny_globmin.pdf, page is rotated 90 degrees>] <fig/bunny_globmin_ev.p
+df, id=1391, 569.12625pt x 386.44376pt>
+File: fig/bunny_globmin_ev.pdf Graphic file (type pdf)
+
+<use fig/bunny_globmin_ev.pdf>
+Package pdftex.def Info: fig/bunny_globmin_ev.pdf used on input line 40.
+(pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
+
+
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 46 undefined on input line 
+41.
+
+
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 46 undefined on input line 
+41.
+
+) [46 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
+med.pdf, page is rotated 90 degrees>] [47 <./fig/bunny_globmin_ev.pdf, page is 
+rotated 90 degrees>] (./paper.bbl
+./paper.bbl:3: Undefined control sequence.
+<argument> \protect \citename 
+                              {Che, }1991
+l.3 ...tem[\protect\citename{Che, }1991]{Chen1991}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:9: Undefined control sequence.
+<argument> \protect \citename 
+                              {Besl \& McKay, }1992
+l.9 ...ct\citename{Besl \& McKay, }1992]{Besl1992}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:16: Undefined control sequence.
+<argument> \protect \citename 
+                              {Bouaziz {\em et~al.\ }\relax , }2013
+l.16 ...ziz {\em et~al.\ }\relax, }2013]{Boua2013}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 20.
+
+./paper.bbl:23: Undefined control sequence.
+<argument> \protect \citename 
+                              {Ky{\"o}stil{\"a} {\em et~al.\ }\relax , }2013
+l.23   }2013]{Kyos2013}
+                       
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Class scrreprt Warning: Usage of deprecated font command `\bf'!
+(scrreprt)              You should note, that in 1994 font command `\bf' has
+(scrreprt)              been defined for compatiblitiy to Script 2.0 only.
+(scrreprt)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrreprt)              shouldn't use such commands any longer and within
+(scrreprt)              KOMA-Script usage of `\bf' is definitely deprecated.
+(scrreprt)              See `fntguide.pdf' for more information about
+(scrreprt)              recommended font commands.
+(scrreprt)              Note also, that KOMA-Script will remove the definition
+(scrreprt)              of `\bf' anytime until release of about version 3.20.
+(scrreprt)              But for now, KOMA-Script will replace deprecated `\bf'
+(scrreprt)              by `\normalfont \bfseries ' on input line 27.
+
+./paper.bbl:30: Undefined control sequence.
+<argument> \protect \citename 
+                              {Lorusso {\em et~al.\ }\relax , }1995
+l.30 ...sso {\em et~al.\ }\relax, }1995]{Loru1995}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:35: Undefined control sequence.
+<argument> \protect \citename 
+                              {Rusinkiewicz \& Levoy, }2001
+l.35 ...me{Rusinkiewicz \& Levoy, }2001]{Rusi2001}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:41: Undefined control sequence.
+<argument> \protect \citename 
+                              {Salvi {\em et~al.\ }\relax , }2005
+l.41 ...lvi {\em et~al.\ }\relax, }2005]{Salv2006}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./paper.bbl:47: Undefined control sequence.
+<argument> \protect \citename 
+                              {Segal {\em et~al.\ }\relax , }2009
+l.47 ...gal {\em et~al.\ }\relax, }2009]{Sega2009}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 163.
- [8
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
+ [48
+
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 163.
- (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 163.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 163.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+ (./paper.aux (./ch1_introduction.aux) (./ch2_state_of_the_art.aux)
+(./ch3_registration.aux) (./ch4_large_models.aux) (./ch5_implementation.aux)
+(./chA_expriments.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 66.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: F7A704A06D1C91941017057D461A6910;953.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 163.
+(rerunfilecheck)             Checksum: 439DD2824B2F97EABC03CB1B730119E0;5131.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
  ) 
 Here is how much of TeX's memory you used:
- 8277 strings out of 493308
- 126338 string characters out of 6137817
- 268576 words of memory out of 5000000
- 11580 multiletter control sequences out of 15000+600000
- 10062 words of font info for 41 fonts, out of 8000000 for 9000
+ 18506 strings out of 493308
+ 354710 string characters out of 6137817
+ 438894 words of memory out of 5000000
+ 21376 multiletter control sequences out of 15000+600000
+ 17561 words of font info for 71 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 41i,13n,51p,970b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on paper.pdf (8 pages, 130406 bytes).
+ 45i,11n,58p,10420b,1087s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{figure.caption.32} has been referenced but does n
+ot exist, replaced by a fixed one
+
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dis
+t/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on paper.pdf (48 pages, 3076933 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 160 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1662 PDF objects out of 1728 (max. 8388607)
+ 1166 compressed objects within 12 object streams
+ 238 named destinations out of 1000 (max. 500000)
+ 748 words of extra memory for PDF output out of 10000 (max. 10000000)
 

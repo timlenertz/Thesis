@@ -36,8 +36,6 @@ public:
 	
 	float minimal_error = 0;
 	std::size_t maximal_iterations = 30;
-	bool stop_on_divergence = false;
-	float divergence_error_threshold = 0.0;
 	iteration_preprocess_callback iteration_preprocess;
 	
 	virtual ~iterative_correspondences_registration_base() { }

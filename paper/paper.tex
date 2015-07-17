@@ -4,158 +4,61 @@
 \usepackage{mathtools}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{siunitx}
 \usepackage{gnuplottex}
 \usepackage{fullpage}
 \usepackage{wrapfig}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{verbatim}
+\usepackage{tabularx}
+
+%\setcounter{tocdepth}{4}
+
+%\usepackage{pxfonts} 
+
+\linespread{1.2}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
+\newcommand*{\diffd}{\mathrm{d}}
+
 \newcommand{\matr}[1]{\mathbf{#1}}
+\newcommand{\hommatr}[1]{\hat{\mathbf{#1}}}
+\newcommand{\transpose}[1]{#1^\intercal}
+\newcommand{\homvec}[1]{\vec{\hat{#1}}}
+\newcommand{\colvecT}[1]{\left[#1\right]^\intercal}
+\newcommand{\rowvec}[1]{\left[#1\right]}
+\newcommand{\coreq}{\hat{=}}
+\newcommand{\area}[1]{\mathcal{A}(#1)}
+
+
+
+%\mathtoolsset{showonlyrefs=true}
 
 \begin{document}
 
-\title{Registration and fusion of large scale 3D models}
+\title{Registration and fusion of large scale three-dimensional models}
 \author{Tim Lenertz}
 \date{\today}
 \maketitle
 
 \tableofcontents
 
-\chapter{Introduction}
+\include{ch1_introduction}
+\include{ch2_state_of_the_art}
+\include{ch3_registration}
+\include{ch4_large_models}
+\include{ch5_implementation}
 
-\chapter{State of the Art}
-\section{Preliminary mathematics}
-This section introduces some mathematical notions that will be used in this paper.
-
-\subsection{Geometric transformations}
-
-\section{3D Scanning}
-This section will give an overall overview of the process of 3D scanning, including the technology involved in obtaining 3D data, the operations that are performed to process it, and the final results that a 3D scanning project aims to obtain.
-
-\subsection{Introduction}
-The general goal of a 3D documentation project is to create a digital model of a physical three-dimensional object. Different methodologies exist for all sizes and types of objects.
-
-Possibly the most simple case is to scan the surface of a single, solid object. Mathematically, the object is idealised as a closed and continuous two-dimensional surface in three-dimensional space, whose space is approximated by the scanned data points. Examples include artefacts such as the commonly used \emph{Stanford Bunny}, models of teeth or bones for manufacturing of prosthesis, ...
-
-For larger of more complex objects, or objects embedded in a more complex environment, filtering out the targeted object from the scans becomes a harder problem. This is for instance the case for buildings, archeological sites or rock formations.
-
-In these cases, data is typically collected using a combination of 3D scanning and photogrammetry. 3D scanners emit light and detect the reflections from the object, in order to record a set of three-dimensional coordinates of points that lie on the object surface. Photogrammetry consists of taking multiple photographic pictures of the object, and algorithmically recover depth information by comparing photos from different camera poses.
-
-
-
-Volumetric CT scanning, airborne terrain scan (forestry), city model, molecules, ...
-
-\subsection{Typical workflow}
-
-
-\subsection{Point cloud}
-Data obtained from 3D scanning is recorded in the form of a \emph{point cloud}. An unorganized point cloud is defined as a set $P = \{ (x_i, y_i, z_i) \p}$ of \emph{points}, each of which have spatial coordinates set in a coordinate system specific for this scan. Each point can be attributed with additional information, such as an RGB color, a scalar values, or the normal vector of the surface at that point. Laser scanners usually collect an intensity value that records the strength of the reflected light beam from that point.
-
-Point clouds hold no information about the connectivity of the points that form a surface of the object.
-
-Additional information can be contained in the ordering of the points in the set. Laser scanners probe their field of view by sending out rays in different directions in a well-defined order. Typically the elevation and azimuth angles are gradually incremented or reset in a line-by-line manner, forming a two-dimensional grid in the field of view. Knowing the width and height of this grid, the ordered point cloud corresponds to a \emph{range image}: Each pixel in the range image corresponds to either a point $p_i \in P$, or an invalid point $\epsilon$, in case when no reflected ray in the direction is was pointing at. The range image can be described as the function $\mathbb{N}^2 \rightarrow P \cup \{ \epsilon \}$. Again in the case of a stationary laser scanner, the pixel coordinates would map to the azimuth and elevation angles of the point in spherical coordinates. The exact nature of this mapping is determined by the scanner.
-
-
-
-\subsection{3D scanner technology}
-
-
-
-\subsection{Photogrammetry}
-
-\subsection{Raw data}
-
-\subsection{Operations}
-
-
-\chapter{Large model registration}
-
-
-\chapter{Method}
-
-\subsection{Least-square error minimization}
-Point-to-point would minimize
-
-\begin{equation}
-	\argmin_{\matr{M}} \sum_{i} \| \matr{M} \vec{q_i} - \vec{p_i} \|^2
-\end{equation}
-
-Here
-
-\begin{equation}
-	\argmin_{\matr{M}} \sum_{i} \left[ d(\matr{M} \vec{q_i}, A) - d(\vec{p_i}, A) \right]^2
-\end{equation}
-
-That is
-
-\begin{equation}
-	d(\vec{p}, A) = (\vec{a} - \vec{p}) \vec{n} 
-\end{equation}
-
-
-\begin{equation}
-\begin{aligned}
-	d(\vec{p}, A) - d(\vec{q}, A) & = (\vec{a} - \vec{p}) \vec{n} - (\vec{a} - \vec{q}) \vec{n}  \\
-	& = \vec{r} \vec{n} - \vec{p} \vec{n} - \vec{r} \vec{n} - \vec{p} \vec{n} \\
-	& = \vec{p} \vec{n} - \vec{p} \vec{n} \\
-	& = (\vec{q} - \vec{p}) \vec{n}
-\end{aligned}
-\end{equation}
-
-
-\begin{equation}
-\begin{aligned}
-	\matr{R} = \matr{R_x} \matr{R_y} & = \left[ \begin{matrix}
-		1 & 0 & 0 \\
-		0 & \cos \theta_x & \sin \theta_x \\
-		0 & - \sin \theta_x & \cos \theta_x
-	\end{matrix} \right] \left[ \begin{matrix}
-		\cos \theta_y & 0 & - \sin \theta_y \\
-		0 & 1 & 0 \\
-		\sin \theta_y & 0 & \cos \theta_y
-	\end{matrix} \right] \\
-	& = \left[ \begin{matrix}
-		\cos \theta_y & 0 & - \sin \theta_y \\
-		0 & \cos \theta_x & \sin \theta_y \cos \theta_y \\
-		\cos \theta_x \sin \theta_y & - \sin \theta_x & \cos \theta_x \cos \theta_y
-	\end{matrix} \right]
-\end{aligned}
-\end{equation}
-
-
-\begin{equation}
-\begin{aligned}
-	d & = a (\vec{q_x} \cos \theta_y - \vec{q_z} \sin \theta_y) \\
-	& + b (\vec{q_y} \cos \theta_x + \vec{q_z} \sin \theta_x \cos \theta_y) \\
-	& + c (\vec{q_x} \cos \theta_x \sin \theta_y - \vec{q_y} \sin \theta_x + \vec{q_z} \cos \theta_x \cos \theta_y) \\
-	& + t_z \\
-	& - a \vec{p_x} - b \vec{p_y} - c \vec{p_z}
-\end{aligned}
-\end{equation}
-
-
-\begin{equation}
-\begin{aligned}
-	\cos \theta_x & \approx 1 \\
-	\cos \theta_y & \approx 1 \\
-	\sin \theta_x & \approx \theta_x \\
-	\sin \theta_y & \approx \theta_y \\
-	\sin \theta_x \cos \theta_y & \approx \theta_x \\
-	\sin \theta_y \cos \theta_x & \approx \theta_y \\
-	\cos \theta_x \cos \theta_y & \approx 1
-\end{aligned}
-\end{equation}
-
-
-\begin{equation}
-\begin{aligned}
-	d & = a (\vec{q_x} - \vec{q_z} \theta_y) + b (\vec{q_y} + \vec{q_z} \theta_x)+ c (\vec{q_x} \theta_y - \vec{q_y} \theta_x + \vec{q_z}) + t_z - a \vec{p_x} - b \vec{p_y} - c \vec{p_z} \\
-	& = \theta_x (b \vec{q_z} - c \vec{q_y}) + \theta_y (c \vec{q_x} - a \vec{q_z}) + t_z - \left[ (a \vec{p_x} + b \vec{p_y} + c \vec{p_z}) - (a \vec{q_x} + b \vec{q_y} + c \vec{q_z}) \right]
-\end{aligned}
-\end{equation}
+\appendix
+\include{chA_expriments}
 
 \bibliographystyle{authordate1}
 \bibliography{../reference/references}
