@@ -11,7 +11,7 @@ normal(a, b, c), distance(d) {
 
 
 plane::plane(const Eigen::Vector3f& p, const Eigen::Vector3f& n) :
-normal(n), distance(-n.dot(p)) {
+normal(n), distance(n.dot(p)) {
 	normalize();
 }
 
@@ -56,6 +56,11 @@ pose plane::to_pose() const {
 	Eigen::Vector3f translation = project(Eigen::Vector3f::Zero());
 	Eigen::Quaternionf orientation = Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f::UnitY(), normal);
 	return pose(translation, orientation);
+}
+
+
+plane::operator Eigen::Hyperplane<float, 3>() const {
+	return Eigen::Hyperplane<float, 3>(origin(), normal);
 }
 
 

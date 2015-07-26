@@ -2,6 +2,7 @@
 #define PCF_PLANE_H_
 
 #include <Eigen/Eigen>
+#include <Eigen/Geometry>
 #include <string>
 #include "pose.h"
 
@@ -41,6 +42,8 @@ struct plane {
 	Eigen::Vector3f origin() const;
 	
 	pose to_pose() const;
+	
+	operator Eigen::Hyperplane<float, 3>() const;
 	
 	void apply_transformation(const Eigen::Affine3f&);
 

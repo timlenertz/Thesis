@@ -50,9 +50,7 @@ public:
 	std::vector<point_full> make_samples(std::size_t n) const;
 	
 	camera_range_point_cloud_full<projection_image_camera> make_projected_point_cloud(const projection_image_camera& cam, float mesh_density = 100, bool correct_coordinates = false, unsigned mesh_scale = 10) const;
-	
-	projection_image_camera camera_at_angle(angle circumference, float elevation, std::size_t image_width) const;
-	
+		
 	void export_to_ply(const std::string&, float density) const;
 };
 

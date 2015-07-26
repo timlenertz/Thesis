@@ -24,6 +24,9 @@ std::vector<T> explode_from_string(char separator, const std::string&);
 template<typename T>
 std::string implode_to_string(char separator, const std::vector<T>&);
 
+template<typename Numeric>
+Numeric sq(Numeric n) { return n * n; }
+
 }
 
 #include "misc.tcc"

@@ -63,36 +63,44 @@
 \contentsline {subsubsection}{\nonumberline Top-down view}{27}{section*.28}
 \contentsline {subsubsection}{\nonumberline Occluded view}{27}{section*.30}
 \contentsline {subsubsection}{\nonumberline Similarity with actual scans}{29}{section*.32}
-\contentsline {section}{\numberline {4.3}Models}{30}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Stanford Models}{30}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Dessus-de-porte}{30}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}Relief model}{30}{subsection.4.3.3}
-\contentsline {section}{\numberline {4.4}Evaluation of registration algorithms}{30}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Known true transformation}{30}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Unknown true transformation}{32}{subsection.4.4.2}
-\contentsline {section}{\numberline {4.5}Own distance histogram}{32}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Plane with random dispersion}{32}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{35}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{35}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Relief with square grid distribution}{39}{subsection.4.5.4}
-\contentsline {subsection}{\numberline {4.5.5}Occlusion and different bounds}{39}{subsection.4.5.5}
-\contentsline {section}{\numberline {4.6}Cross distance histogram}{39}{section.4.6}
-\contentsline {section}{\numberline {4.7}High-low density registration}{39}{section.4.7}
+\contentsline {section}{\numberline {4.3}Evaluation of registration accuracy}{30}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Known true transformation}{30}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Unknown true transformation}{30}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Analysis of point clouds}{32}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Local measures}{32}{subsection.4.4.1}
+\contentsline {subsubsection}{\nonumberline Estimated density}{32}{section*.35}
+\contentsline {subsubsection}{\nonumberline Square grid density}{32}{section*.36}
+\contentsline {subsubsection}{\nonumberline Parallel projection density}{32}{section*.37}
+\contentsline {subsubsection}{\nonumberline Normal}{32}{section*.38}
+\contentsline {subsection}{\numberline {4.4.2}Point dispersion}{32}{subsection.4.4.2}
+\contentsline {section}{\numberline {4.5}Own distance histogram}{34}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Plane with random dispersion}{36}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{37}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{37}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Plane with projected square grid dispersion}{39}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.5}Relief with square grid dispersion}{39}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.6}Occlusion and different bounds}{40}{subsection.4.5.6}
+\contentsline {section}{\numberline {4.6}Cross distance histogram}{40}{section.4.6}
+\contentsline {section}{\numberline {4.7}High-low density registration}{40}{section.4.7}
 \contentsline {subsection}{\numberline {4.7.1}First experiment}{40}{subsection.4.7.1}
-\contentsline {subsubsection}{\nonumberline Analysis}{40}{section*.44}
-\contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{41}{subsection.4.7.2}
-\contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{41}{subsection.4.7.3}
-\contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{41}{subsection.4.7.4}
-\contentsline {section}{\numberline {4.8}Separation of large scans}{41}{section.4.8}
-\contentsline {section}{\numberline {4.9}Variable density}{41}{section.4.9}
-\contentsline {chapter}{\numberline {5}Implementation}{43}{chapter.5}
-\contentsline {section}{\numberline {5.1}Architecture}{43}{section.5.1}
-\contentsline {section}{\numberline {5.2}Usage of C++}{43}{section.5.2}
-\contentsline {section}{\numberline {5.3}Optimization}{43}{section.5.3}
-\contentsline {section}{\numberline {5.4}Visualization}{43}{section.5.4}
-\contentsline {section}{\numberline {5.5}User interface}{43}{section.5.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{44}{chapter.6}
-\contentsline {chapter}{\numberline {A}Experimental Results}{45}{appendix.A}
-\contentsline {section}{\numberline {A.1}Data on models used}{45}{section.A.1}
-\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{45}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{45}{subsection.A.2.1}
+\contentsline {subsubsection}{\nonumberline Analysis}{41}{section*.50}
+\contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{42}{subsection.4.7.2}
+\contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{42}{subsection.4.7.3}
+\contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{42}{subsection.4.7.4}
+\contentsline {section}{\numberline {4.8}Separation of large scans}{42}{section.4.8}
+\contentsline {section}{\numberline {4.9}Variable density}{42}{section.4.9}
+\contentsline {chapter}{\numberline {5}Implementation}{44}{chapter.5}
+\contentsline {section}{\numberline {5.1}Architecture}{44}{section.5.1}
+\contentsline {section}{\numberline {5.2}Usage of C++}{44}{section.5.2}
+\contentsline {section}{\numberline {5.3}Optimization}{44}{section.5.3}
+\contentsline {section}{\numberline {5.4}Visualization}{44}{section.5.4}
+\contentsline {section}{\numberline {5.5}User interface}{44}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion}{45}{chapter.6}
+\contentsline {chapter}{\numberline {A}Experimental Results}{46}{appendix.A}
+\contentsline {section}{\numberline {A.1}Data on models used}{46}{section.A.1}
+\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{46}{section.A.2}
+\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{46}{subsection.A.2.1}
+\contentsline {chapter}{\numberline {B}Proofs}{49}{appendix.B}
+\contentsline {section}{\numberline {B.1}Closest point histogram with random point dispersion on plane}{49}{section.B.1}
+\contentsline {section}{\numberline {B.2}Variance of density with random point dispersion}{50}{section.B.2}
+\contentsline {section}{\numberline {B.3}Closest point histogram with square grid point dispersion on plane}{51}{section.B.3}

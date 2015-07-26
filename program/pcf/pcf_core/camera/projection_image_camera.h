@@ -26,6 +26,8 @@ public:
 	image_coordinates to_image(const Eigen::Vector3f&) const override;
 	Eigen::Vector3f point(image_coordinates, float depth) const override;
 	
+	Eigen::ParametrizedLine<float, 3> ray(image_coordinates) const;
+
 	void adjust_field_of_view_x();
 	void adjust_field_of_view_y();
 };

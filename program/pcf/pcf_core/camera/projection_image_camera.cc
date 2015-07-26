@@ -74,4 +74,12 @@ Eigen::Vector3f projection_image_camera::point(image_coordinates im, float depth
 }
 
 
+Eigen::ParametrizedLine<float, 3> projection_image_camera::ray(image_coordinates im) const {
+	Eigen::Vector2f proj;
+	proj[0] = ((2.0f * im[0]) / image_width_) - 1.0f;
+	proj[1] = ((2.0f * im[1]) / image_height_) - 1.0f;
+	return projection_camera::ray(proj);
+}
+
+
 }

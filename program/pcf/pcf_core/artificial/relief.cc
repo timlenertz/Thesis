@@ -68,23 +68,20 @@ point_full relief::at(float x, float y, bool check_bounds) const {
 		float r_sq = e.radius * e.radius;
 		if(r_sq <= d_sq) continue;
 		
-		float dz = e.depth * std::sqrt(1.0 - d_sq/r_sq);
-		if(e.out) dz = -dz;
-		
-		z += dz;
-		
-		float q = std::sqrt(r_sq) * std::sqrt(1.0 - (dx*dx + dy*dy)/r_sq);
-		if(!e.out) q = -q;
-		der_x -= e.depth * dx / q;
-		der_y -= e.depth * dy / q;
+		float sqrt = std::sqrt(1.0 - d_sq/r_sq);
+		float h = (e.out ? -e.depth : e.depth);
+				
+		z += h * sqrt;
+		der_x += h * (e.x - x) / (r_sq * sqrt);
+		der_y += h * (e.y - y) / (r_sq * sqrt);
 	}
 	
 	z *= height_multiplier_;
 	der_x *= height_multiplier_;
 	der_y *= height_multiplier_;
 			
-	point_full p(x - width_/2.0, y - width_/2.0, z);
-	p.set_normal(-Eigen::Vector3f(der_x, der_y, -1));
+	point_full p(x - width_/2.0, y - width_/2.0, z);	
+	p.set_normal(-Eigen::Vector3f(der_x, der_y, -1).normalized());
 	return p;
 }
 
@@ -118,11 +115,19 @@ std::vector<point_full> relief::make_samples(std::size_t n) const {
 
 
 camera_range_point_cloud_full<projection_image_camera> relief::make_projected_point_cloud(const projection_image_camera& cam, float mesh_density, bool correct_coordinates, unsigned mesh_scale) const {
+	using plane_t = Eigen::Hyperplane<float, 3>;
+
 	projection_image_camera mesh_cam = cam;
 	mesh_cam.set_image_width(mesh_scale * cam.image_width());
 
 	size_2dim mesh_size = mesh_cam.image_size();
-	array_2dim<float> mesh_projection_z(mesh_size, 0);
+	array_2dim<std::ptrdiff_t> mesh_projection(mesh_size, -1);
+	std::vector<plane_t> triangle_planes;
+	
+	auto dist = [&](std::ptrdiff_t i, const index_2dim& p) -> float {
+		Eigen::ParametrizedLine<float, 3> ray = mesh_cam.ray(p);
+		return ray.intersection(triangle_planes[i]);
+	};
 				
 	auto fill_triangle = [&](Eigen::Vector3f ra, Eigen::Vector3f rb, Eigen::Vector3f rc) {
 		std::ptrdiff_t w = mesh_cam.image_width() - 1, h = mesh_cam.image_height() - 1;
@@ -146,22 +151,10 @@ camera_range_point_cloud_full<projection_image_camera> relief::make_projected_po
 		if(!ab_horiz) ab_slope = float(a.x - b.x)/(a.y - b.y);
 		if(!bc_horiz) bc_slope = float(b.x - c.x)/(b.y - c.y);
 		
-		// Depths of a,b,c, and inverses
-		float da = mesh_cam.projected_depth(ra), db = mesh_cam.projected_depth(rb), dc = mesh_cam.projected_depth(rc);
-		float invda = 1.0/da, invdb = 1.0/db, invdc = 1.0/dc;
+		// Create triangle entry
+		std::ptrdiff_t i = triangle_planes.size();
+		triangle_planes.push_back(plane_t::Through(ra, rb, rc));
 		
-		// Transformation matrix from image coordinates to barycentric
-		Eigen::Matrix3f to_barycentric; to_barycentric <<
-			a.x, b.x, c.x,
-			a.y, b.y, c.y,
-			1,   1,   1;
-		to_barycentric = to_barycentric.inverse().eval();
-		
-		// Barycentric coordinates of triangle corners a_bary,b_bary,c_bary
-		Eigen::Vector3f a_bary = to_barycentric * Eigen::Vector3f(a.x, a.y, 1.0);
-		Eigen::Vector3f b_bary = to_barycentric * Eigen::Vector3f(b.x, b.y, 1.0);
-		Eigen::Vector3f c_bary = to_barycentric * Eigen::Vector3f(c.x, c.y, 1.0);
-	
 		// Function to draw horizontal line segment
 		auto draw_line = [&](std::ptrdiff_t y, std::ptrdiff_t x1, std::ptrdiff_t x2) {
 			if(x1 > x2) std::swap(x1, x2);
@@ -169,14 +162,14 @@ camera_range_point_cloud_full<projection_image_camera> relief::make_projected_po
 			if(x1 < 0) x1 = 0;
 			if(x2 > w) x2 = w;
 			
-			for(index_2dim p(x1, y); p.x <= x2; ++p.x) {				
-				// Get p's inverse depth by linear interpolation of inverse depths
-				Eigen::Vector3f p_bary = to_barycentric * Eigen::Vector3f(p.x, p.y, 1.0);
-				float invdp = p_bary[0]*invda + p_bary[1]*invdb + p_bary[2]*invdc;
+			for(index_2dim p(x1, y); p.x <= x2; ++p.x) {
+				float old_i = mesh_projection[p];
+				float old_d, d = dist(i, p);
 				
-				// Depth test (comparing inverse depths)
-				float& z = mesh_projection_z[p];
-				if(invdp > z) z = invdp;
+				if(old_i == -1) old_d = INFINITY;
+				else old_d = dist(old_i, p);
+				
+				if(d < old_d) mesh_projection[p] = i;
 			}
 		};
 		
@@ -217,20 +210,24 @@ camera_range_point_cloud_full<projection_image_camera> relief::make_projected_po
 	for(ic.y = 0, pc_ic.y = mesh_scale/2; ic.y < cam.image_height() - 1; ++ic.y, pc_ic.y += mesh_scale)
 	for(ic.x = 0, pc_ic.x = mesh_scale/2; ic.x < cam.image_width() - 1 ; ++ic.x, pc_ic.x += mesh_scale) {
 		point_full& p = pc.at(ic.x, ic.y);
+		
+		std::ptrdiff_t i = mesh_projection[pc_ic];
 
-		float d_inv = mesh_projection_z[pc_ic];
-		if(d_inv == 0.0f) {
+		if(i == -1) {
 			p.invalidate();
 		} else {
-			float d = 1.0f / d_inv;
-			p = pc.camera().point_with_projected_depth(ic, d);
-			
+			Eigen::ParametrizedLine<float, 3> ray = mesh_cam.ray(pc_ic);
+			Eigen::Vector3f rp = ray.intersectionPoint(triangle_planes[i]);
+			rp = cam.view_transformation() * rp;
+
+			p = point_full(rp);
+
 			Eigen::Vector3f wp = pc.absolute_pose().transformation_to_world() * p.coordinates();
-			point_full rp = at(wp[0] + width_/2, wp[1] + width_/2);
-			if(rp.valid()) {
-				wp[2] = rp[2];
+			point_full relief_p = at(wp[0] + width_/2, wp[1] + width_/2);
+			if(relief_p.valid()) {
+				wp[2] = relief_p[2];
 				if(correct_coordinates) p = pc.absolute_pose().transformation_from_world() * wp;
-				p.set_normal(pc.absolute_pose().transformation_from_world() * rp.get_normal());
+				p.set_normal(relief_p.get_normal());
 			} else {
 				p.invalidate();			
 			}
@@ -340,23 +337,6 @@ void relief::uncrop() {
 	corners_[1] = Eigen::Vector2f(width_, 0);
 	corners_[2] = Eigen::Vector2f(width_, width_);
 	corners_[3] = Eigen::Vector2f(0, width_);
-}
-
-
-projection_image_camera relief::camera_at_angle(angle a, float elevation, std::size_t image_width) const {
-	pose ps;
-	ps.position = Eigen::Vector3f(
-		std::cos(a) * width_,
-		std::sin(a) * width_,
-		elevation
-	);
-	ps.look_at(Eigen::Vector3f::Zero());
-	
-	return projection_image_camera(
-		ps,
-		projection_bounding_box::symmetric_orthogonal(width_, width_),
-		image_width, image_width
-	);
 }
 
 

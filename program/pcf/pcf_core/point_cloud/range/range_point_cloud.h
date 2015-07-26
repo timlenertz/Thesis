@@ -55,6 +55,9 @@ public:
 	std::size_t width() const;
 	std::size_t height() const;
 	
+	const Point& at(index_2dim im) const { return at(im.x, im.y); }
+	Point& at(index_2dim im) { return at(im.x, im.y); }
+	
 	const Point& at(std::ptrdiff_t x, std::ptrdiff_t y) const;
 	Point& at(std::ptrdiff_t x, std::ptrdiff_t y);
 		

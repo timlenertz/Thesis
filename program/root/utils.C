@@ -86,25 +86,64 @@ TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "
 
 
 template<typename Iterator, typename Other_cloud>
-std::vector<float> closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false) {
+std::vector<float> closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false, float maxdist = INFINITY) {
 	std::vector<float> distances;
 	for(Iterator it = begin; it != end; ++it) {
 		const auto& p = *it;
 		if(! p.valid()) continue;
 		const auto& q = (nosame ? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } ) : pc.closest_point(p));
-		distances.push_back(distance(p, q));
+		float d = distance(p, q);
+		if(d < maxdist) distances.push_back(d);
 	}
 	return distances;
 }
 
 
+template<typename Iterator, typename Other_cloud>
+std::vector<float> k_closest_points_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false, float maxdist = INFINITY) {
+	std::vector<float> distances;
+	for(Iterator it = begin; it != end; ++it) {
+		const auto& p = *it;
+		if(! p.valid()) continue;
+		const auto& q = (nosame ? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } ) : pc.closest_point(p));
+		float d = distance(p, q);
+		if(d < maxdist) distances.push_back(d);
+	}
+	return distances;
+}
 
 
 template<typename Iterator, typename Other_cloud>
-TH1* closest_point_distances_histogram(Iterator begin, Iterator end, const Other_cloud& pc, const std::string& name = "distance", bool nosame = false) {
-	auto distances = closest_point_distances(begin, end, pc, nosame);
-	return histogram(distances.begin(), distances.end(), name);
+std::vector<float> adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, const pcf::camera& cam, float maxdist = INFINITY) {
+	auto T = cam.view_transformation();
+
+	std::vector<float> distances;
+	for(Iterator it = begin; it != end; ++it) {
+		const auto& p = *it;
+		if(! p.valid()) continue;
+		const auto& q = pc.closest_point(p);
+		float d = distance(p, q);
+		
+		Eigen::Vector3f pn = p.get_normal().normalized();
+		pn = (T * Eigen::Vector4f(pn[0], pn[1], pn[2], 0)).head(3);
+		
+		auto tx = Eigen::Vector3f(pn[2], 0, -pn[0]).normalized();
+		auto ty = Eigen::Vector3f(0, pn[2], -pn[1]).normalized();
+		
+		float px = std::abs(tx[0]), py = std::abs(ty[1]);
+		
+		static bool init = false;
+		if(!init) {
+			std::cout << "px=" << px << ", py=" << py << std::endl;
+			init=true;
+		}
+				
+		d *= std::max(px, py);
+		if(d < maxdist) distances.push_back(d);
+	}
+	return distances;
 }
+
 
 
 

@@ -46,6 +46,8 @@ public:
 	Eigen::Vector2f to_projected(const Eigen::Vector3f&) const;
 	Eigen::Vector2f to_projected(const Eigen::Vector3f&, float& proj_depth) const;
 	Eigen::Vector3f point_with_projected_depth(const Eigen::Vector2f&, float z) const;
+
+	Eigen::ParametrizedLine<float, 3> ray(const Eigen::Vector2f&) const;
 };
 
 }

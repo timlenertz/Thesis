@@ -1,6 +1,7 @@
 #include "projection_camera.h"
 #include <cmath>
 
+#include <iostream>
 namespace pcf {
 
 projection_camera::projection_camera(const pose& ps, const projection_frustum& fr) :
@@ -128,6 +129,13 @@ Eigen::Vector3f projection_camera::point_with_projected_depth(const Eigen::Vecto
 	Eigen::Vector4f p(projected[0], projected[1], z, 1);
 	p = view_projection_transformation().inverse() * p;
 	return (p / p[3]).head(3);
+}
+
+
+Eigen::ParametrizedLine<float, 3> projection_camera::ray(const Eigen::Vector2f& projected) const {
+	Eigen::Vector3f p1 = point_with_projected_depth(projected, -1.0);
+	Eigen::Vector3f p2 = point_with_projected_depth(projected, -2.0);
+	return Eigen::ParametrizedLine<float, 3>::Through(p1, p2);
 }
 
 

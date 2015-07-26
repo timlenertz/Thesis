@@ -31,8 +31,7 @@ float median_closest_point_distance(const Cloud& pc, std::size_t samples) {
 template<typename Cloud>
 void compute_normals(Cloud& pc) {
 	auto got_knn = [&](point_full& pt, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {
-		plane pla = fit_plane_to_points(knn_begin, knn_end);
-		//std::cout << pla.normal << std::endl;
+		plane pla = compute_tangent_plane(pt, knn_begin, knn_end);
 		pt.set_normal( pla.normal );
 	}; 
 	pc.nearest_neighbors(10, accept_point_filter(), got_knn);
@@ -51,14 +50,8 @@ void test_knn(Cloud& pc) {
 template<typename Cloud>
 void compute_local_density_weights(Cloud& pc, std::size_t k, float ratio) {
 	auto got_knn = [&](point_full& p, typename Cloud::selection_iterator& knn_begin, typename Cloud::selection_iterator& knn_end) {	
-		auto dist = [&p](const point_full& q) { return distance(p, q); };
-		auto sq_dist = [&p](const point_full& q) { return distance_sq(p, q); };
-		auto cmp = [&sq_dist](const point_full& a, const point_full& b) { return sq_dist(a) < sq_dist(b); };
-		auto minmax_dist_it = std::minmax_element(knn_begin, knn_end, cmp);
-		
-		float area = pi * sq_dist(*minmax_dist_it.second);
-		float density = (float)k / area;
-		
+		float density = compute_local_surface_density(p, knn_begin, knn_end);
+		//std::cout << density  << std::endl;
 		p.set_weight(density);
 	}; 
 	if(ratio == 1.0) pc.nearest_neighbors(k, accept_point_filter(), got_knn);

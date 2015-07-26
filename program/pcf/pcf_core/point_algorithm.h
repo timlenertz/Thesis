@@ -71,6 +71,13 @@ template<typename Iterator>
 Eigen::Vector3f weighted_center_of_mass(Iterator begin, Iterator end);
 
 
+template<typename Iterator>
+plane compute_tangent_plane(const point_xyz&, Iterator neighbors_begin, Iterator neighbors_end);
+
+template<typename Iterator>
+float compute_local_surface_density(const point_full&, Iterator neighbors_begin, Iterator neighbors_end);
+
+
 
 }
 

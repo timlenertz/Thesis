@@ -1,7 +1,12 @@
 #include <cmath>
 #include <set>
 #include <iostream>
+#include <iterator>
+#include <algorithm>
+#include <cassert>
 #include "field/field.h"
+#include "util/random.h"
+#include "util/misc.h"
 
 namespace pcf {
 
@@ -238,5 +243,100 @@ void compute_lambertian_illumination_weights(Iterator begin, Iterator end, const
 		it->set_weight(w);
 	}
 }
+
+
+template<typename Iterator>
+plane compute_tangent_plane(const point_xyz& p0, Iterator neighbors_begin, Iterator neighbors_end) {
+	const int max_iterations = 10;
+
+	plane best_pl;
+	float old_avg_distance = INFINITY;
+
+	std::size_t k = std::distance(neighbors_begin, neighbors_end);
+	assert(k >= 2);
+
+	std::vector<float> distances;
+	distances.reserve(k);
+	
+	float old_a = 0;
+	
+	for(int iteration = 0; iteration < max_iterations; ++iteration) {
+		distances.clear();
+	
+		// Choose 2 random points
+		std::ptrdiff_t i1 = random_integer<std::ptrdiff_t>(0, k - 1);
+		std::ptrdiff_t i2 = random_integer<std::ptrdiff_t>(0, k - 2);
+		if(i2 >= i1) ++i2;
+	
+		const point_xyz& p1 = *(neighbors_begin + i1);
+		const point_xyz& p2 = *(neighbors_begin + i2);
+		
+		Eigen::Vector3f u = p1.coordinates() - p0.coordinates(), v = p1.coordinates() - p0.coordinates();
+		float a = sq(u[1]*v[2] - u[2]*v[1]) + sq(u[2]*v[0] - u[0]*v[2]) + sq(u[0]*v[1] - u[1]*v[0]);
+		if(a < 0.9*old_a) continue;
+		else old_a = a;
+
+		// Fit plane through 3 points
+		plane pl(p0, p1, p2);
+		
+		// Get average and max distance of points to plane
+		float avg_distance = 0, max_distance = 0;
+		for(Iterator it = neighbors_begin; it != neighbors_end; ++it) {
+			float d = distance(*it, pl);
+			distances.push_back(d);
+			avg_distance += d;
+			if(d > max_distance) max_distance = d;
+		}
+		avg_distance /= (k - 1);
+		
+		// Set threshold distance for consensus set
+		float threshold_distance;
+		if(max_distance > 2.0*avg_distance) threshold_distance = 2.0*avg_distance;
+		else threshold_distance = max_distance;
+		
+		// Count points in consensus set
+		std::size_t c = 0;
+		avg_distance = 0;
+		for(float d : distances) if(d <= threshold_distance) {
+			++c;
+			avg_distance += d;
+		}
+		avg_distance /= c;
+		
+		if(avg_distance >= old_avg_distance) continue;
+		
+		old_avg_distance = avg_distance;
+		best_pl = pl;
+	}
+
+	return best_pl;
+}
+
+
+template<typename Iterator>
+float compute_local_surface_density(const point_full& q, Iterator neighbors_begin, Iterator neighbors_end) {
+	Eigen::Vector3f nq = q.get_normal();
+	plane pl(q, nq);
+
+	float max_radius = 0;
+	std::size_t count = 0;
+	for(Iterator it = neighbors_begin; it != neighbors_end; ++it) {
+		const point_full& p = *it;
+		Eigen::Vector3f np = p.get_normal();
+		float dot = nq.dot(np);
+		
+		static const float max_angle_cos = std::cos(angle::degrees(25.0));
+		//if(dot >= max_angle_cos) {
+			Eigen::Vector3f pp = pl.project(p.coordinates());
+			float r = (pp - pl.project(q)).norm();
+			if(r > max_radius) max_radius = r;
+			++count;
+		//}
+	}
+	if(count == 0) return NAN;
+	
+	return count / (pi * max_radius * max_radius);	
+}
+
 
 }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  17 JUL 2015 15:23
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  26 JUL 2015 06:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -848,9 +848,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-2015717923.tex)...disabled (restricted).
+runsystem(touch w18-test-2015726414.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2015717923.tex)...disabled (restricted).
+runsystem(rm -f w18-test-2015726414.tex)...disabled (restricted).
 
 
 
@@ -1033,7 +1033,8 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 
 LaTeX Warning: Label `sec:icp' multiply defined.
 
-) (./ch4_large_models.aux) (./ch5_implementation.aux) (./chA_expriments.aux))
+) (./ch4_large_models.aux) (./ch5_implementation.aux) (./chA_expriments.aux)
+(./chB_proofs.aux))
 \openout1 = `paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
@@ -1264,14 +1265,14 @@ See the caption package documentation for explanation.
 LaTeX Warning: Reference `fig:pp_projection' on page 8 undefined on input line 
 78.
 
-<fig/pp_projection.pdf, id=422, 366.36874pt x 178.6675pt>
+<fig/pp_projection.pdf, id=442, 366.36874pt x 178.6675pt>
 File: fig/pp_projection.pdf Graphic file (type pdf)
 
 <use fig/pp_projection.pdf>
 Package pdftex.def Info: fig/pp_projection.pdf used on input line 82.
 (pdftex.def)             Requested size: 362.37573pt x 176.73141pt.
  [8 <./fig/pp_projection.pdf>]
-<fig/transformations_venn.pdf, id=434, 708.6475pt x 555.07375pt>
+<fig/transformations_venn.pdf, id=454, 708.6475pt x 555.07375pt>
 File: fig/transformations_venn.pdf Graphic file (type pdf)
 
 <use fig/transformations_venn.pdf>
@@ -1521,7 +1522,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-<fig/icp_true_approx_cor.pdf, id=600, 1179.66135pt x 702.87024pt>
+<fig/icp_true_approx_cor.pdf, id=620, 1179.66135pt x 702.87024pt>
 File: fig/icp_true_approx_cor.pdf Graphic file (type pdf)
 
 <use fig/icp_true_approx_cor.pdf>
@@ -1554,14 +1555,14 @@ Chapter 4.
 LaTeX Warning: Reference `fig:hdv_dessus' on page 25 undefined on input line 12
 .
 
-<fig/r1_render2.jpg, id=629, 1603.9925pt x 1610.015pt>
+<fig/r1_render2.jpg, id=649, 1603.9925pt x 1610.015pt>
 File: fig/r1_render2.jpg Graphic file (type jpg)
 
 <use fig/r1_render2.jpg>
 Package pdftex.def Info: fig/r1_render2.jpg used on input line 26.
 (pdftex.def)             Requested size: 226.48398pt x 227.31677pt.
 
-<fig/r1_render1.jpg, id=630, 2011.515pt x 1503.6175pt>
+<fig/r1_render1.jpg, id=650, 2011.515pt x 1503.6175pt>
 File: fig/r1_render1.jpg Graphic file (type jpg)
 
 <use fig/r1_render1.jpg>
@@ -1572,7 +1573,7 @@ Package pdftex.def Info: fig/r1_render1.jpg used on input line 29.
 
 
 ]
-<fig/relief_B.pdf, id=639, 397.485pt x 173.64874pt>
+<fig/relief_B.pdf, id=659, 397.485pt x 173.64874pt>
 File: fig/relief_B.pdf Graphic file (type pdf)
  <use fig/relief_B.pdf>
 Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
@@ -1582,20 +1583,20 @@ Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [26 <./fig/r1_render2.jpg> <./fig/r1_render1.jpg>]
-<fig/r1_plain.png, id=648, 915.42pt x 939.51pt>
+<fig/r1_plain.png, id=668, 915.42pt x 939.51pt>
 File: fig/r1_plain.png Graphic file (type png)
  <use fig/r1_plain.png>
 Package pdftex.def Info: fig/r1_plain.png used on input line 67.
 (pdftex.def)             Requested size: 452.96796pt x 464.87968pt.
 
-<fig/r1_occlusion.png, id=651, 908.39375pt x 929.4725pt>
+<fig/r1_occlusion.png, id=671, 908.39375pt x 929.4725pt>
 File: fig/r1_occlusion.png Graphic file (type png)
 
 <use fig/r1_occlusion.png>
 Package pdftex.def Info: fig/r1_occlusion.png used on input line 86.
 (pdftex.def)             Requested size: 226.48398pt x 231.72934pt.
 
-<fig/r1_occlusion2.png, id=652, 967.615pt x 820.06375pt>
+<fig/r1_occlusion2.png, id=672, 967.615pt x 820.06375pt>
 File: fig/r1_occlusion2.png Graphic file (type png)
 
 <use fig/r1_occlusion2.png>
@@ -1615,185 +1616,211 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
  [29 <./fig/r1_occlusion.png> <./fig/r1_occlusion2.png>]
-<fig/r1_crop.png, id=690, 890.32625pt x 934.49126pt>
+<fig/r1_crop.png, id=711, 890.32625pt x 934.49126pt>
 File: fig/r1_crop.png Graphic file (type png)
  <use fig/r1_crop.png>
 Package pdftex.def Info: fig/r1_crop.png used on input line 124.
 (pdftex.def)             Requested size: 317.07619pt x 332.80902pt.
 
-<fig/r1_ddp.png, id=691, 1035.87pt x 789.95125pt>
+<fig/r1_ddp.png, id=712, 1035.87pt x 789.95125pt>
 File: fig/r1_ddp.png Graphic file (type png)
  <use fig/r1_ddp.png>
 Package pdftex.def Info: fig/r1_ddp.png used on input line 132.
 (pdftex.def)             Requested size: 317.07619pt x 241.79662pt.
  [30]
 [31 <./fig/r1_crop.png> <./fig/r1_ddp.png>]
-<fig/plane_rand_d30000_gridQ.pdf, id=707, 569.12625pt x 386.44376pt>
-File: fig/plane_rand_d30000_gridQ.pdf Graphic file (type pdf)
+./ch4_large_models.tex:177: Undefined control sequence.
+l.177 The \emph{local surface density} $\rho(\p
+                                               )$ of a point cloud $P$ aroun...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-<use fig/plane_rand_d30000_gridQ.pdf>
-Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 194
-.
-(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
- [32]
-<fig/plane_rand_d.pdf, id=713, 670.505pt x 465.74pt>
-File: fig/plane_rand_d.pdf Graphic file (type pdf)
+<fig/dispersion_random.png, id=724, 654.445pt x 583.17876pt>
+File: fig/dispersion_random.png Graphic file (type png)
 
-<use fig/plane_rand_d.pdf>
-Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 207.
-(pdftex.def)             Requested size: 226.48398pt x 157.31194pt.
- [33 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees> <./fig/pla
-ne_rand_d.pdf>]
+<use fig/dispersion_random.png>
+Package pdftex.def Info: fig/dispersion_random.png used on input line 204.
+(pdftex.def)             Requested size: 135.89175pt x 121.09187pt.
 
-./ch4_large_models.tex:242: Package amsmath Error: Erroneous nesting of equatio
-n structures;
-(amsmath)                trying to recover with `aligned'.
+Overfull \hbox (1.0pt too wide) in paragraph at lines 204--205
+[][] 
+ []
 
-See the amsmath package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.242 \end{align}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<fig/dispersion_sqgrid.png, id=725, 654.445pt x 583.17876pt>
+File: fig/dispersion_sqgrid.png Graphic file (type png)
 
+<use fig/dispersion_sqgrid.png>
+Package pdftex.def Info: fig/dispersion_sqgrid.png used on input line 213.
+(pdftex.def)             Requested size: 135.89175pt x 121.09187pt.
 
-./ch4_large_models.tex:262: Package amsmath Error: Erroneous nesting of equatio
-n structures;
-(amsmath)                trying to recover with `aligned'.
+Overfull \hbox (1.0pt too wide) in paragraph at lines 213--214
+[][] 
+ []
 
-See the amsmath package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.262 \end{align}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<fig/dispersion_pargrid.png, id=726, 654.445pt x 583.17876pt>
+File: fig/dispersion_pargrid.png Graphic file (type png)
 
-[34] <fig/plane_rand_n.pdf, id=794, 1047.915pt x 558.085pt>
-File: fig/plane_rand_n.pdf Graphic file (type pdf)
+<use fig/dispersion_pargrid.png>
+Package pdftex.def Info: fig/dispersion_pargrid.png used on input line 222.
+(pdftex.def)             Requested size: 135.89175pt x 121.09187pt.
 
-<use fig/plane_rand_n.pdf>
-Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 289.
-(pdftex.def)             Requested size: 271.78352pt x 144.74101pt.
+Overfull \hbox (1.0pt too wide) in paragraph at lines 222--223
+[][] 
+ []
 
-<fig/plane_rand_d30000.pdf, id=795, 569.12625pt x 386.44376pt>
-File: fig/plane_rand_d30000.pdf Graphic file (type pdf)
+[32] [33 <./fig/dispersion_random.png> <./fig/dispersion_sqgrid.png> <./fig/dis
+persion_pargrid.png>] <fig/pargrid_proj.png, id=746, 245.4771pt x 240.9pt>
+File: fig/pargrid_proj.png Graphic file (type png)
 
-<use fig/plane_rand_d30000.pdf>
-Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 296.
-(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
+<use fig/pargrid_proj.png>
+Package pdftex.def Info: fig/pargrid_proj.png used on input line 262.
+(pdftex.def)             Requested size: 271.78352pt x 266.72212pt.
 
-<fig/bunny_grid_closeup.png, id=799, 793.96625pt x 595.22375pt>
+<fig/closeup_ddp.png, id=750, 1373.63188pt x 1326.9575pt>
+File: fig/closeup_ddp.png Graphic file (type png)
+
+<use fig/closeup_ddp.png>
+Package pdftex.def Info: fig/closeup_ddp.png used on input line 272.
+(pdftex.def)             Requested size: 271.78352pt x 262.53188pt.
+
+<fig/closeup_wall.png, id=751, 1373.63188pt x 799.48688pt>
+File: fig/closeup_wall.png Graphic file (type png)
+
+<use fig/closeup_wall.png>
+Package pdftex.def Info: fig/closeup_wall.png used on input line 280.
+(pdftex.def)             Requested size: 271.78352pt x 158.17445pt.
+
+<fig/bunny_grid_closeup.png, id=752, 793.96625pt x 595.22375pt>
 File: fig/bunny_grid_closeup.png Graphic file (type png)
 
 <use fig/bunny_grid_closeup.png>
-Package pdftex.def Info: fig/bunny_grid_closeup.png used on input line 311.
-(pdftex.def)             Requested size: 317.07619pt x 237.7129pt.
+Package pdftex.def Info: fig/bunny_grid_closeup.png used on input line 291.
+(pdftex.def)             Requested size: 181.18442pt x 135.82686pt.
+ [34 <./fig/pargrid_proj.png>] [35 <./fig/closeup_ddp.png> <./fig/closeup_wall.
+png> <./fig/bunny_grid_closeup.png>]
+<fig/plane_rand_d30000_gridQ.pdf, id=769, 569.12625pt x 386.44376pt>
+File: fig/plane_rand_d30000_gridQ.pdf Graphic file (type pdf)
 
-<fig/plane_d20000.pdf, id=802, 569.12625pt x 386.44376pt>
+<use fig/plane_rand_d30000_gridQ.pdf>
+Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 322
+.
+(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
+
+<fig/plane_rand_d.pdf, id=772, 670.505pt x 465.74pt>
+File: fig/plane_rand_d.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_d.pdf>
+Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 340.
+(pdftex.def)             Requested size: 226.48398pt x 157.31194pt.
+ [36 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees>]
+<fig/plane_rand_d30000.pdf, id=827, 569.12625pt x 386.44376pt>
+File: fig/plane_rand_d30000.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_d30000.pdf>
+Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 358.
+(pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
+
+<fig/plane_d20000.pdf, id=831, 569.12625pt x 386.44376pt>
 File: fig/plane_d20000.pdf Graphic file (type pdf)
 
 <use fig/plane_d20000.pdf>
-Package pdftex.def Info: fig/plane_d20000.pdf used on input line 322.
+Package pdftex.def Info: fig/plane_d20000.pdf used on input line 371.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/plane_d30000.pdf, id=803, 569.12625pt x 386.44376pt>
+<fig/plane_d30000.pdf, id=832, 569.12625pt x 386.44376pt>
 File: fig/plane_d30000.pdf Graphic file (type pdf)
 
 <use fig/plane_d30000.pdf>
-Package pdftex.def Info: fig/plane_d30000.pdf used on input line 325.
+Package pdftex.def Info: fig/plane_d30000.pdf used on input line 374.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
- [35] [36 <./fig/plane_rand_n.pdf> <./fig/plane_rand_d30000.pdf, page is rotate
-d 90 degrees> <./fig/bunny_grid_closeup.png>]
-<fig/sq_grid_d.pdf, id=882, 585.18625pt x 304.13625pt>
+
+<fig/sq_grid_d.pdf, id=835, 585.18625pt x 304.13625pt>
 File: fig/sq_grid_d.pdf Graphic file (type pdf)
  <use fig/sq_grid_d.pdf>
-Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 342.
+Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 391.
 (pdftex.def)             Requested size: 271.78352pt x 141.25946pt.
 
-[37 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.pd
-f, page is rotated 90 degrees> <./fig/sq_grid_d.pdf>]
-<fig/sq_grid.pdf, id=1001, 1156.36203pt x 732.85997pt>
-File: fig/sq_grid.pdf Graphic file (type pdf)
- <use fig/sq_grid.pdf>
-Package pdftex.def Info: fig/sq_grid.pdf used on input line 380.
-(pdftex.def)             Requested size: 362.37573pt x 229.65558pt.
 
-[38 <./fig/sq_grid.pdf>]
-<fig/relief_h01.pdf, id=1035, 569.12625pt x 386.44376pt>
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[37 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.pd
+f, page is rotated 90 degrees>] [38 <./fig/plane_rand_d.pdf> <./fig/plane_rand_
+d30000.pdf, page is rotated 90 degrees>]
+<fig/relief_h01.pdf, id=994, 569.12625pt x 386.44376pt>
 File: fig/relief_h01.pdf Graphic file (type pdf)
 
 <use fig/relief_h01.pdf>
-Package pdftex.def Info: fig/relief_h01.pdf used on input line 397.
+Package pdftex.def Info: fig/relief_h01.pdf used on input line 411.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/relief_h05.pdf, id=1036, 569.12625pt x 386.44376pt>
+<fig/relief_h05.pdf, id=995, 569.12625pt x 386.44376pt>
 File: fig/relief_h05.pdf Graphic file (type pdf)
 
 <use fig/relief_h05.pdf>
-Package pdftex.def Info: fig/relief_h05.pdf used on input line 400.
+Package pdftex.def Info: fig/relief_h05.pdf used on input line 414.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/relief_h10.pdf, id=1037, 569.12625pt x 386.44376pt>
+<fig/relief_h10.pdf, id=996, 569.12625pt x 386.44376pt>
 File: fig/relief_h10.pdf Graphic file (type pdf)
 
 <use fig/relief_h10.pdf>
-Package pdftex.def Info: fig/relief_h10.pdf used on input line 403.
+Package pdftex.def Info: fig/relief_h10.pdf used on input line 417.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/relief_h40.pdf, id=1038, 569.12625pt x 386.44376pt>
+<fig/relief_h40.pdf, id=997, 569.12625pt x 386.44376pt>
 File: fig/relief_h40.pdf Graphic file (type pdf)
 
 <use fig/relief_h40.pdf>
-Package pdftex.def Info: fig/relief_h40.pdf used on input line 406.
+Package pdftex.def Info: fig/relief_h40.pdf used on input line 420.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
- [39 <./fig/relief_h01.pdf, page is rotated 90 degrees> <./fig/relief_h05.pdf, 
-page is rotated 90 degrees> <./fig/relief_h10.pdf, page is rotated 90 degrees> 
-<./fig/relief_h40.pdf, page is rotated 90 degrees>]
+ [39 <./fig/sq_grid_d.pdf>]
 
 LaTeX Warning: Reference `sec:ex_bunny_hilo' on page 40 undefined on input line
- 428.
+ 442.
 
+[40 <./fig/relief_h01.pdf, page is rotated 90 degrees> <./fig/relief_h05.pdf, p
+age is rotated 90 degrees> <./fig/relief_h10.pdf, page is rotated 90 degrees> <
+./fig/relief_h40.pdf, page is rotated 90 degrees>]
 
-LaTeX Warning: Reference `bunny_first_tcor' on page 40 undefined on input line 
-444.
+LaTeX Warning: Reference `bunny_first_tcor' on page 41 undefined on input line 
+458.
 
-<fig/bunny_first_tcor.png, id=1222, 475.27562pt x 374.90062pt>
+<fig/bunny_first_tcor.png, id=1209, 475.27562pt x 374.90062pt>
 File: fig/bunny_first_tcor.png Graphic file (type png)
 
 <use fig/bunny_first_tcor.png>
-Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 451.
+Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 465.
 (pdftex.def)             Requested size: 317.07619pt x 250.12381pt.
 
-<fig/bunny_05_split.pdf, id=1224, 569.12625pt x 386.44376pt>
+<fig/bunny_05_split.pdf, id=1211, 569.12625pt x 386.44376pt>
 File: fig/bunny_05_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_05_split.pdf>
-Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 462.
+Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 476.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/bunny_08_split.pdf, id=1225, 569.12625pt x 386.44376pt>
+<fig/bunny_08_split.pdf, id=1212, 569.12625pt x 386.44376pt>
 File: fig/bunny_08_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_08_split.pdf>
-Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 465.
+Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 479.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-./ch4_large_models.tex:471: Package inputenc Error: Unicode char \u8:  not set
+./ch4_large_models.tex:485: Package inputenc Error: Unicode char \u8:  not set
  up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.471 In both cases, $\| q - p \| 
+l.485 In both cases, $\| q - p \| 
                                    \approx 0.001$ is a mode in the distribut...
 
 Your command was ignored.
@@ -1801,55 +1828,55 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:bunny_closest' on page 40 undefined on input line
- 473.
+LaTeX Warning: Reference `fig:bunny_closest' on page 41 undefined on input line
+ 487.
 
-[40]) [41] [42 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
+[41]) [42] [43 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
 rotated 90 degrees> <./fig/bunny_08_split.pdf, page is rotated 90 degrees>]
 \openout2 = `ch5_implementation.aux'.
 
 
 (./ch5_implementation.tex
 Chapter 5.
-[43
+[44
 
 
 
 ]
 Chapter 6.
-) [44
+) [45
 
 ]
 \openout2 = `chA_expriments.aux'.
 
  (./chA_expriments.tex
 Appendix A.
-<fig/bunny_globmin.pdf, id=1341, 569.12625pt x 386.44376pt>
+<fig/bunny_globmin.pdf, id=1329, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin.pdf>
 Package pdftex.def Info: fig/bunny_globmin.pdf used on input line 21.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
-<fig/bunny_globsmall.pdf, id=1342, 569.12625pt x 386.44376pt>
+<fig/bunny_globsmall.pdf, id=1330, 569.12625pt x 386.44376pt>
 File: fig/bunny_globsmall.pdf Graphic file (type pdf)
 
 <use fig/bunny_globsmall.pdf>
 Package pdftex.def Info: fig/bunny_globsmall.pdf used on input line 27.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
-<fig/bunny_globmed.pdf, id=1343, 569.12625pt x 386.44376pt>
+<fig/bunny_globmed.pdf, id=1331, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmed.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmed.pdf>
 Package pdftex.def Info: fig/bunny_globmed.pdf used on input line 33.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
- [45
+ [46
 
 
 
  <./fig/bunny_globmin.pdf, page is rotated 90 degrees>] <fig/bunny_globmin_ev.p
-df, id=1391, 569.12625pt x 386.44376pt>
+df, id=1379, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin_ev.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin_ev.pdf>
@@ -1857,16 +1884,71 @@ Package pdftex.def Info: fig/bunny_globmin_ev.pdf used on input line 40.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 46 undefined on input line 
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 47 undefined on input line 
 41.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 46 undefined on input line 
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 47 undefined on input line 
 41.
 
-) [46 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
-med.pdf, page is rotated 90 degrees>] [47 <./fig/bunny_globmin_ev.pdf, page is 
-rotated 90 degrees>] (./paper.bbl
+) [47 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
+med.pdf, page is rotated 90 degrees>] [48 <./fig/bunny_globmin_ev.pdf, page is 
+rotated 90 degrees>]
+\openout2 = `chB_proofs.aux'.
+
+ (./chB_proofs.tex
+Appendix B.
+
+./chB_proofs.tex:39: Package amsmath Error: Erroneous nesting of equation struc
+tures;
+(amsmath)                trying to recover with `aligned'.
+
+See the amsmath package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.39 \end{align}
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[49
+
+
+
+]
+
+./chB_proofs.tex:59: Package amsmath Error: Erroneous nesting of equation struc
+tures;
+(amsmath)                trying to recover with `aligned'.
+
+See the amsmath package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.59 \end{align}
+                
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<fig/plane_rand_n.pdf, id=1532, 1047.915pt x 558.085pt>
+File: fig/plane_rand_n.pdf Graphic file (type pdf)
+
+<use fig/plane_rand_n.pdf>
+Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 87.
+(pdftex.def)             Requested size: 271.78352pt x 144.74101pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[50] [51 <./fig/plane_rand_n.pdf>]
+<fig/sq_grid.pdf, id=1568, 1156.36203pt x 732.85997pt>
+File: fig/sq_grid.pdf Graphic file (type pdf)
+ <use fig/sq_grid.pdf>
+Package pdftex.def Info: fig/sq_grid.pdf used on input line 136.
+(pdftex.def)             Requested size: 362.37573pt x 229.65558pt.
+)
+[52 <./fig/sq_grid.pdf>] (./paper.bbl
 ./paper.bbl:3: Undefined control sequence.
 <argument> \protect \citename 
                               {Che, }1991
@@ -1984,19 +2066,19 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
- [48
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 67.
+ [53
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 67.
  (./paper.aux (./ch1_introduction.aux) (./ch2_state_of_the_art.aux)
 (./ch3_registration.aux) (./ch4_large_models.aux) (./ch5_implementation.aux)
-(./chA_expriments.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
+(./chA_expriments.aux) (./chB_proofs.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 67.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 67.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 439DD2824B2F97EABC03CB1B730119E0;5131.
+(rerunfilecheck)             Checksum: E070DC2CAB0DF96D88182C5A8B1046A7;5538.
 
 
 LaTeX Warning: There were undefined references.
@@ -2004,45 +2086,43 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 67.
  ) 
 Here is how much of TeX's memory you used:
- 18506 strings out of 493308
- 354710 string characters out of 6137817
- 438894 words of memory out of 5000000
- 21376 multiletter control sequences out of 15000+600000
- 17561 words of font info for 71 fonts, out of 8000000 for 9000
+ 18584 strings out of 493308
+ 356156 string characters out of 6137817
+ 440028 words of memory out of 5000000
+ 21418 multiletter control sequences out of 15000+600000
+ 17860 words of font info for 72 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  45i,11n,58p,10420b,1087s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{figure.caption.32} has been referenced but does n
-ot exist, replaced by a fixed one
-
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/l
-ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/tex
-live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
-013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dis
-t/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-
-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/te
-xmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on paper.pdf (48 pages, 3076933 bytes).
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on paper.pdf (53 pages, 7064609 bytes).
 PDF statistics:
- 1662 PDF objects out of 1728 (max. 8388607)
- 1166 compressed objects within 12 object streams
- 238 named destinations out of 1000 (max. 500000)
- 748 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1737 PDF objects out of 2073 (max. 8388607)
+ 1228 compressed objects within 13 object streams
+ 260 named destinations out of 1000 (max. 500000)
+ 810 words of extra memory for PDF output out of 10000 (max. 10000000)
 
