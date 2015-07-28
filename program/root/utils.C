@@ -141,8 +141,8 @@ if(not out) {
 std::cout<<median_closest_neighbor_distance(pcf::kdtree_point_cloud_full(pc))<<";"<<std::endl;
 std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0] )/sq(pn[2]))<<std::endl;	
 std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[1] )/sq(pn[2]))<<std::endl;	
-std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0]+pn[0] )/sq(pn[2]))<<std::endl;	
-std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0]-pn[1] )/sq(pn[2]))<<std::endl;	
+std::cout<<"-> "<<std::sqrt(2.0 + sq( pn[0]+pn[0] )/sq(pn[2]))<<std::endl;	
+std::cout<<"-> "<<std::sqrt(2.0 + sq( pn[0]-pn[1] )/sq(pn[2]))<<std::endl;	
 std::cout<<"----------"<<std::endl;
 out=true;
 }
