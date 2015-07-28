@@ -12,13 +12,18 @@
 namespace pcf {
 
 template<typename Cloud>
-float median_closest_point_distance(const Cloud& pc, std::size_t samples) {
+float median_closest_neighbor_distance(const Cloud& pc, std::size_t samples) {
 	std::vector<float> distances(samples);
 	
 	#pragma omp parallel for
 	for(std::ptrdiff_t i = 0; i < samples; ++i) {
 		const auto& p1 = pc.random_point();
-		const auto& p2 = pc.closest_point(p1);
+		const auto& p2 = pc.closest_point(
+			p1, 
+			0,
+			INFINITY,
+			[&p1](const typename Cloud::point_type& p) { return (&p != &p1); }
+		);
 		distances[i] = distance(p1, p2);
 	}
 	

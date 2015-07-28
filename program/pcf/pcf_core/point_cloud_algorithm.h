@@ -13,7 +13,7 @@ Estimate median closest point distance.
 Takes given number of random samples, and uses point cloud's algorithm to find closest point.
 */
 template<typename Cloud>
-float median_closest_point_distance(const Cloud&, std::size_t samples = 100);
+float median_closest_neighbor_distance(const Cloud&, std::size_t samples = 10000);
 
 template<typename Cloud>
 void compute_normals(Cloud&);

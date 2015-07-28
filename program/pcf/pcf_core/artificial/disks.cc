@@ -30,7 +30,7 @@ width_(width) {
 			random_real<float>(0, width/5.0, gen)
 		);
 		
-		float max_c = 6.0;
+		float max_c = 5.0;
 		dsk.n = Eigen::Vector3f(
 			random_real<float>(-max_c, +max_c, gen),
 			random_real<float>(-max_c, +max_c, gen),

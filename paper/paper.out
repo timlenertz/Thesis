@@ -50,29 +50,29 @@
 \BOOKMARK [2][-]{subsection.4.5.1}{Plane with random dispersion}{section.4.5}% 50
 \BOOKMARK [2][-]{subsection.4.5.2}{Dispersion of sample points}{section.4.5}% 51
 \BOOKMARK [2][-]{subsection.4.5.3}{Plane with square grid dispersion}{section.4.5}% 52
-\BOOKMARK [2][-]{subsection.4.5.4}{Plane with projected square grid dispersion}{section.4.5}% 53
-\BOOKMARK [2][-]{subsection.4.5.5}{Relief with square grid dispersion}{section.4.5}% 54
-\BOOKMARK [2][-]{subsection.4.5.6}{Occlusion and different bounds}{section.4.5}% 55
-\BOOKMARK [1][-]{section.4.6}{Cross distance histogram}{chapter.4}% 56
-\BOOKMARK [1][-]{section.4.7}{High-low density registration}{chapter.4}% 57
-\BOOKMARK [2][-]{subsection.4.7.1}{First experiment}{section.4.7}% 58
-\BOOKMARK [2][-]{subsection.4.7.2}{Experiments on relief}{section.4.7}% 59
-\BOOKMARK [2][-]{subsection.4.7.3}{Limits of accuracy}{section.4.7}% 60
-\BOOKMARK [2][-]{subsection.4.7.4}{Metric for resolution}{section.4.7}% 61
-\BOOKMARK [1][-]{section.4.8}{Separation of large scans}{chapter.4}% 62
-\BOOKMARK [1][-]{section.4.9}{Variable density}{chapter.4}% 63
-\BOOKMARK [0][-]{chapter.5}{Implementation}{}% 64
-\BOOKMARK [1][-]{section.5.1}{Architecture}{chapter.5}% 65
-\BOOKMARK [1][-]{section.5.2}{Usage of C++}{chapter.5}% 66
-\BOOKMARK [1][-]{section.5.3}{Optimization}{chapter.5}% 67
-\BOOKMARK [1][-]{section.5.4}{Visualization}{chapter.5}% 68
-\BOOKMARK [1][-]{section.5.5}{User interface}{chapter.5}% 69
-\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 70
-\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 71
-\BOOKMARK [1][-]{section.A.1}{Data on models used}{appendix.A}% 72
-\BOOKMARK [1][-]{section.A.2}{Different resolutions, Bunny model}{appendix.A}% 73
-\BOOKMARK [2][-]{subsection.A.2.1}{Final true error v. downsampling level}{section.A.2}% 74
-\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 75
-\BOOKMARK [1][-]{section.B.1}{Closest point histogram with random point dispersion on plane}{appendix.B}% 76
-\BOOKMARK [1][-]{section.B.2}{Variance of density with random point dispersion}{appendix.B}% 77
-\BOOKMARK [1][-]{section.B.3}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 78
+\BOOKMARK [2][-]{subsection.4.5.4}{Plane with parallelogram grid dispersion}{section.4.5}% 53
+\BOOKMARK [2][-]{subsection.4.5.5}{Occlusion and different bounds}{section.4.5}% 54
+\BOOKMARK [1][-]{section.4.6}{Cross distance histogram}{chapter.4}% 55
+\BOOKMARK [1][-]{section.4.7}{High-low density registration}{chapter.4}% 56
+\BOOKMARK [2][-]{subsection.4.7.1}{First experiment}{section.4.7}% 57
+\BOOKMARK [2][-]{subsection.4.7.2}{Experiments on relief}{section.4.7}% 58
+\BOOKMARK [2][-]{subsection.4.7.3}{Limits of accuracy}{section.4.7}% 59
+\BOOKMARK [2][-]{subsection.4.7.4}{Metric for resolution}{section.4.7}% 60
+\BOOKMARK [1][-]{section.4.8}{Separation of large scans}{chapter.4}% 61
+\BOOKMARK [1][-]{section.4.9}{Variable density}{chapter.4}% 62
+\BOOKMARK [0][-]{chapter.5}{Implementation}{}% 63
+\BOOKMARK [1][-]{section.5.1}{Architecture}{chapter.5}% 64
+\BOOKMARK [1][-]{section.5.2}{Usage of C++}{chapter.5}% 65
+\BOOKMARK [1][-]{section.5.3}{Optimization}{chapter.5}% 66
+\BOOKMARK [1][-]{section.5.4}{Visualization}{chapter.5}% 67
+\BOOKMARK [1][-]{section.5.5}{User interface}{chapter.5}% 68
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 69
+\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 70
+\BOOKMARK [1][-]{section.A.1}{Data on models used}{appendix.A}% 71
+\BOOKMARK [1][-]{section.A.2}{Different resolutions, Bunny model}{appendix.A}% 72
+\BOOKMARK [2][-]{subsection.A.2.1}{Final true error v. downsampling level}{section.A.2}% 73
+\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 74
+\BOOKMARK [1][-]{section.B.1}{Minimal side length on parallelogram grid}{appendix.B}% 75
+\BOOKMARK [1][-]{section.B.2}{Closest point histogram with random point dispersion on plane}{appendix.B}% 76
+\BOOKMARK [1][-]{section.B.3}{Variance of density with random point dispersion}{appendix.B}% 77
+\BOOKMARK [1][-]{section.B.4}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 78

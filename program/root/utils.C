@@ -115,7 +115,10 @@ std::vector<float> k_closest_points_distances(Iterator begin, Iterator end, cons
 
 template<typename Iterator, typename Other_cloud>
 std::vector<float> adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, const pcf::camera& cam, float maxdist = INFINITY) {
+	using pcf::sq;
 	auto T = cam.view_transformation();
+
+	bool out=false;
 
 	std::vector<float> distances;
 	for(Iterator it = begin; it != end; ++it) {
@@ -127,18 +130,23 @@ std::vector<float> adjusted_closest_point_distances(Iterator begin, Iterator end
 		Eigen::Vector3f pn = p.get_normal().normalized();
 		pn = (T * Eigen::Vector4f(pn[0], pn[1], pn[2], 0)).head(3);
 		
-		auto tx = Eigen::Vector3f(pn[2], 0, -pn[0]).normalized();
-		auto ty = Eigen::Vector3f(0, pn[2], -pn[1]).normalized();
-		
-		float px = std::abs(tx[0]), py = std::abs(ty[1]);
-		
-		static bool init = false;
-		if(!init) {
-			std::cout << "px=" << px << ", py=" << py << std::endl;
-			init=true;
-		}
-				
-		d *= std::max(px, py);
+		auto factor = std::sqrt(1.0 + std::min({
+			sq(pn[0]),
+			sq(pn[1]),
+			sq(pn[0] + pn[1]),
+			sq(pn[0] - pn[1])
+		})/sq(pn[2]));
+	
+if(not out) {
+std::cout<<median_closest_neighbor_distance(pcf::kdtree_point_cloud_full(pc))<<";"<<std::endl;
+std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0] )/sq(pn[2]))<<std::endl;	
+std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[1] )/sq(pn[2]))<<std::endl;	
+std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0]+pn[0] )/sq(pn[2]))<<std::endl;	
+std::cout<<"-> "<<std::sqrt(1.0 + sq( pn[0]-pn[1] )/sq(pn[2]))<<std::endl;	
+std::cout<<"----------"<<std::endl;
+out=true;
+}
+		d /= factor;
 		if(d < maxdist) distances.push_back(d);
 	}
 	return distances;

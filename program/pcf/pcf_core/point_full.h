@@ -46,6 +46,12 @@ public:
 		return operator=(point_xyz(v));
 	}
 
+	template<typename Transform>
+	void apply_transformation(const Transform& t) {
+		homogeneous_coordinates = t * homogeneous_coordinates;
+		normal = t * normal;
+	}
+
 	const rgb_color& get_color() const { return color; }
 	void set_color(const rgb_color& col) { color = col; }
 	
