@@ -1,6 +1,8 @@
 #include "ply_importer.h"
 #include <algorithm>
 
+#include <iostream>
+
 namespace pcf {
 
 template<typename Point>
@@ -185,7 +187,8 @@ void ply_importer::read_header_() {
 	
 	if(!x_ || !y_ || !z_) throw ply_importer_error("X, Y, Z coordinate properties not defined.");
 	has_rgb_ = (r_ && g_ && b_);
-	
+	has_normal_ = (nx_ && ny_ && nz_);
+		
 	vertex_length_ = vertex_property_data_offset;
 	number_of_properties_ = vertex_property_index;
 	
@@ -252,6 +255,11 @@ void ply_importer::read_ascii_point_(point_full& pt, const char* props[]) const 
 		strtof(props[y_.index], nullptr),
 		strtof(props[z_.index], nullptr)	
 	);
+	if(has_normal_) pt.set_normal(Eigen::Vector3f(
+		strtof(props[nx_.index], nullptr),
+		strtof(props[ny_.index], nullptr),
+		strtof(props[nz_.index], nullptr)
+	));
 }
 
 
@@ -280,6 +288,11 @@ void ply_importer::read_binary_point_(point_full& pt, char* data) const {
 		read_binary_property_<float>(y_, data),
 		read_binary_property_<float>(z_, data)
 	);
+	if(has_normal_) pt.set_normal(Eigen::Vector3f(
+		read_binary_property_<float>(nx_, data),
+		read_binary_property_<float>(ny_, data),
+		read_binary_property_<float>(nz_, data)
+	));
 }
 
 

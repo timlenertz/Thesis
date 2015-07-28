@@ -79,29 +79,30 @@
 \contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{37}{subsection.4.5.2}
 \contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{37}{subsection.4.5.3}
 \contentsline {subsection}{\numberline {4.5.4}Plane with parallelogram grid dispersion}{39}{subsection.4.5.4}
-\contentsline {subsection}{\numberline {4.5.5}Occlusion and different bounds}{40}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.5}Adjusted own distance histogram}{40}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.6}Occlusion and different bounds}{40}{subsection.4.5.6}
 \contentsline {section}{\numberline {4.6}Cross distance histogram}{40}{section.4.6}
 \contentsline {section}{\numberline {4.7}High-low density registration}{40}{section.4.7}
 \contentsline {subsection}{\numberline {4.7.1}First experiment}{40}{subsection.4.7.1}
-\contentsline {subsubsection}{\nonumberline Analysis}{40}{section*.53}
+\contentsline {subsubsection}{\nonumberline Analysis}{42}{section*.53}
 \contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{42}{subsection.4.7.2}
 \contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{42}{subsection.4.7.3}
 \contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{42}{subsection.4.7.4}
-\contentsline {section}{\numberline {4.8}Separation of large scans}{42}{section.4.8}
-\contentsline {section}{\numberline {4.9}Variable density}{42}{section.4.9}
-\contentsline {chapter}{\numberline {5}Implementation}{44}{chapter.5}
-\contentsline {section}{\numberline {5.1}Architecture}{44}{section.5.1}
-\contentsline {section}{\numberline {5.2}Usage of C++}{44}{section.5.2}
-\contentsline {section}{\numberline {5.3}Optimization}{44}{section.5.3}
-\contentsline {section}{\numberline {5.4}Visualization}{44}{section.5.4}
-\contentsline {section}{\numberline {5.5}User interface}{44}{section.5.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{45}{chapter.6}
-\contentsline {chapter}{\numberline {A}Experimental Results}{46}{appendix.A}
-\contentsline {section}{\numberline {A.1}Data on models used}{46}{section.A.1}
-\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{46}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{46}{subsection.A.2.1}
-\contentsline {chapter}{\numberline {B}Proofs}{49}{appendix.B}
-\contentsline {section}{\numberline {B.1}Minimal side length on parallelogram grid}{49}{section.B.1}
-\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{49}{section.B.2}
-\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{51}{section.B.3}
-\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{51}{section.B.4}
+\contentsline {section}{\numberline {4.8}Separation of large scans}{43}{section.4.8}
+\contentsline {section}{\numberline {4.9}Variable density}{43}{section.4.9}
+\contentsline {chapter}{\numberline {5}Implementation}{45}{chapter.5}
+\contentsline {section}{\numberline {5.1}Architecture}{45}{section.5.1}
+\contentsline {section}{\numberline {5.2}Usage of C++}{45}{section.5.2}
+\contentsline {section}{\numberline {5.3}Optimization}{45}{section.5.3}
+\contentsline {section}{\numberline {5.4}Visualization}{45}{section.5.4}
+\contentsline {section}{\numberline {5.5}User interface}{45}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion}{46}{chapter.6}
+\contentsline {chapter}{\numberline {A}Experimental Results}{47}{appendix.A}
+\contentsline {section}{\numberline {A.1}Data on models used}{47}{section.A.1}
+\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{47}{section.A.2}
+\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{47}{subsection.A.2.1}
+\contentsline {chapter}{\numberline {B}Proofs}{50}{appendix.B}
+\contentsline {section}{\numberline {B.1}Minimal side length on parallelogram grid}{50}{section.B.1}
+\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{50}{section.B.2}
+\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{52}{section.B.3}
+\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{52}{section.B.4}

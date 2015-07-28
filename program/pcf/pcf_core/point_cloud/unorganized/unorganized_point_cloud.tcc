@@ -72,8 +72,7 @@ void unorganized_point_cloud<Point, Allocator>::erase_invalid_points() {
 
 
 template<typename Point, typename Allocator> template<typename Distribution>
-void unorganized_point_cloud<Point, Allocator>::randomly_displace_points(const Distribution& dist_orig) {
-	Distribution dist(dist_orig);
+void unorganized_point_cloud<Point, Allocator>::randomly_displace_points(Distribution dist) {
 	random_generator& rng = get_random_generator();
 
 	for(Point* p = super::begin_; p < super::end_; ++p) {
@@ -82,6 +81,23 @@ void unorganized_point_cloud<Point, Allocator>::randomly_displace_points(const D
 		Eigen::Vector3f d(
 			dist(rng), dist(rng), dist(rng)
 		);
+		p->homogeneous_coordinates.head(3) += d;
+	}
+}
+
+
+template<typename Point, typename Allocator> template<typename Distribution>
+void unorganized_point_cloud<Point, Allocator>::randomly_displace_points_on_local_surface(Distribution dist) {
+	random_generator& rng = get_random_generator();
+
+	for(Point* p = super::begin_; p < super::end_; ++p) {
+		if(! p->valid()) continue;
+
+		const Eigen::Vector3f& n = p->get_normal();
+		
+		Eigen::Vector3f d(dist(rng), dist(rng), 0.0);
+		d[2] = (d[0]*n[0] + d[1]*n[1]) / n[2];
+		
 		p->homogeneous_coordinates.head(3) += d;
 	}
 }

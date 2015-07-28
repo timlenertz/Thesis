@@ -59,7 +59,10 @@ public:
 	/// Displace points using random number distribution.
 	/// Random numbers generated using the given distribution is added to the X, Y and Z coordinates of each point.
 	template<typename Distribution>
-	void randomly_displace_points(const Distribution&);
+	void randomly_displace_points(Distribution);
+
+	template<typename Distribution>
+	void randomly_displace_points_on_local_surface(Distribution);
 
 	/// Add random noise points around the points.
 	/// Number of points to add given by \p amount. \p amount must be lesser or equal to remaining capacity, and lesser or equal to number of points in cloud. I.e. at most one noise point is added per existing point.

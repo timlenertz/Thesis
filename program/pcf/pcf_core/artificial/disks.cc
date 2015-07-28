@@ -30,7 +30,7 @@ width_(width) {
 			random_real<float>(0, width/5.0, gen)
 		);
 		
-		float max_c = 5.0;
+		float max_c = (random_boolean() ? 10.0 : 1.0);
 		dsk.n = Eigen::Vector3f(
 			random_real<float>(-max_c, +max_c, gen),
 			random_real<float>(-max_c, +max_c, gen),
@@ -38,7 +38,7 @@ width_(width) {
 		);
 		dsk.n.normalize();
 		
-		dsk.r = random_real<float>(0, +hw, gen);
+		dsk.r = random_real<float>(2.0*hw/3.0, hw, gen);
 				
 		disks_.push_back(dsk);
 	}
