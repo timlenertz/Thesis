@@ -20,6 +20,7 @@ width_(width) {
 	if(seed) gen.seed(seed);
 	else gen = get_random_generator();
 			
+	bool low = true;
 	for(auto i = 0; i < number_of_disks; ++i) {
 		disk dsk;
 		float hw = width / 2.0;
@@ -30,7 +31,8 @@ width_(width) {
 			random_real<float>(0, width/5.0, gen)
 		);
 		
-		float max_c = (random_boolean() ? 10.0 : 1.0);
+		float max_c = (low ? 10.0 : 0.1);
+		low = !low;
 		dsk.n = Eigen::Vector3f(
 			random_real<float>(-max_c, +max_c, gen),
 			random_real<float>(-max_c, +max_c, gen),
@@ -38,7 +40,8 @@ width_(width) {
 		);
 		dsk.n.normalize();
 		
-		dsk.r = random_real<float>(2.0*hw/3.0, hw, gen);
+		dsk.r = hw;
+		//dsk.r = random_real<float>(2.0*hw/3.0, hw, gen);
 				
 		disks_.push_back(dsk);
 	}
@@ -106,9 +109,17 @@ unorganized_point_cloud_full disks::make_projected_point_cloud_without_occlusion
 
 
 unorganized_point_cloud_full disks::make_point_cloud(float density) const {
+	return make_point_cloud(density, 0, disks_.size() - 1);
+}
+
+
+
+unorganized_point_cloud_full disks::make_point_cloud(float density, std::ptrdiff_t first, std::ptrdiff_t last) const {
 	std::vector<point_full> pts;
 	
-	for(const disk& dsk : disks_) {
+	for(std::ptrdiff_t i = first; i <= last; ++i) {
+		const disk& dsk = disks_[i];
+	
 		Eigen::Vector3f o = dsk.o;
 		Eigen::Vector3f n = dsk.n;
 

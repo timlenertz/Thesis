@@ -1,6 +1,15 @@
 #include <string>
 #include <algorithm>
 
+struct histogram_value_t {
+	float value;
+	float weight;
+	
+	histogram_value_t(float v, float w = 1.0) :
+		value(v), weight(w) { }
+};
+using histogram_t = std::vector<histogram_value_t>;
+
 pcf::range_point_cloud_full hdv_scan(const std::string& id) {
 	std::string path = "../hdv/Scan_" + id + ".scan";
 	auto pc = pcf::import_range_point_cloud(path);
@@ -63,12 +72,15 @@ TGraph* scatterplot(const Points_container& pts, const std::string& name = "scat
 }
 
 
-template<typename Iterator>
-TH1* histogram(Iterator begin, Iterator end, const std::string& name = "histogram") {
-	auto minmax = std::minmax_element(begin, end);
+TH1* histogram(const histogram_t& hist, const std::string& name = "histogram", float mn = 0, float mx = 0, unsigned bins = 1000) {
+	if(mx == 0)
+		for(const auto& el : hist) if(el.value > mx) mx = el.value;
+
 	std::string hname = name + "_hist";
-	TH1* h = new TH1F(hname.c_str(), name.c_str(), 1000, *minmax.first, *minmax.second);
-	for(Iterator it = begin; it != end; ++it) h->Fill(*it);
+	TH1* h = new TH1F(hname.c_str(), name.c_str(), bins, mn, mx);
+
+	for(const auto& el : hist)
+		h->Fill(el.value, el.weight);
 	
 	TCanvas* can = new TCanvas(name.c_str());
 	h->Draw();
@@ -79,63 +91,98 @@ TH1* histogram(Iterator begin, Iterator end, const std::string& name = "histogra
 
 template<typename Iterator>
 TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "density") {
-	std::vector<float> weights;
-	for(Iterator it = begin; it != end; ++it) weights.push_back(it->get_weight());
-	return histogram(weights.begin(), weights.end(), name);
+	histogram_t hist;
+	for(Iterator it = begin; it != end; ++it) hist.emplace_back(it->get_weight());
+	return histogram(hist, name);
 }
 
 
 template<typename Iterator, typename Other_cloud>
-std::vector<float> closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false, float maxdist = INFINITY) {
-	std::vector<float> distances;
+histogram_t closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false) {
+	histogram_t distances;
 	for(Iterator it = begin; it != end; ++it) {
 		const auto& p = *it;
 		if(! p.valid()) continue;
-		const auto& q = (nosame ? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } ) : pc.closest_point(p));
+		const auto& q = (nosame
+			? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } )
+			: pc.closest_point(p)
+		);
 		float d = distance(p, q);
-		if(d < maxdist) distances.push_back(d);
+		distances.emplace_back(d);
 	}
 	return distances;
 }
 
 
-template<typename Iterator, typename Other_cloud>
-std::vector<float> k_closest_points_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false, float maxdist = INFINITY) {
-	std::vector<float> distances;
-	for(Iterator it = begin; it != end; ++it) {
-		const auto& p = *it;
-		if(! p.valid()) continue;
-		const auto& q = (nosame ? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } ) : pc.closest_point(p));
-		float d = distance(p, q);
-		if(d < maxdist) distances.push_back(d);
-	}
-	return distances;
-}
-
-
-template<typename Iterator, typename Other_cloud>
-std::vector<float> adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, const pcf::camera& cam, float maxdist = INFINITY) {
+template<typename Cloud>
+histogram_t nearest_neighbor_distances(const Cloud& pc, const pcf::pose& camera_pose, bool adj = false) {
 	using pcf::sq;
-	auto T = cam.view_transformation();
+	auto T = camera_pose.transformation_from_world();
+	
+	histogram_t distances;
+	for(const auto& q : pc) {
+		Eigen::Vector3f n = q.get_normal();
+		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
+		float nx = n[0], ny = n[1], nz = n[2];
+
+		float d;
+
+		if(! adj) {
+			const auto& p = pc.closest_point(q, 0, INFINITY, [&q](const pcf::point_xyz& p) { return (p != q); } );
+			d = distance(p, q);
+		} else {
+			float lmin = std::min({
+				std::sqrt(1.0 + sq(nx)/sq(nz)),
+				std::sqrt(1.0 + sq(ny)/sq(nz)),
+				std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
+				std::sqrt(2.0 + sq(nx-ny)/sq(nz))
+			});
+			d = 0.01 * lmin;
+		}
+		distances.emplace_back(d);
+	}
+	return distances;
+}
+
+
+
+template<typename Iterator, typename Other_cloud>
+histogram_t adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, const pcf::pose& camera_pose) {
+	using pcf::sq;
+	auto T = camera_pose.transformation_from_world();
 
 	bool out=false;
 
-	std::vector<float> distances;
+	histogram_t distances;
 	for(Iterator it = begin; it != end; ++it) {
 		const auto& p = *it;
 		if(! p.valid()) continue;
 		const auto& q = pc.closest_point(p);
 		float d = distance(p, q);
-		
-		Eigen::Vector3f pn = p.get_normal().normalized();
+
+		Eigen::Vector3f pn = p.get_normal();
 		pn = (T * Eigen::Vector4f(pn[0], pn[1], pn[2], 0)).head(3);
+		float nx = pn[0], ny = pn[1], nz = pn[2];
 		
-		auto factor = std::sqrt(1.0 + std::min({
-			sq(pn[0]),
-			sq(pn[1]),
-			sq(pn[0] + pn[1]),
-			sq(pn[0] - pn[1])
-		})/sq(pn[2]));
+		float maxd;
+		{
+			float c = (1.0 - sq(ny)) * (sq(ny) + sq(nz));
+			float den = 4.0 * sq(nz);
+			float f1 = std::abs(1.0 + 2.0*nx*ny + sq(nz));
+			float f2 = std::abs(1.0 - 2.0*nx*ny + sq(nz));
+			maxd = std::sqrt(std::min(f1, f2) * c) / den;
+		}
+		std::cout << d << " max:" << maxd << std::endl;
+		if(d > maxd) continue;
+		
+		auto lmin = std::min({
+			std::sqrt(1.0 + sq(nx)/sq(nz)),
+			std::sqrt(1.0 + sq(ny)/sq(nz)),
+			std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
+			std::sqrt(2.0 + sq(nx-ny)/sq(nz))
+		});
+		
+		auto weight = std::abs(pn[2]);
 	
 if(not out) {
 std::cout<<median_closest_neighbor_distance(pcf::kdtree_point_cloud_full(pc))<<";"<<std::endl;
@@ -146,8 +193,7 @@ std::cout<<"-> "<<std::sqrt(2.0 + sq( pn[0]-pn[1] )/sq(pn[2]))<<std::endl;
 std::cout<<"----------"<<std::endl;
 out=true;
 }
-		d /= factor;
-		if(d < maxdist) distances.push_back(d);
+		distances.emplace_back(d / lmin, weight);
 	}
 	return distances;
 }

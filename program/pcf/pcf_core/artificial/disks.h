@@ -27,6 +27,7 @@ public:
 	explicit disks(float width, unsigned num = 10, int seed = 0);
 
 	unorganized_point_cloud_full make_point_cloud(float density) const;
+	unorganized_point_cloud_full make_point_cloud(float density, std::ptrdiff_t first, std::ptrdiff_t last) const;
 
 	camera_range_point_cloud_full<projection_image_camera> make_projected_point_cloud(const projection_image_camera& cam) const;
 	

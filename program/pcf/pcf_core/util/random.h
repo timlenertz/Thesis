@@ -48,7 +48,7 @@ T random_real(T mn, T mx, Gen& gen = get_random_generator()) {
 
 template<typename Gen = random_generator>
 bool random_boolean(float probability = 0.5, Gen& gen = get_random_generator()) {
-	return (random_real(0.0f, 1.0f) <= 1.0f);
+	return (random_real(0.0f, 1.0f, gen) <= probability);
 }
 
 
