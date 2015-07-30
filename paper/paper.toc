@@ -1,112 +1,114 @@
-\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.1}
-\contentsline {chapter}{\numberline {2}State of the Art}{6}{chapter.2}
-\contentsline {section}{\numberline {2.1}3D Scanning}{6}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Typical workflow}{6}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Point cloud}{6}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}3D scanner technology}{7}{subsection.2.1.3}
-\contentsline {subsubsection}{\nonumberline Laser rangefinder}{7}{section*.2}
-\contentsline {subsubsection}{\nonumberline Time-of-flight scanner}{8}{section*.3}
-\contentsline {subsubsection}{\nonumberline Triangulation scanner}{8}{section*.4}
-\contentsline {subsection}{\numberline {2.1.4}Photogrammetry}{8}{subsection.2.1.4}
-\contentsline {section}{\numberline {2.2}Operations on point clouds}{8}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Cropping}{8}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Fusion}{8}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Projection}{9}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Meshing}{10}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}Downsampling}{10}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Filtering}{10}{subsection.2.2.6}
-\contentsline {subsection}{\numberline {2.2.7}Registration}{10}{subsection.2.2.7}
-\contentsline {subsection}{\numberline {2.2.8}Image-to-cloud registration}{10}{subsection.2.2.8}
-\contentsline {section}{\numberline {2.3}Data structures for point clouds}{10}{section.2.3}
-\contentsline {section}{\numberline {2.4}Preliminary mathematics}{10}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Transformation matrices and homogeneous coordinates}{10}{subsection.2.4.1}
-\contentsline {subsubsection}{\nonumberline Classification}{11}{section*.6}
-\contentsline {subsubsection}{\nonumberline Linear transformation}{11}{section*.8}
-\contentsline {subsubsection}{\nonumberline Rotation}{12}{section*.9}
-\contentsline {subsubsection}{\nonumberline Euler angles}{12}{section*.10}
-\contentsline {subsubsection}{\nonumberline Quaternions}{13}{section*.11}
-\contentsline {subsubsection}{\nonumberline Rotation around an axis}{13}{section*.12}
-\contentsline {subsubsection}{\nonumberline Rotation between two vectors}{13}{section*.13}
-\contentsline {subsubsection}{\nonumberline Affine transformation}{13}{section*.14}
-\contentsline {subsubsection}{\nonumberline Rigid transformation}{13}{section*.15}
-\contentsline {subsubsection}{\nonumberline Homogeneous coordinates}{14}{section*.16}
-\contentsline {subsubsection}{\nonumberline Pose}{15}{section*.17}
-\contentsline {subsection}{\numberline {2.4.2}Least squares method}{15}{subsection.2.4.2}
-\contentsline {subsubsection}{\nonumberline Linear least-squares}{16}{section*.18}
-\contentsline {subsubsection}{\nonumberline Non-linear least squares}{16}{section*.19}
-\contentsline {subsubsection}{\nonumberline Weights}{17}{section*.20}
-\contentsline {subsection}{\numberline {2.4.3}Point set alignment using singular value decomposition}{17}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Information theory}{19}{subsection.2.4.4}
-\contentsline {subsection}{\numberline {2.4.5}Gaussian distribution}{19}{subsection.2.4.5}
-\contentsline {subsection}{\numberline {2.4.6}Parzen window}{19}{subsection.2.4.6}
-\contentsline {subsection}{\numberline {2.4.7}RANSAC}{19}{subsection.2.4.7}
-\contentsline {section}{\numberline {2.5}Preliminary computer science}{19}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}Octree}{19}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}KdTree}{19}{subsection.2.5.2}
-\contentsline {chapter}{\numberline {3}Point Cloud Registration}{20}{chapter.3}
-\contentsline {section}{\numberline {3.1}Introduction}{20}{section.3.1}
-\contentsline {section}{\numberline {3.2}Robustness}{21}{section.3.2}
-\contentsline {section}{\numberline {3.3}Fine registration}{22}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Iterative Closest Point}{22}{subsection.3.3.1}
-\contentsline {subsubsection}{\nonumberline ICP framework}{22}{section*.22}
-\contentsline {subsubsection}{\nonumberline Convergence}{24}{section*.23}
-\contentsline {subsubsection}{\nonumberline Local minima}{25}{section*.25}
-\contentsline {subsection}{\numberline {3.3.2}Generalized ICP}{25}{subsection.3.3.2}
-\contentsline {section}{\numberline {3.4}Coarse Registration}{25}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Manual registration}{25}{subsection.3.4.1}
-\contentsline {chapter}{\numberline {4}Registration of Large Models}{26}{chapter.4}
-\contentsline {section}{\numberline {4.1}``H\IeC {\^o}tel de Ville'' scanning project}{26}{section.4.1}
-\contentsline {section}{\numberline {4.2}Relief point cloud}{26}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}def}{26}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Artificial relief}{26}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Point cloud generation}{28}{subsection.4.2.3}
-\contentsline {subsubsection}{\nonumberline Top-down view}{28}{section*.28}
-\contentsline {subsubsection}{\nonumberline Occluded view}{28}{section*.30}
-\contentsline {subsubsection}{\nonumberline Similarity with actual scans}{30}{section*.32}
-\contentsline {section}{\numberline {4.3}Evaluation of registration accuracy}{31}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Known true transformation}{31}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Unknown true transformation}{31}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Analysis of point clouds}{33}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Local measures}{33}{subsection.4.4.1}
-\contentsline {subsubsection}{\nonumberline Estimated density}{33}{section*.35}
-\contentsline {subsubsection}{\nonumberline Square grid density}{33}{section*.36}
-\contentsline {subsubsection}{\nonumberline Curvature}{33}{section*.37}
-\contentsline {subsection}{\numberline {4.4.2}Point dispersion}{34}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Parallelogram grid}{35}{subsection.4.4.3}
-\contentsline {subsubsection}{\nonumberline Measures}{37}{section*.45}
-\contentsline {subsubsection}{\nonumberline Analysis}{37}{section*.46}
-\contentsline {subsubsection}{\nonumberline Verification}{38}{section*.48}
-\contentsline {subsection}{\numberline {4.4.4}Projection parameters}{39}{subsection.4.4.4}
-\contentsline {section}{\numberline {4.5}Own distance histogram}{39}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Plane with random dispersion}{39}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{40}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{42}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Plane with parallelogram grid dispersion}{42}{subsection.4.5.4}
-\contentsline {subsection}{\numberline {4.5.5}Adjusted own distance histogram}{44}{subsection.4.5.5}
-\contentsline {subsubsection}{\nonumberline Multi-planes point cloud}{44}{section*.57}
-\contentsline {subsection}{\numberline {4.5.6}Occlusion and different bounds}{45}{subsection.4.5.6}
-\contentsline {section}{\numberline {4.6}Cross distance histogram}{45}{section.4.6}
-\contentsline {section}{\numberline {4.7}High-low density registration}{45}{section.4.7}
-\contentsline {subsection}{\numberline {4.7.1}First experiment}{45}{subsection.4.7.1}
-\contentsline {subsubsection}{\nonumberline Analysis}{47}{section*.60}
-\contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{48}{subsection.4.7.2}
-\contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{48}{subsection.4.7.3}
-\contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{48}{subsection.4.7.4}
-\contentsline {section}{\numberline {4.8}Separation of large scans}{48}{section.4.8}
-\contentsline {section}{\numberline {4.9}Variable density}{48}{section.4.9}
-\contentsline {chapter}{\numberline {5}Implementation}{50}{chapter.5}
-\contentsline {section}{\numberline {5.1}Architecture}{50}{section.5.1}
-\contentsline {section}{\numberline {5.2}Usage of C++}{50}{section.5.2}
-\contentsline {section}{\numberline {5.3}Optimization}{50}{section.5.3}
-\contentsline {section}{\numberline {5.4}Visualization}{50}{section.5.4}
-\contentsline {section}{\numberline {5.5}User interface}{50}{section.5.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{51}{chapter.6}
-\contentsline {chapter}{\numberline {A}Experimental Results}{52}{appendix.A}
-\contentsline {section}{\numberline {A.1}Data on models used}{52}{section.A.1}
-\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{52}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{52}{subsection.A.2.1}
-\contentsline {chapter}{\numberline {B}Proofs}{55}{appendix.B}
-\contentsline {section}{\numberline {B.1}Measures on parallelogram grid dispersion}{55}{section.B.1}
-\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{55}{section.B.2}
-\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{57}{section.B.3}
-\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{57}{section.B.4}
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
+\contentsline {chapter}{\numberline {2}State of the Art}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}3D Scanning}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Point cloud}{6}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Range image}{6}{subsection.2.1.2}
+\contentsline {subsubsection}{\nonumberline Camera parameters}{7}{section*.4}
+\contentsline {subsection}{\numberline {2.1.3}3D scanner technology}{9}{subsection.2.1.3}
+\contentsline {subsubsection}{\nonumberline Laser rangefinder}{9}{section*.6}
+\contentsline {subsubsection}{\nonumberline Time-of-flight scanner}{9}{section*.7}
+\contentsline {subsubsection}{\nonumberline Triangulation scanner}{9}{section*.8}
+\contentsline {section}{\numberline {2.2}Operations on point clouds}{10}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Basic operations}{10}{subsection.2.2.1}
+\contentsline {subsubsection}{\nonumberline Cropping}{10}{section*.9}
+\contentsline {subsubsection}{\nonumberline Fusion}{10}{section*.10}
+\contentsline {subsubsection}{\nonumberline Transformation}{10}{section*.11}
+\contentsline {subsubsection}{\nonumberline Closest point finding}{10}{section*.12}
+\contentsline {subsubsection}{\nonumberline Nearest neighbor finding}{10}{section*.13}
+\contentsline {subsection}{\numberline {2.2.2}Projection}{11}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Registration}{12}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Other operations}{12}{subsection.2.2.4}
+\contentsline {subsubsection}{\nonumberline Computation of normal vector}{12}{section*.15}
+\contentsline {subsubsection}{\nonumberline Image-to-cloud registration}{12}{section*.16}
+\contentsline {subsubsection}{\nonumberline Meshing}{12}{section*.17}
+\contentsline {section}{\numberline {2.3}Data structures for point clouds}{12}{section.2.3}
+\contentsline {section}{\numberline {2.4}Preliminary mathematics}{13}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Transformation matrices and homogeneous coordinates}{13}{subsection.2.4.1}
+\contentsline {subsubsection}{\nonumberline Classification}{13}{section*.18}
+\contentsline {subsubsection}{\nonumberline Linear transformation}{14}{section*.20}
+\contentsline {subsubsection}{\nonumberline Rotation}{14}{section*.21}
+\contentsline {subsubsection}{\nonumberline Euler angles}{15}{section*.22}
+\contentsline {subsubsection}{\nonumberline Quaternions}{15}{section*.23}
+\contentsline {subsubsection}{\nonumberline Rotation around an axis}{15}{section*.24}
+\contentsline {subsubsection}{\nonumberline Rotation between two vectors}{15}{section*.25}
+\contentsline {subsubsection}{\nonumberline Affine transformation}{15}{section*.26}
+\contentsline {subsubsection}{\nonumberline Rigid transformation}{16}{section*.27}
+\contentsline {subsubsection}{\nonumberline Homogeneous coordinates}{16}{section*.28}
+\contentsline {subsubsection}{\nonumberline Pose}{17}{section*.29}
+\contentsline {subsection}{\numberline {2.4.2}Least squares method}{18}{subsection.2.4.2}
+\contentsline {subsubsection}{\nonumberline Linear least-squares}{18}{section*.30}
+\contentsline {subsubsection}{\nonumberline Non-linear least squares}{19}{section*.31}
+\contentsline {subsubsection}{\nonumberline Weights}{19}{section*.32}
+\contentsline {subsection}{\numberline {2.4.3}Point set alignment using singular value decomposition}{19}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Information theory}{21}{subsection.2.4.4}
+\contentsline {subsection}{\numberline {2.4.5}Gaussian distribution}{21}{subsection.2.4.5}
+\contentsline {subsection}{\numberline {2.4.6}Parzen window}{21}{subsection.2.4.6}
+\contentsline {subsection}{\numberline {2.4.7}RANSAC}{21}{subsection.2.4.7}
+\contentsline {chapter}{\numberline {3}Point Cloud Registration}{22}{chapter.3}
+\contentsline {section}{\numberline {3.1}Introduction}{22}{section.3.1}
+\contentsline {section}{\numberline {3.2}Robustness}{23}{section.3.2}
+\contentsline {section}{\numberline {3.3}Fine registration}{24}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Iterative Closest Point}{24}{subsection.3.3.1}
+\contentsline {subsubsection}{\nonumberline ICP framework}{24}{section*.34}
+\contentsline {subsubsection}{\nonumberline Convergence}{26}{section*.35}
+\contentsline {subsubsection}{\nonumberline Local minima}{27}{section*.37}
+\contentsline {subsection}{\numberline {3.3.2}Generalized ICP}{27}{subsection.3.3.2}
+\contentsline {section}{\numberline {3.4}Coarse Registration}{27}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Manual registration}{27}{subsection.3.4.1}
+\contentsline {chapter}{\numberline {4}Registration of Large Models}{28}{chapter.4}
+\contentsline {section}{\numberline {4.1}``H\IeC {\^o}tel de Ville'' scanning project}{28}{section.4.1}
+\contentsline {section}{\numberline {4.2}Relief point cloud}{28}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}def}{28}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Artificial relief}{28}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Point cloud generation}{30}{subsection.4.2.3}
+\contentsline {subsubsection}{\nonumberline Top-down view}{30}{section*.40}
+\contentsline {subsubsection}{\nonumberline Occluded view}{30}{section*.42}
+\contentsline {subsubsection}{\nonumberline Similarity with actual scans}{32}{section*.44}
+\contentsline {section}{\numberline {4.3}Evaluation of registration accuracy}{33}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Known true transformation}{33}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Unknown true transformation}{33}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Analysis of point clouds}{35}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Local measures}{35}{subsection.4.4.1}
+\contentsline {subsubsection}{\nonumberline Estimated density}{35}{section*.47}
+\contentsline {subsubsection}{\nonumberline Square grid density}{35}{section*.48}
+\contentsline {subsubsection}{\nonumberline Curvature}{35}{section*.49}
+\contentsline {subsection}{\numberline {4.4.2}Point dispersion}{36}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Parallelogram grid}{37}{subsection.4.4.3}
+\contentsline {subsubsection}{\nonumberline Measures}{39}{section*.57}
+\contentsline {subsubsection}{\nonumberline Analysis}{39}{section*.58}
+\contentsline {subsubsection}{\nonumberline Verification}{40}{section*.60}
+\contentsline {subsection}{\numberline {4.4.4}Projection parameters}{41}{subsection.4.4.4}
+\contentsline {section}{\numberline {4.5}Own distance histogram}{41}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Plane with random dispersion}{41}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{42}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{44}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Plane with parallelogram grid dispersion}{44}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.5}Adjusted own distance histogram}{46}{subsection.4.5.5}
+\contentsline {subsubsection}{\nonumberline Multi-planes point cloud}{46}{section*.69}
+\contentsline {subsection}{\numberline {4.5.6}Occlusion and different bounds}{47}{subsection.4.5.6}
+\contentsline {subsubsection}{\nonumberline Maximal distance}{47}{section*.72}
+\contentsline {section}{\numberline {4.6}Cross distance histogram}{47}{section.4.6}
+\contentsline {section}{\numberline {4.7}High-low density registration}{47}{section.4.7}
+\contentsline {subsection}{\numberline {4.7.1}First experiment}{49}{subsection.4.7.1}
+\contentsline {subsubsection}{\nonumberline Analysis}{49}{section*.73}
+\contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{50}{subsection.4.7.2}
+\contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{50}{subsection.4.7.3}
+\contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{50}{subsection.4.7.4}
+\contentsline {section}{\numberline {4.8}Separation of large scans}{50}{section.4.8}
+\contentsline {section}{\numberline {4.9}Variable density}{50}{section.4.9}
+\contentsline {chapter}{\numberline {5}Implementation}{52}{chapter.5}
+\contentsline {section}{\numberline {5.1}Architecture}{52}{section.5.1}
+\contentsline {section}{\numberline {5.2}Usage of C++}{52}{section.5.2}
+\contentsline {section}{\numberline {5.3}Optimization}{52}{section.5.3}
+\contentsline {section}{\numberline {5.4}Visualization}{52}{section.5.4}
+\contentsline {section}{\numberline {5.5}User interface}{52}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion}{53}{chapter.6}
+\contentsline {chapter}{\numberline {A}Experimental Results}{54}{appendix.A}
+\contentsline {section}{\numberline {A.1}Data on models used}{54}{section.A.1}
+\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{54}{section.A.2}
+\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{54}{subsection.A.2.1}
+\contentsline {chapter}{\numberline {B}Proofs}{57}{appendix.B}
+\contentsline {section}{\numberline {B.1}Measures on parallelogram grid dispersion}{57}{section.B.1}
+\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{57}{section.B.2}
+\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{59}{section.B.3}
+\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{59}{section.B.4}

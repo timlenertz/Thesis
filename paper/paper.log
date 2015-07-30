@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  29 JUL 2015 17:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  30 JUL 2015 10:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -47,6 +47,19 @@ Package scrreprt Info: You've used standard option `10pt'.
 (scrreprt)             If you'd like to set the option with \KOMAoptions,
 (scrreprt)             you'd have to use `fontsize=10pt' there
 (scrreprt)             instead of `10pt', too.
+Class scrreprt Info: You've used standard option `oneside'.
+(scrreprt)           This is correct!
+(scrreprt)           Internally I'm using `twoside=false'.
+(scrreprt)           If you'd like to set the option with \KOMAoptions,
+(scrreprt)           you'd have to use `twoside=false' there
+(scrreprt)           instead of `oneside', too.
+Package scrbase Info: Unknown processing state.
+(scrbase)             Processing option `twoside=false'
+(scrbase)             of member `.scrreprt.cls'
+(scrbase)             of family `KOMA'
+(scrbase)             doesn't set a valid state.
+(scrbase)             This will be interpreted
+(scrbase)             as \FamilyKeyStateProcessed on input line 1274.
 Class scrreprt Info: File `scrsize10pt.clo' used to setup font sizes on input l
 ine 1655.
 
@@ -69,6 +82,12 @@ Package typearea Info: You've used standard option `a4paper'.
 (typearea)             If you'd like to set the option with \KOMAoptions,
 (typearea)             you'd have to use `paper=a4' there
 (typearea)             instead of `a4paper', too.
+Package typearea Info: You've used standard option `oneside'.
+(typearea)             This is correct!
+(typearea)             Internally I'm using `twoside=false'.
+(typearea)             If you'd like to set the option with \KOMAoptions,
+(typearea)             you'd have to use `twoside=false' there
+(typearea)             instead of `oneside', too.
 \ta@hblk=\skip42
 \ta@vblk=\skip43
 \ta@temp=\skip44
@@ -848,9 +867,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-20157291062.tex)...disabled (restricted).
+runsystem(touch w18-test-2015730629.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-20157291062.tex)...disabled (restricted).
+runsystem(rm -f w18-test-2015730629.tex)...disabled (restricted).
 
 
 
@@ -1029,7 +1048,8 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 \TX@cols=\count172
 \TX@ftn=\toks34
 ) (./paper.aux
-(./ch1_introduction.aux) (./ch2_state_of_the_art.aux) (./ch3_registration.aux
+(./title.aux) (./ch1_introduction.aux) (./ch2_state_of_the_art.aux)
+(./ch3_registration.aux
 
 LaTeX Warning: Label `sec:icp' multiply defined.
 
@@ -1200,19 +1220,32 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 45.
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 \c__siunitx_mathtt_int=\count181
- [1
+\openout2 = `title.aux'.
+
+ (./title.tex
+./title.tex:1: Undefined control sequence.
+l.1 \frontmatter
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[1
 
 
 
-{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./pape
-r.toc [2
 
-]
-[3])
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+(./paper.toc [2
+
+
+])
 \tf@toc=\write5
 \openout5 = `paper.toc'.
 
- [4]
+ [3]
 \openout2 = `ch1_introduction.aux'.
 
  (./ch1_introduction.tex
@@ -1232,7 +1265,7 @@ Class scrreprt Warning: \float@addtolists detected!
 (scrreprt)              a package that still implements the
 (scrreprt)              deprecated \float@addtolist interface .
 
-) [5
+) [4
 
 
 ]
@@ -1240,15 +1273,117 @@ Class scrreprt Warning: \float@addtolists detected!
 
  (./ch2_state_of_the_art.tex
 Chapter 2.
-[6
+
+LaTeX Warning: Citation `Kers2006' on page 5 undefined on input line 10.
+
+
+LaTeX Warning: Citation `Web1' on page 5 undefined on input line 10.
+
+
+LaTeX Warning: Citation `Kein2011' on page 5 undefined on input line 10.
+
+
+LaTeX Warning: Citation `Grus2012' on page 5 undefined on input line 10.
+
+
+LaTeX Warning: Citation `Bibe2003' on page 5 undefined on input line 16.
+
+[5
 
 
 
-] [7]
-./ch2_state_of_the_art.tex:66: Undefined control sequence.
+]
+
+Package caption Warning: \label without proper \caption on input line 37.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:hdv_033_color' on page 6 undefined on input line 
+32.
+
+
+Package caption Warning: \label without proper \caption on input line 44.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:hdv_033_range' on page 6 undefined on input line 
+32.
+
+[6] <fig/hdv_033_color.jpg, id=411, 4068.19875pt x 2029.5825pt>
+File: fig/hdv_033_color.jpg Graphic file (type jpg)
+
+<use fig/hdv_033_color.jpg>
+Package pdftex.def Info: fig/hdv_033_color.jpg used on input line 36.
+(pdftex.def)             Requested size: 362.37573pt x 180.76544pt.
+
+<fig/hdv_033_range.jpg, id=412, 4068.19875pt x 2029.5825pt>
+File: fig/hdv_033_range.jpg Graphic file (type jpg)
+
+<use fig/hdv_033_range.jpg>
+Package pdftex.def Info: fig/hdv_033_range.jpg used on input line 43.
+(pdftex.def)             Requested size: 362.37573pt x 180.76544pt.
+
+
+./ch2_state_of_the_art.tex:56: Package keyval Error: crop undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.56 ...crop, width=\linewidth]{fig/cam_range.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<fig/cam_range.pdf, id=413, 325.215pt x 237.88875pt>
+File: fig/cam_range.pdf Graphic file (type pdf)
+ <use fig/cam_range.pdf>
+Package pdftex.def Info: fig/cam_range.pdf used on input line 56.
+(pdftex.def)             Requested size: 149.48024pt x 96.72705pt.
+
+
+./ch2_state_of_the_art.tex:60: Package keyval Error: crop undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.60 ...width=\linewidth]{fig/cam_perspective.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<fig/cam_perspective.pdf, id=414, 325.215pt x 237.88875pt>
+File: fig/cam_perspective.pdf Graphic file (type pdf)
+
+<use fig/cam_perspective.pdf>
+Package pdftex.def Info: fig/cam_perspective.pdf used on input line 60.
+(pdftex.def)             Requested size: 149.48024pt x 96.72705pt.
+
+
+./ch2_state_of_the_art.tex:64: Package keyval Error: crop undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.64 ...p, width=\linewidth]{fig/cam_parallel.pdf}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<fig/cam_parallel.pdf, id=415, 325.215pt x 237.88875pt>
+File: fig/cam_parallel.pdf Graphic file (type pdf)
+
+<use fig/cam_parallel.pdf>
+Package pdftex.def Info: fig/cam_parallel.pdf used on input line 64.
+(pdftex.def)             Requested size: 149.48024pt x 96.72705pt.
+ [7 <./fig/cam_range.pdf> <./fig/cam_perspective.pdf> <./fig/cam_parallel.pdf>]
+ [8 <./fig/hdv_033_color.jpg> <./fig/hdv_033_range.jpg>] [9]
+./ch2_state_of_the_art.tex:118: Undefined control sequence.
 <argument> \citename 
                      {Ky{\"o}stil{\"a} {\em et\nobreakspace {}al.\ }\relax ,...
-l.66 ...s described for example in \cite{Kyos2013}
+l.118 ... described for example in \cite{Kyos2013}
                                                   .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1256,33 +1391,33 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[8]
+[10]
 
-Package caption Warning: \label without proper \caption on input line 83.
+Package caption Warning: \label without proper \caption on input line 154.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:pp_projection' on page 9 undefined on input line 
-78.
+LaTeX Warning: Reference `fig:pp_projection' on page 11 undefined on input line
+ 149.
 
-<fig/pp_projection.pdf, id=461, 366.36874pt x 178.6675pt>
+<fig/pp_projection.pdf, id=454, 366.36874pt x 178.6675pt>
 File: fig/pp_projection.pdf Graphic file (type pdf)
 
 <use fig/pp_projection.pdf>
-Package pdftex.def Info: fig/pp_projection.pdf used on input line 82.
+Package pdftex.def Info: fig/pp_projection.pdf used on input line 153.
 (pdftex.def)             Requested size: 362.37573pt x 176.73141pt.
- [9 <./fig/pp_projection.pdf>]
-<fig/transformations_venn.pdf, id=474, 708.6475pt x 555.07375pt>
+ [11 <./fig/pp_projection.pdf>] [12]
+<fig/transformations_venn.pdf, id=473, 708.6475pt x 555.07375pt>
 File: fig/transformations_venn.pdf Graphic file (type pdf)
 
 <use fig/transformations_venn.pdf>
-Package pdftex.def Info: fig/transformations_venn.pdf used on input line 140.
+Package pdftex.def Info: fig/transformations_venn.pdf used on input line 216.
 (pdftex.def)             Requested size: 362.37573pt x 283.84613pt.
- [10]
-./ch2_state_of_the_art.tex:149: Undefined control sequence.
+ [13 <./fig/transformations_venn.pdf>]
+./ch2_state_of_the_art.tex:225: Undefined control sequence.
 <recently read> \mat 
                      
-l.149 ...responds to multiplying this matrix $\mat
+l.225 ...responds to multiplying this matrix $\mat
                                                   {T}$ by column vector form...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1290,14 +1425,14 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[11 <./fig/transformations_venn.pdf>] [12] [13] [14]
+[14] [15] [16] [17]
 
-LaTeX Warning: Citation `Eber1999' on page 15 undefined on input line 322.
+LaTeX Warning: Citation `Eber1999' on page 18 undefined on input line 398.
 
-./ch2_state_of_the_art.tex:325: Undefined control sequence.
+./ch2_state_of_the_art.tex:401: Undefined control sequence.
 <recently read> \nambla 
                         
-l.325 ...computed by setting the gradient $\nambla
+l.401 ...computed by setting the gradient $\nambla
                                                    S$ to zero. Since the ter...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1305,9 +1440,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[15]
-./ch2_state_of_the_art.tex:340: Undefined control sequence.
-l.340 where $\matr{X}$ is a $n \cross
+./ch2_state_of_the_art.tex:416: Undefined control sequence.
+l.416 where $\matr{X}$ is a $n \cross
                                       m$ matrix. Each row corresponds to a d...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1315,8 +1449,9 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./ch2_state_of_the_art.tex:369: Undefined control sequence.
-l.369 ...ta point a \emph{weight} $w_i \in \mathds
+[18]
+./ch2_state_of_the_art.tex:445: Undefined control sequence.
+l.445 ...ta point a \emph{weight} $w_i \in \mathds
                                                   {R}$ is defined. When $w_i...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1324,8 +1459,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./ch2_state_of_the_art.tex:369: Undefined control sequence.
-l.369 ...n $w_i = k \times w_j$ for $k \in \mathds
+./ch2_state_of_the_art.tex:445: Undefined control sequence.
+l.445 ...n $w_i = k \times w_j$ for $k \in \mathds
                                                   {N}$, the effect is the sa...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1333,9 +1468,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[16]
-./ch2_state_of_the_art.tex:373: Undefined control sequence.
-l.373 ...ambda$ such that $\lambda w_i \in \mathds
+./ch2_state_of_the_art.tex:449: Undefined control sequence.
+l.449 ...ambda$ such that $\lambda w_i \in \mathds
                                                   {N}$. This justifies the p...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1344,16 +1478,16 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `Horn1986' on page 17 undefined on input line 378.
+LaTeX Warning: Citation `Horn1986' on page 19 undefined on input line 454.
 
-[17]
+[19]
 
-LaTeX Warning: Citation `Horn1986' on page 18 undefined on input line 407.
+LaTeX Warning: Citation `Horn1986' on page 20 undefined on input line 483.
 
-./ch2_state_of_the_art.tex:407: Undefined control sequence.
+./ch2_state_of_the_art.tex:483: Undefined control sequence.
 <argument> \citename 
                      {Besl \& McKay, }1992
-l.407 ... (see \label{sec:icp}) in \cite{Besl1992}
+l.483 ... (see \label{sec:icp}) in \cite{Besl1992}
                                                   . \cite{Loru1995} gives a ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1361,10 +1495,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./ch2_state_of_the_art.tex:407: Undefined control sequence.
+./ch2_state_of_the_art.tex:483: Undefined control sequence.
 <argument> \citename 
                      {Lorusso {\em et\nobreakspace {}al.\ }\relax , }1995
-l.407 ...icp}) in \cite{Besl1992}. \cite{Loru1995}
+l.483 ...icp}) in \cite{Besl1992}. \cite{Loru1995}
                                                    gives a comparison of fou...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1373,22 +1507,22 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (4.83746pt too wide) in paragraph at lines 412--414
+Overfull \hbox (4.83746pt too wide) in paragraph at lines 488--490
 \OT1/cmr/m/n/10 The first and sec-ond terms do not de-pend on $\OT1/cmr/bx/n/10
  R$\OT1/cmr/m/n/10 , hence the prob-lem is re-duced to max-i-miz-ing $[][] \OML
 /cmm/m/it/10 w[] [][] \OT1/cmr/bx/n/10 R []$\OT1/cmr/m/n/10 . 
  []
 
-[18]) [19]
+[20]) [21]
 \openout2 = `ch3_registration.aux'.
 
  (./ch3_registration.tex
 Chapter 3.
-[20
+[22
 
 
 
-] [21]
+] [23]
 ./ch3_registration.tex:54: Undefined control sequence.
 <argument> \citename 
                      {Besl \& McKay, }1992
@@ -1412,7 +1546,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `Told2010' on page 22 undefined on input line 54.
+LaTeX Warning: Citation `Told2010' on page 24 undefined on input line 54.
 
 ./ch3_registration.tex:61: Undefined control sequence.
 <argument> \citename 
@@ -1425,7 +1559,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[22]
+[24]
 ./ch3_registration.tex:81: Undefined control sequence.
 l.81 ...rac{1}{W} \sum_{i} w_i \, \vec{n_{p_i}} \n
                                                    (p_i - \matr{M} \, q_i)
@@ -1463,7 +1597,7 @@ Overfull \hbox (25.57864pt too wide) in paragraph at lines 85--86
 oped, such as Gen-er-al-ized ICP [[]],
  []
 
-[23]
+[25]
 ./ch3_registration.tex:87: Undefined control sequence.
 <argument> \citename 
                      {Lorusso {\em et\nobreakspace {}al.\ }\relax , }1995
@@ -1498,7 +1632,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `???' on page 24 undefined on input line 94.
+LaTeX Warning: Citation `???' on page 26 undefined on input line 94.
 
 ./ch3_registration.tex:94: Undefined control sequence.
 <argument> \citename 
@@ -1522,7 +1656,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-<fig/icp_true_approx_cor.pdf, id=639, 1179.66135pt x 702.87024pt>
+<fig/icp_true_approx_cor.pdf, id=634, 1179.66135pt x 702.87024pt>
 File: fig/icp_true_approx_cor.pdf Graphic file (type pdf)
 
 <use fig/icp_true_approx_cor.pdf>
@@ -1534,7 +1668,7 @@ Underfull \hbox (badness 2698) in paragraph at lines 113--114
 /n/10 (\OML/cmm/m/it/10 q[]; q[]\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 <
  []
 
-[24 <./fig/icp_true_approx_cor.pdf>]
+[26 <./fig/icp_true_approx_cor.pdf>]
 ./ch3_registration.tex:128: Undefined control sequence.
 <argument> \citename 
                      {Segal {\em et\nobreakspace {}al.\ }\relax , }2009
@@ -1546,34 +1680,34 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-) [25]
+) [27]
 \openout2 = `ch4_large_models.aux'.
 
  (./ch4_large_models.tex
 Chapter 4.
 
-LaTeX Warning: Reference `fig:hdv_dessus' on page 26 undefined on input line 12
+LaTeX Warning: Reference `fig:hdv_dessus' on page 28 undefined on input line 12
 .
 
-<fig/r1_render2.jpg, id=669, 1603.9925pt x 1610.015pt>
+<fig/r1_render2.jpg, id=663, 1603.9925pt x 1610.015pt>
 File: fig/r1_render2.jpg Graphic file (type jpg)
 
 <use fig/r1_render2.jpg>
 Package pdftex.def Info: fig/r1_render2.jpg used on input line 26.
 (pdftex.def)             Requested size: 226.48398pt x 227.31677pt.
 
-<fig/r1_render1.jpg, id=670, 2011.515pt x 1503.6175pt>
+<fig/r1_render1.jpg, id=664, 2011.515pt x 1503.6175pt>
 File: fig/r1_render1.jpg Graphic file (type jpg)
 
 <use fig/r1_render1.jpg>
 Package pdftex.def Info: fig/r1_render1.jpg used on input line 29.
 (pdftex.def)             Requested size: 226.48398pt x 169.27585pt.
- [26
+ [28
 
 
 
 ]
-<fig/relief_B.pdf, id=678, 397.485pt x 173.64874pt>
+<fig/relief_B.pdf, id=672, 397.485pt x 173.64874pt>
 File: fig/relief_B.pdf Graphic file (type pdf)
  <use fig/relief_B.pdf>
 Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
@@ -1582,21 +1716,21 @@ Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[27 <./fig/r1_render2.jpg> <./fig/r1_render1.jpg>]
-<fig/r1_plain.png, id=687, 915.42pt x 939.51pt>
+[29 <./fig/r1_render2.jpg> <./fig/r1_render1.jpg>]
+<fig/r1_plain.png, id=681, 915.42pt x 939.51pt>
 File: fig/r1_plain.png Graphic file (type png)
  <use fig/r1_plain.png>
 Package pdftex.def Info: fig/r1_plain.png used on input line 67.
 (pdftex.def)             Requested size: 452.96796pt x 464.87968pt.
 
-<fig/r1_occlusion.png, id=690, 908.39375pt x 929.4725pt>
+<fig/r1_occlusion.png, id=684, 908.39375pt x 929.4725pt>
 File: fig/r1_occlusion.png Graphic file (type png)
 
 <use fig/r1_occlusion.png>
 Package pdftex.def Info: fig/r1_occlusion.png used on input line 86.
 (pdftex.def)             Requested size: 226.48398pt x 231.72934pt.
 
-<fig/r1_occlusion2.png, id=691, 967.615pt x 820.06375pt>
+<fig/r1_occlusion2.png, id=685, 967.615pt x 820.06375pt>
 File: fig/r1_occlusion2.png Graphic file (type png)
 
 <use fig/r1_occlusion2.png>
@@ -1606,7 +1740,7 @@ Package pdftex.def Info: fig/r1_occlusion2.png used on input line 89.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[28 <./fig/relief_B.pdf>] [29 <./fig/r1_plain.png>]
+[30 <./fig/relief_B.pdf>] [31 <./fig/r1_plain.png>]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 114.
 
 
@@ -1615,35 +1749,35 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
- [30 <./fig/r1_occlusion.png> <./fig/r1_occlusion2.png>]
-<fig/r1_crop.png, id=733, 890.32625pt x 934.49126pt>
+ [32 <./fig/r1_occlusion.png> <./fig/r1_occlusion2.png>]
+<fig/r1_crop.png, id=728, 890.32625pt x 934.49126pt>
 File: fig/r1_crop.png Graphic file (type png)
  <use fig/r1_crop.png>
 Package pdftex.def Info: fig/r1_crop.png used on input line 124.
 (pdftex.def)             Requested size: 317.07619pt x 332.80902pt.
 
-<fig/r1_ddp.png, id=734, 1035.87pt x 789.95125pt>
+<fig/r1_ddp.png, id=729, 1035.87pt x 789.95125pt>
 File: fig/r1_ddp.png Graphic file (type png)
  <use fig/r1_ddp.png>
 Package pdftex.def Info: fig/r1_ddp.png used on input line 132.
 (pdftex.def)             Requested size: 317.07619pt x 241.79662pt.
- [31]
-[32 <./fig/r1_crop.png> <./fig/r1_ddp.png>] [33]
-<fig/curvature_distances.pdf, id=754, 588.1975pt x 246.9225pt>
+ [33]
+[34 <./fig/r1_crop.png> <./fig/r1_ddp.png>] [35]
+<fig/curvature_distances.pdf, id=748, 588.1975pt x 246.9225pt>
 File: fig/curvature_distances.pdf Graphic file (type pdf)
 
 <use fig/curvature_distances.pdf>
 Package pdftex.def Info: fig/curvature_distances.pdf used on input line 217.
 (pdftex.def)             Requested size: 181.18442pt x 76.05913pt.
 
-<fig/curvature_angles.pdf, id=755, 588.1975pt x 246.9225pt>
+<fig/curvature_angles.pdf, id=749, 588.1975pt x 246.9225pt>
 File: fig/curvature_angles.pdf Graphic file (type pdf)
 
 <use fig/curvature_angles.pdf>
 Package pdftex.def Info: fig/curvature_angles.pdf used on input line 222.
 (pdftex.def)             Requested size: 181.18442pt x 76.05913pt.
 
-<fig/dispersion_random.png, id=756, 654.445pt x 583.17876pt>
+<fig/dispersion_random.png, id=750, 654.445pt x 583.17876pt>
 File: fig/dispersion_random.png Graphic file (type png)
 
 <use fig/dispersion_random.png>
@@ -1654,7 +1788,7 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 242--243
 [][] 
  []
 
-<fig/dispersion_sqgrid.png, id=757, 654.445pt x 583.17876pt>
+<fig/dispersion_sqgrid.png, id=751, 654.445pt x 583.17876pt>
 File: fig/dispersion_sqgrid.png Graphic file (type png)
 
 <use fig/dispersion_sqgrid.png>
@@ -1665,7 +1799,7 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 251--252
 [][] 
  []
 
-<fig/dispersion_pargrid.png, id=758, 654.445pt x 583.17876pt>
+<fig/dispersion_pargrid.png, id=752, 654.445pt x 583.17876pt>
 File: fig/dispersion_pargrid.png Graphic file (type png)
 
 <use fig/dispersion_pargrid.png>
@@ -1676,29 +1810,29 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 260--261
 [][] 
  []
 
-[34 <./fig/curvature_distances.pdf> <./fig/curvature_angles.pdf>]
-<fig/closeup_ddp.png, id=799, 1373.63188pt x 1326.9575pt>
+[36 <./fig/curvature_distances.pdf> <./fig/curvature_angles.pdf>]
+<fig/closeup_ddp.png, id=792, 1373.63188pt x 1326.9575pt>
 File: fig/closeup_ddp.png Graphic file (type png)
 
 <use fig/closeup_ddp.png>
 Package pdftex.def Info: fig/closeup_ddp.png used on input line 277.
 (pdftex.def)             Requested size: 271.78352pt x 262.53188pt.
 
-<fig/closeup_wall.png, id=800, 1373.63188pt x 799.48688pt>
+<fig/closeup_wall.png, id=793, 1373.63188pt x 799.48688pt>
 File: fig/closeup_wall.png Graphic file (type png)
 
 <use fig/closeup_wall.png>
 Package pdftex.def Info: fig/closeup_wall.png used on input line 284.
 (pdftex.def)             Requested size: 271.78352pt x 158.17445pt.
 
-<fig/bunny_grid_closeup.png, id=801, 793.96625pt x 595.22375pt>
+<fig/bunny_grid_closeup.png, id=794, 793.96625pt x 595.22375pt>
 File: fig/bunny_grid_closeup.png Graphic file (type png)
 
 <use fig/bunny_grid_closeup.png>
 Package pdftex.def Info: fig/bunny_grid_closeup.png used on input line 294.
 (pdftex.def)             Requested size: 181.18442pt x 135.82686pt.
 
-<fig/pargrid_proj.png, id=804, 295.5843pt x 274.02374pt>
+<fig/pargrid_proj.png, id=797, 295.5843pt x 274.02374pt>
 File: fig/pargrid_proj.png Graphic file (type png)
 
 <use fig/pargrid_proj.png>
@@ -1708,7 +1842,7 @@ Package pdftex.def Info: fig/pargrid_proj.png used on input line 304.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig/pargrid1.pdf, id=806, 1346.02875pt x 1055.945pt>
+<fig/pargrid1.pdf, id=799, 1346.02875pt x 1055.945pt>
 File: fig/pargrid1.pdf Graphic file (type pdf)
  <use fig/pargrid1.pdf>
 Package pdftex.def Info: fig/pargrid1.pdf used on input line 318.
@@ -1718,7 +1852,7 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 318--319
 [][] 
  []
 
-<fig/pargrid2.pdf, id=808, 1346.02875pt x 1055.945pt>
+<fig/pargrid2.pdf, id=801, 1346.02875pt x 1055.945pt>
 File: fig/pargrid2.pdf Graphic file (type pdf)
  <use fig/pargrid2.pdf>
 Package pdftex.def Info: fig/pargrid2.pdf used on input line 325.
@@ -1731,189 +1865,189 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 325--326
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[35 <./fig/dispersion_random.png> <./fig/dispersion_sqgrid.png> <./fig/dispersi
-on_pargrid.png>] [36 <./fig/closeup_ddp.png> <./fig/closeup_wall.png> <./fig/bu
-nny_grid_closeup.png>] [37 <./fig/pargrid1.pdf> <./fig/pargrid2.pdf> <./fig/par
-grid_proj.png>] <fig/lmin_plot.pdf, id=845, 539.01375pt x 477.785pt>
+[37 <./fig/dispersion_random.png> <./fig/dispersion_sqgrid.png> <./fig/dispersi
+on_pargrid.png>] [38 <./fig/closeup_ddp.png> <./fig/closeup_wall.png> <./fig/bu
+nny_grid_closeup.png>] [39 <./fig/pargrid1.pdf> <./fig/pargrid2.pdf> <./fig/par
+grid_proj.png>] <fig/lmin_plot.pdf, id=837, 539.01375pt x 449.68pt>
 File: fig/lmin_plot.pdf Graphic file (type pdf)
 
 <use fig/lmin_plot.pdf>
 Package pdftex.def Info: fig/lmin_plot.pdf used on input line 357.
-(pdftex.def)             Requested size: 181.18442pt x 160.60027pt.
- <fig/nn.pdf, id=849, 569.12625pt x 386.44376pt>
+(pdftex.def)             Requested size: 181.18442pt x 151.1532pt.
+ <fig/nn.pdf, id=841, 569.12625pt x 386.44376pt>
 File: fig/nn.pdf Graphic file (type pdf)
 
 <use fig/nn.pdf>
 Package pdftex.def Info: fig/nn.pdf used on input line 373.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
- <fig/nn_lmin.pdf, id=850, 569.12625pt x 386.44376pt>
+ <fig/nn_lmin.pdf, id=842, 569.12625pt x 386.44376pt>
 File: fig/nn_lmin.pdf Graphic file (type pdf)
 
 <use fig/nn_lmin.pdf>
 Package pdftex.def Info: fig/nn_lmin.pdf used on input line 377.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
- [38 <./fig/nn.pdf, page is rotated 90 degrees> <./fig/nn_lmin.pdf, page is rot
+ [40 <./fig/nn.pdf, page is rotated 90 degrees> <./fig/nn_lmin.pdf, page is rot
 ated 90 degrees>]
-<fig/plane_rand_d30000_gridQ.pdf, id=946, 569.12625pt x 386.44376pt>
+<fig/plane_rand_d30000_gridQ.pdf, id=939, 569.12625pt x 386.44376pt>
 File: fig/plane_rand_d30000_gridQ.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d30000_gridQ.pdf>
-Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 419
+Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 418
 .
 (pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
- [39]
-<fig/plane_rand_d.pdf, id=954, 670.505pt x 465.74pt>
+ [41]
+<fig/plane_rand_d.pdf, id=947, 670.505pt x 465.74pt>
 File: fig/plane_rand_d.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d.pdf>
-Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 442.
+Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 441.
 (pdftex.def)             Requested size: 226.48398pt x 157.31194pt.
- [40 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees>] [41 <./fi
+ [42 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees>] [43 <./fi
 g/lmin_plot.pdf> <./fig/plane_rand_d.pdf>]
-<fig/plane_rand_d30000.pdf, id=1050, 569.12625pt x 386.44376pt>
+<fig/plane_rand_d30000.pdf, id=1044, 569.12625pt x 386.44376pt>
 File: fig/plane_rand_d30000.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d30000.pdf>
-Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 460.
+Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 459.
 (pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
 
-<fig/plane_d20000.pdf, id=1054, 569.12625pt x 386.44376pt>
+<fig/plane_d20000.pdf, id=1048, 569.12625pt x 386.44376pt>
 File: fig/plane_d20000.pdf Graphic file (type pdf)
 
 <use fig/plane_d20000.pdf>
-Package pdftex.def Info: fig/plane_d20000.pdf used on input line 475.
+Package pdftex.def Info: fig/plane_d20000.pdf used on input line 474.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/plane_d30000.pdf, id=1055, 569.12625pt x 386.44376pt>
+<fig/plane_d30000.pdf, id=1049, 569.12625pt x 386.44376pt>
 File: fig/plane_d30000.pdf Graphic file (type pdf)
 
 <use fig/plane_d30000.pdf>
-Package pdftex.def Info: fig/plane_d30000.pdf used on input line 478.
+Package pdftex.def Info: fig/plane_d30000.pdf used on input line 477.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/sq_grid_d.pdf, id=1058, 585.18625pt x 304.13625pt>
+<fig/sq_grid_d.pdf, id=1052, 585.18625pt x 304.13625pt>
 File: fig/sq_grid_d.pdf Graphic file (type pdf)
 
 <use fig/sq_grid_d.pdf>
-Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 497.
+Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 496.
 (pdftex.def)             Requested size: 226.48398pt x 117.7077pt.
- [42 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.p
-df, page is rotated 90 degrees>] [43 <./fig/plane_rand_d30000.pdf, page is rota
+ [44 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.p
+df, page is rotated 90 degrees>] [45 <./fig/plane_rand_d30000.pdf, page is rota
 ted 90 degrees> <./fig/sq_grid_d.pdf>]
-<fig/parallelogram_grid.pdf, id=1228, 569.12625pt x 386.44376pt>
+<fig/parallelogram_grid.pdf, id=1220, 569.12625pt x 386.44376pt>
 File: fig/parallelogram_grid.pdf Graphic file (type pdf)
 
 <use fig/parallelogram_grid.pdf>
-Package pdftex.def Info: fig/parallelogram_grid.pdf used on input line 511.
+Package pdftex.def Info: fig/parallelogram_grid.pdf used on input line 510.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/closeup_pargrid.png, id=1230, 1057.9525pt x 779.91376pt>
+<fig/closeup_pargrid.png, id=1222, 1057.9525pt x 779.91376pt>
 File: fig/closeup_pargrid.png Graphic file (type png)
 
 <use fig/closeup_pargrid.png>
-Package pdftex.def Info: fig/closeup_pargrid.png used on input line 525.
+Package pdftex.def Info: fig/closeup_pargrid.png used on input line 524.
 (pdftex.def)             Requested size: 226.48398pt x 166.95226pt.
- [44 <./fig/parallelogram_grid.pdf, page is rotated 90 degrees>] <fig/orig_plan
-e1.pdf, id=1283, 569.12625pt x 386.44376pt>
+ [46 <./fig/parallelogram_grid.pdf, page is rotated 90 degrees>] <fig/orig_plan
+e1.pdf, id=1276, 569.12625pt x 386.44376pt>
 File: fig/orig_plane1.pdf Graphic file (type pdf)
 
 <use fig/orig_plane1.pdf>
-Package pdftex.def Info: fig/orig_plane1.pdf used on input line 549.
+Package pdftex.def Info: fig/orig_plane1.pdf used on input line 548.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/orig_plane2.pdf, id=1284, 569.12625pt x 386.44376pt>
+<fig/orig_plane2.pdf, id=1277, 569.12625pt x 386.44376pt>
 File: fig/orig_plane2.pdf Graphic file (type pdf)
 
 <use fig/orig_plane2.pdf>
-Package pdftex.def Info: fig/orig_plane2.pdf used on input line 553.
+Package pdftex.def Info: fig/orig_plane2.pdf used on input line 552.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/orig_superposition.pdf, id=1285, 569.12625pt x 386.44376pt>
+<fig/orig_superposition.pdf, id=1278, 569.12625pt x 386.44376pt>
 File: fig/orig_superposition.pdf Graphic file (type pdf)
 
 <use fig/orig_superposition.pdf>
-Package pdftex.def Info: fig/orig_superposition.pdf used on input line 557.
+Package pdftex.def Info: fig/orig_superposition.pdf used on input line 556.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/disks1.png, id=1286, 507.8975pt x 499.8675pt>
+<fig/disks1.png, id=1279, 507.8975pt x 499.8675pt>
 File: fig/disks1.png Graphic file (type png)
  <use fig/disks1.png>
-Package pdftex.def Info: fig/disks1.png used on input line 573.
+Package pdftex.def Info: fig/disks1.png used on input line 572.
 (pdftex.def)             Requested size: 226.48398pt x 222.90178pt.
 
-./ch4_large_models.tex:580: Too many }'s.
+./ch4_large_models.tex:579: Too many }'s.
 \@endfloatbox ...pagefalse \outer@nobreak \egroup 
                                                   \color@endbox 
-l.580 \end{figure}
+l.579 \end{figure}
                   
 You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-./ch4_large_models.tex:580: LaTeX Error: \begin{document} ended by \end{figure}
+./ch4_large_models.tex:579: LaTeX Error: \begin{document} ended by \end{figure}
 .
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.580 \end{figure}
+l.579 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-./ch4_large_models.tex:580: Extra \endgroup.
+./ch4_large_models.tex:579: Extra \endgroup.
 <recently read> \endgroup 
                           
-l.580 \end{figure}
+l.579 \end{figure}
                   
 Things are pretty mixed up, but I think the worst is over.
 
-
-LaTeX Warning: Reference `sec:ex_bunny_hilo' on page 45 undefined on input line
- 599.
-
-[45 <./fig/orig_plane1.pdf, page is rotated 90 degrees> <./fig/orig_plane2.pdf,
+[47 <./fig/orig_plane1.pdf, page is rotated 90 degrees> <./fig/orig_plane2.pdf,
  page is rotated 90 degrees> <./fig/orig_superposition.pdf, page is rotated 90 
-degrees>] [46 <./fig/closeup_pargrid.png> <./fig/disks1.png>]
+degrees>] [48 <./fig/closeup_pargrid.png> <./fig/disks1.png>]
 
-LaTeX Warning: Reference `bunny_first_tcor' on page 47 undefined on input line 
-615.
+LaTeX Warning: Reference `sec:ex_bunny_hilo' on page 49 undefined on input line
+ 604.
 
-<fig/bunny_first_tcor.png, id=1432, 475.27562pt x 374.90062pt>
+
+LaTeX Warning: Reference `bunny_first_tcor' on page 49 undefined on input line 
+620.
+
+<fig/bunny_first_tcor.png, id=1426, 475.27562pt x 374.90062pt>
 File: fig/bunny_first_tcor.png Graphic file (type png)
 
 <use fig/bunny_first_tcor.png>
-Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 622.
+Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 627.
 (pdftex.def)             Requested size: 317.07619pt x 250.12381pt.
 
-<fig/bunny_05_split.pdf, id=1434, 569.12625pt x 386.44376pt>
+<fig/bunny_05_split.pdf, id=1428, 569.12625pt x 386.44376pt>
 File: fig/bunny_05_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_05_split.pdf>
-Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 633.
+Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 638.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/bunny_08_split.pdf, id=1435, 569.12625pt x 386.44376pt>
+<fig/bunny_08_split.pdf, id=1429, 569.12625pt x 386.44376pt>
 File: fig/bunny_08_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_08_split.pdf>
-Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 636.
+Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 641.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-./ch4_large_models.tex:642: Package inputenc Error: Unicode char \u8:  not set
+./ch4_large_models.tex:647: Package inputenc Error: Unicode char \u8:  not set
  up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.642 In both cases, $\| q - p \| 
+l.647 In both cases, $\| q - p \| 
                                    \approx 0.001$ is a mode in the distribut...
 
 Your command was ignored.
@@ -1921,55 +2055,55 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:bunny_closest' on page 47 undefined on input line
- 644.
+LaTeX Warning: Reference `fig:bunny_closest' on page 49 undefined on input line
+ 649.
 
-[47]) [48] [49 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
+[49]) [50] [51 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
 rotated 90 degrees> <./fig/bunny_08_split.pdf, page is rotated 90 degrees>]
 \openout2 = `ch5_implementation.aux'.
 
 
 (./ch5_implementation.tex
 Chapter 5.
-[50
+[52
 
 
 
 ]
 Chapter 6.
-) [51
+) [53
 
 ]
 \openout2 = `chA_expriments.aux'.
 
  (./chA_expriments.tex
 Appendix A.
-<fig/bunny_globmin.pdf, id=1552, 569.12625pt x 386.44376pt>
+<fig/bunny_globmin.pdf, id=1546, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin.pdf>
 Package pdftex.def Info: fig/bunny_globmin.pdf used on input line 21.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
-<fig/bunny_globsmall.pdf, id=1553, 569.12625pt x 386.44376pt>
+<fig/bunny_globsmall.pdf, id=1547, 569.12625pt x 386.44376pt>
 File: fig/bunny_globsmall.pdf Graphic file (type pdf)
 
 <use fig/bunny_globsmall.pdf>
 Package pdftex.def Info: fig/bunny_globsmall.pdf used on input line 27.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
-<fig/bunny_globmed.pdf, id=1554, 569.12625pt x 386.44376pt>
+<fig/bunny_globmed.pdf, id=1548, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmed.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmed.pdf>
 Package pdftex.def Info: fig/bunny_globmed.pdf used on input line 33.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
- [52
+ [54
 
 
 
  <./fig/bunny_globmin.pdf, page is rotated 90 degrees>] <fig/bunny_globmin_ev.p
-df, id=1602, 569.12625pt x 386.44376pt>
+df, id=1596, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin_ev.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin_ev.pdf>
@@ -1977,21 +2111,21 @@ Package pdftex.def Info: fig/bunny_globmin_ev.pdf used on input line 40.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 53 undefined on input line 
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 55 undefined on input line 
 41.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 53 undefined on input line 
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 55 undefined on input line 
 41.
 
-) [53 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
-med.pdf, page is rotated 90 degrees>] [54 <./fig/bunny_globmin_ev.pdf, page is 
+) [55 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
+med.pdf, page is rotated 90 degrees>] [56 <./fig/bunny_globmin_ev.pdf, page is 
 rotated 90 degrees>]
 \openout2 = `chB_proofs.aux'.
 
  (./chB_proofs.tex
 Appendix B.
-[55
+[57
 
 
 
@@ -2024,14 +2158,14 @@ l.88 \end{align}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[56] <fig/plane_rand_n.pdf, id=1764, 1047.915pt x 558.085pt>
+[58] <fig/plane_rand_n.pdf, id=1758, 1047.915pt x 558.085pt>
 File: fig/plane_rand_n.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_n.pdf>
 Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 116.
 (pdftex.def)             Requested size: 271.78352pt x 144.74101pt.
- [57 <./fig/plane_rand_n.pdf>]
-<fig/sq_grid.pdf, id=1794, 1156.36203pt x 732.85997pt>
+ [59 <./fig/plane_rand_n.pdf>]
+<fig/sq_grid.pdf, id=1788, 1156.36203pt x 732.85997pt>
 File: fig/sq_grid.pdf Graphic file (type pdf)
  <use fig/sq_grid.pdf>
 Package pdftex.def Info: fig/sq_grid.pdf used on input line 165.
@@ -2040,7 +2174,7 @@ Package pdftex.def Info: fig/sq_grid.pdf used on input line 165.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [58] [59 <./fig/sq_grid.pdf>] (./paper.bbl
+) [60] [61 <./fig/sq_grid.pdf>] (./paper.bbl
 ./paper.bbl:3: Undefined control sequence.
 <argument> \protect \citename 
                               {Che, }1991
@@ -2158,19 +2292,19 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 67.
- [60
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 64.
+ [62
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 67.
- (./paper.aux (./ch1_introduction.aux) (./ch2_state_of_the_art.aux)
-(./ch3_registration.aux) (./ch4_large_models.aux) (./ch5_implementation.aux)
-(./chA_expriments.aux) (./chB_proofs.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 67.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 67.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 64.
+ (./paper.aux (./title.aux) (./ch1_introduction.aux)
+(./ch2_state_of_the_art.aux) (./ch3_registration.aux) (./ch4_large_models.aux)
+(./ch5_implementation.aux) (./chA_expriments.aux) (./chB_proofs.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 64.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 64.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: F69EDC52898DD6230B6C74E75877E188;5768.
+(rerunfilecheck)             Checksum: B392109AA877DF0867759D92B6034BDE;5247.
 
 
 LaTeX Warning: There were undefined references.
@@ -2178,51 +2312,53 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 67.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 64.
  ) 
 Here is how much of TeX's memory you used:
- 18683 strings out of 493308
- 357898 string characters out of 6137817
- 439738 words of memory out of 5000000
- 21475 multiletter control sequences out of 15000+600000
- 19993 words of font info for 81 fonts, out of 8000000 for 9000
+ 18725 strings out of 493308
+ 358606 string characters out of 6137817
+ 441411 words of memory out of 5000000
+ 21500 multiletter control sequences out of 15000+600000
+ 19069 words of font info for 76 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  45i,11n,58p,10420b,1114s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pf
-b></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
-sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loc
-al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
-/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
-/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2013/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dis
-t/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on paper.pdf (60 pages, 7527545 bytes).
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2013/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
+pe1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-dist/fonts
+/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/f
+onts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on paper.pdf (62 pages, 11722401 bytes).
 PDF statistics:
- 1996 PDF objects out of 2073 (max. 8388607)
- 1396 compressed objects within 14 object streams
- 286 named destinations out of 1000 (max. 500000)
- 891 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1999 PDF objects out of 2073 (max. 8388607)
+ 1390 compressed objects within 14 object streams
+ 293 named destinations out of 1000 (max. 500000)
+ 852 words of extra memory for PDF output out of 10000 (max. 10000000)
 

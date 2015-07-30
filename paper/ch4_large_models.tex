@@ -1,4 +1,4 @@
-\chapter{Registration of Large Models}
+\chapter{Registration of Large Models} \label{ch:large_model}
 The subject area of this paper is the registration of scans taken of a large and structurally complex physical objects. The thesis is set in the context of the full 3D scanning of the Brussels ``Hôtel de Ville'', a current project by LISA. In particular this paper focusses on the registration of long-range scans of the entire building with short-range, high resolution close-up scans of some features of it.
 
 
@@ -210,7 +210,7 @@ The local curvature metric is calculated as weighted average of those values for
 \begin{equation}
 c(p, r) = \sum_{i=1}^{k} w_i \, \left( A \, |\alpha_i| + D \, d_i \right)
 \end{equation}
-where the coefficients $A$ and $D$ are set so as to attribute different weights to the two measures. To avoid evaluating $\arccos$ for each point, the angle can be approximated using $\alpha'_i = \frac{\pi}{2} (1 - \vec{n} \, \vec{n_i})$. These two figures show two surfaces in one dimension where one metric it high and the other low.
+where the coefficients $A$ and $D$ are set so as to attribute different weights to the two measures. To avoid evaluating $\arccos$ for each point, the angle can be approximated using $\alpha'_i = \frac{\pi}{2} (1 - \vec{n} \, \vec{n_i})$. These two figures show two surfaces (in two dimensions) where one metric it high and the other low.
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.4\textwidth}
@@ -391,8 +391,7 @@ If the point cloud was generated using a parallel projection camera where the gr
 
 As shown before, using the properties of the parallelogram grid dispersion and formula \ref{eq:pargrid_lmin}, $p_l$ can be estimated by analyzing the points of the point clouds and their normal vectors. The formula is such that $l_{\text{min}}$ is proportional to $p_l$, and the proportionality constant $m = \min \left\{ \cdots \right\}$ is a function of $\vec{n}$. Assuming that the parallelogram grid covers the entire surface and that the surface is locally planar, $l_{\text{min}}$ can be computed at each point by measuring the distance to the closest neighbor in the point cloud.
 
-
-
+A way to estimate $p_l$ is to record $\frac{l_{\text{min}}}{d(\vec{n})}$ for each point and take the median value. The histogram is such that there is one large spike at the correct value $p_l$, and some outliers far off. For point clouds with a high number of points, this estimation remains stable when samples are recorded only for a random subset of the points.
 
 
 
@@ -585,7 +584,13 @@ The adjusted own distance histogram is created as follows: For each $q \in Q$, t
 \subsection{Occlusion and different bounds}
 Up until now $P$ and $Q$ were considered to be perfectly aligned, constitute the same surfaces, and both have points dispersed on the whole surface at an uniform distribution. On point clouds obtained from real 3D scans this last constraint is no longer true: Parts of the surface will be occluded, and two point clouds will have different bounds.
 
-When part of the sample point cloud $Q$ are removed
+It is assumed that ideally the parallelogram grid on $P$ is the same everywhere, and that the point dispersion on locally planar surface parts depends only on the local normal vector. Therefore when part of the sample point cloud $Q$ are removed, it only decreases the quality of the histogram as there are less samples, but does not alter its shape.
+
+However when parts of the model point cloud $P$ are removed, for sample point $q \in Q$ that fall within these regions, the closest point $p \in P$ will be much farther away. As a result much greater distances are recorded, than for the samples falling within the parallelogram grid of $P$.
+
+
+
+\subsubsection{Maximal distance}
 
 
 

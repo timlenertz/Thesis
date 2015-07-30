@@ -3,30 +3,77 @@
 \section{3D Scanning}
 The general goal of a 3D scanning project is to create a digital model of a physical three-dimensional object. Different methodologies exist for all sizes and types of objects. This section will give an overview of the process of 3D scanning, including the technology involved in obtaining 3D data, the operations that are performed to process it, and the final results that a 3D scanning project aims to obtain.
 
-Possibly the most simple case is to scan the surface of a single, solid object. Examples include artefacts such as the commonly used \emph{Stanford Bunny}, models of teeth or bones for manufacturing of prosthesis, small archeological artefacts, etc. The object is idealised mathematically as a single closed two-dimensional surface embedded in three-dimensional space.
+Possibly the most simple case is to scan the surface of a single, solid object. Examples include artefacts such as the commonly used \emph{Stanford Bunny}, models of teeth or bones for manufacturing of prosthesis, small archeological artifacts, etc. The object is idealised mathematically as a single closed two-dimensional surface embedded in three-dimensional space.
 
-For larger of more complex objects, or objects embedded in a more complex environment, it becomes harder to delimit the targeted content, and to filter it out from the raw scans. This is for instance the case for buildings, archeological sites or rock formations. It may be desirable to have a higher resolution for specific parts of the scene.
+To scan an object 3D scanners and photogrammetry is typically used.  Laser scanners emit light and detect the reflections from the object, in order to record a set of three-dimensional coordinates of points that lie on the object's surfaces. For smaller objects contact scanners also exist which physically probe the object. Photogrammetry consists of taking multiple photographic pictures of the object, and algorithmically recovering depth information by comparing photos from different camera poses. The scanning system can be set up such that the object and/or the scanners of cameras are rotated such that the entire object is covered.
 
-In these cases, data is typically collected using a combination of 3D scanning and photogrammetry. 3D scanners emit light and detect the reflections from the object, in order to record a set of three-dimensional coordinates of points that lie on the object's surfaces. Photogrammetry consists of taking multiple photographic pictures of the object, and algorithmically recovering depth information by comparing photos from different camera poses. Both of these techniques yield a \emph{range image} or \emph{depth map}, which is a projected two-dimensional image of the object from a given view point where each pixel contains depth information. Post-processing of the 3D scans largely consists in filtering the raw data and combining range images and photographs from different view points, in order to obtain a 3D model of the entire object. This resulting 3D model is an approximation of the real object's surfaces, typically in the form of a set of unconnected points (\emph{point cloud}), or a \emph{mesh} of vertices forming triangular faces.
+For larger of more complex objects, or objects embedded in a more complex environment, it becomes harder to delimit the targeted content, and to filter it out from the raw scans. This is for instance the case for buildings \cite{Kers2006}, archeological sites \cite{Web1} \cite{Kein2011} \cite{Grus2012} or rock formations. It may be desirable to have a higher resolution for specific parts of the scene. In these cases, data will be collected using a combination of laser scanning and photogrammetry, where the scanner is kept at a fixed position relative to the object. The result is a \emph{range image} or \emph{depth map}, which is a projected two-dimensional image of the object from a given view point where each pixel contains depth information.
+
+Post-processing of the 3D scans consists in filtering the raw data and combining range images and photographs from different view points, in order to obtain a 3D model of the entire object. This resulting 3D model is an approximation of the real object's surfaces, typically in the form of a set of unconnected points (\emph{point cloud}), or of a \emph{mesh} of vertices forming triangular faces. In some applications, such as in architecture or in retro-engineering, the goal is to obtain a CAD model, in which shapes such as planes or cylinders, or more complex objects are identified. 
 
 In other contexts, specifically in medical imaging, the goal is not to scan surfaces, but the whole inside of an object. Here techniques such as \emph{computed tomography} and \emph{magnetic resonance imaging} are used, and a volumetric model of the object in the form of \emph{voxel data} is produced. A \emph{voxel} is the three-dimensional equivalent of a \emph{pixel}.
 
-For this paper, the scanner object is modeled to be an ensemble of continuous surfaces, and the point clouds a discrete set of points from those surfaces. 
+Other applications of laser scanning include for example meteorology, where backscatter in the atmosphere is measured, forestry, where airborne laser scanning is used to obtain a height-map of a terrain with multiple layers representing the ground and treetops, the scanning of astronomical objects, robotics \cite{Bibe2003} and autonomous vehicles, and more.
 
-
-\subsection{Typical workflow}
+This paper focusses on the problem of registering different scans of parts of the same object, especially in the case where the scans are of different resolutions. The scanned object is modeled to be an ensemble of continuous surfaces, and the point clouds a discrete set of points from those surfaces. 
 
 
 \subsection{Point cloud}
-Data obtained from 3D scanning is recorded in the form of a \emph{point cloud}. An unorganized point cloud is defined as a set $P = \{ (x_i, y_i, z_i) \}$ of \emph{points}, each of which have spatial coordinates set in a coordinate system specific for this scan. Each point can be attributed with additional information, such as an RGB color, a scalar values, or the normal vector of the surface at that point. Laser scanners usually collect an intensity value that records the strength of the reflected light beam from that point.
+In the context of this paper, data obtained from 3D scanning is recorded in the form of a \emph{point cloud}. An unorganized point cloud is defined as a set $P = \{ (x_i, y_i, z_i) \}$ of \emph{points}, each of which have spatial coordinates set in a coordinate system specific for this scan. Each point can be attributed with additional information, such as an RGB color, a temperature, or the normal vector of the surface at that point. Laser scanners usually collect an intensity value that records the strength of the reflected light beam from that point, and possibly a confidence value for the correctness of the point.
 
-Additional information can be contained in the ordering of the points in the set. Laser scanners probe their field of view by sending out rays in different directions in a well-defined order. Typically the elevation and azimuth angles are gradually incremented and reset in a line-by-line manner, forming a two-dimensional grid in the field of view. Knowing the width and height of this grid, the ordered point cloud corresponds to a \emph{range image}: Each pixel in the range image corresponds to either a point $p_i \in P$, or an invalid point $\epsilon$, in case when no reflected ray was received in the direction it was pointing at. The range image can be described as the function $\mathbb{N}^2 \rightarrow P \cup \{ \epsilon \}$. In the case of a stationary laser scanner, the pixel coordinates would map to the azimuth and elevation angles of the point in spherical coordinates. The exact nature of this mapping is determined by the scanner, and it not necessarily a linear mapping. However it is such that a small difference in the pixel coordinates corresponds to a small difference in azimuth and elevation, which can for example be used to find neighbouring points efficiently.
+Point clouds hold no information about the connectivity of the points that form a surface of the object. Points that are considered to be samples of a surface are called \emph{inliers}. Each inlier has a certain \emph{error}, as a result of the limited precision of the scanner, and due to properties of the material. The error can be defined as the point's offset from the actual surface. Points that do form part of the object surface are called \emph{outliers}. They may be the result of unwanted content that got scanned along with the targeted object, or any other \emph{noise} data that appears during the processing pipeline.
 
-Point clouds hold no information about the connectivity of the points that form a surface of the object. Points that are considered to be samples of a surface are called \emph{inliers}. Each inlier has a certain \emph{error}, as a result of the limited precision of the scanner, and due to properties of the material. Points that do form part of the object surface are called \emph{outliers}. They may be the result of unwanted content that got scanned along with the targeted object, or any other \emph{noise} data that appears during the processing pipeline.
+Representing real objects using point clouds can be considered a two-fold modeling of physical reality: First it is assumed that the object is a set of continuous, solid surfaces. This disregards material properties such as surface reflectance and transparency, fine-scale texture of the surface and the resulting effects on light reflection, small scale motions of the object. Within this model point attributes such as a surface normal vector and a color are defined, and points are classified as inliers or outliers. Then this surfaces model gets represented by means of a sparse set of points, which introduces additional considerations such as the dispersion, density and uncertainty of the points.
 
-Representing real objects using point clouds can be considered a two-fold modeling of physical reality: First it is assumed that the object is a set of continuous, solid surfaces. This disregards material properties such as surface reflectance and transparency, fine-scale texture of the surface and the resulting effects on light reflection, small scale motions of the object. Within this model point attributes such as a surface normal vector and a color are defined, and points are classified as inliers or outliers. Then this surfaces model gets represented by means of a sparse set of points, which introduces additional considerations such as the distribution, density and uncertainty of the points.
+This notion is vague, and can be inappropriate when the real object is too complex to be modeled that way. For example for brick wall covered with climbing plants, scanned at low resolution, which are possible in motion during the scan, there is not enough information available in the scan to represent the surfaces of the individual leaves. When instead considering the wall as one plane, the vegetation gets represented as an error value in subsequent processing.
 
-This notion is vague, and can be inappropriate when the real object is too complex to be modeled that way. For example for brick wall covered with climbing plants, scanned at low resolution, and possibly moving during the scan, there is not enough information available in the scan to represent the surfaces of the individual leaves. When instead considering the wall as one plane, the vegetation gets represented as an error value in subsequent processing.
+
+\subsection{Range image}
+Additional information can be contained in the ordering of the points in the set. Laser scanners probe their field of view by sending out rays in different directions in a well-defined order. Typically the elevation and azimuth angles are gradually incremented and reset in a line-by-line manner, forming a two-dimensional grid in the field of view. Knowing the width and height of this grid, the ordered point cloud corresponds to a \emph{range image}: Each pixel in the range image corresponds to either a point $p_i \in P$, or an invalid point $\epsilon$, in case when no reflected ray was received in the direction it was pointing at. The range image can be described as the function $r : \mathbb{N}^2 \rightarrow P \cup \{ \epsilon \}$. In the case of a stationary laser scanner, the pixel coordinates would map to the azimuth and elevation angles of the point in spherical coordinates. The exact nature of this mapping is determined by the scanner, and it not necessarily a linear mapping. However it is such that a small difference in the pixel coordinates corresponds to a small difference in azimuth and elevation, which can for example be used to find neighbouring points efficiently. Creating a picture where each pixel $(x, y)$ gets the color attributed to the point $r(x, y)$ (or a background color when $r(x, y) = \epsilon$), gives a photographic view of the scan. An example is shown on figures \ref{fig:hdv_033_color} (point color) and \ref{fig:hdv_033_range} (distances from point to camera), taken from the ``Hôtel de Ville'' scans. For this scanner the mapping to pixel coordinates is not a linear mapping of the spherical coordinates, as can be seen by the curvatures of corners.
+
+\begin{figure}[p]
+\center
+\includegraphics[width=.8\textwidth]{fig/hdv_033_color.jpg}
+\label{fig:hdv_033_color}
+\caption{Color view of range image}
+\end{figure}
+
+\begin{figure}[p]
+\center
+\includegraphics[width=.8\textwidth]{fig/hdv_033_range.jpg}
+\label{fig:hdv_033_range}
+\caption{Depth view of range image}
+\end{figure}
+
+So the range image is a point cloud augmented by two pieces of information: The mapping of pixel coordinates to points $r$ is given for the points in the point cloud. And, the point cloud is set in a coordinate system where the scanner is at origin $(0, 0, 0)$, and it oriented facing the direction $\transpose{(0, 0, -1)}$. This knowledge will allow to make predictions on the dispersion and density of surface points.
+
+\subsubsection{Camera parameters}
+As indicated before, when working with point clouds generated from actual 3D scans, the scanner's exact mapping of 3D point coordinates to 2D pixel coordinates is not known. Supposing that the scanner is a laser scanner placed at a fixed position, it corresponds to the mapping of pixel coordinates to azimuth and elevation of the point's spherical coordinates. However when generating artificial point clouds for testing purposes, a model of a scanner (called ``camera'' in the rest of this paper) is made for which those characteristics are well defined.
+
+The following figure shows the 2D equivalents of three possible types of cameras:
+\begin{figure}[H]
+\begin{subfigure}{.33\textwidth}
+	\includegraphics[trim=8mm 1cm 8mm 1cm, crop, width=\linewidth]{fig/cam_range.pdf}
+	\caption{Range camera}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+	\includegraphics[trim=8mm 1cm 8mm 1cm, crop, width=\linewidth]{fig/cam_perspective.pdf}
+	\caption{Perspective camera}
+\end{subfigure}%
+\begin{subfigure}{.33\textwidth}
+	\includegraphics[trim=8mm 1cm 8mm 1cm, crop, width=\linewidth]{fig/cam_parallel.pdf}
+	\caption{Parallel camera}
+\end{subfigure}
+\end{figure}
+
+The \emph{range camera} does a linear mapping from the angle of the ray to the pixel on the image. The image, when put in three-dimensional space such that the rays pass through its pixels, has the shape of a circle arc. For its three-dimensional equivalent, additional complexities occur because of the different possible ways to define spherical coordinates. The field of view can cover the entire range of directions. This model corresponds most closely to a real laser scanner.
+
+For the \emph{perspective camera}, the image is a plane instead of a sphere. This corresponds to the way that photographic cameras take pictures. The resulting image contains some distortion relative to the one from the range camera, as the angles between rays get larger towards the extremities of the field of view. On \emph{parallel camera}, all the rays are parallel. For both the perspective and parallel camera, the mapping from 3D point coordinates to pixel coordinates on the image plane is a linear function and can be described as a multiplication with a $4 \times 4$ matrix in homogeneous coordinates. This is further described in the next chapter. For the range camera, trigonometric functions are necessary to describe the mapping.
+
+For the parallel camera, all rays have the direction of the normal vector $\vec{n}$ of the image plane. When considering only a small subregion of the field of view, the rays can also be considered to be parallel by approximation for the range and perspective cameras, as well as for real 3D scanners. Thus for any small part cropped out of a range image point cloud, the camera can be modeled as a parallel camera. These rays will also by approximation be equidistant from each other, and arranged on a square of rectangular grid on an image plane.
+
+This way the point dispersion on small, locally planar surfaces can be modeled by constructing a parallel camera.
+
 
 \subsection{3D scanner technology}
 In general 3D scanners are devices which probe their physical environment in order to collect information about the shape and possibly appearance of objects.
@@ -41,7 +88,7 @@ An alternate method is to use a continuous light beam instead of a short pulse, 
 \subsubsection{Time-of-flight scanner}
 Time-of-flight scanners are based on a laser range finder. A 3D scan is performed sequentially measuring the distances in different directions in the field of view. The beam is oriented by rotating the rangefinder or using a mirror system. A \emph{range image} is thus obtained. In spherical coordinates, the radius of each point corresponds to the distance measured by the rangefinder, whereas the azimuth and elevation depends on the direction of the beam. 
 
-These devices are also called \emph{Lidar} scanners.
+These devices are also called \emph{Lidar} scanners, especially in applications other than the scanning of solid object surfaces, as mentioned before. This is by analogy to \emph{Radar} and \emph{Sonar} which operate in a similar way using radio waves and sound waves to detect objects, respectively.
 
 Time-of-flight scanners are \emph{long-range scanners}. They may operate over distances of several kilometers. However due to the high speed of light, they have a relatively low accuracy on the order of millimeters.
 
@@ -50,20 +97,44 @@ Another laser-based technique for recording 3D data is to find the spatial locat
 
 
 
-\subsection{Photogrammetry}
 
 
 \section{Operations on point clouds}
 This section describes some of the operations that are applied to point cloud data during the post-processing of 3D scans. The point cloud is regarded as an unordered set $P = \{ (x_i, y_i, z_i) \}$. In the next section data structures used to lay the point set out in memory are considered.
 
 
-\subsection{Cropping}
+\subsection{Basic operations}
+
+\subsubsection{Cropping}
 Cropping means to simply remove the points from $P$ that lie outside some geometric region. This region may be a bounding box, a view frustum of a camera or other. It is typically performed manually using point cloud software as a first step in post-processing the 3D scans.
 
-\subsection{Fusion}
+When done on a range image, the coordinate system must be maintained since the camera will still be at the origin, which can be far off the cropped area.
+
+\subsubsection{Fusion}
 Since point clouds are unordered point sets, fusing two point clouds corresponds to taking the union of the two sets.
 
-This creates some redundancy in the overlapping parts of the point clouds. Techniques exist to refine the resulting distribution and density of points, as described for example in \cite{Kyos2013}.
+When two point clouds represent different views of the same object and the goal is to get a point cloud the covers a greater part of the object, they must first be \emph{registered} and put into the same coordinate system.
+
+Fusing creates some redundancy in the overlapping parts of the point clouds. Techniques exist to refine the resulting distribution and density of points, as described for example in \cite{Kyos2013}.
+
+
+\subsubsection{Transformation}
+To apply an affine transformation to the object represented by the point cloud, the same transformation matrix is simply applied to each point. The transformation will be relative to the origin point of the point cloud.
+
+When the points are attributed with normal vectors, the linear part of the transformation (i.e. not the translation) also needs to be applied to them.
+
+For point cloud registration, a rigid transformation will be applied to one \emph{loose} point cloud to put it into the coordinate system of the \emph{fixed} point cloud.
+
+
+\subsubsection{Closest point finding}
+Finding for any \emph{position} $(x, y, z)$, the point $p \in P$ closest to it. This can implemented efficiently by using a tree structure representation of the point cloud, as will be described in the next section.
+
+Usually the Euclidian distance between points is used, though for some applications other distance metrics are useful.
+
+\subsubsection{Nearest neighbor finding}
+Finding for any \emph{point} $q \in P$ in the point cloud, the point $p \in P$ other than itself that is closest. For many applications it is useful to find the $k$ nearest neighbors, either for one point, or for a whole set of points.
+
+Also here, different data structures allow for implementing this in an efficient manner. Different optimizations are possible here than for the closest point problem, because $q$ must be a point of the point cloud, and not just any position in space.
 
 
 \subsection{Projection}
@@ -92,17 +163,6 @@ But because $P_{(x_i,y_i)}$ are discrete sets, if the point density is not high 
 
 
 
-\subsection{Meshing}
-
-
-
-\subsection{Downsampling}
-
-
-
-\subsection{Filtering}
-
-
 \subsection{Registration} \label{sec:pc_registration}
 Given two point clouds $P$ and $Q$ that represent the same object, find a translation and rotation that will put both point clouds into the same coordinate system, and thus align the corresponding parts. $P$ and $Q$ are be taken from different poses, so different parts of the object are occluded in the two point clouds.
 
@@ -112,7 +172,23 @@ Many different methods exist. A large survey of registration methods is given in
 
 
 
-\subsection{Image-to-cloud registration}
+\subsection{Other operations}
+
+\subsubsection{Computation of normal vector}
+Computing the normal vector of the surface at a given point $p \in P$. Different approaches exist, and because the surface is unknown there is not necessarily a best method or a clear way to evaluate its accuracy.
+
+One basic way is to compute the $k$ nearest neighbors for some value $k$, and then take the normal vector of a plane fitted to those $k + 1$ points. 
+
+Other per-point values such as a local density or curvature measure can be useful, and a version for those two will be defined chapter \ref{ch:large_model}.
+
+
+\subsubsection{Image-to-cloud registration}
+Wrapping a photographic image on a point cloud, for example with the goal of attributing colors to points from a raw scan. This involves photogrammetric and image analysis techniques for finding correspondences between the point cloud and the image.
+
+
+\subsubsection{Meshing}
+Adding connectivity to the points, by constructing a triangular mesh that joins together neighboring points on the same surfaces. 
+
 
 
 
@@ -121,7 +197,7 @@ Even though a point cloud is defined as an unordered set of points, for it to be
 
 Compromises need to be made in laying out the data in a way such that the required operations can be performed efficiently. 
 
-
+...........................
 
 
 \section{Preliminary mathematics}
@@ -476,8 +552,3 @@ On the original point sets, $(\matr{R}, \vec{t})$ should solve $\vec{p_i} = \mat
 
 \subsection{RANSAC}
 
-\section{Preliminary computer science}
-
-\subsection{Octree}
-
-\subsection{KdTree}
