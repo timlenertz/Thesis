@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  30 JUL 2015 10:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.1)  31 JUL 2015 15:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -867,9 +867,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-2015730629.tex)...disabled (restricted).
+runsystem(touch w18-test-2015731931.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2015730629.tex)...disabled (restricted).
+runsystem(rm -f w18-test-2015731931.tex)...disabled (restricted).
 
 
 
@@ -1047,44 +1047,121 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 \TX@delta=\dimen185
 \TX@cols=\count172
 \TX@ftn=\toks34
-) (./paper.aux
-(./title.aux) (./ch1_introduction.aux) (./ch2_state_of_the_art.aux)
-(./ch3_registration.aux
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/forloop/forloop.sty
+Package: forloop 2006/09/18 v3.0 For Loops for LaTeX
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
+x
+\pgfutil@everybye=\toks35
+\pgfutil@tempdima=\dimen186
+\pgfutil@tempdimb=\dimen187
 
-LaTeX Warning: Label `sec:icp' multiply defined.
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
+sts.tex))
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box54
+(/usr/local/texlive/2013/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+Package: pgfrcs 2013/12/20 v3.0.0 (rcs-revision 1.28)
+)) (/usr/local/texlive/2013/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks36
+\pgfkeys@temptoks=\toks37
 
-) (./ch4_large_models.aux) (./ch5_implementation.aux) (./chA_expriments.aux)
-(./chB_proofs.aux))
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
+ode.tex
+\pgfkeys@tmptoks=\toks38
+))) (/usr/local/texlive/2013/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
+\pgf@x=\dimen188
+\pgf@xa=\dimen189
+\pgf@xb=\dimen190
+\pgf@xc=\dimen191
+\pgf@y=\dimen192
+\pgf@ya=\dimen193
+\pgf@yb=\dimen194
+\pgf@yc=\dimen195
+\c@pgf@counta=\count173
+\c@pgf@countb=\count174
+\c@pgf@countc=\count175
+\c@pgf@countd=\count176
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen196
+\pgfmath@count=\count177
+\pgfmath@box=\box55
+\pgfmath@toks=\toks39
+\pgfmath@stack@operand=\toks40
+\pgfmath@stack@operation=\toks41
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
+tex
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
+.code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
+nometric.code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
+m.code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
+rison.code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
+code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
+.code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
+code.tex)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
+erarithmetics.code.tex)))
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count178
+)))
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2013/12/13 v3.0.0 (rcs-revision 1.25)
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen197
+\pgffor@skip=\dimen198
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
+))
+(./paper.aux (./title.aux) (./ch4_large_models.aux) (./chB_proofs.aux))
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 48.
+LaTeX Font Info:    ... okay on input line 48.
 
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count173
-\scratchdimen=\dimen186
-\scratchbox=\box54
-\nofMPsegments=\count174
-\nofMParguments=\count175
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count176
-\MPscratchDim=\dimen187
-\MPnumerator=\count177
-\makeMPintoPDFobject=\count178
-\everyMPtoPDFconversion=\toks36
+\scratchcounter=\count179
+\scratchdimen=\dimen199
+\scratchbox=\box56
+\nofMPsegments=\count180
+\nofMParguments=\count181
+\everyMPshowfont=\toks44
+\MPscratchCnt=\count182
+\MPscratchDim=\dimen200
+\MPnumerator=\count183
+\makeMPintoPDFobject=\count184
+\everyMPtoPDFconversion=\toks45
 ) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -1183,19 +1260,19 @@ Dictionary: translator-basic-dictionary, Language: English
 ons.cfg
 File: siunitx-abbreviations.cfg 2013/07/31 v2.5s siunitx: Abbreviated units
 )
-\AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 45.
+\AtBeginShipoutBox=\box57
+Package hyperref Info: Link coloring OFF on input line 48.
  (/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count179
+\c@section@level=\count185
 )
-LaTeX Info: Redefining \ref on input line 45.
-LaTeX Info: Redefining \pageref on input line 45.
-LaTeX Info: Redefining \nameref on input line 45.
+LaTeX Info: Redefining \ref on input line 48.
+LaTeX Info: Redefining \pageref on input line 48.
+LaTeX Info: Redefining \nameref on input line 48.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write4
@@ -1203,23 +1280,24 @@ LaTeX Info: Redefining \nameref on input line 45.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-\c__siunitx_mathsf_int=\count180
-LaTeX Font Info:    Try loading font information for U+msa on input line 45.
+ ABD: EveryShipout initializing macros
+\c__siunitx_mathsf_int=\count186
+LaTeX Font Info:    Try loading font information for U+msa on input line 48.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 45.
+LaTeX Font Info:    Try loading font information for U+msb on input line 48.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 45.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 48.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-\c__siunitx_mathtt_int=\count181
+\c__siunitx_mathtt_int=\count187
 \openout2 = `title.aux'.
 
  (./title.tex
@@ -1238,14 +1316,14 @@ and I'll forget about whatever was undefined.
 
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
-(./paper.toc [2
-
-
-])
+(./paper.toc)
 \tf@toc=\write5
 \openout5 = `paper.toc'.
 
- [3]
+ [2
+
+
+] [3]
 \openout2 = `ch1_introduction.aux'.
 
  (./ch1_introduction.tex
@@ -1294,29 +1372,21 @@ LaTeX Warning: Citation `Bibe2003' on page 5 undefined on input line 16.
 
 ]
 
-Package caption Warning: \label without proper \caption on input line 37.
-See the caption package documentation for explanation.
-
-
 LaTeX Warning: Reference `fig:hdv_033_color' on page 6 undefined on input line 
 32.
-
-
-Package caption Warning: \label without proper \caption on input line 44.
-See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `fig:hdv_033_range' on page 6 undefined on input line 
 32.
 
-[6] <fig/hdv_033_color.jpg, id=411, 4068.19875pt x 2029.5825pt>
+[6] <fig/hdv_033_color.jpg, id=237, 4068.19875pt x 2029.5825pt>
 File: fig/hdv_033_color.jpg Graphic file (type jpg)
 
 <use fig/hdv_033_color.jpg>
 Package pdftex.def Info: fig/hdv_033_color.jpg used on input line 36.
 (pdftex.def)             Requested size: 362.37573pt x 180.76544pt.
 
-<fig/hdv_033_range.jpg, id=412, 4068.19875pt x 2029.5825pt>
+<fig/hdv_033_range.jpg, id=238, 4068.19875pt x 2029.5825pt>
 File: fig/hdv_033_range.jpg Graphic file (type jpg)
 
 <use fig/hdv_033_range.jpg>
@@ -1335,7 +1405,7 @@ l.56 ...crop, width=\linewidth]{fig/cam_range.pdf}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-<fig/cam_range.pdf, id=413, 325.215pt x 237.88875pt>
+<fig/cam_range.pdf, id=239, 325.215pt x 237.88875pt>
 File: fig/cam_range.pdf Graphic file (type pdf)
  <use fig/cam_range.pdf>
 Package pdftex.def Info: fig/cam_range.pdf used on input line 56.
@@ -1353,7 +1423,7 @@ l.60 ...width=\linewidth]{fig/cam_perspective.pdf}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-<fig/cam_perspective.pdf, id=414, 325.215pt x 237.88875pt>
+<fig/cam_perspective.pdf, id=240, 325.215pt x 237.88875pt>
 File: fig/cam_perspective.pdf Graphic file (type pdf)
 
 <use fig/cam_perspective.pdf>
@@ -1372,7 +1442,7 @@ l.64 ...p, width=\linewidth]{fig/cam_parallel.pdf}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-<fig/cam_parallel.pdf, id=415, 325.215pt x 237.88875pt>
+<fig/cam_parallel.pdf, id=241, 325.215pt x 237.88875pt>
 File: fig/cam_parallel.pdf Graphic file (type pdf)
 
 <use fig/cam_parallel.pdf>
@@ -1393,21 +1463,20 @@ and I'll forget about whatever was undefined.
 
 [10]
 
-Package caption Warning: \label without proper \caption on input line 154.
-See the caption package documentation for explanation.
-
-
 LaTeX Warning: Reference `fig:pp_projection' on page 11 undefined on input line
  149.
 
-<fig/pp_projection.pdf, id=454, 366.36874pt x 178.6675pt>
+<fig/pp_projection.pdf, id=282, 366.36874pt x 178.6675pt>
 File: fig/pp_projection.pdf Graphic file (type pdf)
 
 <use fig/pp_projection.pdf>
 Package pdftex.def Info: fig/pp_projection.pdf used on input line 153.
 (pdftex.def)             Requested size: 362.37573pt x 176.73141pt.
- [11 <./fig/pp_projection.pdf>] [12]
-<fig/transformations_venn.pdf, id=473, 708.6475pt x 555.07375pt>
+ [11 <./fig/pp_projection.pdf>]
+
+LaTeX Warning: Reference `ch:pcreg' on page 12 undefined on input line 171.
+
+[12] <fig/transformations_venn.pdf, id=304, 708.6475pt x 555.07375pt>
 File: fig/transformations_venn.pdf Graphic file (type pdf)
 
 <use fig/transformations_venn.pdf>
@@ -1424,6 +1493,10 @@ of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq:rotation-matrix-2d' on page 14 undefined on input 
+line 255.
 
 [14] [15] [16] [17]
 
@@ -1448,6 +1521,15 @@ of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq:lsq_linf' on page 18 undefined on input line 420.
+
+
+LaTeX Warning: Reference `eq:lsq_linr' on page 18 undefined on input line 424.
+
+
+LaTeX Warning: Reference `eq:lsq_sol' on page 18 undefined on input line 424.
 
 [18]
 ./ch2_state_of_the_art.tex:445: Undefined control sequence.
@@ -1505,6 +1587,10 @@ of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `eq:lsq_align_meaneds' on page 20 undefined on input l
+ine 485.
 
 
 Overfull \hbox (4.83746pt too wide) in paragraph at lines 488--490
@@ -1598,6 +1684,10 @@ oped, such as Gen-er-al-ized ICP [[]],
  []
 
 [25]
+
+LaTeX Warning: Reference `sec:lsq_align' on page 26 undefined on input line 87.
+
+
 ./ch3_registration.tex:87: Undefined control sequence.
 <argument> \citename 
                      {Lorusso {\em et\nobreakspace {}al.\ }\relax , }1995
@@ -1656,7 +1746,11 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-<fig/icp_true_approx_cor.pdf, id=634, 1179.66135pt x 702.87024pt>
+
+LaTeX Warning: Reference `sec:lsq_align' on page 26 undefined on input line 98.
+
+
+<fig/icp_true_approx_cor.pdf, id=471, 1179.66135pt x 702.87024pt>
 File: fig/icp_true_approx_cor.pdf Graphic file (type pdf)
 
 <use fig/icp_true_approx_cor.pdf>
@@ -1689,14 +1783,14 @@ Chapter 4.
 LaTeX Warning: Reference `fig:hdv_dessus' on page 28 undefined on input line 12
 .
 
-<fig/r1_render2.jpg, id=663, 1603.9925pt x 1610.015pt>
+<fig/r1_render2.jpg, id=503, 1603.9925pt x 1610.015pt>
 File: fig/r1_render2.jpg Graphic file (type jpg)
 
 <use fig/r1_render2.jpg>
 Package pdftex.def Info: fig/r1_render2.jpg used on input line 26.
 (pdftex.def)             Requested size: 226.48398pt x 227.31677pt.
 
-<fig/r1_render1.jpg, id=664, 2011.515pt x 1503.6175pt>
+<fig/r1_render1.jpg, id=504, 2011.515pt x 1503.6175pt>
 File: fig/r1_render1.jpg Graphic file (type jpg)
 
 <use fig/r1_render1.jpg>
@@ -1707,7 +1801,7 @@ Package pdftex.def Info: fig/r1_render1.jpg used on input line 29.
 
 
 ]
-<fig/relief_B.pdf, id=672, 397.485pt x 173.64874pt>
+<fig/relief_B.pdf, id=516, 397.485pt x 173.64874pt>
 File: fig/relief_B.pdf Graphic file (type pdf)
  <use fig/relief_B.pdf>
 Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
@@ -1717,20 +1811,24 @@ Package pdftex.def Info: fig/relief_B.pdf used on input line 54.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [29 <./fig/r1_render2.jpg> <./fig/r1_render1.jpg>]
-<fig/r1_plain.png, id=681, 915.42pt x 939.51pt>
+<fig/r1_plain.png, id=525, 915.42pt x 939.51pt>
 File: fig/r1_plain.png Graphic file (type png)
  <use fig/r1_plain.png>
 Package pdftex.def Info: fig/r1_plain.png used on input line 67.
 (pdftex.def)             Requested size: 452.96796pt x 464.87968pt.
 
-<fig/r1_occlusion.png, id=684, 908.39375pt x 929.4725pt>
+
+LaTeX Warning: Reference `sec:pc_registration' on page 30 undefined on input li
+ne 77.
+
+<fig/r1_occlusion.png, id=527, 908.39375pt x 929.4725pt>
 File: fig/r1_occlusion.png Graphic file (type png)
 
 <use fig/r1_occlusion.png>
 Package pdftex.def Info: fig/r1_occlusion.png used on input line 86.
 (pdftex.def)             Requested size: 226.48398pt x 231.72934pt.
 
-<fig/r1_occlusion2.png, id=685, 967.615pt x 820.06375pt>
+<fig/r1_occlusion2.png, id=528, 967.615pt x 820.06375pt>
 File: fig/r1_occlusion2.png Graphic file (type png)
 
 <use fig/r1_occlusion2.png>
@@ -1750,34 +1848,34 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
  [32 <./fig/r1_occlusion.png> <./fig/r1_occlusion2.png>]
-<fig/r1_crop.png, id=728, 890.32625pt x 934.49126pt>
+<fig/r1_crop.png, id=573, 890.32625pt x 934.49126pt>
 File: fig/r1_crop.png Graphic file (type png)
  <use fig/r1_crop.png>
 Package pdftex.def Info: fig/r1_crop.png used on input line 124.
 (pdftex.def)             Requested size: 317.07619pt x 332.80902pt.
 
-<fig/r1_ddp.png, id=729, 1035.87pt x 789.95125pt>
+<fig/r1_ddp.png, id=574, 1035.87pt x 789.95125pt>
 File: fig/r1_ddp.png Graphic file (type png)
  <use fig/r1_ddp.png>
 Package pdftex.def Info: fig/r1_ddp.png used on input line 132.
 (pdftex.def)             Requested size: 317.07619pt x 241.79662pt.
  [33]
 [34 <./fig/r1_crop.png> <./fig/r1_ddp.png>] [35]
-<fig/curvature_distances.pdf, id=748, 588.1975pt x 246.9225pt>
+<fig/curvature_distances.pdf, id=601, 588.1975pt x 246.9225pt>
 File: fig/curvature_distances.pdf Graphic file (type pdf)
 
 <use fig/curvature_distances.pdf>
 Package pdftex.def Info: fig/curvature_distances.pdf used on input line 217.
 (pdftex.def)             Requested size: 181.18442pt x 76.05913pt.
 
-<fig/curvature_angles.pdf, id=749, 588.1975pt x 246.9225pt>
+<fig/curvature_angles.pdf, id=602, 588.1975pt x 246.9225pt>
 File: fig/curvature_angles.pdf Graphic file (type pdf)
 
 <use fig/curvature_angles.pdf>
 Package pdftex.def Info: fig/curvature_angles.pdf used on input line 222.
 (pdftex.def)             Requested size: 181.18442pt x 76.05913pt.
 
-<fig/dispersion_random.png, id=750, 654.445pt x 583.17876pt>
+<fig/dispersion_random.png, id=603, 654.445pt x 583.17876pt>
 File: fig/dispersion_random.png Graphic file (type png)
 
 <use fig/dispersion_random.png>
@@ -1788,7 +1886,7 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 242--243
 [][] 
  []
 
-<fig/dispersion_sqgrid.png, id=751, 654.445pt x 583.17876pt>
+<fig/dispersion_sqgrid.png, id=604, 654.445pt x 583.17876pt>
 File: fig/dispersion_sqgrid.png Graphic file (type png)
 
 <use fig/dispersion_sqgrid.png>
@@ -1799,7 +1897,7 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 251--252
 [][] 
  []
 
-<fig/dispersion_pargrid.png, id=752, 654.445pt x 583.17876pt>
+<fig/dispersion_pargrid.png, id=605, 654.445pt x 583.17876pt>
 File: fig/dispersion_pargrid.png Graphic file (type png)
 
 <use fig/dispersion_pargrid.png>
@@ -1811,28 +1909,28 @@ Overfull \hbox (1.0pt too wide) in paragraph at lines 260--261
  []
 
 [36 <./fig/curvature_distances.pdf> <./fig/curvature_angles.pdf>]
-<fig/closeup_ddp.png, id=792, 1373.63188pt x 1326.9575pt>
+<fig/closeup_ddp.png, id=646, 1373.63188pt x 1326.9575pt>
 File: fig/closeup_ddp.png Graphic file (type png)
 
 <use fig/closeup_ddp.png>
 Package pdftex.def Info: fig/closeup_ddp.png used on input line 277.
 (pdftex.def)             Requested size: 271.78352pt x 262.53188pt.
 
-<fig/closeup_wall.png, id=793, 1373.63188pt x 799.48688pt>
+<fig/closeup_wall.png, id=647, 1373.63188pt x 799.48688pt>
 File: fig/closeup_wall.png Graphic file (type png)
 
 <use fig/closeup_wall.png>
 Package pdftex.def Info: fig/closeup_wall.png used on input line 284.
 (pdftex.def)             Requested size: 271.78352pt x 158.17445pt.
 
-<fig/bunny_grid_closeup.png, id=794, 793.96625pt x 595.22375pt>
+<fig/bunny_grid_closeup.png, id=648, 793.96625pt x 595.22375pt>
 File: fig/bunny_grid_closeup.png Graphic file (type png)
 
 <use fig/bunny_grid_closeup.png>
 Package pdftex.def Info: fig/bunny_grid_closeup.png used on input line 294.
 (pdftex.def)             Requested size: 181.18442pt x 135.82686pt.
 
-<fig/pargrid_proj.png, id=797, 295.5843pt x 274.02374pt>
+<fig/pargrid_proj.png, id=651, 295.5843pt x 274.02374pt>
 File: fig/pargrid_proj.png Graphic file (type png)
 
 <use fig/pargrid_proj.png>
@@ -1842,23 +1940,26 @@ Package pdftex.def Info: fig/pargrid_proj.png used on input line 304.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig/pargrid1.pdf, id=799, 1346.02875pt x 1055.945pt>
+
+LaTeX Warning: Reference `Galb2012' on page 37 undefined on input line 311.
+
+<fig/pargrid1.pdf, id=653, 1346.02875pt x 1055.945pt>
 File: fig/pargrid1.pdf Graphic file (type pdf)
  <use fig/pargrid1.pdf>
-Package pdftex.def Info: fig/pargrid1.pdf used on input line 318.
+Package pdftex.def Info: fig/pargrid1.pdf used on input line 320.
 (pdftex.def)             Requested size: 149.48024pt x 133.74744pt.
 
-Overfull \hbox (1.0pt too wide) in paragraph at lines 318--319
+Overfull \hbox (1.0pt too wide) in paragraph at lines 320--321
 [][] 
  []
 
-<fig/pargrid2.pdf, id=801, 1346.02875pt x 1055.945pt>
+<fig/pargrid2.pdf, id=655, 1346.02875pt x 1055.945pt>
 File: fig/pargrid2.pdf Graphic file (type pdf)
  <use fig/pargrid2.pdf>
-Package pdftex.def Info: fig/pargrid2.pdf used on input line 325.
+Package pdftex.def Info: fig/pargrid2.pdf used on input line 327.
 (pdftex.def)             Requested size: 149.48024pt x 133.74744pt.
 
-Overfull \hbox (1.0pt too wide) in paragraph at lines 325--326
+Overfull \hbox (1.0pt too wide) in paragraph at lines 327--328
 [][] 
  []
 
@@ -1868,19 +1969,19 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [37 <./fig/dispersion_random.png> <./fig/dispersion_sqgrid.png> <./fig/dispersi
 on_pargrid.png>] [38 <./fig/closeup_ddp.png> <./fig/closeup_wall.png> <./fig/bu
 nny_grid_closeup.png>] [39 <./fig/pargrid1.pdf> <./fig/pargrid2.pdf> <./fig/par
-grid_proj.png>] <fig/lmin_plot.pdf, id=837, 539.01375pt x 449.68pt>
+grid_proj.png>] <fig/lmin_plot.pdf, id=695, 539.01375pt x 449.68pt>
 File: fig/lmin_plot.pdf Graphic file (type pdf)
 
 <use fig/lmin_plot.pdf>
 Package pdftex.def Info: fig/lmin_plot.pdf used on input line 357.
 (pdftex.def)             Requested size: 181.18442pt x 151.1532pt.
- <fig/nn.pdf, id=841, 569.12625pt x 386.44376pt>
+ <fig/nn.pdf, id=699, 569.12625pt x 386.44376pt>
 File: fig/nn.pdf Graphic file (type pdf)
 
 <use fig/nn.pdf>
 Package pdftex.def Info: fig/nn.pdf used on input line 373.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
- <fig/nn_lmin.pdf, id=842, 569.12625pt x 386.44376pt>
+ <fig/nn_lmin.pdf, id=700, 569.12625pt x 386.44376pt>
 File: fig/nn_lmin.pdf Graphic file (type pdf)
 
 <use fig/nn_lmin.pdf>
@@ -1888,7 +1989,11 @@ Package pdftex.def Info: fig/nn_lmin.pdf used on input line 377.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
  [40 <./fig/nn.pdf, page is rotated 90 degrees> <./fig/nn_lmin.pdf, page is rot
 ated 90 degrees>]
-<fig/plane_rand_d30000_gridQ.pdf, id=939, 569.12625pt x 386.44376pt>
+
+LaTeX Warning: Reference `sec:registration_robostness' on page 41 undefined on 
+input line 399.
+
+<fig/plane_rand_d30000_gridQ.pdf, id=799, 569.12625pt x 386.44376pt>
 File: fig/plane_rand_d30000_gridQ.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d30000_gridQ.pdf>
@@ -1896,7 +2001,7 @@ Package pdftex.def Info: fig/plane_rand_d30000_gridQ.pdf used on input line 418
 .
 (pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
  [41]
-<fig/plane_rand_d.pdf, id=947, 670.505pt x 465.74pt>
+<fig/plane_rand_d.pdf, id=809, 670.505pt x 465.74pt>
 File: fig/plane_rand_d.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d.pdf>
@@ -1904,150 +2009,179 @@ Package pdftex.def Info: fig/plane_rand_d.pdf used on input line 441.
 (pdftex.def)             Requested size: 226.48398pt x 157.31194pt.
  [42 <./fig/plane_rand_d30000_gridQ.pdf, page is rotated 90 degrees>] [43 <./fi
 g/lmin_plot.pdf> <./fig/plane_rand_d.pdf>]
-<fig/plane_rand_d30000.pdf, id=1044, 569.12625pt x 386.44376pt>
+<fig/plane_rand_d30000.pdf, id=909, 569.12625pt x 386.44376pt>
 File: fig/plane_rand_d30000.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_d30000.pdf>
 Package pdftex.def Info: fig/plane_rand_d30000.pdf used on input line 459.
 (pdftex.def)             Requested size: 271.78352pt x 184.55333pt.
 
-<fig/plane_d20000.pdf, id=1048, 569.12625pt x 386.44376pt>
+<fig/plane_d20000.pdf, id=913, 569.12625pt x 386.44376pt>
 File: fig/plane_d20000.pdf Graphic file (type pdf)
 
 <use fig/plane_d20000.pdf>
 Package pdftex.def Info: fig/plane_d20000.pdf used on input line 474.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/plane_d30000.pdf, id=1049, 569.12625pt x 386.44376pt>
+<fig/plane_d30000.pdf, id=914, 569.12625pt x 386.44376pt>
 File: fig/plane_d30000.pdf Graphic file (type pdf)
 
 <use fig/plane_d30000.pdf>
 Package pdftex.def Info: fig/plane_d30000.pdf used on input line 477.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/sq_grid_d.pdf, id=1052, 585.18625pt x 304.13625pt>
+<fig/sq_grid_d.pdf, id=917, 585.18625pt x 304.13625pt>
 File: fig/sq_grid_d.pdf Graphic file (type pdf)
-
-<use fig/sq_grid_d.pdf>
+ <use fig/sq_grid_d.pdf>
 Package pdftex.def Info: fig/sq_grid_d.pdf used on input line 496.
 (pdftex.def)             Requested size: 226.48398pt x 117.7077pt.
- [44 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.p
-df, page is rotated 90 degrees>] [45 <./fig/plane_rand_d30000.pdf, page is rota
-ted 90 degrees> <./fig/sq_grid_d.pdf>]
-<fig/parallelogram_grid.pdf, id=1220, 569.12625pt x 386.44376pt>
+
+[44 <./fig/plane_d20000.pdf, page is rotated 90 degrees> <./fig/plane_d30000.pd
+f, page is rotated 90 degrees>] [45 <./fig/plane_rand_d30000.pdf, page is rotat
+ed 90 degrees> <./fig/sq_grid_d.pdf>]
+<fig/parallelogram_grid.pdf, id=1091, 569.12625pt x 386.44376pt>
 File: fig/parallelogram_grid.pdf Graphic file (type pdf)
 
 <use fig/parallelogram_grid.pdf>
 Package pdftex.def Info: fig/parallelogram_grid.pdf used on input line 510.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/closeup_pargrid.png, id=1222, 1057.9525pt x 779.91376pt>
+<fig/closeup_pargrid.png, id=1093, 1057.9525pt x 779.91376pt>
 File: fig/closeup_pargrid.png Graphic file (type png)
 
 <use fig/closeup_pargrid.png>
 Package pdftex.def Info: fig/closeup_pargrid.png used on input line 524.
 (pdftex.def)             Requested size: 226.48398pt x 166.95226pt.
- [46 <./fig/parallelogram_grid.pdf, page is rotated 90 degrees>] <fig/orig_plan
-e1.pdf, id=1276, 569.12625pt x 386.44376pt>
+ [46 <./fig/parallelogram_grid.pdf, page is rotated 90 degrees>]
+
+LaTeX Warning: Reference `fig:multiplane_cphist' on page 47 undefined on input 
+line 544.
+
+<fig/orig_plane1.pdf, id=1148, 569.12625pt x 386.44376pt>
 File: fig/orig_plane1.pdf Graphic file (type pdf)
 
 <use fig/orig_plane1.pdf>
-Package pdftex.def Info: fig/orig_plane1.pdf used on input line 548.
+Package pdftex.def Info: fig/orig_plane1.pdf used on input line 549.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/orig_plane2.pdf, id=1277, 569.12625pt x 386.44376pt>
+<fig/orig_plane2.pdf, id=1149, 569.12625pt x 386.44376pt>
 File: fig/orig_plane2.pdf Graphic file (type pdf)
 
 <use fig/orig_plane2.pdf>
-Package pdftex.def Info: fig/orig_plane2.pdf used on input line 552.
+Package pdftex.def Info: fig/orig_plane2.pdf used on input line 553.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/orig_superposition.pdf, id=1278, 569.12625pt x 386.44376pt>
+<fig/orig_superposition.pdf, id=1150, 569.12625pt x 386.44376pt>
 File: fig/orig_superposition.pdf Graphic file (type pdf)
 
 <use fig/orig_superposition.pdf>
-Package pdftex.def Info: fig/orig_superposition.pdf used on input line 556.
+Package pdftex.def Info: fig/orig_superposition.pdf used on input line 557.
 (pdftex.def)             Requested size: 144.95305pt x 98.42686pt.
 
-<fig/disks1.png, id=1279, 507.8975pt x 499.8675pt>
+<fig/disks1.png, id=1151, 507.8975pt x 499.8675pt>
 File: fig/disks1.png Graphic file (type png)
  <use fig/disks1.png>
-Package pdftex.def Info: fig/disks1.png used on input line 572.
+Package pdftex.def Info: fig/disks1.png used on input line 570.
 (pdftex.def)             Requested size: 226.48398pt x 222.90178pt.
 
-./ch4_large_models.tex:579: Too many }'s.
-\@endfloatbox ...pagefalse \outer@nobreak \egroup 
-                                                  \color@endbox 
-l.579 \end{figure}
-                  
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
+<fig/disks_noadj.pdf, id=1154, 569.12625pt x 386.44376pt>
+File: fig/disks_noadj.pdf Graphic file (type pdf)
 
+<use fig/disks_noadj.pdf>
+Package pdftex.def Info: fig/disks_noadj.pdf used on input line 584.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-./ch4_large_models.tex:579: LaTeX Error: \begin{document} ended by \end{figure}
-.
+<fig/disks_adj.pdf, id=1155, 569.12625pt x 386.44376pt>
+File: fig/disks_adj.pdf Graphic file (type pdf)
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.579 \end{figure}
-                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+<use fig/disks_adj.pdf>
+Package pdftex.def Info: fig/disks_adj.pdf used on input line 588.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-./ch4_large_models.tex:579: Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.579 \end{figure}
-                  
-Things are pretty mixed up, but I think the worst is over.
+<fig/relief_noadj.pdf, id=1156, 569.12625pt x 386.44376pt>
+File: fig/relief_noadj.pdf Graphic file (type pdf)
 
-[47 <./fig/orig_plane1.pdf, page is rotated 90 degrees> <./fig/orig_plane2.pdf,
- page is rotated 90 degrees> <./fig/orig_superposition.pdf, page is rotated 90 
-degrees>] [48 <./fig/closeup_pargrid.png> <./fig/disks1.png>]
+<use fig/relief_noadj.pdf>
+Package pdftex.def Info: fig/relief_noadj.pdf used on input line 598.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+
+<fig/relief_adj.pdf, id=1157, 569.12625pt x 386.44376pt>
+File: fig/relief_adj.pdf Graphic file (type pdf)
+
+<use fig/relief_adj.pdf>
+Package pdftex.def Info: fig/relief_adj.pdf used on input line 602.
+(pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
+ [47 <./fig/orig_plane1.pdf, page is rotated 90 degrees> <./fig/orig_plane2.pdf
+, page is rotated 90 degrees> <./fig/orig_superposition.pdf, page is rotated 90
+ degrees> <./fig/disks_noadj.pdf, page is rotated 90 degrees> <./fig/disks_adj.
+pdf, page is rotated 90 degrees>] [48 <./fig/closeup_pargrid.png> <./fig/disks1
+.png>]
+
+LaTeX Warning: Reference `sec:relief_small_trans_exp' on page 49 undefined on i
+nput line 628.
+
 
 LaTeX Warning: Reference `sec:ex_bunny_hilo' on page 49 undefined on input line
- 604.
+ 638.
+
+[49]
+
+LaTeX Warning: Reference `fig:bunny_globmin' on page 50 undefined on input line
+ 642.
 
 
-LaTeX Warning: Reference `bunny_first_tcor' on page 49 undefined on input line 
-620.
+LaTeX Warning: Reference `fig:bunny_globsmall' on page 50 undefined on input li
+ne 642.
 
-<fig/bunny_first_tcor.png, id=1426, 475.27562pt x 374.90062pt>
+
+LaTeX Warning: Reference `fig:bunny_globmed' on page 50 undefined on input line
+ 642.
+
+
+LaTeX Warning: Reference `sec:lsq_align' on page 50 undefined on input line 650
+.
+
+
+LaTeX Warning: Reference `ref:bunny_hilo_ev' on page 50 undefined on input line
+ 652.
+
+
+LaTeX Warning: Reference `bunny_first_tcor' on page 50 undefined on input line 
+654.
+
+<fig/bunny_first_tcor.png, id=1402, 475.27562pt x 374.90062pt>
 File: fig/bunny_first_tcor.png Graphic file (type png)
 
 <use fig/bunny_first_tcor.png>
-Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 627.
+Package pdftex.def Info: fig/bunny_first_tcor.png used on input line 661.
 (pdftex.def)             Requested size: 317.07619pt x 250.12381pt.
 
-<fig/bunny_05_split.pdf, id=1428, 569.12625pt x 386.44376pt>
+<fig/bunny_05_split.pdf, id=1404, 569.12625pt x 386.44376pt>
 File: fig/bunny_05_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_05_split.pdf>
-Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 638.
+Package pdftex.def Info: fig/bunny_05_split.pdf used on input line 672.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
-<fig/bunny_08_split.pdf, id=1429, 569.12625pt x 386.44376pt>
+<fig/bunny_08_split.pdf, id=1405, 569.12625pt x 386.44376pt>
 File: fig/bunny_08_split.pdf Graphic file (type pdf)
 
 <use fig/bunny_08_split.pdf>
-Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 641.
+Package pdftex.def Info: fig/bunny_08_split.pdf used on input line 675.
 (pdftex.def)             Requested size: 226.48398pt x 153.7846pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-./ch4_large_models.tex:647: Package inputenc Error: Unicode char \u8:  not set
+./ch4_large_models.tex:681: Package inputenc Error: Unicode char \u8:  not set
  up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.647 In both cases, $\| q - p \| 
+l.681 In both cases, $\| q - p \| 
                                    \approx 0.001$ is a mode in the distribut...
 
 Your command was ignored.
@@ -2055,126 +2189,1052 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:bunny_closest' on page 49 undefined on input line
- 649.
+LaTeX Warning: Reference `fig:bunny_closest' on page 50 undefined on input line
+ 683.
 
-[49]) [50] [51 <./fig/bunny_first_tcor.png> <./fig/bunny_05_split.pdf, page is 
-rotated 90 degrees> <./fig/bunny_08_split.pdf, page is rotated 90 degrees>]
+[50] [51 <./fig/relief_noadj.pdf, page is rotated 90 degrees> <./fig/relief_adj
+.pdf, page is rotated 90 degrees> <./fig/bunny_first_tcor.png>]) [52 <./fig/bun
+ny_05_split.pdf, page is rotated 90 degrees> <./fig/bunny_08_split.pdf, page is
+ rotated 90 degrees>]
 \openout2 = `ch5_implementation.aux'.
 
-
-(./ch5_implementation.tex
+ (./ch5_implementation.tex
 Chapter 5.
-[52
+[53
 
 
 
 ]
 Chapter 6.
-) [53
+) [54
 
 ]
 \openout2 = `chA_expriments.aux'.
 
  (./chA_expriments.tex
 Appendix A.
-<fig/bunny_globmin.pdf, id=1546, 569.12625pt x 386.44376pt>
+<fig/cross_relief_trans/(0-0-0).pdf, id=1617, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-0-0).pdf, id=1618, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-0-0).pdf, id=1619, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-0-0).pdf, id=1620, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-0-0).pdf, id=1621, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-1-0).pdf, id=1622, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-1-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-1-0).pdf, id=1623, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-1-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-1-0).pdf, id=1624, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-1-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-1-0).pdf, id=1625, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-1-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-1-0).pdf, id=1626, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-1-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-2-0).pdf, id=1627, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-2-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-2-0).pdf, id=1628, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-2-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-2-0).pdf, id=1629, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-2-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-2-0).pdf, id=1630, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-2-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-2-0).pdf, id=1631, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-2-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-3-0).pdf, id=1632, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-3-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-3-0).pdf, id=1633, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-3-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-3-0).pdf, id=1634, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-3-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-3-0).pdf, id=1635, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-3-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-3-0).pdf, id=1636, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-3-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-4-0).pdf, id=1637, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-4-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-4-0).pdf, id=1638, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-4-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-4-0).pdf, id=1639, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-4-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-4-0).pdf, id=1640, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-4-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-4-0).pdf, id=1641, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-4-0).pdf used on input line 
+20.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+
+ []
+
+File: fig/cross_relief_trans/(0-0-0).pdf Graphic file (type pdf)
+<use fig/cross_relief_trans/(0-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-0).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_trans/(1-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-0).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_trans/(2-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-0).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_trans/(3-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-0).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_trans/(4-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-0).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-0-1).pdf, id=1642, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-1).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-0-1).pdf, id=1643, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-1).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-0-1).pdf, id=1644, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-1).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-0-1).pdf, id=1645, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-1).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-0-1).pdf, id=1646, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-1).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-0-2).pdf, id=1647, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-2).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-0-2).pdf, id=1648, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-2).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-0-2).pdf, id=1649, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-2).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-0-2).pdf, id=1650, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-2).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-0-2).pdf, id=1651, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-2).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-0-3).pdf, id=1652, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-3).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-0-3).pdf, id=1653, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-3).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-0-3).pdf, id=1654, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-3).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-0-3).pdf, id=1655, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-3).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-0-3).pdf, id=1656, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-3).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(0-0-4).pdf, id=1657, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(0-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(0-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(0-0-4).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(1-0-4).pdf, id=1658, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(1-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(1-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(1-0-4).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(2-0-4).pdf, id=1659, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(2-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(2-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(2-0-4).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(3-0-4).pdf, id=1660, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(3-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(3-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(3-0-4).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_trans/(4-0-4).pdf, id=1661, 569.12625pt x 385.44pt>
+File: fig/cross_relief_trans/(4-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_trans/(4-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_trans/(4-0-4).pdf used on input line 
+33.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+
+ []
+
+[55
+
+
+
+ <./fig/cross_relief_trans/(0-0-0).pdf, page is rotated 90 degrees> <./fig/cros
+s_relief_trans/(1-0-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_tra
+ns/(2-0-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(3-0-0).p
+df, page is rotated 90 degrees> <./fig/cross_relief_trans/(4-0-0).pdf, page is 
+rotated 90 degrees> <./fig/cross_relief_trans/(0-1-0).pdf, page is rotated 90 d
+egrees> <./fig/cross_relief_trans/(1-1-0).pdf, page is rotated 90 degrees> <./f
+ig/cross_relief_trans/(2-1-0).pdf, page is rotated 90 degrees> <./fig/cross_rel
+ief_trans/(3-1-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(4
+-1-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(0-2-0).pdf, p
+age is rotated 90 degrees> <./fig/cross_relief_trans/(1-2-0).pdf, page is rotat
+ed 90 degrees> <./fig/cross_relief_trans/(2-2-0).pdf, page is rotated 90 degree
+s> <./fig/cross_relief_trans/(3-2-0).pdf, page is rotated 90 degrees> <./fig/cr
+oss_relief_trans/(4-2-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_t
+rans/(0-3-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(1-3-0)
+.pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(2-3-0).pdf, page i
+s rotated 90 degrees> <./fig/cross_relief_trans/(3-3-0).pdf, page is rotated 90
+ degrees> <./fig/cross_relief_trans/(4-3-0).pdf, page is rotated 90 degrees> <.
+/fig/cross_relief_trans/(0-4-0).pdf, page is rotated 90 degrees> <./fig/cross_r
+elief_trans/(1-4-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/
+(2-4-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(3-4-0).pdf,
+ page is rotated 90 degrees> <./fig/cross_relief_trans/(4-4-0).pdf, page is rot
+ated 90 degrees>]
+<fig/cross_relief_rot/(0-0-0).pdf, id=2748, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-0-0).pdf, id=2749, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-0-0).pdf, id=2750, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-0-0).pdf, id=2751, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-0-0).pdf, id=2752, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-1-0).pdf, id=2753, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-1-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-1-0).pdf, id=2754, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-1-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-1-0).pdf, id=2755, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-1-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-1-0).pdf, id=2756, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-1-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-1-0).pdf, id=2757, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-1-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-1-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-1-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-2-0).pdf, id=2758, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-2-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-2-0).pdf, id=2759, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-2-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-2-0).pdf, id=2760, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-2-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-2-0).pdf, id=2761, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-2-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-2-0).pdf, id=2762, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-2-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-2-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-2-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-3-0).pdf, id=2763, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-3-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-3-0).pdf, id=2764, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-3-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-3-0).pdf, id=2765, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-3-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-3-0).pdf, id=2766, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-3-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-3-0).pdf, id=2767, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-3-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-3-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-3-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-4-0).pdf, id=2768, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-4-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-4-0).pdf, id=2769, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-4-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-4-0).pdf, id=2770, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-4-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-4-0).pdf, id=2771, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-4-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-4-0).pdf, id=2772, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-4-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-4-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-4-0).pdf used on input line 48
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
+
+ []
+
+[56 <./fig/cross_relief_trans/(0-0-1).pdf, page is rotated 90 degrees> <./fig/c
+ross_relief_trans/(1-0-1).pdf, page is rotated 90 degrees> <./fig/cross_relief_
+trans/(2-0-1).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(3-0-1
+).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(4-0-1).pdf, page 
+is rotated 90 degrees> <./fig/cross_relief_trans/(0-0-2).pdf, page is rotated 9
+0 degrees> <./fig/cross_relief_trans/(1-0-2).pdf, page is rotated 90 degrees> <
+./fig/cross_relief_trans/(2-0-2).pdf, page is rotated 90 degrees> <./fig/cross_
+relief_trans/(3-0-2).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans
+/(4-0-2).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(0-0-3).pdf
+, page is rotated 90 degrees> <./fig/cross_relief_trans/(1-0-3).pdf, page is ro
+tated 90 degrees> <./fig/cross_relief_trans/(2-0-3).pdf, page is rotated 90 deg
+rees> <./fig/cross_relief_trans/(3-0-3).pdf, page is rotated 90 degrees> <./fig
+/cross_relief_trans/(4-0-3).pdf, page is rotated 90 degrees> <./fig/cross_relie
+f_trans/(0-0-4).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(1-0
+-4).pdf, page is rotated 90 degrees> <./fig/cross_relief_trans/(2-0-4).pdf, pag
+e is rotated 90 degrees> <./fig/cross_relief_trans/(3-0-4).pdf, page is rotated
+ 90 degrees> <./fig/cross_relief_trans/(4-0-4).pdf, page is rotated 90 degrees>
+]
+File: fig/cross_relief_rot/(0-0-0).pdf Graphic file (type pdf)
+ <use fig/cross_relief_rot/(0-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-0).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_rot/(1-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-0).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_rot/(2-0-0).pdf Graphic file (type pdf)
+ <use fig/cross_relief_rot/(2-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-0).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_rot/(3-0-0).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-0).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+File: fig/cross_relief_rot/(4-0-0).pdf Graphic file (type pdf)
+ <use fig/cross_relief_rot/(4-0-0).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-0).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-0-1).pdf, id=3643, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-1).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-0-1).pdf, id=3644, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-1).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-0-1).pdf, id=3645, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-1).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-0-1).pdf, id=3646, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-1).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-0-1).pdf, id=3647, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-0-1).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-0-1).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-1).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-0-2).pdf, id=3648, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-2).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-0-2).pdf, id=3649, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-2).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-0-2).pdf, id=3650, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-2).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-0-2).pdf, id=3651, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-2).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-0-2).pdf, id=3652, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-0-2).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-0-2).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-2).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-0-3).pdf, id=3653, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-3).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-0-3).pdf, id=3654, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-3).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-0-3).pdf, id=3655, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-3).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-0-3).pdf, id=3656, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-3).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-0-3).pdf, id=3657, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-0-3).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-0-3).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-3).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(0-0-4).pdf, id=3658, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(0-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(0-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(0-0-4).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(1-0-4).pdf, id=3659, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(1-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(1-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(1-0-4).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(2-0-4).pdf, id=3660, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(2-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(2-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(2-0-4).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(3-0-4).pdf, id=3661, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(3-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(3-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(3-0-4).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+<fig/cross_relief_rot/(4-0-4).pdf, id=3662, 569.12625pt x 385.44pt>
+File: fig/cross_relief_rot/(4-0-4).pdf Graphic file (type pdf)
+
+<use fig/cross_relief_rot/(4-0-4).pdf>
+Package pdftex.def Info: fig/cross_relief_rot/(4-0-4).pdf used on input line 60
+.
+(pdftex.def)             Requested size: 86.065pt x 58.28401pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--61
+
+ []
+
+[57 <./fig/cross_relief_rot/(0-0-0).pdf, page is rotated 90 degrees> <./fig/cro
+ss_relief_rot/(1-0-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/
+(2-0-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(3-0-0).pdf, p
+age is rotated 90 degrees> <./fig/cross_relief_rot/(4-0-0).pdf, page is rotated
+ 90 degrees> <./fig/cross_relief_rot/(0-1-0).pdf, page is rotated 90 degrees> <
+./fig/cross_relief_rot/(1-1-0).pdf, page is rotated 90 degrees> <./fig/cross_re
+lief_rot/(2-1-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(3-1-
+0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(4-1-0).pdf, page i
+s rotated 90 degrees> <./fig/cross_relief_rot/(0-2-0).pdf, page is rotated 90 d
+egrees> <./fig/cross_relief_rot/(1-2-0).pdf, page is rotated 90 degrees> <./fig
+/cross_relief_rot/(2-2-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_
+rot/(3-2-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(4-2-0).pd
+f, page is rotated 90 degrees> <./fig/cross_relief_rot/(0-3-0).pdf, page is rot
+ated 90 degrees> <./fig/cross_relief_rot/(1-3-0).pdf, page is rotated 90 degree
+s> <./fig/cross_relief_rot/(2-3-0).pdf, page is rotated 90 degrees> <./fig/cros
+s_relief_rot/(3-3-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(
+4-3-0).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(0-4-0).pdf, pa
+ge is rotated 90 degrees> <./fig/cross_relief_rot/(1-4-0).pdf, page is rotated 
+90 degrees> <./fig/cross_relief_rot/(2-4-0).pdf, page is rotated 90 degrees> <.
+/fig/cross_relief_rot/(3-4-0).pdf, page is rotated 90 degrees> <./fig/cross_rel
+ief_rot/(4-4-0).pdf, page is rotated 90 degrees>]
+<fig/bunny_globmin.pdf, id=4749, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin.pdf>
-Package pdftex.def Info: fig/bunny_globmin.pdf used on input line 21.
+Package pdftex.def Info: fig/bunny_globmin.pdf used on input line 82.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
-<fig/bunny_globsmall.pdf, id=1547, 569.12625pt x 386.44376pt>
+<fig/bunny_globsmall.pdf, id=4750, 569.12625pt x 386.44376pt>
 File: fig/bunny_globsmall.pdf Graphic file (type pdf)
 
 <use fig/bunny_globsmall.pdf>
-Package pdftex.def Info: fig/bunny_globsmall.pdf used on input line 27.
+Package pdftex.def Info: fig/bunny_globsmall.pdf used on input line 88.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
-
-<fig/bunny_globmed.pdf, id=1548, 569.12625pt x 386.44376pt>
+ [58 <./fig/cross_relief_rot/(0-0-1).pdf, page is rotated 90 degrees> <./fig/cr
+oss_relief_rot/(1-0-1).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot
+/(2-0-1).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(3-0-1).pdf, 
+page is rotated 90 degrees> <./fig/cross_relief_rot/(4-0-1).pdf, page is rotate
+d 90 degrees> <./fig/cross_relief_rot/(0-0-2).pdf, page is rotated 90 degrees> 
+<./fig/cross_relief_rot/(1-0-2).pdf, page is rotated 90 degrees> <./fig/cross_r
+elief_rot/(2-0-2).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(3-0
+-2).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(4-0-2).pdf, page 
+is rotated 90 degrees> <./fig/cross_relief_rot/(0-0-3).pdf, page is rotated 90 
+degrees> <./fig/cross_relief_rot/(1-0-3).pdf, page is rotated 90 degrees> <./fi
+g/cross_relief_rot/(2-0-3).pdf, page is rotated 90 degrees> <./fig/cross_relief
+_rot/(3-0-3).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/(4-0-3).p
+df, page is rotated 90 degrees> <./fig/cross_relief_rot/(0-0-4).pdf, page is ro
+tated 90 degrees> <./fig/cross_relief_rot/(1-0-4).pdf, page is rotated 90 degre
+es> <./fig/cross_relief_rot/(2-0-4).pdf, page is rotated 90 degrees> <./fig/cro
+ss_relief_rot/(3-0-4).pdf, page is rotated 90 degrees> <./fig/cross_relief_rot/
+(4-0-4).pdf, page is rotated 90 degrees>]
+<fig/bunny_globmed.pdf, id=5620, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmed.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmed.pdf>
-Package pdftex.def Info: fig/bunny_globmed.pdf used on input line 33.
+Package pdftex.def Info: fig/bunny_globmed.pdf used on input line 94.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
- [54
-
-
-
- <./fig/bunny_globmin.pdf, page is rotated 90 degrees>] <fig/bunny_globmin_ev.p
-df, id=1596, 569.12625pt x 386.44376pt>
+ [59 <./fig/bunny_globmin.pdf, page is rotated 90 degrees> <./fig/bunny_globsma
+ll.pdf, page is rotated 90 degrees>]
+<fig/bunny_globmin_ev.pdf, id=5716, 569.12625pt x 386.44376pt>
 File: fig/bunny_globmin_ev.pdf Graphic file (type pdf)
 
 <use fig/bunny_globmin_ev.pdf>
-Package pdftex.def Info: fig/bunny_globmin_ev.pdf used on input line 40.
+Package pdftex.def Info: fig/bunny_globmin_ev.pdf used on input line 101.
 (pdftex.def)             Requested size: 317.07619pt x 215.31024pt.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 55 undefined on input line 
-41.
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 60 undefined on input line 
+102.
 
 
-LaTeX Warning: Reference `ref:bunny_hilo_a' on page 55 undefined on input line 
-41.
+LaTeX Warning: Reference `ref:bunny_hilo_a' on page 60 undefined on input line 
+102.
 
-) [55 <./fig/bunny_globsmall.pdf, page is rotated 90 degrees> <./fig/bunny_glob
-med.pdf, page is rotated 90 degrees>] [56 <./fig/bunny_globmin_ev.pdf, page is 
-rotated 90 degrees>]
+) [60 <./fig/bunny_globmed.pdf, page is rotated 90 degrees> <./fig/bunny_globmi
+n_ev.pdf, page is rotated 90 degrees>]
 \openout2 = `chB_proofs.aux'.
 
  (./chB_proofs.tex
 Appendix B.
-[57
+
+LaTeX Warning: Citation `Galb2012' on page 61 undefined on input line 14.
+
+[61
 
 
 
 ]
+Overfull \hbox (29.67618pt too wide) in paragraph at lines 40--41
+\OT1/cmr/m/n/10 In most cases, when the sur-face is not too oblique, the min-i-
+mum for $(\OML/cmm/m/it/10 x; y\OT1/cmr/m/n/10 )$ is found in $\OMS/cmsy/m/n/10
+ f\OT1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OML/cmm/m/it/10 ; \OT
+1/cmr/m/n/10 (0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OML/cmm/m/it/10 ; \OT1/cmr
+/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OML/cmm/m/it/10 ; \OT1/cmr/m/n/
+10 (\OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\
+OMS/cmsy/m/n/10 g$\OT1/cmr/m/n/10 .
+ []
 
-./chB_proofs.tex:68: Package amsmath Error: Erroneous nesting of equation struc
-tures;
+<fig/lmin/0-0-1.pdf, id=5823, 829.0975pt x 494.84875pt>
+File: fig/lmin/0-0-1.pdf Graphic file (type pdf)
+
+<use fig/lmin/0-0-1.pdf>
+Package pdftex.def Info: fig/lmin/0-0-1.pdf used on input line 46.
+(pdftex.def)             Requested size: 221.95677pt x 132.47078pt.
+
+<fig/lmin/1--3-1.pdf, id=5824, 829.0975pt x 494.84875pt>
+File: fig/lmin/1--3-1.pdf Graphic file (type pdf)
+
+<use fig/lmin/1--3-1.pdf>
+Package pdftex.def Info: fig/lmin/1--3-1.pdf used on input line 50.
+(pdftex.def)             Requested size: 221.95677pt x 132.47078pt.
+
+<fig/lmin/3-3-1.pdf, id=5825, 829.0975pt x 494.84875pt>
+File: fig/lmin/3-3-1.pdf Graphic file (type pdf)
+
+<use fig/lmin/3-3-1.pdf>
+Package pdftex.def Info: fig/lmin/3-3-1.pdf used on input line 54.
+(pdftex.def)             Requested size: 221.95677pt x 132.47078pt.
+
+<fig/lmin/80-40-2.pdf, id=5826, 829.0975pt x 494.84875pt>
+File: fig/lmin/80-40-2.pdf Graphic file (type pdf)
+
+<use fig/lmin/80-40-2.pdf>
+Package pdftex.def Info: fig/lmin/80-40-2.pdf used on input line 58.
+(pdftex.def)             Requested size: 221.95677pt x 132.47078pt.
+
+<fig/lattice_proof.png, id=5827, 1136.245pt x 905.3825pt>
+File: fig/lattice_proof.png Graphic file (type png)
+
+<use fig/lattice_proof.png>
+Package pdftex.def Info: fig/lattice_proof.png used on input line 71.
+(pdftex.def)             Requested size: 407.6684pt x 324.83224pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[62 <./fig/lmin/0-0-1.pdf> <./fig/lmin/1--3-1.pdf> <./fig/lmin/3-3-1.pdf> <./fi
+g/lmin/80-40-2.pdf>]
+
+./chB_proofs.tex:115: Package amsmath Error: Erroneous nesting of equation stru
+ctures;
 (amsmath)                trying to recover with `aligned'.
 
 See the amsmath package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.68 \end{align}
-                
+l.115 \end{align}
+                 
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+[63 <./fig/lattice_proof.png>]
 
-./chB_proofs.tex:88: Package amsmath Error: Erroneous nesting of equation struc
-tures;
+./chB_proofs.tex:135: Package amsmath Error: Erroneous nesting of equation stru
+ctures;
 (amsmath)                trying to recover with `aligned'.
 
 See the amsmath package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.88 \end{align}
-                
+l.135 \end{align}
+                 
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[58] <fig/plane_rand_n.pdf, id=1758, 1047.915pt x 558.085pt>
+[64] <fig/plane_rand_n.pdf, id=5945, 1047.915pt x 558.085pt>
 File: fig/plane_rand_n.pdf Graphic file (type pdf)
 
 <use fig/plane_rand_n.pdf>
-Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 116.
+Package pdftex.def Info: fig/plane_rand_n.pdf used on input line 163.
 (pdftex.def)             Requested size: 271.78352pt x 144.74101pt.
- [59 <./fig/plane_rand_n.pdf>]
-<fig/sq_grid.pdf, id=1788, 1156.36203pt x 732.85997pt>
+ [65 <./fig/plane_rand_n.pdf>]
+<fig/sq_grid.pdf, id=5977, 1156.36203pt x 732.85997pt>
 File: fig/sq_grid.pdf Graphic file (type pdf)
  <use fig/sq_grid.pdf>
-Package pdftex.def Info: fig/sq_grid.pdf used on input line 165.
+Package pdftex.def Info: fig/sq_grid.pdf used on input line 212.
 (pdftex.def)             Requested size: 362.37573pt x 229.65558pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [60] [61 <./fig/sq_grid.pdf>] (./paper.bbl
+) [66] [67 <./fig/sq_grid.pdf>] (./paper.bbl
 ./paper.bbl:3: Undefined control sequence.
 <argument> \protect \citename 
                               {Che, }1991
@@ -2291,74 +3351,244 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 64.
- [62
+) [68
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 64.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 67.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 67.
  (./paper.aux (./title.aux) (./ch1_introduction.aux)
 (./ch2_state_of_the_art.aux) (./ch3_registration.aux) (./ch4_large_models.aux)
 (./ch5_implementation.aux) (./chA_expriments.aux) (./chB_proofs.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 64.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 64.
-Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: B392109AA877DF0867759D92B6034BDE;5247.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 67.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 67.
 
+
+Package rerunfilecheck Warning: File `paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `paper.out':
+(rerunfilecheck)             Before: 3A8E5F3FDFB6BC2E78799D60EFE79BF5;2901
+(rerunfilecheck)             After:  2A27F6B80D87FF5898CA4F6F4A90A2D2;5680.
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 64.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 67.
  ) 
 Here is how much of TeX's memory you used:
- 18725 strings out of 493308
- 358606 string characters out of 6137817
- 441411 words of memory out of 5000000
- 21500 multiletter control sequences out of 15000+600000
+ 24232 strings out of 493308
+ 478477 string characters out of 6137817
+ 511775 words of memory out of 5000000
+ 26791 multiletter control sequences out of 15000+600000
  19069 words of font info for 76 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 45i,11n,58p,10420b,1114s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
-texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive
-/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
-pe1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/f
-onts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on paper.pdf (62 pages, 11722401 bytes).
+ 45i,11n,58p,10420b,1112s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{figure.caption.44} has been referenced but does n
+ot exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.A.3.11} has been referenced but does not e
+xist, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.A.2.7} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.42} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.37} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.35} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.32} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.31} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.30} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.29} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.28} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.27} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.26} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{equation.1.4.6} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.25} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.23} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.20} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.18} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.17} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.16} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.10} has been referenced but does not
+ exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.9} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{figure.caption.7} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.A.4} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.A.3} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.9} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.8} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.7.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.7.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.7.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.7.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.7} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.6.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.6.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.6} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.6} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.5} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.5.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.5} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.4.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.4.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.4.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.4.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.4} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.3.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.3.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.3} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.2.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.2.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.1.2.1} has been referenced but does not 
+exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.2} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section.1.1} has been referenced but does not exist
+, replaced by a fixed one
+
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
+r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loca
+l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
+1/public/amsfonts/symbols/msam7.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on paper.pdf (68 pages, 14257811 bytes).
 PDF statistics:
- 1999 PDF objects out of 2073 (max. 8388607)
- 1390 compressed objects within 14 object streams
- 293 named destinations out of 1000 (max. 500000)
- 852 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6205 PDF objects out of 7423 (max. 8388607)
+ 3099 compressed objects within 31 object streams
+ 373 named destinations out of 1000 (max. 500000)
+ 1067 words of extra memory for PDF output out of 10000 (max. 10000000)
 

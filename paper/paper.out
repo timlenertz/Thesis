@@ -48,26 +48,32 @@
 \BOOKMARK [2][-]{subsection.4.5.5}{Adjusted own distance histogram}{section.4.5}% 48
 \BOOKMARK [2][-]{subsection.4.5.6}{Occlusion and different bounds}{section.4.5}% 49
 \BOOKMARK [1][-]{section.4.6}{Cross distance histogram}{chapter.4}% 50
-\BOOKMARK [1][-]{section.4.7}{High-low density registration}{chapter.4}% 51
-\BOOKMARK [2][-]{subsection.4.7.1}{First experiment}{section.4.7}% 52
-\BOOKMARK [2][-]{subsection.4.7.2}{Experiments on relief}{section.4.7}% 53
-\BOOKMARK [2][-]{subsection.4.7.3}{Limits of accuracy}{section.4.7}% 54
-\BOOKMARK [2][-]{subsection.4.7.4}{Metric for resolution}{section.4.7}% 55
-\BOOKMARK [1][-]{section.4.8}{Separation of large scans}{chapter.4}% 56
-\BOOKMARK [1][-]{section.4.9}{Variable density}{chapter.4}% 57
-\BOOKMARK [0][-]{chapter.5}{Implementation}{}% 58
-\BOOKMARK [1][-]{section.5.1}{Architecture}{chapter.5}% 59
-\BOOKMARK [1][-]{section.5.2}{Usage of C++}{chapter.5}% 60
-\BOOKMARK [1][-]{section.5.3}{Optimization}{chapter.5}% 61
-\BOOKMARK [1][-]{section.5.4}{Visualization}{chapter.5}% 62
-\BOOKMARK [1][-]{section.5.5}{User interface}{chapter.5}% 63
-\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 64
-\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 65
-\BOOKMARK [1][-]{section.A.1}{Data on models used}{appendix.A}% 66
-\BOOKMARK [1][-]{section.A.2}{Different resolutions, Bunny model}{appendix.A}% 67
-\BOOKMARK [2][-]{subsection.A.2.1}{Final true error v. downsampling level}{section.A.2}% 68
-\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 69
-\BOOKMARK [1][-]{section.B.1}{Measures on parallelogram grid dispersion}{appendix.B}% 70
-\BOOKMARK [1][-]{section.B.2}{Closest point histogram with random point dispersion on plane}{appendix.B}% 71
-\BOOKMARK [1][-]{section.B.3}{Variance of density with random point dispersion}{appendix.B}% 72
-\BOOKMARK [1][-]{section.B.4}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 73
+\BOOKMARK [2][-]{subsection.4.6.1}{Effect of small transformations}{section.4.6}% 51
+\BOOKMARK [2][-]{subsection.4.6.2}{Measure of alignment}{section.4.6}% 52
+\BOOKMARK [1][-]{section.4.7}{High-low density registration}{chapter.4}% 53
+\BOOKMARK [2][-]{subsection.4.7.1}{First experiment}{section.4.7}% 54
+\BOOKMARK [2][-]{subsection.4.7.2}{Experiments on relief}{section.4.7}% 55
+\BOOKMARK [2][-]{subsection.4.7.3}{Limits of accuracy}{section.4.7}% 56
+\BOOKMARK [2][-]{subsection.4.7.4}{Metric for resolution}{section.4.7}% 57
+\BOOKMARK [1][-]{section.4.8}{Separation of large scans}{chapter.4}% 58
+\BOOKMARK [1][-]{section.4.9}{Variable density}{chapter.4}% 59
+\BOOKMARK [0][-]{chapter.5}{Implementation}{}% 60
+\BOOKMARK [1][-]{section.5.1}{Architecture}{chapter.5}% 61
+\BOOKMARK [1][-]{section.5.2}{Usage of C++}{chapter.5}% 62
+\BOOKMARK [1][-]{section.5.3}{Optimization}{chapter.5}% 63
+\BOOKMARK [1][-]{section.5.4}{Visualization}{chapter.5}% 64
+\BOOKMARK [1][-]{section.5.5}{User interface}{chapter.5}% 65
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 66
+\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 67
+\BOOKMARK [1][-]{section.A.1}{Cross distance histogram}{appendix.A}% 68
+\BOOKMARK [2][-]{subsection.A.1.1}{Small translations}{section.A.1}% 69
+\BOOKMARK [2][-]{subsection.A.1.2}{Small rotations}{section.A.1}% 70
+\BOOKMARK [1][-]{section.A.2}{Different resolutions, Bunny model}{appendix.A}% 71
+\BOOKMARK [2][-]{subsection.A.2.1}{Final true error v. downsampling level}{section.A.2}% 72
+\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 73
+\BOOKMARK [1][-]{section.B.1}{Measures on parallelogram grid dispersion}{appendix.B}% 74
+\BOOKMARK [2][-]{subsection.B.1.1}{Approximation}{section.B.1}% 75
+\BOOKMARK [2][-]{subsection.B.1.2}{Density}{section.B.1}% 76
+\BOOKMARK [1][-]{section.B.2}{Closest point histogram with random point dispersion on plane}{appendix.B}% 77
+\BOOKMARK [1][-]{section.B.3}{Variance of density with random point dispersion}{appendix.B}% 78
+\BOOKMARK [1][-]{section.B.4}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 79

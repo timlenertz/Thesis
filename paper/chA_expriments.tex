@@ -1,6 +1,67 @@
 \chapter{Experimental Results}
 
-\section{Data on models used}
+\section{Cross distance histogram}
+
+\subsection{Small translations} \label{sec:relief_small_trans_exp}
+The following figures depict cross distance histograms of a relief point cloud $P$ like the one on figure \ref {fig:relief_plain}, on which a small transformation $\matr{M}$ was applied. For the point cloud $P$, the average nearest neighbor distance on surfaces perpendicular to the camera ray is $p_l = 0.01$. The plane of the relief is along the X and Y axis.
+
+
+\subsubsection{Translation in X and Y axis}
+$\matr{M}$ is a translation in X and Y axis, by the amounts \{ 0, 0.001, 0.003, 0.009, 0.027, 0.081 \}. No translation in Z axis and no rotation is applied.
+
+The top-left cell shows the own distance histogram, where $\matr{M} = \matr{I}$. Only translations in the positive directions are made, translations in the negative directions would yield similar results.
+
+\begin{figure}[H]
+\foreach \y in {0,1,2,3,4} {
+	\foreach \x in {0,1,2,3,4} {
+		\includegraphics[width=0.19\linewidth]{fig/cross_relief_trans/(\x-\y-0).pdf}
+	}
+	\\
+}
+\caption{Horizontal: X translation, vertical: Y translation}
+\end{figure}
+
+\subsubsection{Translation in X and Z axis}
+Y axis translation fixed to $0$. Translations by same amounts.
+
+\begin{figure}[H]
+\foreach \z in {0,1,2,3,4} {
+	\foreach \x in {0,1,2,3,4} {
+		\includegraphics[width=0.19\linewidth]{fig/cross_relief_trans/(\x-0-\z).pdf}
+	}
+	\\
+}
+\caption{Horizontal: X translation, vertical: Z translation}
+\end{figure}
+
+
+\subsection{Small rotations}
+Here instead of a translation, a rotation gets applied on the same point cloud. The point of rotation is the center point of the relief plane. The amounts of rotation are \{ 0, 0.001\si{\degree}, 0.003\si{\degree}, 0.009\si{\degree}, 0.027\si{\degree}, 0.081\si{\degree} \}.
+
+\subsubsection{Rotation around X and Y axis}
+\begin{figure}[H]
+\foreach \y in {0,1,2,3,4} {
+	\foreach \x in {0,1,2,3,4} {
+		\includegraphics[width=0.19\linewidth]{fig/cross_relief_rot/(\x-\y-0).pdf}
+	}
+	\\
+}
+\caption{Horizontal: X axis rotation, vertical: Y axis rotation}
+\end{figure}
+
+
+\subsubsection{Rotation around X and Z axis}
+\begin{figure}[H]
+\foreach \z in {0,1,2,3,4} {
+	\foreach \x in {0,1,2,3,4} {
+		\includegraphics[width=0.19\linewidth]{fig/cross_relief_rot/(\x-0-\z).pdf}
+	}
+	\\
+}
+\caption{Horizontal: X axis rotation, vertical: Z axis rotation}
+\end{figure}
+
+
 
 \section{Different resolutions, Bunny model}
 \begin{tabularx}{\textwidth}{|r|X|} \hline

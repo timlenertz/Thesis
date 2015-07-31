@@ -89,6 +89,22 @@ TH1* histogram(const histogram_t& hist, const std::string& name = "histogram", f
 }
 
 
+void draw_histogram_to_file(const histogram_t& hist, const std::string& name, const std::string& outfile, float mn = 0, float mx = 0, unsigned bins = 1000) {
+	if(mx == 0) for(const auto& el : hist) if(el.value > mx) mx = el.value;
+
+	TH1* h = new TH1F(name.c_str(), name.c_str(), bins, mn, mx);
+	for(const auto& el : hist)
+		h->Fill(el.value, el.weight);
+
+	gROOT->SetBatch(kTRUE);
+	TCanvas* canvas = new TCanvas("canvas");
+	h->SetStats(kFALSE);
+	h->Draw();
+	canvas->Print(outfile.c_str());
+	gROOT->SetBatch(kFALSE);
+}
+
+
 template<typename Iterator>
 TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "density") {
 	histogram_t hist;
@@ -229,26 +245,13 @@ histogram_t adjusted_closest_point_distances(Iterator begin, Iterator end, const
 		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
 		float nx = n[0], ny = n[1], nz = n[2];
 		
-		float maxd;
-		{
-			float c = (1.0 - sq(ny)) * (sq(ny) + sq(nz));
-			float den = 2.0 * sq(nz);
-			float f1 = std::abs(1.0 + 2.0*nx*ny + sq(nz));
-			float f2 = std::abs(1.0 - 2.0*nx*ny + sq(nz));
-			maxd = p_l * std::sqrt(std::min(f1, f2) * c) / den;
-		}
-
-		if(d > maxd) continue;
-		
 		auto lmin = p_l * std::min({
 			std::sqrt(1.0 + sq(nx)/sq(nz)),
 			std::sqrt(1.0 + sq(ny)/sq(nz)),
 			std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
 			std::sqrt(2.0 + sq(nx-ny)/sq(nz))
 		});
-		
-		auto density = 
-		
+				
 		distances.emplace_back(2.0 * d / lmin);
 	}
 	return distances;
@@ -263,4 +266,47 @@ Out map_num(In x, In mn_in, In mx_in, Out mn_out, Out mx_out) {
 	Inter range_out = mx_out - mn_out;
 	Inter a = (x - mn_in) / range_in;
 	return (a * range_out) + mn_out;
+}
+
+
+
+
+
+
+
+std::vector<Eigen::Vector2f> project_vectors_onto_orthonormal_coordinate_system(
+	const std::vector<Eigen::Vector3f>& v,
+	const Eigen::Vector3f& n)
+{
+	assert(v.size() >= 2);
+
+	// vp = 3D coordinates of the vectors projected on the plane	
+	std::vector<Eigen::Vector3f> vp(v.size());
+	for(std::ptrdiff_t i = 0; i < v.size(); ++i) {
+		vp[i] = v[i];
+		vp[i][2] = -(n[0]*v[i][0] + n[1]*v[i][1])/n[2];
+		std::cout << "vp[" << i << "] = " << vp[i][0] << " , " << vp[i][1] << " , " << vp[i][2] << std::endl;
+	}
+
+
+	// I = first axis of plane's coordinate system.
+	//     use direction of vp[0]
+	Eigen::Vector3f I = vp[0].normalized();
+	
+	// J = second axis of plane's coordinate system
+	//     use cross product n x i
+	Eigen::Vector3f J = n.cross(I);
+	
+	std::cout << "i = " << I << std::endl;
+	std::cout << "j = " << J << std::endl;
+	std::cout << "=====" << std::endl;
+	
+	// vpp = 2D coordinates of the vectors on the plane's orthonormal coordinate system
+	std::vector<Eigen::Vector2f> vpp(v.size());
+	for(std::ptrdiff_t i = 0; i < v.size(); ++i) {
+		vpp[i][0] = vp[i].dot(I);
+		vpp[i][1] = vp[i].dot(J);		
+	}
+	
+	return vpp;
 }

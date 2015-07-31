@@ -308,6 +308,8 @@ The diagram on figure \ref{fig:pargrid_proj} shows the parallel projection of a 
 
 It can be seen on figure \ref{fig:par_grid_tilings} that several different parallelogram grids are possible for the same dispersion of points on the plane. The two grids in these examples have no sides in common. The projection of the camera square grid on the plane results in one of the possible parallel grids. When the plane is placed at a more oblique angle from the camera, it tends to be a grid with longer side lengths, such as the second on on the figure. It is not necessarily such that it includes the shortest possible parallelogram edge.
 
+The ``parallelogram grid'' is described mathematically as a lattice in $\mathbb{R}^2$. The projections of $\vec{x} = \transpose{(p_l, 0)}$ and $\vec{y} = \transpose{(0, p_l)}$ from the camera image constitute one of the infinite possible bases for this lattice. \ref{Galb2012}
+
 \begin{figure}[h]
 \centering
 \hspace*{\fill}%
@@ -331,23 +333,21 @@ It can be seen on figure \ref{fig:par_grid_tilings} that several different paral
 
 
 \subsubsection{Measures}
-Three measures on the point dispersion will be used: (1) The point density $\rho$. (2) The shortest possible parallelogram side length $l_{\text{min}}$, for any parallelogram grid put on the points. It corresponds to the distance from any point to its closest neighbor. (3) The maximal distance $d_{\text{max}}$ from any position on the plane to the closest point of the dispersion.
-
-These values can be calculated from the normal vector $\vec{n}$, and the square grid side length on image space $p_l$ as follows. Proofs for these formulea are given in appendix \ref{sec:proof_pargrid_measures}.
+The shortest possible parallelogram side length $l_{\text{min}}$, for any parallelogram grid put on the points, can be calculated with the following formula, in function of $p_l$ and the normal vector $\vec{n}$. It corresponds to the distance from any point to its closest neighbor. The expression gives correct values when the plane as long as the plane is not too oblique.
+\begin{equation} \label{eq:pargrid_lmin}
+l_{\text{min}} \approx p_l \, \sqrt{1 + \frac{\min \left\{
+	n^2_x, \,
+	n^2_y, \,
+	1 + 2 \, n_x \, n_y, \,
+	1 - 2 \, n_x \, n_y
+\right\} }{n^2_z}}
+\end{equation}
+The point density $\rho$ is given by
 \begin{equation}
 \rho = \frac{| n_z |}{p^2_l}
 \end{equation}
-\begin{equation} \label{eq:pargrid_lmin}
-l_{\text{min}} = p_l \times \min \left\{
-\sqrt{1 + \left( \frac{n_x}{n_z} \right)^2},
-\sqrt{1 + \left( \frac{n_y}{n_z} \right)^2},
-\sqrt{2 + \left( \frac{n_x + n_y}{n_z} \right)^2},
-\sqrt{2 + \left( \frac{n_x - n_y}{n_z} \right)^2}
-\right\}
-\end{equation} 
-\begin{equation}
-d_{\text{max}} = p_l \times \min \frac{\sqrt{ (1 \pm 2 \, n_x \, n_y + n^2_z) \, (1 - n^2_y) \, (n^2_y + n^2_z) }}{4 \, n^2_z}
-\end{equation} 
+Proofs for these formulea are given in appendix \ref{sec:proof_pargrid_measures}.
+
 
 \subsubsection{Analysis}
 Figure \ref{fig:lmin_plot} shows the value $l_{\text{min}}$, in function of the normal vector $\vec{n}$ of the plane. For the grayscale tones a logarithmic scale is used. Darker tones correspond to lower values. The $x$ and $y$ axis of the plot correspond to $n_x$ and $n_y$, the third component is set to $n_z = \sqrt{1 - n^2_x - n^2_y}$. The plot is symmetric around the X and Y axis. The origin point $(0, 0)$ corresponds to $\vec{n} = \transpose{(0, 0, 1)}$, that is, the plane is perpendicular to the camera ray and has a square grid dispersion. Then $l_{\text{min}} = 1$, the side length of the square. For the points on either axis, the plane is turned on one direction only, resulting in a rectangular grid, where the shortest side remains $l_{\text{min}} = 1$. Around the border of the plot, the plane is nearly parallel to the camera rays. When $n_x \approx n_y$, the parallelograms take on a rhombus shape, similar to the second grid shown on figure \ref{fig:par_grid_tilings}. The shortest edge becomes the projection of the squares' diagonal with length $\sqrt{2}$, whereas the projection of its sides results in longer edges.
@@ -528,6 +528,7 @@ Using a similar argument as for the square grid dispersion, one can show that th
 \end{figure}
 
 
+
 \subsection{Adjusted own distance histogram}
 This implies that it is possible to calculate the range of the first, linearly increasing segment of the histogram, using only the plane's normal vector $\vec{n}$ and the side length $p_l$ of the parallel projection camera. Here an attempt is made to use this result to product an \emph{adjusted own distance histogram}, which still has the initial linear increase, for point clouds that are not planes.
 
@@ -556,13 +557,10 @@ Both planes have the parallelogram grid point dispersion. The example is chosen 
 	\includegraphics[width=\linewidth]{fig/orig_superposition.pdf}
 	\caption{Superposition}
 \end{subfigure}
-\caption{Own distance histogram for disks point cloud $P$ (individual planes, and superposition)}
+\caption{Own distance histogram for multi-plane point cloud $P$ (individual planes, and superposition)}
 \end{figure}
 
 It can be seen that the linear segment of the superposition histogram ranges up to about $0.005$, which is the minimum of the ranges on the two individual histograms. Thus the information from the remaining linear range of the oblique plane is lost.
-
-The adjusted own distance histogram is created as follows: For each $q \in Q$, the closest point $p \in P$ is taken, for which $d = \|p - q\|$ is minimal. Then instead of $d$, the value $\frac{d}{l_{\text{min}}(\vec{n})}$ is recorded in the histogram, with a weight of $\frac{1}{\rho(\vec{n})}$.
-
 
 \begin{figure}[p]
 \centering
@@ -575,26 +573,62 @@ The adjusted own distance histogram is created as follows: For each $q \in Q$, t
 \label{fig:disks1}
 \end{figure}
 
-\label{fig:multiplane_cphist}
+\subsubsection{Adjusted histogram}
+The adjusted own distance histogram is created as follows: For each $q \in Q$, the closest point $p \in P$ is taken, for which $d = \|p - q\|$ is minimal. Then instead of $d$, the value $\frac{2 \, d}{l_{\text{min}}(\vec{n})}$ is recorded in the histogram.
+
+All the histograms created from subsets of the point cloud containing only regions of the surface with an approximatively constant normal vector $\vec{n}$, would have a linear increase until $d = \frac{1}{2} \, l_{\text{min}}(\vec{n})$. The adjusted own distance histogram is a superposition of these, distorted that the range of linear increase is from $0$ to $1$.
+
+The following figure \ref{fig:disks_adj} shows this adjusted own distance histogram, in comparison to the non-adjusted version, for the same point cloud $P$. $P$ is a multi-planes as before, but with more planes. Figure \ref{fig:relief_adj} shows the same histograms where $P$ and $Q$ is a relief point cloud. It appears more irregular than the non-adjusted histogram, but the linear part contains a higher number of samples.
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+	\includegraphics[width=\linewidth]{fig/disks_noadj.pdf}
+	\caption{Non-adjusted histogram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\includegraphics[width=\linewidth]{fig/disks_adj.pdf}
+	\caption{Adjusted histogram}
+\end{subfigure}
+\caption{Own distance histogram, and adjusted own distance histogram of $P$}
+\label{fig:disks_adj}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{subfigure}{.5\textwidth}
+	\includegraphics[width=\linewidth]{fig/relief_noadj.pdf}
+	\caption{Non-adjusted histogram}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\includegraphics[width=\linewidth]{fig/relief_adj.pdf}
+	\caption{Adjusted histogram}
+\end{subfigure}
+\caption{Own distance histogram, and adjusted own distance histogram of relief point cloud}
+\label{fig:relief_adj}
 \end{figure}
 
 
 
 
 \subsection{Occlusion and different bounds}
-Up until now $P$ and $Q$ were considered to be perfectly aligned, constitute the same surfaces, and both have points dispersed on the whole surface at an uniform distribution. On point clouds obtained from real 3D scans this last constraint is no longer true: Parts of the surface will be occluded, and two point clouds will have different bounds.
+Point clouds obtained from real scans will not cover the entire surface due to occlusion, and any two point clouds $P$ and $Q$ will have different bounds. Thus there can be sample points $q$ on surface positions that are not covered by $P$, and vice versa.
 
 It is assumed that ideally the parallelogram grid on $P$ is the same everywhere, and that the point dispersion on locally planar surface parts depends only on the local normal vector. Therefore when part of the sample point cloud $Q$ are removed, it only decreases the quality of the histogram as there are less samples, but does not alter its shape.
 
 However when parts of the model point cloud $P$ are removed, for sample point $q \in Q$ that fall within these regions, the closest point $p \in P$ will be much farther away. As a result much greater distances are recorded, than for the samples falling within the parallelogram grid of $P$.
 
+These distance values add more samples on the right side of the histogram, and do not affect the shape of the main part of the histogram.
 
-
-\subsubsection{Maximal distance}
-
+In the histograms on figure \ref{fig:relief_adj}, $P$ is a sideways view-point of the relief model, and it can be seen that the (non-adjusted) histogram contains samples at greater distances, at a low but near constant rate. When zoomed out, this extends to a much longer range.
 
 
 \section{Cross distance histogram}
+Up until now $P$ and $Q$ were considered to represent the same surface and be perfectly aligned. For the cross distance histogram this last constraint is removed, so there is a rigid transformation $\matr{M}$ which aligns $P$ to $Q$.
+
+\subsection{Effect of small transformations}
+In order to find out how the adjusted cross distance histogram changes when a small rigid transformation is applied to $P$, several small translations and rotations were tested. The model is same artificial relief model as in the end of the previous section. For $P$ it is projected from a sideways angle. Results are shown in appendix \ref{sec:relief_small_trans_exp}.
+
+
+\subsection{Measure of alignment}
 
 
 \section{High-low density registration}

@@ -227,7 +227,10 @@ camera_range_point_cloud_full<projection_image_camera> relief::make_projected_po
 			if(relief_p.valid()) {
 				wp[2] = relief_p[2];
 				if(correct_coordinates) p = pc.absolute_pose().transformation_from_world() * wp;
-				p.set_normal(relief_p.get_normal());
+				
+				Eigen::Vector4f n(relief_p.get_normal()[0], relief_p.get_normal()[1], relief_p.get_normal()[2], 0.0);
+				
+				p.set_normal( (pc.absolute_pose().transformation_from_world() * n).head(3) );
 			} else {
 				p.invalidate();			
 			}

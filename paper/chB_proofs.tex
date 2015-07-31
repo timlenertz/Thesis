@@ -1,30 +1,77 @@
 \chapter{Proofs}
 
 \section{Measures on parallelogram grid dispersion} \label{sec:proof_pargrid_measures}
+The parallelogram dispersion of points on object surfaces occurs when sample points which are arranged in a square grid on the image plane are projected onto the object surface. The rays are perpendicular to the image plane, as a parallel projection camera is supposed for the point cloud.  
 
-The parallelogram side lengths $x, y$ can be calculated in function of $p_x$, $p_y$, and the normal vector $\vec{n}$ using
-\begin{equation}
-x = p_x \, \sqrt{1 + \frac{n^2_x}{n^2_z}}
-\hspace{7mm} \text{and} \hspace{7mm}
-y = p_y \, \sqrt{1 + \frac{n^2_y}{n^2_z}}
-\end{equation}
-When $\vec{n} = \transpose{(0, 0, 1)}$, the plane is perpendicular to the camera ray, and it can be seen that $x = p_x, y = p_y$. Also the ratios $\frac{x}{p_x}$ and $\frac{x}{p_x}$ depend only on $\vec{n}$.
+This is shown on the figure \ref{fig:lattice_proof}. Here the image space spans the XY plane. $16$ pixels from the image space (in blue) are shown as the intersections of the square grid. $PO$ is the origin point with coordinates $(0, 0)$, and $PX = (p_l, 0)$, $PY = (0, p_l)$ are the first points in X and Y direction. Their equivalents on the object surface (in light gray) are $O, X, Y$. $\vec{n}$ is the normal vector of this surface. The parallelogram grid on it is the projection of the square grid from the image space.
 
-\begin{proof}
-The parallelogram side lengths $x, y$ can be calculated in function of $p_x$, $p_y$, and the normal vector $\vec{n}$. Let $\vec{x}$ be the projection of $\vec{p_x} = \transpose{(p_x, 0, 0)}$ on the plane. $\vec{x}$ lies on the plane and is orthogonal to $\vec{n}$, so $\vec{n} \, \vec{x} = 0$ and $n_x x_x + n_y x_y + n_z x_z = 0$. $\vec{x}$ also lies on the XZ-plane, so $x_y = 0$. By projection $x_x = p_x$. Solving the dot product equation, $x_z = -\frac{n_x}{n_z} \, p_x$. So
+The points on the object surface form a lattice, for which the grid represents one possible basis. Others would be possible, for example one where the parallelograms have an edge joining $X$ and $Y$. In general, a lattice can be defined as the set of points in $\mathbb{R}^2$
 \begin{equation}
-\vec{x} = \left( \begin{matrix}
-	p_x \\
-	0 \\
-	-\frac{n_x}{n_z} \, p_x
-\end{matrix} \right)
+\left\{ a \vec{v} + b \vec{u} : a,b \in \mathbb{Z} \right\}
 \end{equation}
-The side lengths $x$ is
+Where $\vec{v}, \vec{u} \in \mathbb{R}^2$ are two vectors forming one of infinitely possible bases for this lattice. On this example $\vec{v} = OX$ and $\vec{u} = OY$ is one basis.
+
+$l_\text{min}$ is defined to be the shortest possible Euclidian distance between any two of these lattice points. On the image space, $d(PO, PX) = d(PO, PY) = p_l$ is the shortest distance, whereas $d(PX, PY) = p_l \, \sqrt{2} > p_l$. The example on the figure is set so that $d(X, Y) < d(O, X) < d(O, Y)$, and $d(X, Y)$ is the shortest distance. By making the surface even more oblique, it is also possible that two points that are even more far off in image space become the closest points on the projection. In general, the problem of finding $l_\text{min}$ on a lattice is known as the \emph{shortest vector problem}. For this two-dimensional case, a simple algorithm exists for finding the minimal basis consisting of the shortest and second-shortest vector. \cite{Galb2012}
+
+Because the lattice is invariant to a translation of the object surface plane $P$ in space, let $P$ pass through the origin. For any vector $\vec{p} = \transpose{(p_x, p_y)}$ on the image plane, the three-dimensional coordinates of the projected vector on the object surfaces become
 \begin{equation}
-x = \| \vec{x} \| = \sqrt{p^2_x + \left( \frac{n_x}{n_z} \, p_x \right)^2} = p_x \, \sqrt{1 + \frac{n^2_x}{n^2_z}}
+\vec{p'} = \transpose{\left( p_x, p_y, - \frac{n_x \, p_x + n_y \, p_y}{n_z}  \right)}
 \end{equation}
-And $y$ can be obtained in the same manner.
-\end{proof}
+Its norm is
+\begin{equation}
+\| \vec{p'} \| = \sqrt{p^2_x + p^2_y + \frac{(n_x p_x + n_y p_y)^2}{n^2_z}}
+\end{equation}
+The square grid points on image space have the coordinates
+\begin{equation}
+\left\{ (x \, p_l, y \, p_l) : x,y \in \mathbb{Z} \right\}
+\end{equation}
+
+For any segment joining two points on the grid, an identical segment exists where the first point is the origin $O$. So to find the shortest segment it is sufficient to compare the lengths $\| \vec{p'} \|$ where $\vec{p}$ is the vector from the origin to another point on the image space lattice. So the shortest length would be the result of
+\begin{equation}
+l_{\text{min}} = p_l \, \min_{\substack{x,y \in \mathbb{Z} \\ (x,y) \neq (0,0)}} d(x,y)
+\hspace{4mm} \text{where} \hspace{4mm}
+d(x,y) = \| \vec{p'} \|
+\hspace{4mm} \text{and} \hspace{4mm}
+\vec{p} = \transpose{(x, y)}
+\end{equation}
+This function $d$ has the property that $d(-x,-y) = d(x,y)$, and so it is sufficient to only test the values where $y \geq 0$.
+
+\subsection{Approximation}
+In most cases, when the surface is not too oblique, the minimum for $(x, y)$ is found in $\{ (0, 1), (0, 1), (1, 1), (-1, 1) \}$. This can be seen be visualizing the function $d(x,y)$ for a given $\vec{n}$. Figure \ref{fig:lmin_d_func} shows some examples. The color gradient shows the value of the function on a logarithmic scale, where blue represents the lowest values. The goal is to find the points where $x$ and $y$ are integers for which the function is minimal.
+
+By taking the minimum of $\| \vec{p'} \|$ for those four values of $(x, y)$, the formula in \ref{eq:pargrid_lmin} is obtained.
+
+\begin{figure}[h]
+\begin{subfigure}{.49\textwidth}
+	\includegraphics[width=\linewidth]{fig/lmin/0-0-1.pdf}
+	\caption{$\vec{n} = \transpose{(0, 0, 1)}$. min: $(0, 1)$ or $(1, 0)$}
+\end{subfigure}%
+\begin{subfigure}{.49\textwidth}
+	\includegraphics[width=\linewidth]{fig/lmin/1--3-1.pdf}
+	\caption{$\vec{n} = \transpose{(0.302, -0.905, 0.302)}$. min: $(0, 1)$}
+\end{subfigure}\\
+\begin{subfigure}{.49\textwidth}
+	\includegraphics[width=\linewidth]{fig/lmin/3-3-1.pdf}
+	\caption{$\vec{n} = \transpose{(0.688, 0.688, 0.299)}$. min: $(-1, 1)$}
+\end{subfigure}%
+\begin{subfigure}{.49\textwidth}
+	\includegraphics[width=\linewidth]{fig/lmin/80-40-2.pdf}
+	\caption{$\vec{n} = \transpose{(0.894, 0.447, 0.022)}$. min: $(-1, 2)$}
+\end{subfigure}
+\caption{Density plot of $d(x, y)$ for different surface normal vectors $\vec{n}$}
+\label{fig:lmin_d_func}
+\end{figure}
+
+
+\subsection{Density}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\textwidth]{fig/lattice_proof.png}
+\caption{Depiction of projection of image space points to parallelogram lattice on object surface}
+\label{fig:lattice_proof}
+\end{figure}
 
 
 
