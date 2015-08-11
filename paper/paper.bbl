@@ -6,6 +6,11 @@
 \newblock  Vol. 3.
 \newblock IEEE International Conference on Robotics and Automation.
 
+\bibitem[\protect\citename{Aiger {\em et~al.\ }\relax, }2008]{Aige2008}
+Aiger, Dror, Mitra, Niloy~J, \& Cohen-Or, Daniel. 2008.
+\newblock 4-Points Congruent Sets for Robust Pairwise Surface Registration.
+\newblock {\em ACM Transactions on Graphics}, {\bf 27}(3).
+
 \bibitem[\protect\citename{Besl \& McKay, }1992]{Besl1992}
 Besl, Paul~J, \& McKay, Neil~D. 1992 (February).
 \newblock A Method for Registration of 3-D Shapes.
@@ -13,11 +18,98 @@ Besl, Paul~J, \& McKay, Neil~D. 1992 (February).
   and Machine Intelligence},  vol. 14.
 \newblock IEEE.
 
+\bibitem[\protect\citename{Biber, }2003]{Bibe2003}
+Biber, Peter. 2003.
+\newblock The Normal Distributions Transform: A New Approach to Laser Scan
+  Matching.
+
 \bibitem[\protect\citename{Bouaziz {\em et~al.\ }\relax, }2013]{Boua2013}
 Bouaziz, Sofien, Tagliasacchi, Andrea, \& Pauly, Mark. 2013.
 \newblock Sparse Iterative Closest Point.
-\newblock {\em Computer Graphics Forum (Symposium on Geometry Processing)},
-  {\bf 32}(5), 1--11.
+\newblock {\em Eurographics Symposium on Geometry Processing}, {\bf 32}(5).
+
+\bibitem[\protect\citename{Dold, }2005]{Dold2005}
+Dold, Christoph. 2005.
+\newblock Extended Gaussian Images for the Registration of Terrestial Scan
+  Data.
+\newblock Institute of Cartography and Geoinformatics, University of Hannover,
+  Germany.
+
+\bibitem[\protect\citename{Dold \& Brenner, }2006]{Dold2006}
+Dold, Christoph, \& Brenner, Claus. 2006.
+\newblock Registration of Terrestrial Laser Scanning Data using Planar Patches
+  and Image Data.
+\newblock {\em Pages  25--27 of:} {\em International Archives of Photogrammetry
+  and Remote Sensing}.
+\newblock Leibniz University of Hannover.
+
+\bibitem[\protect\citename{Dold {\em et~al.\ }\relax, }2007]{Dold2007}
+Dold, Christoph, Ripperda, Nora, \& Brenner, Claus. 2007.
+\newblock Vergleich verschiedener Methoden zur automatischen Registrierung von
+  terrestrischen Laserscandaten.
+\newblock {\em Beitr{\"a}ge der Oldenburger 3D-Tage},  196.
+
+\bibitem[\protect\citename{Eberly, }1999]{Eber1999}
+Eberly, David. 1999 (July).
+\newblock Least Squares Fitting of Data.
+\newblock Magic Software, Inc.
+
+\bibitem[\protect\citename{Fischler \& Bolles, }1980]{Fisc1980}
+Fischler, Martin~A, \& Bolles, Robert~C. 1980 (March).
+\newblock {\em Random Sample Consensus: A paradigm for model fitting with
+  applications to image analysis and automated cartography}.
+\newblock Tech. rept. Artificial Intelligence Center, SRI International, Menlo
+  Park, California.
+
+\bibitem[\protect\citename{Galbraith, }2012]{Galb2012}
+Galbraith, Steven. 2012.
+\newblock {\em Mathematics of Public Key Cryptography}.
+\newblock Cambridge University Press.
+
+\bibitem[\protect\citename{Grussenmeyer {\em et~al.\ }\relax, }2012]{Grus2012}
+Grussenmeyer, P., Alby, E., Landes, T., Koehl, M., Guillemin, S., Hullo, J.-F.,
+  Assali, P., \& Smigiel, E. 2012.
+\newblock Recording Approach Of Heritage Sites Based On Merging Point Clouds
+  From High Resolution Photogrammetry And Terrestrial Laser Scanning.
+\newblock {\em International Archives of the Photogrammetry, Remote Sensing and
+  Spatial Information Sciences}, {\bf XXXIX-B5}, 553--558.
+
+\bibitem[\protect\citename{Horn, }1984]{Horn1984}
+Horn, Berthold~K.P. 1984.
+\newblock Extended Gaussian Images.
+\newblock {\em Proceesings of the IEEE}, {\bf 72}(12), 1671--1686.
+
+\bibitem[\protect\citename{Horn, }1987]{Horn1986}
+Horn, Berthold~K.P. 1987 (April).
+\newblock Closed-form solution of absolute orientation using unit quaternions.
+\newblock {\em Page  629 of:} {\em Journal of the Optical Society of America
+  A},  vol. 4.
+\newblock Department of Electrical Engineering, University of Hawaii at Manoa.
+
+\bibitem[\protect\citename{Keiner, }2011]{Kein2011}
+Keiner, Christopher. 2011.
+\newblock {\em Bildregistrierung von 3D-Laserscans und Bildern f{\"u}r Wadi
+  Sura}.
+\newblock M.Phil. thesis, Fachbereich Mathematik und Informatik der Freien
+  Universit{\"a}t Berlin, April.
+
+\bibitem[\protect\citename{Kersten {\em et~al.\ }\relax, }2006]{Kers2006}
+Kersten, Thomas, Przybilla, Heinz-J{\"u}rgen, \& Lindstaedt, Maren. 2006.
+\newblock Integration, Fusion und Kombination von terrestrischen
+  Laserscannerdaten und digitalen Bildern.
+\newblock November.
+
+\bibitem[\protect\citename{Kim \& Lee, }2009]{Kim2009}
+Kim, Jaewoong, \& Lee, Sukhan. 2009.
+\newblock Fast Neighbor Cells Finding Method for Multiple Octree
+  Representation.
+\newblock {\em 2009 IEEE International Symposium on Computational Intelligence
+  in Robotics and Automation (CIRA)}, December, 540--545.
+
+\bibitem[\protect\citename{Koch, }2008]{Koch2008}
+Koch, K.~R. 2008.
+\newblock Fitting Free-Form Surfaces to Laserscan Data by NURBS.
+\newblock {\em Allgemeine Vermessungs-Nachrichten}, {\bf 4}(August), 134--140.
 
 \bibitem[\protect\citename{Ky{\"o}stil{\"a} {\em et~al.\ }\relax,
   }2013]{Kyos2013}
@@ -27,10 +119,69 @@ Ky{\"o}stil{\"a}, Tomi, C., Daniel~Herrera, Kannala, Juho, \& Heikkil{\"a},
 \newblock {\em Image Analysis, 18th Scandinavian Conference, SCIA 2013}, {\bf
   7944}, 567--578.
 
+\bibitem[\protect\citename{Lichtenstein, }2011]{Lich2011}
+Lichtenstein, Maria. 2011.
+\newblock {\em Strukturbasierte Registrierung von Punktwolken unter Verwendung
+  von Bild- und Laserscannerdaten}.
+\newblock Ph.D. thesis, Rheinisch-Westf{\"a}lische Technische Hochschule
+  Aachen.
+
+\bibitem[\protect\citename{Liu, }2008]{Liu2008}
+Liu, Yonghuai. 2008.
+\newblock Constraints for closest point finding.
+\newblock {\em Pattern Recognition Letters}, {\bf 29}, 841--851.
+
 \bibitem[\protect\citename{Lorusso {\em et~al.\ }\relax, }1995]{Loru1995}
 Lorusso, A., Eggert, D.W., \& FIsher, R.B. 1995.
 \newblock A Comparison of Four Algorithms for Estimating 3-D Rigid
   Transformations.
+
+\bibitem[\protect\citename{Lu \& Milios, }1997]{Lu1997}
+Lu, Feng, \& Milios, Evangelos. 1997.
+\newblock Robot Pose Estimation in Unknown Environments by Matching 2􏳇D
+  Range Scans.
+\newblock {\em Journal of Intelligent and Robotic Systems}, {\bf 18}(3),
+  249--275.
+
+\bibitem[\protect\citename{Magnusson, }2013]{Magn2013}
+Magnusson, Martin. 2013.
+\newblock {\em The Three-Dimensional Normal-Distributions Transform - an
+  Efficient Representation for Registration, Surface Analysis, and Loop
+  Detection}.
+\newblock Ph.D. thesis, School of Science and Technology - {\"O}rebro
+  university.
+
+\bibitem[\protect\citename{Magnusson {\em et~al.\ }\relax, }2007]{Magn2007}
+Magnusson, Martin, Lilienthal, Achim, \& Duckett, Tom. 2007.
+\newblock Scan Registration for Autonomous Mining Vehicles Using 3D-NDT.
+\newblock {\em Journal of Field Robotics}, {\bf 24}(10), 804--827.
+
+\bibitem[\protect\citename{Makadia {\em et~al.\ }\relax, }2006]{Maka2006}
+Makadia, Ameesh, IV, Alexander~Patterson, \& Daniilidis, Kostas. 2006.
+\newblock Fully Automatic Registration of 3D Point Clouds.
+\newblock {\em Pages  1297--1304 of:} {\em CVPR '06 Proceedings of the 2006
+  IEEE Computer Society Conference on Computer Vision and Pattern Recognition},
+   vol. 1.
+\newblock University of Pennsylvania.
+
+\bibitem[\protect\citename{Matiukas \& Miniotas, }2011]{Mati2011}
+Matiukas, V., \& Miniotas, D. 2011.
+\newblock Point Cloud Merging for Complete 3D Surface Reconstruction.
+\newblock ISSN 1392--1215 ELECTRONICS AND ELECTRICAL ENGINEERING, no. ~7.
+\newblock Department of Electronic Systems, Vilnius Gediminas Technical
+  University.
+
+\bibitem[\protect\citename{Mellado {\em et~al.\ }\relax, }2014]{Mell2014}
+Mellado, Nicolas, Aiger, Dror, \& Mitra, Niloy~J. 2014.
+\newblock SUPER 4PCS - Fast Global Pointcloud Registration via Smart Indexing.
+\newblock {\em Eurographics Symposium on Geometry Processing}, {\bf 33}(5).
+
+\bibitem[\protect\citename{Montesano {\em et~al.\ }\relax, }2005]{Mont2005}
+Montesano, Luis, Minguez, Javier, \& Montano, Luis. 2005.
+\newblock Probabilistic Scan Matching for Motion Estimation in Unstructured
+  Environments.
+\newblock {\em Pro- ceedings of the IEEE International Conference on
+  Intelligent Robots and Systems (IROS)}.
 
 \bibitem[\protect\citename{Rusinkiewicz \& Levoy, }2001]{Rusi2001}
 Rusinkiewicz, Szymon, \& Levoy, Marc. 2001.
@@ -38,15 +189,57 @@ Rusinkiewicz, Szymon, \& Levoy, Marc. 2001.
 \newblock  vol. 3-D Digital Imaging and Modeling.
 \newblock Stanford University.
 
-\bibitem[\protect\citename{Salvi {\em et~al.\ }\relax, }2005]{Salv2006}
-Salvi, Joaquim, Matabosch, Carles, Fofi, David, \& Forest, Josep. 2005.
-\newblock A review of recent range image registration methods with accuracy
-  evaluation.
-\newblock {\em Image and Vision Computing}, August.
+\bibitem[\protect\citename{Sankaranarayanan {\em et~al.\ }\relax,
+  }2007]{Sank2007}
+Sankaranarayanan, Jagan, Samet, Hanan, \& Varshney, Amitabh. 2007.
+\newblock A fast all nearest neighbor algorithm for applications involving
+  large point-clouds.
+\newblock {\em Computers & Graphics}, {\bf 31}, 157--174.
+
+\bibitem[\protect\citename{Saxena \& Singh, }2014]{Saxe2014}
+Saxena, Siddharth, \& Singh, Rajeev~Kumar. 2014.
+\newblock A Survey of Recent and Classical Image Registration Methods.
+\newblock {\em International Journal of Signal Processing, Image Processing and
+  Pattern Recognition}, {\bf 7}(4), 167--176.
+
+\bibitem[\protect\citename{Sch{\"o}nemann, }1966]{Scho1966}
+Sch{\"o}nemann, Peter~H. 1966.
+\newblock A generalized solution of the orthogonal procrustes problem.
+\newblock {\em Phychometrika}, {\bf 31}(1), 1--10.
+
+\bibitem[\protect\citename{Sch{\"o}nemann \& Caroll, }1970]{Scho1970}
+Sch{\"o}nemann, Peter~H, \& Caroll, Robert~M. 1970.
+\newblock Fitting one matrix to another using choice of a central dilation and
+  a rigid motion.
+\newblock {\em Phychometrika}, {\bf 35}(2), 245--255.
 
 \bibitem[\protect\citename{Segal {\em et~al.\ }\relax, }2009]{Sega2009}
 Segal, Aleksandr~V., Haehnel, Dirk, \& Thrun, Sebastian. 2009.
 \newblock Generalized-ICP.
 \newblock {\em Proceedings of Robotics: Science and Systems}.
+
+\bibitem[\protect\citename{Toldo {\em et~al.\ }\relax, }2010]{Told2010}
+Toldo, Roberto, Beinat, Alberto, \& Crosilla, Fabio. 2010.
+\newblock Global registration of multiple point clouds embedding the
+  Generalized Procrustes Analysis into an ICP framework.
+\newblock 3DPVT 2010 Conference.
+
+\bibitem[\protect\citename{Tournas \& Tsakiri, }2009]{Tour2009}
+Tournas, E., \& Tsakiri, M. 2009.
+\newblock Automatic 3D Point Cloud Registration for Cultural Heritage
+  Documentation.
+\newblock {\em Laser scanning 2009, IAPRS}, {\bf XXXVIII}(September), 189--194.
+
+\bibitem[\protect\citename{Tuytelaars \& Mikolajczyk, }2007]{Tuyt2007}
+Tuytelaars, Tinne, \& Mikolajczyk, Krystian. 2007.
+\newblock Local Invariant Feature Detectors: A Survey.
+\newblock {\em Foundations and Trends in Computer Graphics and Vision}, {\bf
+  3}(3).
+
+\bibitem[\protect\citename{Yang {\em et~al.\ }\relax, }2013]{Yang2013}
+Yang, Jiaolong, Li, Hongdong, \& Jia, Yunde. 2013.
+\newblock Go-ICP: Solving 3D Registration Efficiently and Globally Optimally.
+\newblock {\em IEEE International Conference on Computer Vision (ICCV)},
+  1457--1464.
 
 \end{thebibliography}

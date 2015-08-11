@@ -98,7 +98,7 @@ void draw_histogram_to_file(const histogram_t& hist, const std::string& name, co
 
 	gROOT->SetBatch(kTRUE);
 	TCanvas* canvas = new TCanvas("canvas");
-	h->SetStats(kFALSE);
+	//h->SetStats(kFALSE);
 	h->Draw();
 	canvas->Print(outfile.c_str());
 	gROOT->SetBatch(kFALSE);
@@ -114,45 +114,120 @@ TH1* weights_histogram(Iterator begin, Iterator end, const std::string& name = "
 
 
 template<typename Iterator, typename Other_cloud>
-histogram_t closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false) {
+histogram_t closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, bool nosame = false, float dmax = INFINITY) {
 	histogram_t distances;
 	for(Iterator it = begin; it != end; ++it) {
 		const auto& p = *it;
 		if(! p.valid()) continue;
 		const auto& q = (nosame
-			? pc.closest_point(p, 0, INFINITY, [&p](const pcf::point_xyz& q) { return (p != q); } )
-			: pc.closest_point(p)
+			? pc.closest_point(p, 0, dmax, [&p](const pcf::point_xyz& q) { return (p != q); } )
+			: pc.closest_point(p, 0, dmax)
 		);
 		float d = distance(p, q);
+		if(d > dmax) continue;
 		distances.emplace_back(d);
 	}
 	return distances;
 }
 
+/////////////////////////////////////
+
+bool lmin_formula_condition(const pcf::point_full& p, const Eigen::Vector3f& n) {
+	using pcf::sq;
+	float nx = n[0], ny = n[1], nz = n[2];
+
+	const static pcf::angle alpha = pcf::angle::degrees(70);
+	const static pcf::angle beta = pcf::angle::degrees(5);
+	
+	const static float cosa = std::cos(alpha);
+	const static float tanb = std::tan(beta);
+	const static float tan1 = std::tan(pcf::quarter_pi - beta);
+	const static float tan2 = std::tan(pcf::quarter_pi + beta);
+
+	if(p.get_weight() > 0.002) return false;
+
+	if(not(std::abs(nz) > cosa)) {
+		float r  = std::abs(nx / ny);
+		float ir = std::abs(ny / nx);
+		if(not(r < tanb && ir < tanb && tan1 < r && r < tan2)) return false;
+	}
+	
+	return true;
+}
+
+
+float lmin_formula(const Eigen::Vector3f& n, float p_l) {
+	using pcf::sq;
+	float nx = n[0], ny = n[1], nz = n[2];
+
+	return p_l * std::min({
+		std::sqrt(1.0 + sq(nx)/sq(nz)),
+		std::sqrt(1.0 + sq(ny)/sq(nz)),
+		std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
+		std::sqrt(2.0 + sq(nx-ny)/sq(nz))
+	});
+}
+
+
+bool normals_compatible(const Eigen::Vector3f& n1, const Eigen::Vector3f& n2) {
+	const auto max_angle = pcf::angle::degrees(20);
+	float dot = n1.dot(n2);
+	return std::abs(dot) > std::cos(max_angle);
+}
+
+
+////////////////////////////////////
+
+
+template<typename Cloud>
+histogram_t lmin_histogram(const Cloud& pc, float p_l, const pcf::pose& camera_pose) {
+	using pcf::sq;
+	auto T = camera_pose.transformation_from_world().linear();
+
+ 	histogram_t values;
+	
+	for(const auto& q : pc) { if(! q.valid()) continue;
+		Eigen::Vector3f n = T * q.get_normal();
+		values.emplace_back(lmin_formula(n, p_l));
+	}
+	
+	return values;
+}
+
+
+template<typename Cloud>
+histogram_t angles_histogram(const Cloud& pc, const pcf::pose& camera_pose) {
+	using pcf::sq;
+	auto T = camera_pose.transformation_from_world().linear();
+
+ 	histogram_t values;
+	
+	for(const auto& q : pc) { if(! q.valid()) continue;
+		Eigen::Vector3f n = T * q.get_normal();
+		values.emplace_back(std::acos(n[2]));
+	}
+	
+	return values;
+}
+
+
 
 template<typename Cloud>
 histogram_t p_l_histogram(const Cloud& pc, const pcf::pose& camera_pose) {
 	using pcf::sq;
-	auto T = camera_pose.transformation_from_world();
+	auto T = camera_pose.transformation_from_world().linear();
 
  	histogram_t p_l_values;
 	
-	for(const auto& q : pc) {
-		Eigen::Vector3f n = q.get_normal();
-		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
-		float nx = n[0], ny = n[1], nz = n[2];
+	for(const auto& q : pc) { if(! q.valid()) continue;
+		Eigen::Vector3f n = T * q.get_normal();
 
 		const auto& p = pc.closest_point(q, 0, INFINITY, [&q](const pcf::point_xyz& p) { return (p != q); } );
 		float d = distance(p, q);
 
-		float m = std::min({
-			std::sqrt(1.0 + sq(nx)/sq(nz)),
-			std::sqrt(1.0 + sq(ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx-ny)/sq(nz))
-		});
+		if(! lmin_formula_condition(p, n)) continue;
 		
-		float p_l = d / m;
+		float p_l = d / lmin_formula(n, 1.0);
 		p_l_values.emplace_back(p_l);
 	}
 	
@@ -161,29 +236,32 @@ histogram_t p_l_histogram(const Cloud& pc, const pcf::pose& camera_pose) {
 
 
 
+void invalidate_using_lmin_condition(pcf::point_cloud_full& pc, const pcf::pose& camera_pose) {
+	auto T = camera_pose.transformation_from_world().linear();
+
+	for(auto& p : pc) { if(! p.valid()) continue;
+		Eigen::Vector3f n = T * p.get_normal();
+		if(! lmin_formula_condition(p, n)) p.invalidate();
+	}
+}
+
+
+
 template<typename Cloud>
 float estimate_p_l(const Cloud& pc, const pcf::pose& camera_pose) {
 	using pcf::sq;
-	auto T = camera_pose.transformation_from_world();
+	auto T = camera_pose.transformation_from_world().linear();
 
  	std::vector<float> p_l_values;
 	
-	for(const auto& q : pc) {
-		Eigen::Vector3f n = q.get_normal();
-		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
-		float nx = n[0], ny = n[1], nz = n[2];
-
+	for(const auto& q : pc) { if(! q.valid()) continue;
 		const auto& p = pc.closest_point(q, 0, INFINITY, [&q](const pcf::point_xyz& p) { return (p != q); } );
 		float d = distance(p, q);
-
-		float m = std::min({
-			std::sqrt(1.0 + sq(nx)/sq(nz)),
-			std::sqrt(1.0 + sq(ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx-ny)/sq(nz))
-		});
+		Eigen::Vector3f n = T * p.get_normal();
 		
-		float p_l = d / m;
+		if(! lmin_formula_condition(p, n)) continue;
+
+		float p_l = d / lmin_formula(n, 1.0);
 		p_l_values.emplace_back(p_l);
 	}
 	
@@ -195,68 +273,98 @@ float estimate_p_l(const Cloud& pc, const pcf::pose& camera_pose) {
 }
 
 
+
 template<typename Cloud>
 histogram_t nearest_neighbor_distances(const Cloud& pc, const pcf::pose& camera_pose, bool adj = false) {
 	using pcf::sq;
-	auto T = camera_pose.transformation_from_world();
-	
+	auto T = camera_pose.transformation_from_world().linear();
+
 	histogram_t distances;
-	for(const auto& q : pc) {
-		Eigen::Vector3f n = q.get_normal();
-		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
-		float nx = n[0], ny = n[1], nz = n[2];
+	for(const auto& q : pc) { if(! q.valid()) continue;
+		const auto& p = pc.closest_point(q, 0, INFINITY, [&q](const pcf::point_xyz& p) { return (p != q); } );
+		Eigen::Vector3f n = T * p.get_normal();
+		float d = distance(p, q);
 
-		float d;
-
-		if(! adj) {
-			const auto& p = pc.closest_point(q, 0, INFINITY, [&q](const pcf::point_xyz& p) { return (p != q); } );
-			d = distance(p, q);
-		} else {
-			float lmin = std::min({
-				std::sqrt(1.0 + sq(nx)/sq(nz)),
-				std::sqrt(1.0 + sq(ny)/sq(nz)),
-				std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
-				std::sqrt(2.0 + sq(nx-ny)/sq(nz))
-			});
-			d = 0.01 * lmin;
-		}
+		if(! lmin_formula_condition(p, n)) continue;
+		if(adj) d /= lmin_formula(n, 1.0);
 		distances.emplace_back(d);
 	}
 	return distances;
 }
 
 
-
 template<typename Iterator, typename Other_cloud>
-histogram_t adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, float p_l, const pcf::pose& camera_pose) {
+histogram_t adjusted_closest_point_distances(Iterator begin, Iterator end, const Other_cloud& pc, float p_l, const pcf::pose& camera_pose, bool rej = false) {
 	using pcf::sq;
-	auto T = camera_pose.transformation_from_world();
+	auto T = camera_pose.transformation_from_world().linear();
 
 	bool out=false;
+	
+	float maxd = 0.5;
 
 	histogram_t distances;
 	for(Iterator it = begin; it != end; ++it) {
-		const auto& p = *it;
+		auto&& p = *it;
 		if(! p.valid()) continue;
-		const auto& q = pc.closest_point(p);
+		auto&& q = pc.closest_point(p, 0, maxd);
 		float d = distance(p, q);
 
-		Eigen::Vector3f n = p.get_normal();
-		n = (T * Eigen::Vector4f(n[0], n[1], n[2], 0)).head(3);
-		float nx = n[0], ny = n[1], nz = n[2];
+		if(! normals_compatible(p.get_normal(), q.get_normal())) continue;
+
+		//p.set_color(0x333333);
 		
-		auto lmin = p_l * std::min({
-			std::sqrt(1.0 + sq(nx)/sq(nz)),
-			std::sqrt(1.0 + sq(ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx+ny)/sq(nz)),
-			std::sqrt(2.0 + sq(nx-ny)/sq(nz))
-		});
+		Eigen::Vector3f n = T * p.get_normal();
+		if(! lmin_formula_condition(p, n)) continue;
+		
+		if(rej) {
+			Eigen::Vector3f diff = q.coordinates() - p.coordinates();
+			d = (p.coordinates() - q.coordinates() + p.get_normal().dot(diff) * p.get_normal()).norm();		
+		}
+		
+		//if(d > maxd) continue;
+
+		//p.set_color(0xff0000);
+		
+		auto lmin = lmin_formula(n, p_l);
 				
 		distances.emplace_back(2.0 * d / lmin);
 	}
 	return distances;
 }
 
+/////////////////////////////////////
+
+
+float adjusted_histogram_measure(const histogram_t& hist) {
+	const float one_d = 0.05;
+	unsigned k = 100;
+	
+	std::vector<unsigned> observed(k);
+	unsigned total = 0;
+	
+	for(const auto& h : hist) {
+		if(h.value > 1.0) continue;
+
+		unsigned i = k * h.value;
+		if(i < k) observed[i]++;
+		total++;
+	}
+	
+	float bin_range = 1.0 / k;
+	float bin_center = bin_range / 2;
+	float chi_square = 0;
+	for(unsigned i = 0; i < k; ++i) {
+		float o = float(observed[i]) / total;
+		float e = bin_range * bin_center * 2.0;
+		
+		
+		bin_center += bin_range;
+		
+		chi_square += pcf::sq(o - e) / e;
+	}
+	
+	return chi_square;
+}
 
 
 

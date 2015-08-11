@@ -65,6 +65,9 @@ public:
 	
 	void look_at(const Eigen::Vector3f&);
 	
+	void flip(const Eigen::Vector3f& axis = Eigen::Vector3f::UnitY());
+	void invert_orientation();
+	
 	static pose random_displacement(float translation_mag = 1.0, angle rotation_mag = angle::degrees(10.0));
 };
 

@@ -1,0 +1,126 @@
+#include <pcf/core.h>
+#include <pcf/experiment.h>
+#include <iostream>
+#include <fstream>
+
+using namespace pcf;
+using namespace pcf::exper;
+
+template<typename Tester>
+void batch(const Tester& tester, const std::string& dir, const std::vector<std::pair<std::string, Eigen::Affine3f>>& tests) {
+	for(const auto& p : tests) {
+		const std::string& fname = dir + p.first;
+		std::cout << "doing " << fname << "..." << std::endl;
+		tester.test_range_1dim(fname, p.second);
+		std::cout << "done " << fname << std::endl;
+	}
+}
+
+int main() {
+	kdtree_point_cloud_full p = import_point_cloud("data/lo_curv_reg.ply");
+	kdtree_point_cloud_full q = import_point_cloud("data/hi_curv.ply");
+
+	auto cor_q_to_p = make_closest_point_correspondences(p, q, probability_point_filter(0.2));
+	cor_q_to_p.rejecting_distance = 0.2;
+	
+	auto cor_p_to_q = make_closest_point_correspondences(q, p, accept_point_filter());
+	cor_p_to_q.rejecting_distance = 0.02;
+
+	auto cam_ps_p = pose::from_string("15.4356,5.69041,-6.51391,0.994049,-0.0544766,0.0538659,0.0774413");
+	auto cam_ps_q = pose::from_string("5.78633,4.91419,1.24274,0.995499,-0.00072259,-0.0845465,0.0428211");
+
+	auto err_chi = cross_histogram_error(0.0024, cam_ps_p, 100, cross_histogram_error::chi_squared, false, angle::degrees(70), angle::degrees(5), 0.035);
+	
+	float mag_t = 0.5;
+	angle mag_r = angle::degrees(1.3);
+
+	auto tester_chi = make_error_metric_range_tester(cor_q_to_p, err_chi);
+	std::cout << "testing chi" << std::endl;
+	tester_chi.test_random_ranges_1dim("plot_chi.dat", mag_t, mag_r, 10, 100);
+
+	//auto tester_mae = make_error_metric_range_tester(cor_p_to_q, mean_absolute_error());
+	//std::cout << "testing mae" << std::endl;
+	//tester_mae.test_random_ranges_1dim("plot_mae.dat", mag_t, mag_r, 10, 30);
+}
+/*
+	std::cout << "creating point clouds..." << std::endl;
+	
+	auto cam = parallel_projection_camera_at_angle(5.0, angle::degrees(40), 10.0, 100);
+	cam.rotate_z_axis(angle::degrees(20));
+
+	relief r(5.0, 1, 1.0);
+	auto qr = r.make_projected_point_cloud(parallel_projection_camera_top_down(5.0, 10.0, 2011), 500, true);
+	auto pr = r.make_projected_point_cloud(cam, 500, true);
+
+	unorganized_point_cloud_full p = pr, q = qr;
+	p.apply_pose(); q.apply_pose();
+	
+	kdtree_point_cloud_full kp = p, kq = q;
+
+
+	float d_max = 0.2;
+	auto cond = [&](const point_full& p_, const point_full& q_) -> bool {
+		float dot = p_.get_normal().dot(q_.get_normal());
+		return (distance(p_, q_) < d_max) && (std::abs(dot) > std::cos(angle::degrees(20)));
+	};
+	auto cor_q_to_p = make_closest_point_correspondences(kp, q, accept_point_filter(), cond);
+	cor_q_to_p.rejecting_distance = d_max;
+	auto cor_p_to_q = make_closest_point_correspondences(kq, p, accept_point_filter(), cond);
+	cor_p_to_q.rejecting_distance = d_max;
+
+	std::string dir = "output/err_rej/";
+	std::string fname = "smallest_hilo2";
+	std::cout << "starting " << fname << "..." << std::endl;
+
+	// True transformation error
+	auto scor = make_same_point_correspondences(p, q);	
+	scor.mode = decltype(scor)::known_transformation;
+	auto tester_known = make_error_metric_range_tester(scor, mean_absolute_error());
+
+	// Histogram error
+	float p_l = 0.048524*2.0;
+	
+	float mag_t = 0.0004;
+	angle mag_r = angle::degrees(1.0);
+	bool rej = true;
+	cross_histogram_error err_chi(p_l, cam.relative_pose(), 100, cross_histogram_error::chi_squared, rej);
+	cross_histogram_error err_cor(p_l, cam.relative_pose(), 100, cross_histogram_error::correlation, rej);
+	cross_histogram_error err_int(p_l, cam.relative_pose(), 100, cross_histogram_error::intersection, rej);
+
+
+	std::cout << "chi" << std::endl;
+	make_error_metric_range_tester(cor_q_to_p, err_chi).test_random_ranges_1dim
+		(dir + "chi/" + fname + ".dat", mag_t, mag_r, 10, 30);
+		
+	std::cout << "cor" << std::endl;
+	make_error_metric_range_tester(cor_q_to_p, err_cor).test_random_ranges_1dim
+		(dir + "cor/" + fname + ".dat", mag_t, mag_r, 10, 30);
+		
+	std::cout << "int" << std::endl;
+	make_error_metric_range_tester(cor_q_to_p, err_int).test_random_ranges_1dim
+		(dir + "int/" + fname + ".dat", mag_t, mag_r, 10, 30);
+
+	// Mean absolute error
+	auto tester_mae = make_error_metric_range_tester(cor_p_to_q, mean_absolute_error());
+
+
+	std::cout << "mae" << std::endl;
+	tester_mae.test_random_ranges_1dim(dir + "mae/" + fname + ".dat", mag_t, mag_r, 10, 30);
+
+
+
+
+
+
+	batch(tester_known, "output/err/mae/", {
+		{ "x_smaller.dat", Eigen::Affine3f(Eigen::Translation3f(0.0004 * Eigen::Vector3f::UnitX())) },
+		{ "x_small.dat",   Eigen::Affine3f(Eigen::Translation3f(0.0020 * Eigen::Vector3f::UnitX())) },
+		{ "z_smaller.dat", Eigen::Affine3f(Eigen::Translation3f(0.0004 * Eigen::Vector3f::UnitZ())) },
+		{ "z_small.dat",   Eigen::Affine3f(Eigen::Translation3f(0.0020 * Eigen::Vector3f::UnitZ())) },
+		{ "rotx_small.dat", Eigen::Affine3f(Eigen::AngleAxisf(angle::degrees(3), Eigen::Vector3f::UnitX())) },
+		{ "rotx_smaller.dat", Eigen::Affine3f(Eigen::AngleAxisf(angle::degrees(1), Eigen::Vector3f::UnitX())) },
+		{ "rotz_small.dat", Eigen::Affine3f(Eigen::AngleAxisf(angle::degrees(3), Eigen::Vector3f::UnitZ())) },
+		{ "rotz_smaller.dat", Eigen::Affine3f(Eigen::AngleAxisf(angle::degrees(1), Eigen::Vector3f::UnitZ())) }
+	});
+}
+*/

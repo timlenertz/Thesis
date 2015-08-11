@@ -63,7 +63,34 @@ By taking the minimum of $\| \vec{p'} \|$ for those four values of $(x, y)$, the
 \end{figure}
 
 
+\subsection{Threshold for obliqueness}
+This is an attempt to define a limit, based on the normal vector $\vec{n}$ or the object surface, for when the approximation is more likely to be accurate. That is, when $\argmin d(x, y)$ is likely to be in the set $M = \{ (0, 1), (0, 1), (1, 1), (-1, 1) \}$.
+
+The angle $\alpha$ between $\vec{n}$ and a ray from the camera with directing vector $\vec{v} = \transpose{(0, 0, -1)}$ is obtained from their dot product: $\alpha = \arccos n_z$. 
+
+When it is $0$ the function plot becomes more radial, that is, its contour lines $d(x,y)=c$ for constant $c$ become more circular. As the angle approaches its limit $\frac{\pi}{2}$ they becomes ellipses distorted towards an angle $\beta$. When $\alpha$ is low the shape does not stretch out much to one specific direction, and the approximation is likely to be correct. This is seen in examples (a) and (b).
+
+This direction $\beta$ in which the surface is inclined, for which $\tan \beta = \frac{n_y}{n_x}$. When it is near a multiple of $\frac{\pi}{4}$, then again it is likely that one of the points in $M$ gets the minimal value as the shape stretches in its direction, as seen on example (c). When $\beta$ it lies between those regions, and $\alpha$ is high, then a point outside of $M$ can get the minimal value, like on example (d).
+
+This first condition is true when $|n_z| > \cos \alpha_\text{max}$, taking into account that the normal vector may point in the opposite direction. The second condition is true when $|\frac{n_x}{n_y}| < \tan \beta_{\text{max}}$ or $|\frac{n_y}{n_x}| < \tan \beta_{\text{max}}$ or $\tan \left(\frac{\pi}{4} - \beta_{\text{max}}\right) < |\frac{n_x}{n_y}| < \tan \left(\frac{\pi}{4} + \beta_{\text{max}}\right)$. Using these expressions the trigonometric functions only need to be evaluated once for the constants in an implementation.
+
+So the threshold condition on the normal vector can be written (using $\alpha$ and $\beta$ to denote the threshold values)
+\begin{equation}
+|n_z| > \cos \alpha \bigvee
+\left[
+\left|\frac{n_x}{n_y}\right| < \tan \beta
+\bigwedge \left|\frac{n_y}{n_x}\right| < \tan \beta
+\bigwedge \tan \left(\tfrac{\pi}{4} - \beta\right) < \left|\frac{n_x}{n_y}\right| < \tan \left(\tfrac{\pi}{4} + \beta \right)
+\right]
+\end{equation}
+
+
 \subsection{Density}
+Evaluating $\| \vec{p'} \|$ for $(x, y) = (0, 1), (1, 0), (1, 1)$, one gets the side lengths $a, b$ of one possible parallelogram, and one if its diagonal. A diagonal splits a parallelogram into two halves into equal area. Using Heron's formula $A = \sqrt{s \, (s - a) \, (s - b) \, (s - c)}$ where $s = \frac{a+b+c}{2}$, one gets the area of the triangle with side lengths $a, b, c$, and thus the parallelogram has area $2 \, A$.
+
+The points can be translated on the parallelogram grid such that each parallelogram contains one point and no points lie on the edges. This is not possible for a triangle grid. Counting one point per parallelogram area, the density is $\rho = \frac{1}{2 \, A}$.
+
+Evaluating and simplifying this expression, one obtains $\rho = \frac{| n_z |}{p^2_l}$.
 
 
 \begin{figure}[h]

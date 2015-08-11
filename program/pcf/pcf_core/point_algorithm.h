@@ -77,6 +77,9 @@ plane compute_tangent_plane(const point_xyz&, Iterator neighbors_begin, Iterator
 template<typename Iterator>
 float compute_local_surface_density(const point_full&, Iterator neighbors_begin, Iterator neighbors_end);
 
+template<typename Iterator>
+float compute_local_surface_curvature(const point_full&, Iterator neighbors_begin, Iterator neighbors_end, float a, float d);
+
 
 
 }

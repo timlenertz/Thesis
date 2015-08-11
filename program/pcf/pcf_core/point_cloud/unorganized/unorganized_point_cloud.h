@@ -69,6 +69,7 @@ public:
 	template<typename Distribution>
 	void add_random_noise_around_points(std::size_t amount, const Distribution& displacement);
 	
+	
 	/// Add random noise within given bounding box.
 	/// Added points get uniformly distributed in cuboid.  \p amount must be lesser or equal to remaining capacity.
 	void add_random_noise_in_box(std::size_t amount, const bounding_box& box);

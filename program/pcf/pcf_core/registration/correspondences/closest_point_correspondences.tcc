@@ -55,7 +55,7 @@ void closest_point_correspondences<Cloud_fixed, Cloud_loose, Selection_func, Wei
 	
 	const std::size_t num_threads = std::thread::hardware_concurrency();
 	if(num_threads <= 1) {
-		for(auto it = loose_.begin_relative_to(fixed_); it != loose_.end_relative_to(); ++it)
+		for(auto it = begin_it; it < end_it; ++it)
 			process_point_(*it, it.real_point(), rec);
 		return;
 	}

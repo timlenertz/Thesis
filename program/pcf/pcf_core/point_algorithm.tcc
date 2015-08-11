@@ -312,7 +312,6 @@ plane compute_tangent_plane(const point_xyz& p0, Iterator neighbors_begin, Itera
 	return best_pl;
 }
 
-
 template<typename Iterator>
 float compute_local_surface_density(const point_full& q, Iterator neighbors_begin, Iterator neighbors_end) {
 	Eigen::Vector3f nq = q.get_normal();
@@ -322,10 +321,10 @@ float compute_local_surface_density(const point_full& q, Iterator neighbors_begi
 	std::size_t count = 0;
 	for(Iterator it = neighbors_begin; it != neighbors_end; ++it) {
 		const point_full& p = *it;
-		Eigen::Vector3f np = p.get_normal();
-		float dot = nq.dot(np);
+		//Eigen::Vector3f np = p.get_normal();
+		//float dot = nq.dot(np);
 		
-		static const float max_angle_cos = std::cos(angle::degrees(25.0));
+		//static const float max_angle_cos = std::cos(angle::degrees(25.0));
 		//if(dot >= max_angle_cos) {
 			Eigen::Vector3f pp = pl.project(p.coordinates());
 			float r = (pp - pl.project(q)).norm();
@@ -336,6 +335,46 @@ float compute_local_surface_density(const point_full& q, Iterator neighbors_begi
 	if(count == 0) return NAN;
 	
 	return count / (pi * max_radius * max_radius);	
+}
+
+
+template<typename Iterator>
+float compute_local_surface_curvature(const point_full& p, Iterator neighbors_begin, Iterator neighbors_end, float A, float D) {
+	std::vector<point_full> neighbors(neighbors_begin, neighbors_end);
+	point_full* closest;
+	float closest_d_sq = INFINITY;
+	for(auto it = neighbors_begin; it != neighbors_end; ++it) {
+		float d_sq = distance_sq(*it, p);
+		if(d_sq == 0.0) continue;
+		else if(d_sq < closest_d_sq) {
+			closest_d_sq = d_sq;
+			closest = &(*it);
+		}
+	}	
+	
+	float weight_sum = 0;
+	float sum = 0;
+	for(auto it = neighbors_begin; it != neighbors_end; ++it) {
+		point_full& q = *it;
+		if(! q.valid()) continue;
+		
+		float d_sq = distance_sq(q, p);
+		
+		float w;	
+		if(d_sq == 0.0) continue;
+		else if(&q == closest) w = 1.0;
+		else w = std::sqrt(closest_d_sq / d_sq);
+		weight_sum += w;
+		
+		float a = std::abs(half_pi * (1.0 - p.get_normal().dot(q.get_normal())));
+		float d = std::abs(p.get_normal().dot(p.coordinates() - q.coordinates()));
+				
+		sum += w * (A*a + D*d);
+	}
+	
+	float c = sum / (weight_sum * (neighbors.size() - 1));
+
+	return c;
 }
 
 

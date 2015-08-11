@@ -89,7 +89,7 @@ unorganized_point_cloud_full disks::make_projected_point_cloud_without_occlusion
 		for(const disk& dsk : disks_) {
 			Eigen::Vector3f o = dsk.o;
 			Eigen::Hyperplane<float, 3> pl(dsk.n, dsk.o);
-			float t = ray.intersection(pl);
+			//float t = ray.intersection(pl);
 			Eigen::Vector3f i = ray.intersectionPoint(pl);
 			if((i - o).norm() > dsk.r) continue;
 			

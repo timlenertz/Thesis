@@ -3,7 +3,7 @@
 namespace pcf {
 
 mean_square_error& mean_square_error::operator<<(const registration_correspondence& cor) {
-	error_sum_ += (cor.loose - cor.fixed).squaredNorm();
+	error_sum_ += distance_sq(cor.loose, cor.fixed);
 	weight_sum_ += cor.weight;
 	return *this;
 }

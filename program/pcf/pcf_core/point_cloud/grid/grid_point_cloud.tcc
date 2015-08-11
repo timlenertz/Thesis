@@ -71,7 +71,6 @@ super(pc, true, 0, alloc),
 cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)),
 box_(super::box(bounding_box_expansion_)),
 cells_(cells_array_sizes_()) {
-	std::cout << "cons1" << std::endl;
 	build_grid_();
 }
 
@@ -83,7 +82,6 @@ super(std::move(pc), true),
 cell_length_(cell_len != 0.0 ? cell_len : default_grid_cell_length(pc)),
 box_(super::box(bounding_box_expansion_)),
 cells_(cells_array_sizes_()) {
-	std::cout << "cons2" << std::endl;
 	build_grid_();
 }
 

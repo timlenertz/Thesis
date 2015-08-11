@@ -1,5 +1,7 @@
 \documentclass[a4paper,10pt,oneside]{scrreprt}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{amsfonts}
@@ -7,7 +9,6 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{siunitx}
-\usepackage{gnuplottex}
 \usepackage{fullpage}
 \usepackage{wrapfig}
 \usepackage{hyperref}
@@ -20,18 +21,38 @@
 \usepackage{forloop}
 \usepackage{pgffor}
 \usepackage{caption}
+\usepackage{comment}
+\usepackage[toc]{glossaries}
+\usepackage{placeins}
+\usepackage{listings}
+\usepackage{color}
 
+\lstset{language=C++,
+	basicstyle=\ttfamily \footnotesize,
+	numberstyle=\footnotesize,
+	stepnumber=1,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false, particular underscores
+	frame=single,
+	tabsize=2,
+	captionpos=b,
+	breaklines=true,
+	breakatwhitespace=false,
+	escapeinside={\%*}{*)}
+}
+
+
+%\excludecomment{figure}
 %\setcounter{tocdepth}{4}
-
 %\usepackage{pxfonts} 
 
 \linespread{1.2}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
-
 \newcommand*{\diffd}{\mathrm{d}}
-
 \newcommand{\matr}[1]{\mathbf{#1}}
 \newcommand{\hommatr}[1]{\hat{\mathbf{#1}}}
 \newcommand{\transpose}[1]{#1^\intercal}
@@ -40,26 +61,35 @@
 \newcommand{\rowvec}[1]{\left[#1\right]}
 \newcommand{\coreq}{\hat{=}}
 \newcommand{\area}[1]{\mathcal{A}(#1)}
-
-
+\newcommand{\cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
 
 %\mathtoolsset{showonlyrefs=true}
+
+\makeglossaries
+\include{glossary}
 
 \begin{document}
 
 \include{title}
 
+\begin{abstract}
+abs
+\end{abstract}
+
 \tableofcontents
 
 \include{ch1_introduction}
-\include{ch2_state_of_the_art}
-\include{ch3_registration}
+\include{ch2_theory}
+\include{ch3_state}
 \include{ch4_large_models}
 \include{ch5_implementation}
+\include{ch6_conclusion}
 
 \appendix
 \include{chA_expriments}
 \include{chB_proofs}
+
+\printglossaries
 
 \bibliographystyle{authordate1}
 \bibliography{../reference/references}

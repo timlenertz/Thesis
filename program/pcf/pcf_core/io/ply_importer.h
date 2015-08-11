@@ -49,7 +49,8 @@ private:
 	std::size_t number_of_properties_; ///< Number of properties for vertex element.
 	bool has_rgb_; ///< Whether r_, g_, b_ are defined.
 	bool has_normal_; ///< Whether nx_, ny_, nz_ are defined.
-	property x_, y_, z_, r_, g_, b_, nx_, ny_, nz_; ///< Offsets, Indices and types of vertex properties.
+	bool has_weight_; ///< Whether w_ is defined.
+	property x_, y_, z_, r_, g_, b_, nx_, ny_, nz_, w_; ///< Offsets, Indices and types of vertex properties.
 	
 	std::ptrdiff_t current_element_; ///< Index of current element.
 

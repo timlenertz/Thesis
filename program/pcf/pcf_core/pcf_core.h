@@ -83,6 +83,7 @@
 #include "registration/correspondences/registration_correspondence.h"
 #include "registration/correspondences/registration_correspondences_list.h"
 #include "registration/correspondences/same_point_correspondences.h"
+#include "registration/error_metric/cross_histogram_error.h"
 #include "registration/error_metric/mean_absolute_error.h"
 #include "registration/error_metric/mean_square_error.h"
 #include "registration/transformation_estimation/correlation_matrix_transformation_estimation.h"

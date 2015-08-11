@@ -35,7 +35,7 @@ unorganized_point_cloud<Point, Allocator>::unorganized_point_cloud(point_cloud_i
 template<typename Point, typename Allocator>
 void unorganized_point_cloud<Point, Allocator>::apply_transformation(const Eigen::Affine3f& t) {	
 	#pragma omp parallel for
-	for(auto p = super::begin(); p < super::end(); ++p)
+	for(auto&& p = super::begin(); p < super::end(); ++p)
 		if(p->valid()) p->apply_transformation(t);
 }
 
@@ -94,10 +94,12 @@ void unorganized_point_cloud<Point, Allocator>::randomly_displace_points_on_loca
 		if(! p->valid()) continue;
 
 		const Eigen::Vector3f& n = p->get_normal();
+		if(n.isZero()) { p->invalidate(); continue; }
 		
 		Eigen::Vector3f d(dist(rng), dist(rng), 0.0);
-		d[2] = (d[0]*n[0] + d[1]*n[1]) / n[2];
 		
+		d = Eigen::Quaternionf::FromTwoVectors(n, Eigen::Vector3f::UnitZ()) * d;
+				
 		p->homogeneous_coordinates.head(3) += d;
 	}
 }
@@ -126,6 +128,7 @@ void unorganized_point_cloud<Point, Allocator>::add_random_noise_around_points(s
 	
 	super::end_ = np;
 }
+
 
 
 template<typename Point, typename Allocator>

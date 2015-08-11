@@ -3,6 +3,7 @@
 #ifndef PCF_PCF_EXPERIMENT_H_
 #define PCF_PCF_EXPERIMENT_H_
 
+#include "error_metric_range_tester.h"
 #include "error_metric_tester.h"
 #include "experiment.h"
 #include "results.h"

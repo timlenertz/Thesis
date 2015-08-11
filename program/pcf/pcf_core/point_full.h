@@ -49,7 +49,7 @@ public:
 	template<typename Transform>
 	void apply_transformation(const Transform& t) {
 		homogeneous_coordinates = t * homogeneous_coordinates;
-		normal = t * normal;
+		normal = t.linear() * normal;
 	}
 
 	const rgb_color& get_color() const { return color; }

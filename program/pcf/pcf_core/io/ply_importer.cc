@@ -90,6 +90,7 @@ ply_importer::property* ply_importer::identify_property_(const std::string& nm_o
 	else if(nm == "r" || nm == "red") return &r_;
 	else if(nm == "g" || nm == "green") return &g_;
 	else if(nm == "b" || nm == "blue") return &b_;
+	else if(nm == "weight") return &w_;
 	else return nullptr;
 }
 
@@ -188,6 +189,7 @@ void ply_importer::read_header_() {
 	if(!x_ || !y_ || !z_) throw ply_importer_error("X, Y, Z coordinate properties not defined.");
 	has_rgb_ = (r_ && g_ && b_);
 	has_normal_ = (nx_ && ny_ && nz_);
+	has_weight_ = (bool)w_;
 		
 	vertex_length_ = vertex_property_data_offset;
 	number_of_properties_ = vertex_property_index;
@@ -260,6 +262,7 @@ void ply_importer::read_ascii_point_(point_full& pt, const char* props[]) const 
 		strtof(props[ny_.index], nullptr),
 		strtof(props[nz_.index], nullptr)
 	));
+	if(has_weight_) strtof(props[w_.index], nullptr);
 }
 
 
@@ -293,6 +296,7 @@ void ply_importer::read_binary_point_(point_full& pt, char* data) const {
 		read_binary_property_<float>(ny_, data),
 		read_binary_property_<float>(nz_, data)
 	));
+	if(has_weight_) pt.set_weight(read_binary_property_<float>(w_, data));
 }
 
 

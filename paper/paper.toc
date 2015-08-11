@@ -1,124 +1,202 @@
-\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
-\contentsline {chapter}{\numberline {2}State of the Art}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}3D Scanning}{5}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Point cloud}{6}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Range image}{6}{subsection.2.1.2}
-\contentsline {subsubsection}{\nonumberline Camera parameters}{7}{section*.4}
-\contentsline {subsection}{\numberline {2.1.3}3D scanner technology}{9}{subsection.2.1.3}
-\contentsline {subsubsection}{\nonumberline Laser rangefinder}{9}{section*.6}
-\contentsline {subsubsection}{\nonumberline Time-of-flight scanner}{9}{section*.7}
-\contentsline {subsubsection}{\nonumberline Triangulation scanner}{9}{section*.8}
-\contentsline {section}{\numberline {2.2}Operations on point clouds}{10}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Basic operations}{10}{subsection.2.2.1}
-\contentsline {subsubsection}{\nonumberline Cropping}{10}{section*.9}
-\contentsline {subsubsection}{\nonumberline Fusion}{10}{section*.10}
-\contentsline {subsubsection}{\nonumberline Transformation}{10}{section*.11}
-\contentsline {subsubsection}{\nonumberline Closest point finding}{10}{section*.12}
-\contentsline {subsubsection}{\nonumberline Nearest neighbor finding}{10}{section*.13}
-\contentsline {subsection}{\numberline {2.2.2}Projection}{11}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Registration}{12}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Other operations}{12}{subsection.2.2.4}
-\contentsline {subsubsection}{\nonumberline Computation of normal vector}{12}{section*.15}
-\contentsline {subsubsection}{\nonumberline Image-to-cloud registration}{12}{section*.16}
-\contentsline {subsubsection}{\nonumberline Meshing}{12}{section*.17}
-\contentsline {section}{\numberline {2.3}Data structures for point clouds}{12}{section.2.3}
-\contentsline {section}{\numberline {2.4}Preliminary mathematics}{13}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Transformation matrices and homogeneous coordinates}{13}{subsection.2.4.1}
-\contentsline {subsubsection}{\nonumberline Classification}{13}{section*.18}
-\contentsline {subsubsection}{\nonumberline Linear transformation}{14}{section*.20}
-\contentsline {subsubsection}{\nonumberline Rotation}{14}{section*.21}
-\contentsline {subsubsection}{\nonumberline Euler angles}{15}{section*.22}
-\contentsline {subsubsection}{\nonumberline Quaternions}{15}{section*.23}
-\contentsline {subsubsection}{\nonumberline Rotation around an axis}{15}{section*.24}
-\contentsline {subsubsection}{\nonumberline Rotation between two vectors}{15}{section*.25}
-\contentsline {subsubsection}{\nonumberline Affine transformation}{15}{section*.26}
-\contentsline {subsubsection}{\nonumberline Rigid transformation}{16}{section*.27}
-\contentsline {subsubsection}{\nonumberline Homogeneous coordinates}{16}{section*.28}
-\contentsline {subsubsection}{\nonumberline Pose}{17}{section*.29}
-\contentsline {subsection}{\numberline {2.4.2}Least squares method}{18}{subsection.2.4.2}
-\contentsline {subsubsection}{\nonumberline Linear least-squares}{18}{section*.30}
-\contentsline {subsubsection}{\nonumberline Non-linear least squares}{19}{section*.31}
-\contentsline {subsubsection}{\nonumberline Weights}{19}{section*.32}
-\contentsline {subsection}{\numberline {2.4.3}Point set alignment using singular value decomposition}{19}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2.4.4}Information theory}{21}{subsection.2.4.4}
-\contentsline {subsection}{\numberline {2.4.5}Gaussian distribution}{21}{subsection.2.4.5}
-\contentsline {subsection}{\numberline {2.4.6}Parzen window}{21}{subsection.2.4.6}
-\contentsline {subsection}{\numberline {2.4.7}RANSAC}{21}{subsection.2.4.7}
-\contentsline {chapter}{\numberline {3}Point Cloud Registration}{22}{chapter.3}
-\contentsline {section}{\numberline {3.1}Introduction}{22}{section.3.1}
-\contentsline {section}{\numberline {3.2}Robustness}{23}{section.3.2}
-\contentsline {section}{\numberline {3.3}Fine registration}{24}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Iterative Closest Point}{24}{subsection.3.3.1}
-\contentsline {subsubsection}{\nonumberline ICP framework}{24}{section*.34}
-\contentsline {subsubsection}{\nonumberline Convergence}{26}{section*.35}
-\contentsline {subsubsection}{\nonumberline Local minima}{27}{section*.37}
-\contentsline {subsection}{\numberline {3.3.2}Generalized ICP}{27}{subsection.3.3.2}
-\contentsline {section}{\numberline {3.4}Coarse Registration}{27}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Manual registration}{27}{subsection.3.4.1}
-\contentsline {chapter}{\numberline {4}Registration of Large Models}{28}{chapter.4}
-\contentsline {section}{\numberline {4.1}``H\IeC {\^o}tel de Ville'' scanning project}{28}{section.4.1}
-\contentsline {section}{\numberline {4.2}Relief point cloud}{28}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}def}{28}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Artificial relief}{28}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Point cloud generation}{30}{subsection.4.2.3}
-\contentsline {subsubsection}{\nonumberline Top-down view}{30}{section*.40}
-\contentsline {subsubsection}{\nonumberline Occluded view}{30}{section*.42}
-\contentsline {subsubsection}{\nonumberline Similarity with actual scans}{32}{section*.44}
-\contentsline {section}{\numberline {4.3}Evaluation of registration accuracy}{33}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Known true transformation}{33}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Unknown true transformation}{33}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Analysis of point clouds}{35}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Local measures}{35}{subsection.4.4.1}
-\contentsline {subsubsection}{\nonumberline Estimated density}{35}{section*.47}
-\contentsline {subsubsection}{\nonumberline Square grid density}{35}{section*.48}
-\contentsline {subsubsection}{\nonumberline Curvature}{35}{section*.49}
-\contentsline {subsection}{\numberline {4.4.2}Point dispersion}{36}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Parallelogram grid}{37}{subsection.4.4.3}
-\contentsline {subsubsection}{\nonumberline Measures}{39}{section*.57}
-\contentsline {subsubsection}{\nonumberline Analysis}{39}{section*.58}
-\contentsline {subsubsection}{\nonumberline Verification}{40}{section*.60}
-\contentsline {subsection}{\numberline {4.4.4}Projection parameters}{40}{subsection.4.4.4}
-\contentsline {section}{\numberline {4.5}Own distance histogram}{41}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Plane with random dispersion}{41}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Dispersion of sample points}{42}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Plane with square grid dispersion}{44}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Plane with parallelogram grid dispersion}{44}{subsection.4.5.4}
-\contentsline {subsection}{\numberline {4.5.5}Adjusted own distance histogram}{46}{subsection.4.5.5}
-\contentsline {subsubsection}{\nonumberline Multi-planes point cloud}{46}{section*.69}
-\contentsline {subsubsection}{\nonumberline Adjusted histogram}{47}{section*.72}
-\contentsline {subsection}{\numberline {4.5.6}Occlusion and different bounds}{49}{subsection.4.5.6}
-\contentsline {section}{\numberline {4.6}Cross distance histogram}{49}{section.4.6}
-\contentsline {subsection}{\numberline {4.6.1}Effect of small transformations}{49}{subsection.4.6.1}
-\contentsline {subsection}{\numberline {4.6.2}Measure of alignment}{49}{subsection.4.6.2}
-\contentsline {section}{\numberline {4.7}High-low density registration}{49}{section.4.7}
-\contentsline {subsection}{\numberline {4.7.1}First experiment}{49}{subsection.4.7.1}
-\contentsline {subsubsection}{\nonumberline Analysis}{50}{section*.75}
-\contentsline {subsection}{\numberline {4.7.2}Experiments on relief}{52}{subsection.4.7.2}
-\contentsline {subsection}{\numberline {4.7.3}Limits of accuracy}{52}{subsection.4.7.3}
-\contentsline {subsection}{\numberline {4.7.4}Metric for resolution}{52}{subsection.4.7.4}
-\contentsline {section}{\numberline {4.8}Separation of large scans}{52}{section.4.8}
-\contentsline {section}{\numberline {4.9}Variable density}{52}{section.4.9}
-\contentsline {chapter}{\numberline {5}Implementation}{53}{chapter.5}
-\contentsline {section}{\numberline {5.1}Architecture}{53}{section.5.1}
-\contentsline {section}{\numberline {5.2}Usage of C++}{53}{section.5.2}
-\contentsline {section}{\numberline {5.3}Optimization}{53}{section.5.3}
-\contentsline {section}{\numberline {5.4}Visualization}{53}{section.5.4}
-\contentsline {section}{\numberline {5.5}User interface}{53}{section.5.5}
-\contentsline {chapter}{\numberline {6}Conclusion}{54}{chapter.6}
-\contentsline {chapter}{\numberline {A}Experimental Results}{55}{appendix.A}
-\contentsline {section}{\numberline {A.1}Cross distance histogram}{55}{section.A.1}
-\contentsline {subsection}{\numberline {A.1.1}Small translations}{55}{subsection.A.1.1}
-\contentsline {subsubsection}{\nonumberline Translation in X and Y axis}{55}{section*.78}
-\contentsline {subsubsection}{\nonumberline Translation in X and Z axis}{56}{section*.80}
-\contentsline {subsection}{\numberline {A.1.2}Small rotations}{56}{subsection.A.1.2}
-\contentsline {subsubsection}{\nonumberline Rotation around X and Y axis}{57}{section*.82}
-\contentsline {subsubsection}{\nonumberline Rotation around X and Z axis}{58}{section*.84}
-\contentsline {section}{\numberline {A.2}Different resolutions, Bunny model}{58}{section.A.2}
-\contentsline {subsection}{\numberline {A.2.1}Final true error v. downsampling level}{59}{subsection.A.2.1}
-\contentsline {chapter}{\numberline {B}Proofs}{61}{appendix.B}
-\contentsline {section}{\numberline {B.1}Measures on parallelogram grid dispersion}{61}{section.B.1}
-\contentsline {subsection}{\numberline {B.1.1}Approximation}{62}{subsection.B.1.1}
-\contentsline {subsection}{\numberline {B.1.2}Density}{62}{subsection.B.1.2}
-\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{62}{section.B.2}
-\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{64}{section.B.3}
-\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{65}{section.B.4}
+\contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}
+\contentsline {chapter}{\numberline {2}Theory}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}3D Scanning}{7}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Point cloud}{8}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Range image}{8}{subsection.2.1.2}
+\contentsline {subsubsection}{\nonumberline Camera parameters}{9}{section*.4}
+\contentsline {subsection}{\numberline {2.1.3}3D scanner technology}{11}{subsection.2.1.3}
+\contentsline {subsubsection}{\nonumberline Laser rangefinder}{11}{section*.6}
+\contentsline {subsubsection}{\nonumberline Time-of-flight scanner}{11}{section*.7}
+\contentsline {subsubsection}{\nonumberline Triangulation scanner}{11}{section*.8}
+\contentsline {section}{\numberline {2.2}Operations on point clouds}{12}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Basic operations}{12}{subsection.2.2.1}
+\contentsline {subsubsection}{\nonumberline Fusion}{12}{section*.9}
+\contentsline {subsubsection}{\nonumberline Transformation}{12}{section*.10}
+\contentsline {subsubsection}{\nonumberline Cropping}{12}{section*.11}
+\contentsline {subsubsection}{\nonumberline Closest point finding}{12}{section*.12}
+\contentsline {subsubsection}{\nonumberline Nearest neighbor finding}{13}{section*.13}
+\contentsline {subsection}{\numberline {2.2.2}Projection}{13}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Registration}{14}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Other operations}{14}{subsection.2.2.4}
+\contentsline {subsubsection}{\nonumberline Computation of normal vector}{14}{section*.15}
+\contentsline {subsubsection}{\nonumberline Image-to-cloud registration}{14}{section*.16}
+\contentsline {subsubsection}{\nonumberline Meshing}{14}{section*.17}
+\contentsline {section}{\numberline {2.3}Transformation matrices and homogeneous coordinates}{15}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Classification}{15}{subsection.2.3.1}
+\contentsline {subsubsection}{\nonumberline Linear transformation}{16}{section*.19}
+\contentsline {subsection}{\numberline {2.3.2}Rotation}{16}{subsection.2.3.2}
+\contentsline {subsubsection}{\nonumberline Euler angles}{16}{section*.20}
+\contentsline {subsubsection}{\nonumberline Rotation around an axis}{17}{section*.21}
+\contentsline {subsubsection}{\nonumberline Rotation between two vectors}{17}{section*.22}
+\contentsline {subsubsection}{\nonumberline Quaternions}{17}{section*.23}
+\contentsline {subsection}{\numberline {2.3.3}Interpolation of rotation}{18}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}Affine transformation}{18}{subsection.2.3.4}
+\contentsline {subsubsection}{\nonumberline Rigid transformation}{18}{section*.24}
+\contentsline {subsection}{\numberline {2.3.5}Homogeneous coordinates}{19}{subsection.2.3.5}
+\contentsline {subsection}{\numberline {2.3.6}Pose}{20}{subsection.2.3.6}
+\contentsline {section}{\numberline {2.4}Least squares method}{20}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Linear least-squares}{21}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Non-linear least squares}{22}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}Weights}{22}{subsection.2.4.3}
+\contentsline {section}{\numberline {2.5}Point set alignment using singular value decomposition}{22}{section.2.5}
+\contentsline {section}{\numberline {2.6}Procrustes analysis}{24}{section.2.6}
+\contentsline {section}{\numberline {2.7}RANSAC}{25}{section.2.7}
+\contentsline {subsubsection}{\nonumberline Application to point set alignment}{26}{section*.25}
+\contentsline {section}{\numberline {2.8}Histogram comparison}{26}{section.2.8}
+\contentsline {subsubsection}{\nonumberline Chi-Squared}{27}{section*.26}
+\contentsline {subsubsection}{\nonumberline Correlation}{27}{section*.27}
+\contentsline {subsubsection}{\nonumberline Intersection}{27}{section*.28}
+\contentsline {chapter}{\numberline {3}State of the Art}{29}{chapter.3}
+\contentsline {section}{\numberline {3.1}Introduction}{29}{section.3.1}
+\contentsline {section}{\numberline {3.2}Robustness}{30}{section.3.2}
+\contentsline {section}{\numberline {3.3}Fine registration}{31}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Iterative Closest Point}{31}{subsection.3.3.1}
+\contentsline {subsubsection}{\nonumberline ICP framework}{31}{section*.29}
+\contentsline {subsubsection}{\nonumberline Convergence}{33}{section*.30}
+\contentsline {subsubsection}{\nonumberline Local minima}{34}{section*.32}
+\contentsline {subsubsection}{\nonumberline Multi-view ICP}{35}{section*.35}
+\contentsline {subsubsection}{\nonumberline Iterative Dual Correspondences}{35}{section*.36}
+\contentsline {subsubsection}{\nonumberline Probabilistic Iterative Correspondence}{35}{section*.37}
+\contentsline {subsubsection}{\nonumberline Sparse ICP}{36}{section*.38}
+\contentsline {subsection}{\numberline {3.3.2}Generalized ICP}{36}{subsection.3.3.2}
+\contentsline {subsubsection}{\nonumberline Covariance matrices}{37}{section*.39}
+\contentsline {subsection}{\numberline {3.3.3}Normal Distributions Transform}{37}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}4-Points Congruent Sets}{38}{subsection.3.3.4}
+\contentsline {subsubsection}{\nonumberline Search of congruent quadruplets}{39}{section*.40}
+\contentsline {subsubsection}{\nonumberline Choice of base}{40}{section*.41}
+\contentsline {section}{\numberline {3.4}Coarse Registration}{40}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Manual registration}{40}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Feature correspondence}{40}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Extended Gaussian Image}{41}{subsection.3.4.3}
+\contentsline {chapter}{\numberline {4}Registration of Large Models}{42}{chapter.4}
+\contentsline {section}{\numberline {4.1}Evaluation of registration accuracy}{42}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Known true transformation}{42}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Unknown true transformation}{43}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Visualization of error metric}{43}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Models}{45}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}``H\IeC {\^o}tel de Ville'' scanning project}{45}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Dessus-de-porte}{45}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Relief point cloud}{45}{subsection.4.2.3}
+\contentsline {subsubsection}{\nonumberline Top-down view point cloud}{48}{section*.48}
+\contentsline {subsubsection}{\nonumberline Occluded view point cloud}{48}{section*.50}
+\contentsline {subsubsection}{\nonumberline Similarity with dessus-de-porte}{50}{section*.52}
+\contentsline {subsection}{\numberline {4.2.4}Other models}{50}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}ICP registration experiments}{52}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Different resolutions}{52}{subsection.4.3.1}
+\contentsline {subsubsection}{\nonumberline Analysis}{52}{section*.54}
+\contentsline {subsubsection}{\nonumberline Sphere experiment}{53}{section*.58}
+\contentsline {subsubsection}{\nonumberline Conclusion}{54}{section*.59}
+\contentsline {subsection}{\numberline {4.3.2}Different view points}{54}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Instability of error metric}{54}{subsection.4.3.3}
+\contentsline {section}{\numberline {4.4}Developing an error metric}{57}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}High- to low-resolution registration}{57}{subsection.4.4.1}
+\contentsline {subsubsection}{\nonumberline Approach}{58}{section*.62}
+\contentsline {section}{\numberline {4.5}Analysis of point clouds}{59}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Local density}{59}{subsection.4.5.1}
+\contentsline {subsubsection}{\nonumberline Square grid density}{59}{section*.64}
+\contentsline {subsection}{\numberline {4.5.2}Local curvature}{59}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Point dispersion}{60}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Parallelogram grid}{61}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.5}Measures on grid}{64}{subsection.4.5.5}
+\contentsline {subsubsection}{\nonumberline Analysis}{65}{section*.73}
+\contentsline {subsubsection}{\nonumberline Verification}{65}{section*.75}
+\contentsline {subsubsection}{\nonumberline Usage on real point cloud scan}{66}{section*.77}
+\contentsline {subsection}{\numberline {4.5.6}Estimation of projection parameters}{66}{subsection.4.5.6}
+\contentsline {section}{\numberline {4.6}Own distance histogram}{68}{section.4.6}
+\contentsline {subsection}{\numberline {4.6.1}Plane with random dispersion}{68}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {4.6.2}Dispersion of sample points}{69}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.6.3}Plane with square grid dispersion}{71}{subsection.4.6.3}
+\contentsline {subsection}{\numberline {4.6.4}Plane with parallelogram grid dispersion}{71}{subsection.4.6.4}
+\contentsline {subsection}{\numberline {4.6.5}Adjusted own distance histogram}{72}{subsection.4.6.5}
+\contentsline {subsubsection}{\nonumberline Multi-planes point cloud}{72}{section*.86}
+\contentsline {subsubsection}{\nonumberline Adjusted histogram}{74}{section*.89}
+\contentsline {subsection}{\numberline {4.6.6}Occlusion and different bounds}{76}{subsection.4.6.6}
+\contentsline {subsection}{\numberline {4.6.7}Sample for real point cloud}{76}{subsection.4.6.7}
+\contentsline {subsubsection}{\nonumberline Results}{77}{section*.92}
+\contentsline {section}{\numberline {4.7}Cross distance histogram}{78}{section.4.7}
+\contentsline {subsection}{\numberline {4.7.1}Adjusted histogram}{78}{subsection.4.7.1}
+\contentsline {subsection}{\numberline {4.7.2}Rejection histogram}{78}{subsection.4.7.2}
+\contentsline {subsection}{\numberline {4.7.3}Measure of alignment}{78}{subsection.4.7.3}
+\contentsline {subsection}{\numberline {4.7.4}Results}{79}{subsection.4.7.4}
+\contentsline {subsection}{\numberline {4.7.5}Conclusions}{80}{subsection.4.7.5}
+\contentsline {chapter}{\numberline {5}Implementation}{82}{chapter.5}
+\contentsline {section}{\numberline {5.1}General architecture}{82}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Programming language}{82}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Interactive console}{83}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}Core}{83}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Point data type}{83}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Point cloud data structures}{84}{subsection.5.2.2}
+\contentsline {subsubsection}{\nonumberline Unorganized point cloud}{84}{section*.96}
+\contentsline {subsubsection}{\nonumberline Tree point cloud}{85}{section*.97}
+\contentsline {subsubsection}{\nonumberline Grid point cloud}{85}{section*.98}
+\contentsline {subsubsection}{\nonumberline Range point cloud}{85}{section*.99}
+\contentsline {subsubsection}{\nonumberline Const-correctness}{85}{section*.100}
+\contentsline {subsection}{\numberline {5.2.3}Space object}{86}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}Point algorithms}{86}{subsection.5.2.4}
+\contentsline {subsection}{\numberline {5.2.5}Iterative Correspondences Registration}{87}{subsection.5.2.5}
+\contentsline {subsection}{\numberline {5.2.6}Other components}{87}{subsection.5.2.6}
+\contentsline {section}{\numberline {5.3}Viewer}{87}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Point cloud visualization}{87}{subsection.5.3.1}
+\contentsline {subsubsection}{\nonumberline Viewing frustum culling}{88}{section*.101}
+\contentsline {subsubsection}{\nonumberline Real-time down-sampling}{88}{section*.102}
+\contentsline {subsubsection}{\nonumberline Buffer swapping}{88}{section*.103}
+\contentsline {section}{\numberline {5.4}Console}{88}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Usage with framework}{89}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Problems}{89}{subsection.5.4.2}
+\contentsline {chapter}{\numberline {6}Conclusion}{91}{chapter.6}
+\contentsline {chapter}{\numberline {A}Experimental Results}{92}{appendix.A}
+\contentsline {section}{\numberline {A.1}ICP registration}{92}{section.A.1}
+\contentsline {subsection}{\numberline {A.1.1}Resolutions and \gls {icp} result, Bunny model}{92}{subsection.A.1.1}
+\contentsline {subsubsection}{\nonumberline No displacement}{92}{section*.104}
+\contentsline {subsubsection}{\nonumberline Small displacement}{92}{section*.106}
+\contentsline {subsection}{\numberline {A.1.2}Evolution of \gls {icp} registration, Bunny model}{93}{subsection.A.1.2}
+\contentsline {subsection}{\numberline {A.1.3}Resolutions and \gls {icp} result, sphere model}{94}{subsection.A.1.3}
+\contentsline {subsection}{\numberline {A.1.4}View-point and \gls {icp} result, relief model}{95}{subsection.A.1.4}
+\contentsline {section}{\numberline {A.2}Relief small transformation \gls {acdh}}{96}{section.A.2}
+\contentsline {subsection}{\numberline {A.2.1}Translations}{96}{subsection.A.2.1}
+\contentsline {subsubsection}{\nonumberline X and Y axis}{96}{section*.112}
+\contentsline {paragraph}{\nonumberline Observations}{96}{section*.114}
+\contentsline {subsubsection}{\nonumberline X and Z axis}{97}{section*.115}
+\contentsline {paragraph}{\nonumberline Observations}{97}{section*.117}
+\contentsline {subsection}{\numberline {A.2.2}Rotations}{98}{subsection.A.2.2}
+\contentsline {subsubsection}{\nonumberline Rotation around X and Y axis}{98}{section*.118}
+\contentsline {paragraph}{\nonumberline Observations}{98}{section*.120}
+\contentsline {subsubsection}{\nonumberline Rotation around X and Z axis}{99}{section*.121}
+\contentsline {paragraph}{\nonumberline Observations}{99}{section*.123}
+\contentsline {section}{\numberline {A.3}Relief small transformation \gls {arcdh}}{100}{section.A.3}
+\contentsline {subsection}{\numberline {A.3.1}Translations}{100}{subsection.A.3.1}
+\contentsline {subsubsection}{\nonumberline Translation in X and Y axis}{100}{section*.124}
+\contentsline {paragraph}{\nonumberline Observations}{100}{section*.126}
+\contentsline {subsubsection}{\nonumberline Translation in X and Z axis}{101}{section*.127}
+\contentsline {paragraph}{\nonumberline Observations}{101}{section*.129}
+\contentsline {subsection}{\numberline {A.3.2}Rotations}{102}{subsection.A.3.2}
+\contentsline {subsubsection}{\nonumberline Rotation around X and Y axis}{102}{section*.130}
+\contentsline {paragraph}{\nonumberline Observations}{102}{section*.132}
+\contentsline {subsubsection}{\nonumberline Rotation around X and Z axis}{103}{section*.133}
+\contentsline {paragraph}{\nonumberline Observations}{103}{section*.135}
+\contentsline {section}{\numberline {A.4}\Gls {acdh} histogram comparison error metric}{104}{section.A.4}
+\contentsline {subsection}{\numberline {A.4.1}Same}{104}{subsection.A.4.1}
+\contentsline {paragraph}{\nonumberline Observations}{105}{section*.139}
+\contentsline {subsection}{\numberline {A.4.2}Different view-points}{105}{subsection.A.4.2}
+\contentsline {paragraph}{\nonumberline Observations}{106}{section*.141}
+\contentsline {subsection}{\numberline {A.4.3}Different resolutions}{106}{subsection.A.4.3}
+\contentsline {paragraph}{\nonumberline Observations}{107}{section*.144}
+\contentsline {subsubsection}{\nonumberline Translation only}{107}{section*.145}
+\contentsline {paragraph}{\nonumberline Observations}{108}{section*.147}
+\contentsline {subsubsection}{\nonumberline Rotation only}{108}{section*.148}
+\contentsline {paragraph}{\nonumberline Observations}{108}{section*.150}
+\contentsline {subsection}{\numberline {A.4.4}Different resolutions, rejection}{109}{subsection.A.4.4}
+\contentsline {subsubsection}{\nonumberline Translation only}{109}{section*.151}
+\contentsline {paragraph}{\nonumberline Observations}{109}{section*.153}
+\contentsline {subsubsection}{\nonumberline Rotation only}{109}{section*.154}
+\contentsline {paragraph}{\nonumberline Observations}{110}{section*.156}
+\contentsline {subsubsection}{\nonumberline Rotation only, different centers}{110}{section*.157}
+\contentsline {chapter}{\numberline {B}Proofs}{112}{appendix.B}
+\contentsline {section}{\numberline {B.1}Measures on parallelogram grid dispersion}{112}{section.B.1}
+\contentsline {subsection}{\numberline {B.1.1}Approximation}{113}{subsection.B.1.1}
+\contentsline {subsection}{\numberline {B.1.2}Threshold for obliqueness}{113}{subsection.B.1.2}
+\contentsline {subsection}{\numberline {B.1.3}Density}{114}{subsection.B.1.3}
+\contentsline {section}{\numberline {B.2}Closest point histogram with random point dispersion on plane}{114}{section.B.2}
+\contentsline {section}{\numberline {B.3}Variance of density with random point dispersion}{116}{section.B.3}
+\contentsline {section}{\numberline {B.4}Closest point histogram with square grid point dispersion on plane}{117}{section.B.4}
+\contentsline {chapter}{Glossary}{119}{section*.163}

@@ -3,7 +3,7 @@
 namespace pcf {
 
 mean_absolute_error& mean_absolute_error::operator<<(const registration_correspondence& cor) {
-	error_sum_ += (cor.loose - cor.fixed).norm();
+	error_sum_ += distance(cor.loose, cor.fixed);
 	weight_sum_ += cor.weight;
 	return *this;
 }

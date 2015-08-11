@@ -5,6 +5,7 @@
 #include "point_cloud/unorganized/unorganized_point_cloud.h"
 #include "point_cloud/grid/grid_point_cloud.h"
 #include <array>
+#include <cmath>
 
 namespace pcf {
 
@@ -15,11 +16,11 @@ Takes given number of random samples, and uses point cloud's algorithm to find c
 template<typename Cloud>
 float median_closest_neighbor_distance(const Cloud&, std::size_t samples = 10000);
 
-template<typename Cloud>
-void compute_normals(Cloud&);
+void compute_normals(grid_point_cloud_full&);
 
-template<typename Cloud>
-void compute_local_density_weights(Cloud&, std::size_t k, float ratio = 1.0);
+void compute_local_density_weights(grid_point_cloud_full&, std::size_t k);
+
+void compute_local_curvature_weights(grid_point_cloud_full&, std::size_t k, float r, float a, float d);
 
 template<typename Cloud>
 void test_knn(Cloud&);
@@ -28,8 +29,7 @@ template<typename Point>
 std::array<unorganized_point_cloud<Point>, 2> split_random_downsampled(const point_cloud<Point>&, float ratio);
 
 
-extern template void compute_local_density_weights(grid_point_cloud_full&, std::size_t, float);
-extern template void compute_normals(grid_point_cloud_full&);
+unorganized_point_cloud_full make_sample_with_displaced_points(const point_cloud_full& pc_orig, std::size_t num_copies, const pose& cam_ps, float p_l);
 
 
 

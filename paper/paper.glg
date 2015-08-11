@@ -1,0 +1,7 @@
+This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
+Scanning style file ./paper.ist.............................done (29 attributes redefined, 0 ignored).
+Scanning input file paper.glo....done (142 entries accepted, 0 rejected).
+Sorting entries....done (1176 comparisons).
+Generating output file paper.gls....done (76 lines written, 0 warnings).
+Output written in paper.gls.
+Transcript written in paper.glg.

@@ -1,5 +1,6 @@
 #include "pose.h"
 #include "angle.h"
+#include "math_constants.h"
 #include "../util/misc.h"
 #include "../util/random.h"
 #include "spherical_coordinates.h"
@@ -78,5 +79,15 @@ void pose::look_at(const Eigen::Vector3f& target) {
 	orientation.setFromTwoVectors(at_depth, at_target);
 	orientation.normalize();
 }
+
+void pose::flip(const Eigen::Vector3f& axis) {
+	orientation = Eigen::AngleAxisf(pi, axis) * orientation;
+}
+
+
+void pose::invert_orientation() {
+	orientation = orientation.inverse();
+}
+
 
 }
