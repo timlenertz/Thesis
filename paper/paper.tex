@@ -1,4 +1,5 @@
 \documentclass[a4paper,10pt,oneside]{scrreprt}
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
@@ -20,12 +21,12 @@
 \usepackage{tabularx}
 \usepackage{forloop}
 \usepackage{pgffor}
-\usepackage{caption}
 \usepackage{comment}
 \usepackage[toc]{glossaries}
 \usepackage{placeins}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{abstract}
 
 \lstset{language=C++,
 	basicstyle=\ttfamily \footnotesize,
@@ -47,6 +48,7 @@
 %\excludecomment{figure}
 %\setcounter{tocdepth}{4}
 %\usepackage{pxfonts} 
+%\mathtoolsset{showonlyrefs=true}
 
 \linespread{1.2}
 
@@ -63,7 +65,9 @@
 \newcommand{\area}[1]{\mathcal{A}(#1)}
 \newcommand{\cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
 
-%\mathtoolsset{showonlyrefs=true}
+\newenvironment{poliabstract}[1]
+  {\renewcommand{\abstractname}{#1}\begin{abstract}}
+  {\end{abstract}}
 
 \makeglossaries
 \include{glossary}
@@ -71,10 +75,9 @@
 \begin{document}
 
 \include{title}
+%\include{abstract}
 
-\begin{abstract}
-abs
-\end{abstract}
+\selectlanguage{english}
 
 \tableofcontents
 

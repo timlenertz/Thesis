@@ -8,7 +8,7 @@ Possibly the most simple case is to scan the surface of a single, solid object. 
 
 To scan an object, typically 3D scanners and photogrammetry are used. Laser scanners emit light and detect the reflections from the object, in order to record a set of three-dimensional coordinates of points lying on the object's surfaces. For smaller objects, contact scanners which physically probe the object also exist. Photogrammetry consists of taking multiple photographic pictures of the object, and algorithmically recovering depth information by comparing photos from different camera poses. The scanning system can be set up such that the object and/or the scanners and cameras are rotated until the entire object is covered.
 
-For larger of more complex objects, or for objects embedded in a more complex environment, it becomes harder to delimit the targeted content, and to filter it out from the raw scans. This is for instance the case for buildings \cite{Kers2006}, archeological sites \cite{Web1} \cite{Kein2011} \cite{Grus2012} or rock formations. It may be desirable to record specific parts of the scene at a higher resolution. Data is collected using a combination of laser scanning and photogrammetry, where the scanner is kept at a fixed position relative to the object. The result is a \emph{range image} or \emph{depth map}, a projected two-dimensional image of the object from a given view point where each pixel contains depth information.
+For larger of more complex objects, or for objects embedded in a more complex environment, it becomes harder to delimit the targeted content, and to filter it out from the raw scans. This is for instance the case for buildings \cite{Kers2006}, archeological sites \cite{Kein2011} \cite{Grus2012} or rock formations. It may be desirable to record specific parts of the scene at a higher resolution. Data is collected using a combination of laser scanning and photogrammetry, where the scanner is kept at a fixed position relative to the object. The result is a \emph{range image} or \emph{depth map}, a projected two-dimensional image of the object from a given view point where each pixel contains depth information.
 
 Post-processing of the 3D scans consists in filtering the raw data and combining range images and photographs from different view points, in order to obtain a full 3D model of the entire object. This resulting 3D model is an approximation of the real object's surfaces, typically in the form of a set of unconnected points (\emph{point cloud}), or of a \emph{mesh} of vertices forming triangular faces. In some applications, such as in architecture or in retro-engineering, the goal is to obtain a CAD model, in which shapes like planes or cylinders, or more complex objects, are identified. 
 
@@ -37,15 +37,15 @@ Each pixel in the range image corresponds to either a point $p_i \in P$, or an i
 \begin{figure}[p]
 \center
 \includegraphics[width=.8\textwidth]{fig/hdv_033_color.jpg}
-\label{fig:hdv_033_color}
 \caption{Color view of range image}
+\label{fig:hdv_033_color}
 \end{figure}
 
 \begin{figure}[p]
 \center
 \includegraphics[width=.8\textwidth]{fig/hdv_033_range.jpg}
-\label{fig:hdv_033_range}
 \caption{Depth view of range image}
+\label{fig:hdv_033_range}
 \end{figure}
 
 So the range image is a point cloud augmented by two pieces of information: The mapping of pixel coordinates to points $r$ is given for the points in the point cloud. And, the point cloud is set in a coordinate system where the scanner is at origin $(0, 0, 0)$, and it oriented facing the direction $\transpose{(0, 0, -1)}$. This knowledge will allow to make predictions on the dispersion and density of surface points.
@@ -151,8 +151,8 @@ Figure \ref{fig:pp_projection} shows the situation in 2D for a perspective posit
 \begin{figure}[h]
 \center
 \includegraphics[width=.8\textwidth]{fig/pp_projection.pdf}
-\label{fig:pp_projection}
 \caption{Illustration of point cloud to range image projection in 2D}
+\label{fig:pp_projection}
 \end{figure}
 
 A simple approach to define the function $r$ is to let $r(x_i, y_i)$ be the point in $P_{(x_i,y_i)}$ that is closest to the camera, or $\epsilon$ when $P_{(x_i,y_i)}$ is empty. If $P_{(x_i,y_i)}$ was not a discrete set, but instead an uncountable set of surface points, it would be guaranteed that the chosen point $p$ if not occluded by another point $p'$ lying in front of it, because $p'$ would necessarily also be in $P_{(x_i,y_i)}$.
@@ -268,7 +268,7 @@ Besides the many possible conventions, another problem with Euler angles is the 
 \subsubsection{Rotation around an axis}
 A rotation can also be represented as axis of rotation $\vec{\omega}$, and an angle $\theta$ around that axis. Using \emph{Rodrigues' rotation formula} the image $\vec{p'}$ of point $\vec{p}$ can be calculated as
 \begin{equation}
-\vec{p'} = (\cos \theta) \vec{p} + (\sin \theta) (\vec{\omega} \cross \vec{p}) + (1 - \cos \theta) (\vec{\omega} \vec{p}) \vec{\omega}
+\vec{p'} = (\cos \theta) \vec{p} + (\sin \theta) (\vec{\omega} \times \vec{p}) + (1 - \cos \theta) (\vec{\omega} \vec{p}) \vec{\omega}
 \end{equation}
 
 This translates directly to the rotation on a plane, by setting $\vec{u}$ to be the normal vector of that plane.
@@ -277,7 +277,7 @@ This translates directly to the rotation on a plane, by setting $\vec{u}$ to be 
 \subsubsection{Rotation between two vectors}
 There are infinitely many possible rotations that map a vector $\vec{v}$ into another vector $\vec{u}$. $\vec{v}, \vec{u}$ are two linearly independent unit vectors. One preferred rotation can be chosen which fixes the plane spanned by $\vec{v}$ and $\vec{u}$.
 
-Its axis of rotation is calculated using the cross product $\vec{\omega} = \vec{v} \cross \vec{u}$, and the angle using the dot product $\theta = \arccos (\vec{v} \vec{u})$.
+Its axis of rotation is calculated using the cross product $\vec{\omega} = \vec{v} \times \vec{u}$, and the angle using the dot product $\theta = \arccos (\vec{v} \vec{u})$.
 
 
 \subsubsection{Quaternions}
@@ -421,7 +421,7 @@ The goal is to find a vector of parameters $\beta$ that define a model $\hat{y}_
 For the example where the model is a line, one can define $\beta = (a, b)$ and $f_{\beta}(x) = ax + b$. Then the residual would be the vertical distance of a point to a line. It is also possible to define a linear expression of $f_{\beta}$ by which the orthogonal distances of the points to the lines are minimised. Many similar geometrical fitting problems can be solved in this manner, such as fitting a plane, circle, sphere, or other object to a set of points. \cite{Eber1999}
 
 \subsection{Linear least-squares}
-In general, a solution for least square problems can be computed by setting the gradient $\nambla S$ to zero. Since the terms $y_i$ are constant, this becomes for each component $\beta_j$:
+In general, a solution for least square problems can be computed by setting the gradient $\nabla S$ to zero. Since the terms $y_i$ are constant, this becomes for each component $\beta_j$:
 \begin{equation} \label{eq:lsq_sol}
 \frac{\partial S }{\partial \beta_j} = -2 \sum_{i=1}^{n} \frac{\partial f_{\beta}(x)}{\partial \beta_j} = 0
 \end{equation}
@@ -436,7 +436,7 @@ The overdetermined system to solve can be written in matrix form
 \begin{equation}
 \matr{X} \, \hat{\beta} = \vec{y}
 \end{equation}
-where $\matr{X}$ is a $n \cross m$ matrix. Each row corresponds to a data point, and each component per row corresponds to the $j$-th component $x_j$ of the dependent variable of that data point. The sum of squares $S$ to minimize becomes
+where $\matr{X}$ is a $n \times m$ matrix. Each row corresponds to a data point, and each component per row corresponds to the $j$-th component $x_j$ of the dependent variable of that data point. The sum of squares $S$ to minimize becomes
 \begin{equation}
 S = \sum_{i=1}^{n} \| y_i - \sum_{j=1}^{m} X_{i,j} \beta_{j} \|^2 = \| y - \matr{X} \, \vec{\beta} \|^2
 \end{equation}
@@ -465,11 +465,11 @@ When $f_{\beta}$ is not a linear combination of $x_1, x_2, \dots, x_m$ a closed 
 \subsection{Weights}
 The least squares methods finds a solution for which the squared residual $(y_i - \hat{y}_i)^2$ is minimized and evenly distributed among all data points. Weights can be added to introduce bias towards higher weight data points, letting their residual become smaller and the others' larger.
 
-For each data point a \emph{weight} $w_i \in \mathds{R}$ is defined. When $w_i = k \times w_j$ for $k \in \mathds{N}$, the effect is the same as adding $k$ times the data point $(x_i, y_i)$. With weights, the sum to minimize is
+For each data point a \emph{weight} $w_i \in \mathbb{R}$ is defined. When $w_i = k \times w_j$ for $k \in \mathds{N}$, the effect is the same as adding $k$ times the data point $(x_i, y_i)$. With weights, the sum to minimize is
 \begin{equation}
 S = \sum_{i=1}^{n} w_i \, (y_i - \hat{y}_i)^2
 \end{equation}
-By distributivity, when all $w_i$ become $\lambda w_i$, $S$ becomes $\lambda S$, which doesn't change the minimization problem. Supposing that $w_i$ are rational numbers (which can approximate real numbers to an arbitrary precision), then there exists $\lambda$ such that $\lambda w_i \in \mathds{N}$. This justifies the previous statement about data points duplication. 
+By distributivity, when all $w_i$ become $\lambda w_i$, $S$ becomes $\lambda S$, which doesn't change the minimization problem. Supposing that $w_i$ are rational numbers (which can approximate real numbers to an arbitrary precision), then there exists $\lambda$ such that $\lambda w_i \in \mathbb{N}$. This justifies the previous statement about data points duplication. 
 
 \section{Point set alignment using singular value decomposition} \label{sec:lsq_align}
 For point cloud registration, corresponding points $(\vec{p_i}, \vec{q_i})$ of two point clouds are used to find a rigid transformation $\matr{M}$ that aligns the two point clouds. When there are exactly three pairs of points, an exact solution can be found using vector algebra. \cite{Horn1986} For more than three points, a least squares solution can be found.
@@ -579,7 +579,7 @@ As shown before, finding the optimal translation is trivial and amounts to calcu
 \end{equation}
 When all $\matr{X'}_j$ are such that the point sets are perfectly aligned, $\matr{K}$ represents the shape the best possible way, since the errors in the representations $\matr{X'}_j$ are averaged out.
 
-The optimal matrices $\matr{X'}_j$ and their rigid transformations can be computed iteratively by numerical approximation: \cite{Tild2010} First $\matr{K}$ is initialized so some initial value, for example one of the model matrices. Then for each model matrix $\matr{X}_j$, the matrix $\matr{X'}_j$ is computed which optimally aligns it with the current $\matr{K}$. Now $\matr{K}$ is updated using formula \ref{eq:procrustes}, and the process is repeated until $\matr{K}$ stabilizes.
+The optimal matrices $\matr{X'}_j$ and their rigid transformations can be computed iteratively by numerical approximation: \cite{Told2010} First $\matr{K}$ is initialized so some initial value, for example one of the model matrices. Then for each model matrix $\matr{X}_j$, the matrix $\matr{X'}_j$ is computed which optimally aligns it with the current $\matr{K}$. Now $\matr{K}$ is updated using formula \ref{eq:procrustes}, and the process is repeated until $\matr{K}$ stabilizes.
 
 The transformed matrices $\matr{X'}_j$ are calculated as follows: The rigid transformation is represented by a rotation matrix $\matr{R}$, a translation vector $\vec{t}$ and possibly a scaling factor $c$. $\matr{X'}_j$ is defined as
 \begin{equation}
@@ -650,11 +650,3 @@ d_{\text{cor}} = \rho = \frac
 {\sum_{i} (o_i - \bar{o}) \, (e_i = \bar{e})}
 {\sqrt{ \sum_{i} (o_i - \bar{o})^2 \, \sum_{i} (e_i - \bar{e})^2 }}
 \end{equation}
-
-
-\subsubsection{Intersection}
-When the observed and expected frequencies are normalized, they both sum up to the same value. When overlaying two histograms which are not perfectly equal, for each bin one of the two histograms will have a larger value. The intersection test measures the area of the intersecting region of the histogram by taking the minima:
-\begin{equation}
-d_{\text{int}} = \sum_{i} \min \{ o_i, e_i \}
-\end{equation}
-When the histograms are equal it is equal to the area of one histogram, if not the value gets lower.

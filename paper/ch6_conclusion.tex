@@ -1,1 +1,8 @@
 \chapter{Conclusion}
+In this paper the problem of registration of 3D scans was studies from three points of view. First, a survey of previously developed point cloud registration algorithms was presented, especially variants of \gls{icp}. Some techniques as well as the mathematical theory behind it were laid out in more detail. 
+
+Secondly, the stability of standard \gls{icp} registration was tested experimentally with regard to different resolution point clouds, and different camera view points. For this \gls{icp} registrations were run on a large number of different point clouds and results were collected and analyzed.
+
+Thirdly, an attempt was made to develop an error metric specifically for the case where the point clouds have different resolutions. It takes the dispersion of points on surfaces into account as additional information about the surface geometry. Moreover, it is not based on the assumption that closest point correspondences are a sufficient approximation to true correspondences. Instead, it tests in how far the distribution of closest point distances is as it should be when the surfaces are perfectly aligned.
+
+For artificially generated point clouds, positive results were obtained, but the error metric could not be applied to real scans.

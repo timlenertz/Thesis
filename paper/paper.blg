@@ -12,8 +12,6 @@ A level-1 auxiliary file: chA_expriments.aux
 A level-1 auxiliary file: chB_proofs.aux
 The style file: authordate1.bst
 Database file #1: ../reference/references.bib
-Warning--I didn't find a database entry for "Web1"
-Warning--I didn't find a database entry for "Tild2010"
 Warning--to sort, need editor or key in Chen1991
 Warning--empty author and editor in Chen1991
 Warning--empty journal in Bibe2003
@@ -26,7 +24,7 @@ Warning--empty booktitle in Rusi2001
 Warning--empty booktitle in Told2010
 You've used 39 entries,
             2441 wiz_defined-function locations,
-            847 strings with 11377 characters,
+            843 strings with 11353 characters,
 and the built_in function-call counts, 15209 in all, are:
 = -- 1475
 > -- 523
@@ -65,4 +63,4 @@ warning$ -- 10
 while$ -- 101
 width$ -- 0
 write$ -- 506
-(There were 12 warnings)
+(There were 10 warnings)
