@@ -1,8 +1,20 @@
 \chapter{Introduction}
-In the context of 3D documentation projects, objects or environments are often digitized in the form of a \emph{point cloud}. This data recorded by 3D scanners consists of a set of point coordinates lying on the object surfaces. No information about the connectivity of the surface points is retained.
+In the context of 3D documentation projects, objects or environments are often digitized in the form of a \emph{point cloud}. This data recorded by 3D scanners consists only of a set of point coordinates lying on the object surfaces. No information about the connectivity of the surface points is retained. Points can be attributes by colors or other information.
 
-To get a full 3D model of an object, scans from different view points are recorded. Before merging the point clouds, they need to be put into exactly the same coordinate system. This is called \emph{registration}. Algorithms exists which automate this step, the most well-known of which is \gls{icp}.
+To get a full 3D model of an object, scans from different view points need to be conducted. Before merging these point clouds, they need to be put into exactly the same coordinate system. This is called \emph{registration}. Algorithms exist which automate this step, the most well-known of which is \gls{icp}.
 
-For large scale 3D documentation projects, additional difficulties appear, like for example the registration of low resolution point clouds of an entire building, with high resolution point clouds focussed on a stone sculpture on the building's facade. To address this problem, an attempt is made in this thesis to develop an registration algorithm which looks at the arrangement of points in the lower resolution point cloud, to infer additional information about the object's geometry.
+For large scale 3D documentation projects, additional difficulties emerge, one of which is the registration of a high-resolution close range scan of a particular object, with a lower resolution scan of an entire environment. To address this problem, an attempt is made in this thesis to develop a registration method which looks at the dispersion of points in the lower resolution point cloud, in order to infer additional information about the object's geometry.
 
-In chapter 2, some preliminary theory about 3D scanning and the mathematical notions on which registration algorithms are based, will be presented. Chapter 3 is a review of literature about existing registration algorithms, and in particular variants of \gls{icp}. Chapter 4 consists of two main parts: First some experiments with \gls{icp} registration are run to investigate its stability when the two point clouds are of different resolutions. Secondly, an registration error metric is developed which, as described, is based on the arrangement of points. Finally, chapter 5 describes the \cpp{} implementation of a software framework developed for this project.
+In chapter 2, some preliminary theory about 3D scanning and the mathematical notions on which registration algorithms are based, will be presented.
+
+Chapter 3 is a review of literature about existing registration algorithms, with focus on the different variants of \gls{icp}.
+
+In chapter 4 the model objects are presented from which the point clouds to work with are obtained. This includes a set of 3D scans of the ``Hôtel de Ville de Bruxelles'' building. An artificial ``relief'' model is defined which has similar properties than a real scan, and it will be used in the rest of the paper.
+
+Chapter 5 consists of a series of experiments executed using the \gls{icp} algorithm. Results are presented and analyzed. The goal is to determine the accuracy limits of \gls{icp} in cases where the point clouds have different resolutions or different view points.
+
+Then in chapter 6 the point clouds are looked at in closer detail. Local measurements such as density and curvature are defined, and the point dispersion patterns on planar surfaces are studied.
+
+In chapter 7, a new error metric is described which makes use of those patterns to evaluate the registration more accurately. Its quality is analyzed, and the underlying idea as well as possible developments are discussed.
+
+Finally, chapter 8 describes the \cpp{} implementation of a software framework developed for this project.

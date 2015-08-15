@@ -2,115 +2,14 @@
 {
 \setcounter{secnumdepth}{3}
 
-\section{ICP registration}
-
-\subsection{Resolutions and \gls{icp} result, Bunny model} \label{sec:ex_bunny_hilo}
-\begin{tabularx}{\textwidth}{|r|X|} \hline
-Method & ICP. Select all points, closest point criterion, equal weights, no rejection, point-to-point error metric. \\ \hline
-Model & Stanford Bunny model. \\ \hline
-Fixed & 50\% of model points, randomly chosen. \\ \hline
-Loose & Starting from the other 50\%, randomly downsampled by given amount. $60$ steps. \\ \hline
-Displacement & See captions on the figures. \\ \hline
-Y Axis & True error, after $40$ iterations. \\\hline
-X Axis & Number of points in Loose divided by number of points in Fixed. Lower value means Loose has lover resolution. \\ \hline
-\end{tabularx}
-
-\subsubsection{No displacement}
-The two point clouds are perfectly aligned to start with.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/bunny_globmin.pdf}
-\caption{no displacement}
-\label{fig:bunny_globmin}
-\end{figure}
-
-\subsubsection{Small displacement}
-Small displacement. Translation by magnitude of $0.01$ in random direction, rotation by $3 \si{\degree}$ or $15 \si{\degree}$ on random axis direction. The Bunny modes has a width, height and depth of about $0.15$.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/bunny_globsmall.pdf}
-\caption{random translation of $0.01$ and rotation of $3 \si{\degree}$, chosen $10$ times}
-\label{fig:bunny_globsmall}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/bunny_globmed.pdf}
-\caption{random translation of $0.01$ and rotation of $15 \si{\degree}$, chosen $10$ times}
-\label{fig:bunny_globmed}
-\end{figure}
-
-\subsection{Evolution of \gls{icp} registration, Bunny model}
-This plot shows the evolution of the true error \gls{icp} registration, for the same input point clouds. Initially the point clouds are perfectly aligned. The Loose point clouds is randomly generated as before, results from all $60$ registration runs are superimposed.
-
-\begin{tabularx}{\textwidth}{|r|X|} \hline
-Method & ICP. Select all points, closest point criterion, equal weights, no rejection, point-to-point error metric. \\ \hline
-Model & Stanford Bunny model. \\ \hline
-Fixed & 50\% of model points, randomly chosen. \\ \hline
-Loose & Starting from the other 50\%, randomly downsampled by given amount. $60$ steps. \\ \hline
-Displacement & No displacement. \\ \hline
-Y Axis & True error at iteration $i$. \\\hline
-X Axis & Iteration step $i$. \\ \hline
-\end{tabularx}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/bunny_globmin_ev.pdf}
-\caption{Evolutions of true error for experiment \ref{sec:ex_bunny_hilo}}
-\label{fig:bunny_hilo_ev}
-\end{figure}
-
-
-\subsection{Resolutions and \gls{icp} result, sphere model} \label{sec:ex_sphere_hilo}
-\begin{tabularx}{\textwidth}{|r|X|} \hline
-Method & ICP. Select all points, closest point criterion, equal weights, no rejection, point-to-point error metric. \\ \hline
-Model & Artificially generated sphere point cloud with random point dispersion. \\ \hline
-Fixed & Randomly chosen number of points from $0$ to $50000$. $30$ steps. \\ \hline
-Loose & Randomly chosen number of points from $0$ to $50000$. $30$ steps. \\ \hline
-Displacement & No displacement. \\ \hline
-Y Axis & True error, after $40$ iterations. \\\hline
-X Axis & Maximum of number of points in Loose and number of points in Fixed. \\ \hline
-\end{tabularx}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/sphere_icp.pdf}
-\end{figure}
-
-
-\subsection{View-point and \gls{icp} result, relief model} \label{sec:ex_relief_dproj}
-
-\begin{tabularx}{\textwidth}{|r|X|} \hline
-Method & ICP. Select all points, closest point criterion, equal weights, no rejection, point-to-point error metric. \\ \hline
-Model & Relief point cloud, projected with occlusion from camera placed at angle looking down on relief. \\ \hline
-Fixed & Point cloud of relief with camera angle varying in $[0, 2 \pi]$ around relief. $20$ steps. \\ \hline
-Loose & Point cloud of relief with camera angle varying in $[0, 2 \pi]$ around relief. $20$ steps. \\ \hline
-Displacement & No displacement. \\ \hline
-Y Axis & True error, after $40$ iterations. \\\hline
-X Axis & Angle between Fixed and Loose camera positions. \\ \hline
-\end{tabularx}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{fig/relief_dproj.pdf}
-\end{figure}
-
-
-\newpage
-
-
-\section{Relief small transformation \gls{acdh}} \label{sec:relief_small_trans_exp}
-The following figures depict \gls{acdh} of a relief point cloud $P$ like the one on figure \ref {fig:relief_plain}, on which a small transformation $\matr{M}$ was applied. For the point cloud $P$, the average nearest neighbor distance on surfaces perpendicular to the camera ray is $p_l = 0.01$. The plane of the relief is along the X and Y axis.
+\section{Adjusted cross histogram} \label{sec:relief_small_trans_exp}
+The following figures depict the \gls{acdh} of a relief point cloud $P$ like the one on figure \ref {fig:relief_plain}, with a higher resolution sample $Q$ on which a small transformation $\matr{M}$ was applied. For the point cloud $P$, the average nearest neighbor distance on surfaces perpendicular to the camera ray is $p_l = 0.01$. The plane of the relief is along the X and Y axis.
 
 \subsection{Translations}
 Translations are applied on two axis, by the amounts \{ 0, 0.002, 0.004, 0.006, 0.008, 0.010 \}.
 
 \subsubsection{X and Y axis} \label{sec:res_acdh_txy}
-Here $\matr{M}$ is a translation in X and Y axis, by these amounts. No translation in Z axis and no rotation is applied.
-
-The top-left cell shows the own distance histogram, where $\matr{M} = \matr{I}$. Only translations in the positive directions are made, translations in the negative directions would yield similar results.
+$\matr{M}$ is a translation in X and Y axis, by these amounts. No translation in Z axis and no rotation is applied. The top-left cell shows the own distance histogram, where $\matr{M} = \matr{I}$. Only translations in the positive directions are made, translations in the negative directions would yield similar results.
 
 \begin{figure}[H]
 \foreach \y in {0,1,2,3,4} {
@@ -140,13 +39,13 @@ Y axis translation fixed to $0$. Translations by same amounts.
 \end{figure}
 
 \paragraph{Observations}
-Translation on the X axis is the same as before. But the translation on the Z axis pulls the surfaces, and the histogram gets an offset to the right side. Some oblique surfaces of the model remain close, explaining that parts of the linear increase can remain unchanged.
+Translation on the X axis is the same as before. But the translation on the Z axis pulls the surfaces apart, and the histogram gets an offset to the right. Some oblique surfaces of the model remain close, explaining why parts of the linear increase can remain unchanged.
 
 \newpage
 
 
 \subsection{Rotations}
-Here instead of a translation, a rotation gets applied on the same point cloud. The point of rotation is the center point of the relief plane. The amounts of rotation are \{ 0, 1\si{\degree}, 2\si{\degree}, 3\si{\degree}, 4\si{\degree}, 5\si{\degree} \}.
+Instead of a translation, now a rotation gets applied on the same point cloud. The point of rotation is the center point of the relief plane. The degrees of rotation are \{ 0\si{\degree}, 1\si{\degree}, 2\si{\degree}, 3\si{\degree}, 4\si{\degree}, 5\si{\degree} \}.
 
 \subsubsection{Rotation around X and Y axis} \label{sec:res_acdh_rxy}
 \begin{figure}[H]
@@ -175,15 +74,15 @@ When the point cloud is rotated along the center point, distances of points chan
 \end{figure}
 
 \paragraph{Observations}
-The results are similar as before. The increase in jaggedness is weaker for rotations on the Z axis, because a larger part of the surfaces do not get pulled off each other but slide on each other.
+The results are similar as before. The increase in jaggedness is weaker for rotations on the Z axis, because a larger part of the surfaces do not get pulled off each other but slide along each other.
 
 
 
 \newpage
 
 
-\section{Relief small transformation \gls{arcdh}}
-Here the same translations are rotations are applied, and the \gls{arcdh} instead of the \gls{acdh} is shown.
+\section{Adjusted rejection cross histogram}
+Here the same translations are rotations are applied, but the \gls{arcdh} instead of the \gls{acdh} is shown.
 
 \subsection{Translations}
 
@@ -252,8 +151,8 @@ The histograms also remain unchanged.
 
 \newpage
 
-\section{\Gls{acdh} histogram comparison error metric} \label{sec:chi_err}
-For all of these tests, a relief point cloud is used. The plots in the first row show the histogram comparison error metric, while second row shows the mean absolute error with the closest point criterion.
+\section{Histogram comparison error metric} \label{sec:chi_err}
+For all of these tests, a relief point cloud is used. The plots in the first row always show the histogram comparison error metric, while second row shows the mean absolute error with the closest point criterion.
 
 The three columns differ by the range of the transformations applied. The maximal rotation and translations are the following:
 
@@ -267,16 +166,14 @@ S      & 0.001       & 0.023\si{\degree} \\ \hline
 \end{tabularx}
 \end{figure}
 
-So the plot for M can seen as a zoomed in version of the tenth of the plot for L, around $x = 0$. Same for S and M. However, on each plot, the curves are different random cross sections. The rotation angles are chosen so that a rotation on the X or Y axis results in an average displacement of true corresponding points by about the same about as the listed translation.
+So the plot for M can seen as a zoomed in version of the tenth of the plot for L, around $x = 0$. Same for S and M. However, on each plot, the curves are different random cross sections. The rotation angles are chosen so that a rotation on any axis results in an average displacement of true corresponding points by about the same amount as the listed translation.
 
 In each of the tests, a loose point cloud $Q$ is registered to a fixed point cloud $P$ of the same model, but with different resolution or view-point. $Q$ is the sample point cloud for the histograms and has a higher resolution. A graphic is shown with each test that shows a close-up view of both point dispersions, along with a scale indicating the L, M and S translation lengths.
 
 
 
-
-
 \subsection{Same}
-Here $Q$ only has a slightly higher resolution to $P$. The close-up view \ref{fig:t_scale} shows the density of $P$ (black) and $Q$ (blue), along with the maximal extent of the translations for the three columns. 
+Here $Q$ has only a slightly higher resolution than $P$. The close-up view \ref{fig:t_scale} shows the density of $P$ (black) and $Q$ (blue), along with the maximal extent of the translations for the three columns. 
 
 \begin{figure}[h]
 \center
@@ -313,11 +210,15 @@ Here $Q$ only has a slightly higher resolution to $P$. The close-up view \ref{fi
 \end{subfigure}\\
 \end{figure}
 
-\paragraph{Observations} Firstly, it can be seen that the histogram comparison error metric $e_{\chi}$ is indeed an error metric for the registration. But no improvement compared to the mean absolute error can be seen. For large transformations, $e_{\chi}$ diverges, which is expected because the points $q$ are far away from the parallelogram lattice of $P$, making the histogram comparison results meaningless. For the scale M, the qualities of the error metrics are about the same. On scale $S$, the metric $e_{\chi}$ degenerates, but the mean absolute error remains more stable.
+\paragraph{Observations} Firstly, it can be seen that the histogram comparison error metric $e_{\chi}$ is indeed an error metric for the registration.
 
+But no improvement compared to the mean absolute error can be seen here. For large transformations, $e_{\chi}$ diverges, which is expected because the points $q$ are far away from the parallelogram lattice of $P$, making the histogram comparison results meaningless. For the scale M, the qualities of the error metrics are about the same. On scale $S$, the metric $e_{\chi}$ degenerates, but the mean absolute error remains more stable.
+
+
+\newpage
 
 \subsection{Different view-points}
-Here the resolutions are the same, but $P$ and $Q$ are projections from different view-points, and the overlap is lower.
+The resolutions are unchanged, but $P$ and $Q$ are projections from different view-points, so the overlap is lower.
 
 \begin{figure}[H]
 \begin{subfigure}{.33\textwidth}
@@ -346,11 +247,10 @@ Here the resolutions are the same, but $P$ and $Q$ are projections from differen
 \paragraph{Observations} The results are similar than before. But on the S scale, both $e_{\chi}$ and the mean absolute error degenerate, as there is a lower number of point correspondences. On this example, $e_{\chi}$ appears to remain slightly more stable.
 
 
-\FloatBarrier
-
+\newpage
 
 \subsection{Different resolutions}
-Here $P$ has a much lower resolution than $Q$. Again the scale is seen on the close-up view on figure \ref{fig:t3_scale}.
+Now $P$ has a much lower resolution than $Q$. Again the scale is seen on the close-up view on figure \ref{fig:t3_scale}.
 
 \begin{figure}[h]
 \center
@@ -491,6 +391,7 @@ Here only the translational part of the transformation is applied.
 \paragraph{Observations} Still, no improvement of $e_{r,\chi}$ compared to mean absolute error.
 
 
+\newpage
 
 \subsubsection{Rotation only}
 Now only the rotational part is applied.
@@ -522,28 +423,6 @@ Now only the rotational part is applied.
 
 
 \paragraph{Observations} At the L and M scales, no results can be observed. The two metrics at the S scale were recorded with more detail, because some result can be seen here: $e_{r,\chi}$ appears to converge towards a local minimum near the true transformation $\matr{M}$.
-
-Because the curves represent values of the error metrics in cross sections of the rigid transformation space, they necessarily intersect at $x = 0$ which represents the true transformation. What is interesting about $e_{r,\chi}$ is that the curves have an inflection point at $x = 0$. The mean absolute error does not show this property.
-
-
-\subsubsection{Rotation only, different centers}
-To verify this, the following two plots were recorded the same way. The first one is recorded the same way as this last plot of $e_{r,\chi}$ at scale S, and again shows the local minimum at the true transformation $\matr{M}$.
-
-On the second plot, the cross sections in the rigid transformation space were instead chosen to intersect at another random transformation located near the true transformation $\matr{M}$. Here the curves still intersect, but no local minimum can be observed.
-
-This result may have been by chance. However, it shows that the inflection points of the curves are not a side effect of the interpolation in the transformations space at $t = 0$. It is were so, it would also be visible on the second plot.
-
-\begin{figure}[H]
-\begin{subfigure}{.49\textwidth}
-	\includegraphics[width=\linewidth]{fig/ajherr/t3rr/c1.pdf}
-	\caption{Centered on true transformation}
-\end{subfigure}%
-\begin{subfigure}{.49\textwidth}
-	\includegraphics[width=\linewidth]{fig/ajherr/t3rr/c2.pdf}
-	\caption{Centered on random transformation}
-\end{subfigure}
-\end{figure}
-
 
 
 }

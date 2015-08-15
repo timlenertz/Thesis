@@ -1,5 +1,8 @@
-\documentclass[a4paper,10pt,oneside]{scrreprt}
-\usepackage[english]{babel}
+\let\mypdfximage\pdfximage
+\def\pdfximage{\immediate\mypdfximage}
+
+\documentclass[a4paper,10pt,oneside,bibliography=totoc]{scrreprt}
+\usepackage[french,english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
@@ -27,6 +30,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{abstract}
+\usepackage{algpseudocode}
 
 \lstset{language=C++,
 	basicstyle=\ttfamily \footnotesize,
@@ -65,28 +69,30 @@
 \newcommand{\area}[1]{\mathcal{A}(#1)}
 \newcommand{\cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
 
-\newenvironment{poliabstract}[1]
-  {\renewcommand{\abstractname}{#1}\begin{abstract}}
-  {\end{abstract}}
-
 \makeglossaries
 \include{glossary}
 
 \begin{document}
 
 \include{title}
-%\include{abstract}
+\include{abstract}
+
+%\begin{comment}
 
 \selectlanguage{english}
 
 \tableofcontents
 
 \include{ch1_introduction}
+\glsreset{}
 \include{ch2_theory}
 \include{ch3_state}
-\include{ch4_large_models}
-\include{ch5_implementation}
-\include{ch6_conclusion}
+\include{ch4_models}
+\include{ch5_experiments}
+\include{ch6_analysis_pc}
+\include{ch7_method}
+\include{ch8_implementation}
+\include{ch9_conclusion}
 
 \appendix
 \include{chA_expriments}
@@ -96,5 +102,7 @@
 
 \bibliographystyle{authordate1}
 \bibliography{../reference/references}
+
+%\end{comment}
 
 \end{document}

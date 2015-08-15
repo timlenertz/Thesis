@@ -67,6 +67,7 @@ The following figure shows the 2D equivalents of three possible types of cameras
 	\includegraphics[trim=8mm 1cm 8mm 1cm, crop, width=\linewidth]{fig/cam_parallel.pdf}
 	\caption{Parallel camera}
 \end{subfigure}
+\caption{Illustration of different camera types in 2D}
 \end{figure}
 
 The \emph{range camera} does a linear mapping from the angle of the ray to the pixel on the image. The image, when put in three-dimensional space such that the rays pass through its pixels, has the shape of a rectangular sphere section. For the three-dimensional equivalent, additional complexities occur because of the different possible ways to define spherical coordinates. The field of view can cover the entire range of directions. This model corresponds most closely to a real laser scanner.
@@ -110,7 +111,7 @@ Since point clouds are unordered point sets, fusing two point clouds corresponds
 
 When two point clouds represent different views of the same object and the goal is to get a point cloud the covers a greater part of the object, they must first be \emph{registered} and put into the same coordinate system.
 
-Fusing creates some redundancy in the overlapping parts of the point clouds. Techniques exist to refine the resulting distribution and density of points, as described for example in \cite{Kyos2013}.
+Fusing creates some redundancy in the overlapping parts of the point clouds. Techniques exist to refine the resulting distribution and density of points, as described for example in \cite{Fuhr2011} and \cite{Kyos2013}.
 
 
 \subsubsection{Transformation}
@@ -135,6 +136,16 @@ Usually the Euclidian distance between points is used, though for some applicati
 Finding for any \emph{point} $p' \in P$ in the point cloud, the point $p \in P$ other than itself that is closest. For many applications it is useful to find the $k$ nearest neighbors, either for one point, or for a whole set of points.
 
 Also here, different data structures allow for implementing this in an efficient manner. Different optimizations are possible here than for the closest point problem, because $p'$ must be a point of the point cloud, and not just any position in space.
+
+
+\subsection{Computation of normal vector}
+Computing a estimation of the normal vector of the surface at a given point $p \in P$. Different approaches exist, and because the surface is unknown there is not necessarily a best method or a clear way to evaluate its accuracy.
+
+One basic approach is to compute the $k$ nearest neighbors for some value $k$, and then take the normal vector of a plane fitted to those $k + 1$ points. This plane fitting can be done using a \gls{ransac} or a least squares-based approach. The calculation must be insensitive to outliers, in particular cases where two surfaces intersect and near sharp edges of surfaces.
+
+For range image, the normal vector of a point can also be used on the two-dimensional image space. The rectangular neighborhood of a pixel corresponds to an approximation of the nearest neighbors of the point. Using the gradient or other measures on the pixels' depth values, an estimation of the normal vector can be made.
+
+Other per-point values such as a local density or curvature measure can be useful, and a version for those two will be defined chapter \ref{ch:analysis_pc}.
 
 
 \subsection{Projection}
@@ -174,12 +185,6 @@ Many different methods exist. A large survey of registration methods is given in
 
 \subsection{Other operations}
 
-\subsubsection{Computation of normal vector}
-Computing a estimation of the normal vector of the surface at a given point $p \in P$. Different approaches exist, and because the surface is unknown there is not necessarily a best method or a clear way to evaluate its accuracy. One basic approach is to compute the $k$ nearest neighbors for some value $k$, and then take the normal vector of a plane fitted to those $k + 1$ points. 
-
-Other per-point values such as a local density or curvature measure can be useful, and a version for those two will be defined chapter \ref{ch:large_model}.
-
-
 \subsubsection{Image-to-cloud registration}
 Wrapping a photographic image on a point cloud, for example with the goal of attributing colors to points from a raw scan. This involves photogrammetric and image analysis techniques for finding correspondences between the point cloud and the image.
 
@@ -187,6 +192,25 @@ Wrapping a photographic image on a point cloud, for example with the goal of att
 \subsubsection{Meshing}
 Adding connectivity to the points, by constructing a triangular mesh that joins together neighboring points on the same surfaces. 
 
+
+\subsubsection{Outlier removal}
+Identifying the filtering out outliers from the point cloud. A basic technique would be to remove every point whose distance to its closest neighbor is above a given threshold. This threshold distance could be fixed in function of the average, or median nearest neighbor distances of all the points.
+
+This technique would not be able to filter out clusters of outliers that lie close to each other. Many better methods have been developed, for example \cite{Soto2006}.
+
+Outlier removal can be a necessary step before applying a registration algorithm.
+
+\subsubsection{Down-sampling}
+Reducing the density of the point cloud. The most simple method is \emph{random down-sampling}, in which every point is removed at a fixed probability $p < 1$. It is also possible to select random points to remove such that a deterministic number of points is removed in the end. Random down-sampling leads to an irregular point dispersion pattern, with non-uniform density.
+
+Another possibility is to put a regular lattice of small, equal-volume cubic cells into the coordinate system, and keep only one point per cell.
+
+When working with range images, down-sampling is best done on the image space, by reducing the image size using nearest neighbor interpolation. Bilinear or bicubic interpolation would introduce new depth values and thus add false points into the point cloud.
+
+\subsubsection{Super-resolution}
+Increasing the density of the point cloud, by introducing new, artificial points between gaps. Methods have been developed to use auxiliary data, for example photographs of the same object, to increase the resolution of range images. For example \cite{Yang2007}, \cite{Bart2009}, \cite{Soh2012} and \cite{Lo2013}.
+
+Approaches that do not use auxiliary data, but do an estimative super-resolution of the range image are also possible, like for example \cite{Do2012}
 
 \section{Transformation matrices and homogeneous coordinates}
 Positions in three-dimensional space can be represented using cartesian coordinates. Let $O$ be an origin point in space, and let $\vec{i}, \vec{j}, \vec{k}$ be three orthogonal vectors of norm $1$. Then $\vec{p} = (x, y, z)$ represents the position $O + x \, \vec{i} + y \, \vec{j} + z \, \vec{k}$. The vectors $\vec{o}, \vec{i}, \vec{j}, \vec{k}$ define the coordinate system.
@@ -481,89 +505,18 @@ Because the independent variables are vectors, the residuals to minimize are the
 S = \sum_{i=1}^{n} w_i \, \| \vec{p_i} - (\matr{R} \, \vec{q_i} + \vec{t}) \|^2
 \end{equation}
 
-The assumption is that both point sets $\{ p_i \}$ and $\{ q_i \}$ have approximately the same constellation but are in a different pose. For registration, first they need to be translated so as to make one common point coincide, and then they can be aligned by rotating one point set around that point. As a common point, the centroids of both point clouds are chosen:
-\begin{equation}
-\vec{c_p} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{p_i}
-\hspace{7mm} \text{and} \hspace{7mm}
-\vec{c_q} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{q_i}
-\end{equation}
-Because the constellations are not exactly equal, this choice evenly distributes the error. Also, when the shape that the points form around the centroid point is roughly that of a sphere (their distances from the centroid do not vary too much), then rotating around the centroid will move each point by about the same amount, again evening out the error. 
+One common approach to calculate the least squares solutions $\matr{R}$ and $\vec{t}$ is to use the following steps:
+\begin{enumerate}
+\item First the centroids of both point sets are calculated $\vec{c_p} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{p_i}$ and $\vec{c_q} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{q_i}$
+\item The points in $P$ and $Q$ are now translated to put the centroid at origin. The translated points are $\vec{p'_i} = \vec{p_i} - \vec{c_p}$ and $\vec{q'_i} = \vec{q_i} - \vec{c_q}$
+\item Now the $3 \times 3$ \emph{covariance matrix} is calculated, using $\matr{K} = \sum_{i=1}^{n} w_i \, \vec{p'_i} \, \transpose{\vec{q'_i}}$
+\item Different approaches exist to extract the optimal rotation matrix $\matr{R}$ from $\matr{K}$. The most common one is to use \emph{singular value decomposition} to compute $\matr{K} = \matr{U} \, \matr{\Sigma} \, \transpose{\matr{V}}$
+\item Now the matrix $\matr{R}$ is calculated using $\matr{R} = \matr{V} \transpose{\matr{U}}$
+\item This $\matr{R}$ can be a rotation or a reflection. If $\det(\matr{R}) = -1$, it is rectified by replacing the entries of its third column by their opposites.
+\item Finally, the translational component of the sought after rigid transformation is $\vec{t} = \vec{c_p} - \matr{R} \, \vec{c_q}$
+\end{enumerate}
 
-A rotation matrix $\matr{R}$ expresses a rotation around the origin. In order to simplify the problem, both point clouds are first translated to put the centroid at origin. So $\forall i$ one defines
-\begin{equation}
-\vec{p'_i} = \vec{p_i} - \vec{c_p}
-\hspace{7mm} \text{and} \hspace{7mm}
-\vec{q'_i} = \vec{q_i} - \vec{c_q}
-\end{equation}
-and the minimization problem becomes
-\begin{equation} \label{eq:lsq_align_meaneds}
-S' = \sum_{i=1}^{n} w_i \, \| \vec{p'_i} - \matr{R} \, \vec{q'_i} \|^2
-\end{equation}
-Since $\vec{t}$ was applied after $\matr{R}$, this does not change the meaning of $\matr{R}$.
-
-Different approaches exist for computing $\matr{R}$ in constant time, that is without the need for iterative numerical approximation. \cite{Horn1986} describes a solution whereby $\matr{R}$ is represented as a unit quaternion. This was used in the original description of the ICP algorithm (see \ref{sec:icp}) in \cite{Besl1992}. \cite{Loru1995} gives a comparison of four methods, also in the context of the ICP algorithm. Probably the most commonly implemented approach is the following, which is based on singular value decomposition.
-
-Using some matrix algebra, \ref{eq:lsq_align_meaneds} becomes
-\begin{equation}
-S' = \sum_{i=1}^{n} w_i \, \| \vec{p'_i} \|^2 + w_i \, \| \vec{q'_i} \|^2 - 2 \, w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i}
-\end{equation}
-The first and second terms do not depend on $\matr{R}$, hence the problem is reduced to maximizing $\sum_{i} w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i}$.
-
-Let $\matr{W} = \text{diag}(w_1, w_2, \dots, w_n)$, and let $\matr{P}$ and $\matr{Q}$ be $3 \times n$ matrices composed of the $n$ column-vectors. One has
-\begin{equation}
-\matr{W} \, \transpose{\matr{Q}} = \left[ \begin{matrix}
-	\-- & w_1 \, \transpose{\vec{q'_1}} & \--\\
-	\-- & w_2 \, \transpose{\vec{q'_2}} & \--\\
-	& \vdots & \\
-	\-- & w_n \, \transpose{\vec{q'_n}} & \--
-\end{matrix} \right]
-\hspace{7mm} \text{and} \hspace{7mm}
-\matr{R} \, \matr{P} = \left[ \begin{matrix}
-	| & | & & |\\
-	\matr{R} \, \vec{p'_1} & \matr{R} \, \vec{p'_2} & \hdots & \matr{R} \, \vec{p'_n}\\
-	| & | & & |
-\end{matrix} \right]
-\end{equation}
-It can be seen that
-\begin{equation}
-\sum_{i=1}^{n} w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i} = \text{tr}(\matr{W} \, \transpose{\matr{Q}} \, \matr{R} \, \matr{P})
-\end{equation}
-Where the trace $\text{tr}$ is the sum of the diagonal entries of a matrix. Because $\matr{A} \matr{B} = \transpose{(\matr{B} \matr{A})}$ and the trace is invariant under the transpose,
-\begin{equation}
-\text{tr}((\matr{W} \, \transpose{\matr{Q}}) \, (\matr{R} \, \matr{P})) = \text{tr}((\matr{R} \, \matr{P}) \, (\matr{W} \, \transpose{\matr{Q}})) = \text{tr}(\matr{K} \, \matr{R})
-\end{equation}
-This $n \times n$ \emph{covariance matrix}\footnote{Also called \emph{correlation} matrix.} $\matr{K}$ can be computed directly from the input data points:
-\begin{equation}
-\matr{K} = \matr{P} \, \matr{W} \, \transpose{\matr{Q}} = \sum_{i=1}^{n} w_i \, \vec{p'_i} \, \transpose{\vec{q'_i}}
-\end{equation}
-
-Here the \emph{singular value decomposition} of $\matr{K}$ is taken:
-\begin{equation}
-\matr{K} = \matr{U} \, \matr{\Sigma} \, \transpose{\matr{V}}
-\end{equation}
-Now $\matr{U}$, $\matr{V}$ and also the unknown rotation matrix $\matr{R}$ are orthogonal matrices, and $\matr{\Sigma}$ is a non-negative diagonal matrix. Again using the properties of the $\text{tr}$, it can be rewritten
-\begin{equation}
-\text{tr}(\matr{K} \, \matr{R}) = \text{tr}(\matr{\Sigma} \, \transpose{\matr{V}} \, \matr{R} \, \matr{U})
-\end{equation}
-Now $\matr{N} = \transpose{\matr{V}} \matr{R} \matr{U}$ is also an orthogonal matrix, and so all $\| n_{i,j} \| \leq 1$. The trace $\text{tr}(\matr{\Sigma} \matr{N}) = \sum_{i} \sigma_i n_{ii}$ is maximal when $\matr{N}$ is such that $\forall i, n_{ii} = 1$, i.e. when $\matr{N} = \matr{I}$.
-
-Solving for $\matr{R}$, one obtains:
-\begin{equation}
-\matr{N} = \transpose{\matr{V}} \, \matr{R} \, \matr{U} = \matr{I}
-\Rightarrow \matr{V} = \matr{R} \, \matr{U}
-\Rightarrow \matr{R} = \matr{V} \, \transpose{\matr{U}}
-\end{equation}
-The resulting $\matr{R}$ is always an orthogonal matrix, but not necessarily a rotation matrix. If $det(\matr{R}) = -1$ it is a reflection instead. This is obtained when the point sets are such that a reflection aligns them better than a rotation.
-
-To always find a rotation a rectification step needs to be added to the algorithm: When $det(\matr{R}) = -1$, instead choose $\matr{R'}$ for which $det(\matr{R'}) = 1$ and $S'$ attains the next best possible local maximum. $\matr{R'}$ is obtained by replacing the entries of $\matr{R}$ in the third column by their opposite.
-
-This shows how the rotation matrix $\matr{R}$ which minimizes $S'$ can be computed from the singular value decomposition of the covariance matrix $\matr{K}$. The point sets $\{ \vec{p'_i} \}$ and $\{ \vec{q'_i} \}$ have been translated to put their centroids $\vec{c_p}$ and $\vec{c_q}$ to the origin. Since adding a translational component to a rigid transformation does not change its rotational component, $\matr{R}$ is also valid on the original point sets. It remains to calculate the translation vector $\vec{t}$.
-
-On the original point sets, $(\matr{R}, \vec{t})$ should solve $\vec{p_i} = \matr{R} \, \vec{q_i} + \vec{t}$ in a least squares sense. One has $\vec{p'_i} = \matr{R} \, \vec{q'_i}$, where $\vec{p'_i} = \vec{p_i} - \vec{c_p}$ and $\vec{q'_i} = \vec{q_i} - \vec{c_p}$. Putting this together and solving for $\vec{t}$, one obtains
-\begin{equation}
-\vec{t} = \vec{c_p} - \matr{R} \, \vec{c_q}
-\end{equation}
-
+The detailed development of this method is described in appendix \label{sec:lsq_align}.
 
 \section{Procrustes analysis} \label{sec:procrustes}
 This problem of aligning two $3$-dimensional point sets of $n$ points can be considered to be a special case of \emph{Procrustes analysis}, where it is generalized in respect to the number $n$ of points and the number of dimensions.

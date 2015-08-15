@@ -6,113 +6,128 @@
 \BOOKMARK [2][-]{subsection.2.1.3}{3D scanner technology}{section.2.1}% 6
 \BOOKMARK [1][-]{section.2.2}{Operations on point clouds}{chapter.2}% 7
 \BOOKMARK [2][-]{subsection.2.2.1}{Basic operations}{section.2.2}% 8
-\BOOKMARK [2][-]{subsection.2.2.2}{Projection}{section.2.2}% 9
-\BOOKMARK [2][-]{subsection.2.2.3}{Registration}{section.2.2}% 10
-\BOOKMARK [2][-]{subsection.2.2.4}{Other operations}{section.2.2}% 11
-\BOOKMARK [1][-]{section.2.3}{Transformation matrices and homogeneous coordinates}{chapter.2}% 12
-\BOOKMARK [2][-]{subsection.2.3.1}{Classification}{section.2.3}% 13
-\BOOKMARK [2][-]{subsection.2.3.2}{Rotation}{section.2.3}% 14
-\BOOKMARK [2][-]{subsection.2.3.3}{Interpolation of rotation}{section.2.3}% 15
-\BOOKMARK [2][-]{subsection.2.3.4}{Affine transformation}{section.2.3}% 16
-\BOOKMARK [2][-]{subsection.2.3.5}{Homogeneous coordinates}{section.2.3}% 17
-\BOOKMARK [2][-]{subsection.2.3.6}{Pose}{section.2.3}% 18
-\BOOKMARK [1][-]{section.2.4}{Least squares method}{chapter.2}% 19
-\BOOKMARK [2][-]{subsection.2.4.1}{Linear least-squares}{section.2.4}% 20
-\BOOKMARK [2][-]{subsection.2.4.2}{Non-linear least squares}{section.2.4}% 21
-\BOOKMARK [2][-]{subsection.2.4.3}{Weights}{section.2.4}% 22
-\BOOKMARK [1][-]{section.2.5}{Point set alignment using singular value decomposition}{chapter.2}% 23
-\BOOKMARK [1][-]{section.2.6}{Procrustes analysis}{chapter.2}% 24
-\BOOKMARK [1][-]{section.2.7}{RANSAC}{chapter.2}% 25
-\BOOKMARK [1][-]{section.2.8}{Histogram comparison}{chapter.2}% 26
-\BOOKMARK [0][-]{chapter.3}{State of the Art}{}% 27
-\BOOKMARK [1][-]{section.3.1}{Introduction}{chapter.3}% 28
-\BOOKMARK [1][-]{section.3.2}{Robustness}{chapter.3}% 29
-\BOOKMARK [1][-]{section.3.3}{Fine registration}{chapter.3}% 30
-\BOOKMARK [2][-]{subsection.3.3.1}{Iterative Closest Point}{section.3.3}% 31
-\BOOKMARK [2][-]{subsection.3.3.2}{Generalized ICP}{section.3.3}% 32
-\BOOKMARK [2][-]{subsection.3.3.3}{Normal Distributions Transform}{section.3.3}% 33
-\BOOKMARK [2][-]{subsection.3.3.4}{4-Points Congruent Sets}{section.3.3}% 34
-\BOOKMARK [1][-]{section.3.4}{Coarse Registration}{chapter.3}% 35
-\BOOKMARK [2][-]{subsection.3.4.1}{Manual registration}{section.3.4}% 36
-\BOOKMARK [2][-]{subsection.3.4.2}{Feature correspondence}{section.3.4}% 37
-\BOOKMARK [2][-]{subsection.3.4.3}{Extended Gaussian Image}{section.3.4}% 38
-\BOOKMARK [0][-]{chapter.4}{Registration of Large Models}{}% 39
-\BOOKMARK [1][-]{section.4.1}{Evaluation of registration accuracy}{chapter.4}% 40
-\BOOKMARK [2][-]{subsection.4.1.1}{Known true transformation}{section.4.1}% 41
-\BOOKMARK [2][-]{subsection.4.1.2}{Unknown true transformation}{section.4.1}% 42
-\BOOKMARK [2][-]{subsection.4.1.3}{Visualization of error metric}{section.4.1}% 43
-\BOOKMARK [1][-]{section.4.2}{Models}{chapter.4}% 44
-\BOOKMARK [2][-]{subsection.4.2.1}{``H\364tel de Ville'' scanning project}{section.4.2}% 45
-\BOOKMARK [2][-]{subsection.4.2.2}{Dessus-de-porte}{section.4.2}% 46
-\BOOKMARK [2][-]{subsection.4.2.3}{Relief point cloud}{section.4.2}% 47
-\BOOKMARK [2][-]{subsection.4.2.4}{Other models}{section.4.2}% 48
-\BOOKMARK [1][-]{section.4.3}{ICP registration experiments}{chapter.4}% 49
-\BOOKMARK [2][-]{subsection.4.3.1}{Different resolutions}{section.4.3}% 50
-\BOOKMARK [2][-]{subsection.4.3.2}{Different view points}{section.4.3}% 51
-\BOOKMARK [2][-]{subsection.4.3.3}{Instability of error metric}{section.4.3}% 52
-\BOOKMARK [1][-]{section.4.4}{Developing an error metric}{chapter.4}% 53
-\BOOKMARK [2][-]{subsection.4.4.1}{High- to low-resolution registration}{section.4.4}% 54
-\BOOKMARK [1][-]{section.4.5}{Analysis of point clouds}{chapter.4}% 55
-\BOOKMARK [2][-]{subsection.4.5.1}{Local density}{section.4.5}% 56
-\BOOKMARK [2][-]{subsection.4.5.2}{Local curvature}{section.4.5}% 57
-\BOOKMARK [2][-]{subsection.4.5.3}{Point dispersion}{section.4.5}% 58
-\BOOKMARK [2][-]{subsection.4.5.4}{Parallelogram grid}{section.4.5}% 59
-\BOOKMARK [2][-]{subsection.4.5.5}{Measures on grid}{section.4.5}% 60
-\BOOKMARK [2][-]{subsection.4.5.6}{Estimation of projection parameters}{section.4.5}% 61
-\BOOKMARK [1][-]{section.4.6}{Own distance histogram}{chapter.4}% 62
-\BOOKMARK [2][-]{subsection.4.6.1}{Plane with random dispersion}{section.4.6}% 63
-\BOOKMARK [2][-]{subsection.4.6.2}{Dispersion of sample points}{section.4.6}% 64
-\BOOKMARK [2][-]{subsection.4.6.3}{Plane with square grid dispersion}{section.4.6}% 65
-\BOOKMARK [2][-]{subsection.4.6.4}{Plane with parallelogram grid dispersion}{section.4.6}% 66
-\BOOKMARK [2][-]{subsection.4.6.5}{Adjusted own distance histogram}{section.4.6}% 67
-\BOOKMARK [2][-]{subsection.4.6.6}{Occlusion and different bounds}{section.4.6}% 68
-\BOOKMARK [2][-]{subsection.4.6.7}{Sample for real point cloud}{section.4.6}% 69
-\BOOKMARK [1][-]{section.4.7}{Cross distance histogram}{chapter.4}% 70
-\BOOKMARK [2][-]{subsection.4.7.1}{Adjusted histogram}{section.4.7}% 71
-\BOOKMARK [2][-]{subsection.4.7.2}{Rejection histogram}{section.4.7}% 72
-\BOOKMARK [2][-]{subsection.4.7.3}{Measure of alignment}{section.4.7}% 73
-\BOOKMARK [2][-]{subsection.4.7.4}{Results}{section.4.7}% 74
-\BOOKMARK [2][-]{subsection.4.7.5}{Conclusions}{section.4.7}% 75
-\BOOKMARK [0][-]{chapter.5}{Implementation}{}% 76
-\BOOKMARK [1][-]{section.5.1}{General architecture}{chapter.5}% 77
-\BOOKMARK [2][-]{subsection.5.1.1}{Programming language}{section.5.1}% 78
-\BOOKMARK [2][-]{subsection.5.1.2}{Interactive console}{section.5.1}% 79
-\BOOKMARK [1][-]{section.5.2}{Core}{chapter.5}% 80
-\BOOKMARK [2][-]{subsection.5.2.1}{Point data type}{section.5.2}% 81
-\BOOKMARK [2][-]{subsection.5.2.2}{Point cloud data structures}{section.5.2}% 82
-\BOOKMARK [2][-]{subsection.5.2.3}{Space object}{section.5.2}% 83
-\BOOKMARK [2][-]{subsection.5.2.4}{Point algorithms}{section.5.2}% 84
-\BOOKMARK [2][-]{subsection.5.2.5}{Iterative Correspondences Registration}{section.5.2}% 85
-\BOOKMARK [2][-]{subsection.5.2.6}{Other components}{section.5.2}% 86
-\BOOKMARK [1][-]{section.5.3}{Viewer}{chapter.5}% 87
-\BOOKMARK [2][-]{subsection.5.3.1}{Point cloud visualization}{section.5.3}% 88
-\BOOKMARK [1][-]{section.5.4}{Console}{chapter.5}% 89
-\BOOKMARK [2][-]{subsection.5.4.1}{Usage with framework}{section.5.4}% 90
-\BOOKMARK [2][-]{subsection.5.4.2}{Problems}{section.5.4}% 91
-\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 92
-\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 93
-\BOOKMARK [1][-]{section.A.1}{ICP registration}{appendix.A}% 94
-\BOOKMARK [2][-]{subsection.A.1.1}{Resolutions and icp result, Bunny model}{section.A.1}% 95
-\BOOKMARK [2][-]{subsection.A.1.2}{Evolution of icp registration, Bunny model}{section.A.1}% 96
-\BOOKMARK [2][-]{subsection.A.1.3}{Resolutions and icp result, sphere model}{section.A.1}% 97
-\BOOKMARK [2][-]{subsection.A.1.4}{View-point and icp result, relief model}{section.A.1}% 98
-\BOOKMARK [1][-]{section.A.2}{Relief small transformation acdh}{appendix.A}% 99
-\BOOKMARK [2][-]{subsection.A.2.1}{Translations}{section.A.2}% 100
-\BOOKMARK [2][-]{subsection.A.2.2}{Rotations}{section.A.2}% 101
-\BOOKMARK [1][-]{section.A.3}{Relief small transformation arcdh}{appendix.A}% 102
-\BOOKMARK [2][-]{subsection.A.3.1}{Translations}{section.A.3}% 103
-\BOOKMARK [2][-]{subsection.A.3.2}{Rotations}{section.A.3}% 104
-\BOOKMARK [1][-]{section.A.4}{acdh histogram comparison error metric}{appendix.A}% 105
-\BOOKMARK [2][-]{subsection.A.4.1}{Same}{section.A.4}% 106
-\BOOKMARK [2][-]{subsection.A.4.2}{Different view-points}{section.A.4}% 107
-\BOOKMARK [2][-]{subsection.A.4.3}{Different resolutions}{section.A.4}% 108
-\BOOKMARK [2][-]{subsection.A.4.4}{Different resolutions, rejection}{section.A.4}% 109
-\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 110
-\BOOKMARK [1][-]{section.B.1}{Measures on parallelogram grid dispersion}{appendix.B}% 111
-\BOOKMARK [2][-]{subsection.B.1.1}{Approximation}{section.B.1}% 112
-\BOOKMARK [2][-]{subsection.B.1.2}{Threshold for obliqueness}{section.B.1}% 113
-\BOOKMARK [2][-]{subsection.B.1.3}{Density}{section.B.1}% 114
-\BOOKMARK [1][-]{section.B.2}{Closest point histogram with random point dispersion on plane}{appendix.B}% 115
-\BOOKMARK [1][-]{section.B.3}{Variance of density with random point dispersion}{appendix.B}% 116
-\BOOKMARK [1][-]{section.B.4}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 117
-\BOOKMARK [0][-]{section*.147}{Glossary}{}% 118
+\BOOKMARK [2][-]{subsection.2.2.2}{Computation of normal vector}{section.2.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.3}{Projection}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.4}{Registration}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.5}{Other operations}{section.2.2}% 12
+\BOOKMARK [1][-]{section.2.3}{Transformation matrices and homogeneous coordinates}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.3.1}{Classification}{section.2.3}% 14
+\BOOKMARK [2][-]{subsection.2.3.2}{Rotation}{section.2.3}% 15
+\BOOKMARK [2][-]{subsection.2.3.3}{Interpolation of rotation}{section.2.3}% 16
+\BOOKMARK [2][-]{subsection.2.3.4}{Affine transformation}{section.2.3}% 17
+\BOOKMARK [2][-]{subsection.2.3.5}{Homogeneous coordinates}{section.2.3}% 18
+\BOOKMARK [2][-]{subsection.2.3.6}{Pose}{section.2.3}% 19
+\BOOKMARK [1][-]{section.2.4}{Least squares method}{chapter.2}% 20
+\BOOKMARK [2][-]{subsection.2.4.1}{Linear least-squares}{section.2.4}% 21
+\BOOKMARK [2][-]{subsection.2.4.2}{Non-linear least squares}{section.2.4}% 22
+\BOOKMARK [2][-]{subsection.2.4.3}{Weights}{section.2.4}% 23
+\BOOKMARK [1][-]{section.2.5}{Point set alignment using singular value decomposition}{chapter.2}% 24
+\BOOKMARK [1][-]{section.2.6}{Procrustes analysis}{chapter.2}% 25
+\BOOKMARK [1][-]{section.2.7}{RANSAC}{chapter.2}% 26
+\BOOKMARK [1][-]{section.2.8}{Histogram comparison}{chapter.2}% 27
+\BOOKMARK [0][-]{chapter.3}{State of the Art}{}% 28
+\BOOKMARK [1][-]{section.3.1}{Point cloud registration}{chapter.3}% 29
+\BOOKMARK [1][-]{section.3.2}{Robustness}{chapter.3}% 30
+\BOOKMARK [1][-]{section.3.3}{Coarse Registration}{chapter.3}% 31
+\BOOKMARK [2][-]{subsection.3.3.1}{Manual registration}{section.3.3}% 32
+\BOOKMARK [2][-]{subsection.3.3.2}{Feature correspondence}{section.3.3}% 33
+\BOOKMARK [2][-]{subsection.3.3.3}{Extended Gaussian Image}{section.3.3}% 34
+\BOOKMARK [1][-]{section.3.4}{Fine registration}{chapter.3}% 35
+\BOOKMARK [2][-]{subsection.3.4.1}{Iterative Closest Point}{section.3.4}% 36
+\BOOKMARK [2][-]{subsection.3.4.2}{Generalized ICP}{section.3.4}% 37
+\BOOKMARK [2][-]{subsection.3.4.3}{Normal Distributions Transform}{section.3.4}% 38
+\BOOKMARK [2][-]{subsection.3.4.4}{4-Points Congruent Sets}{section.3.4}% 39
+\BOOKMARK [0][-]{chapter.4}{Models}{}% 40
+\BOOKMARK [1][-]{section.4.1}{``H\364tel de Ville'' scanning project}{chapter.4}% 41
+\BOOKMARK [2][-]{subsection.4.1.1}{Dessus-de-porte}{section.4.1}% 42
+\BOOKMARK [1][-]{section.4.2}{Relief point cloud}{chapter.4}% 43
+\BOOKMARK [2][-]{subsection.4.2.1}{Top-down view point cloud}{section.4.2}% 44
+\BOOKMARK [2][-]{subsection.4.2.2}{Occluded view point cloud}{section.4.2}% 45
+\BOOKMARK [2][-]{subsection.4.2.3}{Similarity with dessus-de-porte}{section.4.2}% 46
+\BOOKMARK [1][-]{section.4.3}{Other models}{chapter.4}% 47
+\BOOKMARK [0][-]{chapter.5}{Experiments}{}% 48
+\BOOKMARK [1][-]{section.5.1}{Evaluation of registration accuracy}{chapter.5}% 49
+\BOOKMARK [2][-]{subsection.5.1.1}{Known true transformation}{section.5.1}% 50
+\BOOKMARK [2][-]{subsection.5.1.2}{Unknown true transformation}{section.5.1}% 51
+\BOOKMARK [2][-]{subsection.5.1.3}{Visualization of error metric}{section.5.1}% 52
+\BOOKMARK [1][-]{section.5.2}{ICP registration experiments}{chapter.5}% 53
+\BOOKMARK [2][-]{subsection.5.2.1}{Different resolutions experiment}{section.5.2}% 54
+\BOOKMARK [2][-]{subsection.5.2.2}{Evolution of registration}{section.5.2}% 55
+\BOOKMARK [2][-]{subsection.5.2.3}{Analysis}{section.5.2}% 56
+\BOOKMARK [2][-]{subsection.5.2.4}{Sphere experiment}{section.5.2}% 57
+\BOOKMARK [2][-]{subsection.5.2.5}{Different view points}{section.5.2}% 58
+\BOOKMARK [2][-]{subsection.5.2.6}{Conclusion}{section.5.2}% 59
+\BOOKMARK [1][-]{section.5.3}{Instability of ICP error metric}{chapter.5}% 60
+\BOOKMARK [0][-]{chapter.6}{Point Cloud Analysis}{}% 61
+\BOOKMARK [1][-]{section.6.1}{Local density}{chapter.6}% 62
+\BOOKMARK [2][-]{subsection.6.1.1}{Square grid density}{section.6.1}% 63
+\BOOKMARK [1][-]{section.6.2}{Local curvature}{chapter.6}% 64
+\BOOKMARK [1][-]{section.6.3}{Point dispersion}{chapter.6}% 65
+\BOOKMARK [2][-]{subsection.6.3.1}{Parallelogram grid}{section.6.3}% 66
+\BOOKMARK [1][-]{section.6.4}{Measures on grid}{chapter.6}% 67
+\BOOKMARK [2][-]{subsection.6.4.1}{Analysis}{section.6.4}% 68
+\BOOKMARK [2][-]{subsection.6.4.2}{Verification}{section.6.4}% 69
+\BOOKMARK [2][-]{subsection.6.4.3}{Usage on real point cloud scan}{section.6.4}% 70
+\BOOKMARK [1][-]{section.6.5}{Estimation of projection parameters}{chapter.6}% 71
+\BOOKMARK [0][-]{chapter.7}{Method}{}% 72
+\BOOKMARK [1][-]{section.7.1}{Developing an error metric}{chapter.7}% 73
+\BOOKMARK [2][-]{subsection.7.1.1}{High- to low-resolution registration}{section.7.1}% 74
+\BOOKMARK [2][-]{subsection.7.1.2}{Approach}{section.7.1}% 75
+\BOOKMARK [2][-]{subsection.7.1.3}{Outline}{section.7.1}% 76
+\BOOKMARK [1][-]{section.7.2}{Own distance histogram}{chapter.7}% 77
+\BOOKMARK [2][-]{subsection.7.2.1}{Plane with random dispersion}{section.7.2}% 78
+\BOOKMARK [2][-]{subsection.7.2.2}{Dispersion of sample points}{section.7.2}% 79
+\BOOKMARK [2][-]{subsection.7.2.3}{Plane with square grid dispersion}{section.7.2}% 80
+\BOOKMARK [2][-]{subsection.7.2.4}{Plane with parallelogram grid dispersion}{section.7.2}% 81
+\BOOKMARK [2][-]{subsection.7.2.5}{Adjusted own distance histogram}{section.7.2}% 82
+\BOOKMARK [2][-]{subsection.7.2.6}{Occlusion and different bounds}{section.7.2}% 83
+\BOOKMARK [2][-]{subsection.7.2.7}{Sample for real point cloud}{section.7.2}% 84
+\BOOKMARK [1][-]{section.7.3}{Cross distance histogram}{chapter.7}% 85
+\BOOKMARK [2][-]{subsection.7.3.1}{Adjusted histogram}{section.7.3}% 86
+\BOOKMARK [2][-]{subsection.7.3.2}{Rejection histogram}{section.7.3}% 87
+\BOOKMARK [2][-]{subsection.7.3.3}{Measure of alignment}{section.7.3}% 88
+\BOOKMARK [2][-]{subsection.7.3.4}{Results}{section.7.3}% 89
+\BOOKMARK [1][-]{section.7.4}{Algorithm}{chapter.7}% 90
+\BOOKMARK [0][-]{chapter.8}{Implementation}{}% 91
+\BOOKMARK [1][-]{section.8.1}{General architecture}{chapter.8}% 92
+\BOOKMARK [2][-]{subsection.8.1.1}{Programming language}{section.8.1}% 93
+\BOOKMARK [2][-]{subsection.8.1.2}{Interactive console}{section.8.1}% 94
+\BOOKMARK [1][-]{section.8.2}{Core}{chapter.8}% 95
+\BOOKMARK [2][-]{subsection.8.2.1}{Point data type}{section.8.2}% 96
+\BOOKMARK [2][-]{subsection.8.2.2}{Point cloud data structures}{section.8.2}% 97
+\BOOKMARK [2][-]{subsection.8.2.3}{Space object}{section.8.2}% 98
+\BOOKMARK [2][-]{subsection.8.2.4}{Point algorithms}{section.8.2}% 99
+\BOOKMARK [2][-]{subsection.8.2.5}{Iterative Correspondences Registration}{section.8.2}% 100
+\BOOKMARK [2][-]{subsection.8.2.6}{Other components}{section.8.2}% 101
+\BOOKMARK [1][-]{section.8.3}{Viewer}{chapter.8}% 102
+\BOOKMARK [2][-]{subsection.8.3.1}{Point cloud visualization}{section.8.3}% 103
+\BOOKMARK [1][-]{section.8.4}{Console}{chapter.8}% 104
+\BOOKMARK [2][-]{subsection.8.4.1}{Usage with framework}{section.8.4}% 105
+\BOOKMARK [2][-]{subsection.8.4.2}{Problems}{section.8.4}% 106
+\BOOKMARK [0][-]{chapter.9}{Conclusion}{}% 107
+\BOOKMARK [1][-]{section.9.1}{Discussion}{chapter.9}% 108
+\BOOKMARK [1][-]{section.9.2}{Possible developments}{chapter.9}% 109
+\BOOKMARK [1][-]{section.9.3}{Practice}{chapter.9}% 110
+\BOOKMARK [0][-]{appendix.A}{Experimental Results}{}% 111
+\BOOKMARK [1][-]{section.A.1}{Adjusted cross histogram}{appendix.A}% 112
+\BOOKMARK [2][-]{subsection.A.1.1}{Translations}{section.A.1}% 113
+\BOOKMARK [2][-]{subsection.A.1.2}{Rotations}{section.A.1}% 114
+\BOOKMARK [1][-]{section.A.2}{Adjusted rejection cross histogram}{appendix.A}% 115
+\BOOKMARK [2][-]{subsection.A.2.1}{Translations}{section.A.2}% 116
+\BOOKMARK [2][-]{subsection.A.2.2}{Rotations}{section.A.2}% 117
+\BOOKMARK [1][-]{section.A.3}{Histogram comparison error metric}{appendix.A}% 118
+\BOOKMARK [2][-]{subsection.A.3.1}{Same}{section.A.3}% 119
+\BOOKMARK [2][-]{subsection.A.3.2}{Different view-points}{section.A.3}% 120
+\BOOKMARK [2][-]{subsection.A.3.3}{Different resolutions}{section.A.3}% 121
+\BOOKMARK [2][-]{subsection.A.3.4}{Different resolutions, rejection}{section.A.3}% 122
+\BOOKMARK [0][-]{appendix.B}{Proofs}{}% 123
+\BOOKMARK [1][-]{section.B.1}{Point set alignment using singular value decomposition}{appendix.B}% 124
+\BOOKMARK [1][-]{section.B.2}{Measures on parallelogram grid dispersion}{appendix.B}% 125
+\BOOKMARK [2][-]{subsection.B.2.1}{Approximation}{section.B.2}% 126
+\BOOKMARK [2][-]{subsection.B.2.2}{Threshold for obliqueness}{section.B.2}% 127
+\BOOKMARK [2][-]{subsection.B.2.3}{Density}{section.B.2}% 128
+\BOOKMARK [1][-]{section.B.3}{Closest point histogram with random point dispersion on plane}{appendix.B}% 129
+\BOOKMARK [1][-]{section.B.4}{Variance of density with random point dispersion}{appendix.B}% 130
+\BOOKMARK [1][-]{section.B.5}{Closest point histogram with square grid point dispersion on plane}{appendix.B}% 131
+\BOOKMARK [0][-]{section*.148}{Glossary}{}% 132
+\BOOKMARK [0][-]{appendix*.150}{Bibliography}{}% 133

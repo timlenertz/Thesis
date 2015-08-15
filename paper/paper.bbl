@@ -11,6 +11,18 @@ Aiger, Dror, Mitra, Niloy~J, \& Cohen-Or, Daniel. 2008.
 \newblock 4-Points Congruent Sets for Robust Pairwise Surface Registration.
 \newblock {\em ACM Transactions on Graphics}, {\bf 27}(3).
 
+\bibitem[\protect\citename{Bartczak \& Koch, }2009]{Bart2009}
+Bartczak, Bogumil, \& Koch, Reinhard. 2009.
+\newblock Dense Depth Maps from Low Resolution Time-of-Flight and High
+  Resolution Color Views.
+\newblock Institute of Computer Science, University of Kiel.
+
+\bibitem[\protect\citename{Bellekens {\em et~al.\ }\relax, }2014]{Bell2014}
+Bellekens, Ben, Spruyt, Vincent, Berkvens, Rafael, \& Weyn, Maarten. 2014.
+\newblock A Survey of Rigid 3D Pointcloud Registration Algorithms.
+\newblock {\em AMBIENT 2014 : The Fourth International Conference on Ambient
+  Computing, Applications, Services and Technologies}.
+
 \bibitem[\protect\citename{Besl \& McKay, }1992]{Besl1992}
 Besl, Paul~J, \& McKay, Neil~D. 1992 (February).
 \newblock A Method for Registration of 3-D Shapes.
@@ -27,6 +39,12 @@ Biber, Peter. 2003.
 Bouaziz, Sofien, Tagliasacchi, Andrea, \& Pauly, Mark. 2013.
 \newblock Sparse Iterative Closest Point.
 \newblock {\em Eurographics Symposium on Geometry Processing}, {\bf 32}(5).
+
+\bibitem[\protect\citename{Do {\em et~al.\ }\relax, }2012]{Do2012}
+Do, Luat, Ma, Lingni, \& de~With, Peter~H.N. 2012.
+\newblock Dense range images from sparse point clouds using multi-scale
+  processing.
+\newblock Eindhoven University of Technology.
 
 \bibitem[\protect\citename{Dold, }2005]{Dold2005}
 Dold, Christoph. 2005.
@@ -60,6 +78,12 @@ Fischler, Martin~A, \& Bolles, Robert~C. 1980 (March).
   applications to image analysis and automated cartography}.
 \newblock Tech. rept. Artificial Intelligence Center, SRI International, Menlo
   Park, California.
+
+\bibitem[\protect\citename{Fuhrmann \& Goesele, }2011]{Fuhr2011}
+Fuhrmann, Simon, \& Goesele, Michael. 2011.
+\newblock Fusion of Depth Maps with Multiple Scales.
+\newblock {\em ACM Transactions on Graphics (TOG) - Proceedings of ACM}, {\bf
+  30}(6).
 
 \bibitem[\protect\citename{Galbraith, }2012]{Galb2012}
 Galbraith, Steven. 2012.
@@ -131,6 +155,13 @@ Liu, Yonghuai. 2008.
 \newblock Constraints for closest point finding.
 \newblock {\em Pattern Recognition Letters}, {\bf 29}, 841--851.
 
+\bibitem[\protect\citename{Lo {\em et~al.\ }\relax, }2013]{Lo2013}
+Lo, Kai-Han, Hua, Kai-Lung, \& Wang, Yu-Chiang~Frank. 2013.
+\newblock Depth Map Super-Resolution via Markov Random Fields without
+  Texture-Copying Artifacts.
+\newblock {\em IEEE International Conference on Acoustics, Speech and Signal
+  Processing (ICASSP)}, May, 1414--1418.
+
 \bibitem[\protect\citename{Lorusso {\em et~al.\ }\relax, }1995]{Loru1995}
 Lorusso, A., Eggert, D.W., \& FIsher, R.B. 1995.
 \newblock A Comparison of Four Algorithms for Estimating 3-D Rigid
@@ -189,6 +220,12 @@ Rusinkiewicz, Szymon, \& Levoy, Marc. 2001.
 \newblock  vol. 3-D Digital Imaging and Modeling.
 \newblock Stanford University.
 
+\bibitem[\protect\citename{Salvi {\em et~al.\ }\relax, }2005]{Salv2006}
+Salvi, Joaquim, Matabosch, Carles, Fofi, David, \& Forest, Josep. 2005.
+\newblock A review of recent range image registration methods with accuracy
+  evaluation.
+\newblock {\em Image and Vision Computing}, August.
+
 \bibitem[\protect\citename{Sankaranarayanan {\em et~al.\ }\relax,
   }2007]{Sank2007}
 Sankaranarayanan, Jagan, Samet, Hanan, \& Varshney, Amitabh. 2007.
@@ -218,6 +255,29 @@ Segal, Aleksandr~V., Haehnel, Dirk, \& Thrun, Sebastian. 2009.
 \newblock Generalized-ICP.
 \newblock {\em Proceedings of Robotics: Science and Systems}.
 
+\bibitem[\protect\citename{Soh {\em et~al.\ }\relax, }2012]{Soh2012}
+Soh, Yongseok, Sim, Jae-Young, Kim, Chang-Su, \& Lee, Sang-Uk. 2012.
+\newblock Superpixel-Based Depth Image Super-Resolution.
+\newblock {\em SPIE 8290, Three-Dimensional Image Processing (3DIP) and
+  Applications II, 82900D}, January.
+
+\bibitem[\protect\citename{Sorkine, }2009]{Sork2009}
+Sorkine, Olga. 2009.
+\newblock Least-Squares Rigid Motion Using SVD.
+
+\bibitem[\protect\citename{Sotoodeh, }2006]{Soto2006}
+Sotoodeh, S. 2006.
+\newblock Outlier detection in laser scanner point clouds.
+\newblock {\em IAPRS}, {\bf 36}(5), 297--302.
+
+\bibitem[\protect\citename{Tam {\em et~al.\ }\relax, }2007]{Tam2007}
+Tam, Gary~K.L., Cheng, Zhi-Quan, Lai, Yu-Kun, Langbein, Frank~C., Liu,
+  Yonghuai, Marshall, David, Martin, Ralph~R., Sun, Xian-Fang, \& Rosin,
+  Paul~L. 2007.
+\newblock Registration of 3D Point Clouds and Meshes: A Survey From Rigid to
+  Non-Rigid.
+\newblock {\em Journal of Latex Class Files}, {\bf 6}(1), 1--20.
+
 \bibitem[\protect\citename{Toldo {\em et~al.\ }\relax, }2010]{Told2010}
 Toldo, Roberto, Beinat, Alberto, \& Crosilla, Fabio. 2010.
 \newblock Global registration of multiple point clouds embedding the
@@ -241,5 +301,12 @@ Yang, Jiaolong, Li, Hongdong, \& Jia, Yunde. 2013.
 \newblock Go-ICP: Solving 3D Registration Efficiently and Globally Optimally.
 \newblock {\em IEEE International Conference on Computer Vision (ICCV)},
   1457--1464.
+
+\bibitem[\protect\citename{Yang {\em et~al.\ }\relax, }2007]{Yang2007}
+Yang, Quigxiong, Yang, Ruigang, Davis, James, \& Nist{\'e}r, David. 2007.
+\newblock Spatial-Depth Super Resolution for Range Images.
+\newblock {\em In:} {\em In CVPR}.
+\newblock The University of Kentucky Center for Visualization & Virtual
+  Environments.
 
 \end{thebibliography}

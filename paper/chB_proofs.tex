@@ -1,15 +1,105 @@
 \chapter{Proofs}
 
+\section{Point set alignment using singular value decomposition} \label{sec:lsq_align}
+The sum $S$ to minimize is
+\begin{equation}
+S = \sum_{i=1}^{n} w_i \, \| \vec{p_i} - (\matr{R} \, \vec{q_i} + \vec{t}) \|^2
+\end{equation}
+
+The assumption is that both point sets $\{ p_i \}$ and $\{ q_i \}$ have approximately the same constellation but are in a different pose. For registration, first they need to be translated so as to make one common point coincide, and then they can be aligned by rotating one point set around that point. As a common point, the centroids of both point clouds are chosen:
+\begin{equation}
+\vec{c_p} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{p_i}
+\hspace{7mm} \text{and} \hspace{7mm}
+\vec{c_q} = \frac{1}{N} \, \sum_{i=1}^{n} \vec{q_i}
+\end{equation}
+Because the constellations are not exactly equal, this choice evenly distributes the error. Also, when the shape that the points form around the centroid point is roughly that of a sphere (their distances from the centroid do not vary too much), then rotating around the centroid will move each point by about the same amount, again evening out the error. 
+
+A rotation matrix $\matr{R}$ expresses a rotation around the origin. In order to simplify the problem, both point clouds are first translated to put the centroid at origin. So $\forall i$ one defines
+\begin{equation}
+\vec{p'_i} = \vec{p_i} - \vec{c_p}
+\hspace{7mm} \text{and} \hspace{7mm}
+\vec{q'_i} = \vec{q_i} - \vec{c_q}
+\end{equation}
+and the minimization problem becomes
+\begin{equation} \label{eq:lsq_align_meaneds}
+S' = \sum_{i=1}^{n} w_i \, \| \vec{p'_i} - \matr{R} \, \vec{q'_i} \|^2
+\end{equation}
+Since $\vec{t}$ was applied after $\matr{R}$, this does not change the meaning of $\matr{R}$.
+
+Different approaches exist for computing $\matr{R}$ in constant time, that is without the need for iterative numerical approximation. \cite{Horn1986} describes a solution whereby $\matr{R}$ is represented as a unit quaternion. This was used in the original description of the \gls{icp} algorithm (see \ref{sec:icp}) in \cite{Besl1992}. \cite{Loru1995} gives a comparison of four methods, also in the context of the \gls{icp} algorithm. Probably the most commonly implemented approach is the following, which is based on singular value decomposition. \cite{Sork2009}
+
+Using some matrix algebra, \ref{eq:lsq_align_meaneds} becomes
+\begin{equation}
+S' = \sum_{i=1}^{n} w_i \, \| \vec{p'_i} \|^2 + w_i \, \| \vec{q'_i} \|^2 - 2 \, w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i}
+\end{equation}
+The first and second terms do not depend on $\matr{R}$, hence the problem is reduced to maximizing $\sum_{i} w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i}$.
+
+Let $\matr{W} = \text{diag}(w_1, w_2, \dots, w_n)$, and let $\matr{P}$ and $\matr{Q}$ be $3 \times n$ matrices composed of the $n$ column-vectors. One has
+\begin{equation}
+\matr{W} \, \transpose{\matr{Q}} = \left[ \begin{matrix}
+	\-- & w_1 \, \transpose{\vec{q'_1}} & \--\\
+	\-- & w_2 \, \transpose{\vec{q'_2}} & \--\\
+	& \vdots & \\
+	\-- & w_n \, \transpose{\vec{q'_n}} & \--
+\end{matrix} \right]
+\hspace{7mm} \text{and} \hspace{7mm}
+\matr{R} \, \matr{P} = \left[ \begin{matrix}
+	| & | & & |\\
+	\matr{R} \, \vec{p'_1} & \matr{R} \, \vec{p'_2} & \hdots & \matr{R} \, \vec{p'_n}\\
+	| & | & & |
+\end{matrix} \right]
+\end{equation}
+It can be seen that
+\begin{equation}
+\sum_{i=1}^{n} w_i \, \transpose{\vec{q'_i}} \, \matr{R} \, \vec{p'_i} = \text{tr}(\matr{W} \, \transpose{\matr{Q}} \, \matr{R} \, \matr{P})
+\end{equation}
+Where the trace $\text{tr}$ is the sum of the diagonal entries of a matrix. Because $\matr{A} \matr{B} = \transpose{(\matr{B} \matr{A})}$ and the trace is invariant under the transpose,
+\begin{equation}
+\text{tr}((\matr{W} \, \transpose{\matr{Q}}) \, (\matr{R} \, \matr{P})) = \text{tr}((\matr{R} \, \matr{P}) \, (\matr{W} \, \transpose{\matr{Q}})) = \text{tr}(\matr{K} \, \matr{R})
+\end{equation}
+This $n \times n$ \emph{covariance matrix}\footnote{Also called \emph{correlation} matrix.} $\matr{K}$ can be computed directly from the input data points:
+\begin{equation}
+\matr{K} = \matr{P} \, \matr{W} \, \transpose{\matr{Q}} = \sum_{i=1}^{n} w_i \, \vec{p'_i} \, \transpose{\vec{q'_i}}
+\end{equation}
+
+Here the \emph{singular value decomposition} of $\matr{K}$ is taken:
+\begin{equation}
+\matr{K} = \matr{U} \, \matr{\Sigma} \, \transpose{\matr{V}}
+\end{equation}
+Now $\matr{U}$, $\matr{V}$ and also the unknown rotation matrix $\matr{R}$ are orthogonal matrices, and $\matr{\Sigma}$ is a non-negative diagonal matrix. Again using the properties of the $\text{tr}$, it can be rewritten
+\begin{equation}
+\text{tr}(\matr{K} \, \matr{R}) = \text{tr}(\matr{\Sigma} \, \transpose{\matr{V}} \, \matr{R} \, \matr{U})
+\end{equation}
+Now $\matr{N} = \transpose{\matr{V}} \matr{R} \matr{U}$ is also an orthogonal matrix, and so all $\| n_{i,j} \| \leq 1$. The trace $\text{tr}(\matr{\Sigma} \matr{N}) = \sum_{i} \sigma_i n_{ii}$ is maximal when $\matr{N}$ is such that $\forall i, n_{ii} = 1$, i.e. when $\matr{N} = \matr{I}$.
+
+Solving for $\matr{R}$, one obtains:
+\begin{equation}
+\matr{N} = \transpose{\matr{V}} \, \matr{R} \, \matr{U} = \matr{I}
+\Rightarrow \matr{V} = \matr{R} \, \matr{U}
+\Rightarrow \matr{R} = \matr{V} \, \transpose{\matr{U}}
+\end{equation}
+The resulting $\matr{R}$ is always an orthogonal matrix, but not necessarily a rotation matrix. If $det(\matr{R}) = -1$ it is a reflection instead. This is obtained when the point sets are such that a reflection aligns them better than a rotation. In particular with low resolution near-planar point clouds it can happen that the object gets flipped inside out.
+
+To always obtain a rotation, a rectification step needs to be added to the algorithm: When $det(\matr{R}) = -1$, instead choose $\matr{R'}$ for which $det(\matr{R'}) = 1$ and $S'$ attains the next best possible local maximum. $\matr{R'}$ is obtained by replacing the entries of $\matr{R}$ in the third column by their opposite.
+
+This shows how the rotation matrix $\matr{R}$ which minimizes $S'$ can be computed from the singular value decomposition of the covariance matrix $\matr{K}$. The point sets $\{ \vec{p'_i} \}$ and $\{ \vec{q'_i} \}$ have been translated to put their centroids $\vec{c_p}$ and $\vec{c_q}$ to the origin. Since adding a translational component to a rigid transformation does not change its rotational component, $\matr{R}$ is also valid on the original point sets. It remains to calculate the translation vector $\vec{t}$.
+
+On the original point sets, $(\matr{R}, \vec{t})$ should solve $\vec{p_i} = \matr{R} \, \vec{q_i} + \vec{t}$ in a least squares sense. One has $\vec{p'_i} = \matr{R} \, \vec{q'_i}$, where $\vec{p'_i} = \vec{p_i} - \vec{c_p}$ and $\vec{q'_i} = \vec{q_i} - \vec{c_p}$. Putting this together and solving for $\vec{t}$, one obtains
+\begin{equation}
+\vec{t} = \vec{c_p} - \matr{R} \, \vec{c_q}
+\end{equation}
+
+
 \section{Measures on parallelogram grid dispersion} \label{sec:proof_pargrid_measures}
-The parallelogram dispersion of points on object surfaces occurs when sample points which are arranged in a square grid on the image plane are projected onto the object surface. The rays are perpendicular to the image plane, as a parallel projection camera is supposed for the point cloud.  
+The parallelogram dispersion of points on object surfaces occurs when sample points which are arranged in a square grid on the image plane are projected onto the object surface. The rays are perpendicular to the image plane, because a parallel projection camera is supposed for the point cloud.  
 
 This is shown on the figure \ref{fig:lattice_proof}. Here the image space spans the XY plane. $16$ pixels from the image space (in blue) are shown as the intersections of the square grid. $PO$ is the origin point with coordinates $(0, 0)$, and $PX = (p_l, 0)$, $PY = (0, p_l)$ are the first points in X and Y direction. Their equivalents on the object surface (in light gray) are $O, X, Y$. $\vec{n}$ is the normal vector of this surface. The parallelogram grid on it is the projection of the square grid from the image space.
 
-The points on the object surface form a lattice, for which the grid represents one possible basis. Others would be possible, for example one where the parallelograms have an edge joining $X$ and $Y$. In general, a lattice can be defined as the set of points in $\mathbb{R}^2$
+The points on the object surface form a lattice, for which the grid represents one possible basis. Others would be possible, for example one where the parallelograms have edges joining $X$ and $Y$. In general, a lattice can be defined as the set of points in $\mathbb{R}^2$
 \begin{equation}
 \left\{ a \vec{v} + b \vec{u} : a,b \in \mathbb{Z} \right\}
 \end{equation}
-Where $\vec{v}, \vec{u} \in \mathbb{R}^2$ are two vectors forming one of infinitely possible bases for this lattice. On this example $\vec{v} = OX$ and $\vec{u} = OY$ is one basis.
+Where $\vec{v}, \vec{u} \in \mathbb{R}^2$ are two vectors forming one of infinitely many possible bases for this lattice. On this example $\vec{v} = OX$ and $\vec{u} = OY$ is one basis.
 
 $l_\text{min}$ is defined to be the shortest possible Euclidian distance between any two of these lattice points. On the image space, $d(PO, PX) = d(PO, PY) = p_l$ is the shortest distance, whereas $d(PX, PY) = p_l \, \sqrt{2} > p_l$. The example on the figure is set so that $d(X, Y) < d(O, X) < d(O, Y)$, and $d(X, Y)$ is the shortest distance. By making the surface even more oblique, it is also possible that two points that are even more far off in image space become the closest points on the projection. In general, the problem of finding $l_\text{min}$ on a lattice is known as the \emph{shortest vector problem}. For this two-dimensional case, a simple algorithm exists for finding the minimal basis consisting of the shortest and second-shortest vector. \cite{Galb2012}
 
@@ -42,19 +132,21 @@ In most cases, when the surface is not too oblique, the minimum for $(x, y)$ is 
 By taking the minimum of $\| \vec{p'} \|$ for those four values of $(x, y)$, the formula in \ref{eq:pargrid_lmin} is obtained.
 
 \begin{figure}[h]
-\begin{subfigure}{.49\textwidth}
+\begin{subfigure}{.48\textwidth}
 	\includegraphics[width=\linewidth]{fig/lmin/0-0-1.pdf}
 	\caption{$\vec{n} = \transpose{(0, 0, 1)}$. min: $(0, 1)$ or $(1, 0)$}
 \end{subfigure}%
-\begin{subfigure}{.49\textwidth}
+\hfill%
+\begin{subfigure}{.48\textwidth}
 	\includegraphics[width=\linewidth]{fig/lmin/1--3-1.pdf}
 	\caption{$\vec{n} = \transpose{(0.302, -0.905, 0.302)}$. min: $(0, 1)$}
 \end{subfigure}\\
-\begin{subfigure}{.49\textwidth}
+\begin{subfigure}{.48\textwidth}
 	\includegraphics[width=\linewidth]{fig/lmin/3-3-1.pdf}
 	\caption{$\vec{n} = \transpose{(0.688, 0.688, 0.299)}$. min: $(-1, 1)$}
 \end{subfigure}%
-\begin{subfigure}{.49\textwidth}
+\hfill%
+\begin{subfigure}{.48\textwidth}
 	\includegraphics[width=\linewidth]{fig/lmin/80-40-2.pdf}
 	\caption{$\vec{n} = \transpose{(0.894, 0.447, 0.022)}$. min: $(-1, 2)$}
 \end{subfigure}
@@ -68,9 +160,9 @@ This is an attempt to define a limit, based on the normal vector $\vec{n}$ or th
 
 The angle $\alpha$ between $\vec{n}$ and a ray from the camera with directing vector $\vec{v} = \transpose{(0, 0, -1)}$ is obtained from their dot product: $\alpha = \arccos n_z$. 
 
-When it is $0$ the function plot becomes more radial, that is, its contour lines $d(x,y)=c$ for constant $c$ become more circular. As the angle approaches its limit $\frac{\pi}{2}$ they becomes ellipses distorted towards an angle $\beta$. When $\alpha$ is low the shape does not stretch out much to one specific direction, and the approximation is likely to be correct. This is seen in examples (a) and (b).
+When it is $0$ the function plot becomes more radial, that is, its contour lines $d(x,y)=c$ for constant $c$ become more circular. As the angle approaches its limit $\frac{\pi}{2}$ they becomes ellipses distorted in the direction given by an angle $\beta$. When $\alpha$ is low the shape does not stretch out much to one specific direction, and the approximation is likely to be correct. This is seen in examples (a) and (b).
 
-This direction $\beta$ in which the surface is inclined, for which $\tan \beta = \frac{n_y}{n_x}$. When it is near a multiple of $\frac{\pi}{4}$, then again it is likely that one of the points in $M$ gets the minimal value as the shape stretches in its direction, as seen on example (c). When $\beta$ it lies between those regions, and $\alpha$ is high, then a point outside of $M$ can get the minimal value, like on example (d).
+This direction $\beta$ in which the surface is inclined, is given by $\tan \beta = \frac{n_y}{n_x}$. When it is near a multiple of $\frac{\pi}{4}$, then again it is likely that one of the points in $M$ gets the minimal value as the shape stretches in its direction, as seen on example (c). When $\beta$ it lies between those regions, and $\alpha$ is high, then a point outside of $M$ can get the minimal value, like on example (d).
 
 This first condition is true when $|n_z| > \cos \alpha_\text{max}$, taking into account that the normal vector may point in the opposite direction. The second condition is true when $|\frac{n_x}{n_y}| < \tan \beta_{\text{max}}$ or $|\frac{n_y}{n_x}| < \tan \beta_{\text{max}}$ or $\tan \left(\frac{\pi}{4} - \beta_{\text{max}}\right) < |\frac{n_x}{n_y}| < \tan \left(\frac{\pi}{4} + \beta_{\text{max}}\right)$. Using these expressions the trigonometric functions only need to be evaluated once for the constants in an implementation.
 
@@ -86,9 +178,9 @@ So the threshold condition on the normal vector can be written (using $\alpha$ a
 
 
 \subsection{Density}
-Evaluating $\| \vec{p'} \|$ for $(x, y) = (0, 1), (1, 0), (1, 1)$, one gets the side lengths $a, b$ of one possible parallelogram, and one if its diagonal. A diagonal splits a parallelogram into two halves into equal area. Using Heron's formula $A = \sqrt{s \, (s - a) \, (s - b) \, (s - c)}$ where $s = \frac{a+b+c}{2}$, one gets the area of the triangle with side lengths $a, b, c$, and thus the parallelogram has area $2 \, A$.
+Evaluating $\| \vec{p'} \|$ for $(x, y) = (0, 1), (1, 0), (1, 1)$, one gets the side lengths $a, b$ of one possible parallelogram, and one if its diagonal. A diagonal splits a parallelogram into two halves into equal area. Using Heron's formula $A = \sqrt{s \, (s - a) \, (s - b) \, (s - c)}$ where $s = \frac{a+b+c}{2}$, one gets the area of the triangle with side lengths $a, b, c$, and thus the parallelogram has area $2 A$.
 
-The points can be translated on the parallelogram grid such that each parallelogram contains one point and no points lie on the edges. This is not possible for a triangle grid. Counting one point per parallelogram area, the density is $\rho = \frac{1}{2 \, A}$.
+The points can be translated on the parallelogram grid such that each parallelogram contains one point and no points lie on the edges. This is not possible for a triangle grid. Counting one point per parallelogram area, the density is $\rho = \frac{1}{2 A}$.
 
 Evaluating and simplifying this expression, one obtains $\rho = \frac{| n_z |}{p^2_l}$.
 
@@ -101,7 +193,7 @@ Evaluating and simplifying this expression, one obtains $\rho = \frac{| n_z |}{p
 \end{figure}
 
 
-
+\FloatBarrier
 
 \section{Closest point histogram with random point dispersion on plane} \label{sec:proof_rand_disp_plane}
 Point clouds $P$ and $Q$ are two perfectly aligned planes, the points $p \in P$ are randomly dispersed on $P$. $Q$ contains a large number of sample points. The probability density function for the distance of a random point $q \in Q$ to its closest neighbor in $P$ is given by
@@ -187,7 +279,7 @@ It is not a single spike at the expected value $\bar{N}(A) = A \, \rho$, and the
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.6\textwidth]{fig/plane_rand_n.pdf}
+\includegraphics[width=.5\textwidth]{fig/plane_rand_n.pdf}
 \caption{$P[N(A) = m]$ for randomly dispersed points on a plane, interpolated to real values}
 \label{fig:plane_rand_n}
 \end{figure}
@@ -236,7 +328,7 @@ f_R(d) = \frac{a(d)}{l^2}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.8\textwidth]{fig/sq_grid.pdf}
+\includegraphics[width=.9\textwidth]{fig/sq_grid.pdf}
 \caption{Closest points distance field with square grid distribution of $P$, $l = 2$}
 \label{fig:sq_grid}
 \end{figure}

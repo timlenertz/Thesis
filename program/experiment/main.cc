@@ -6,6 +6,17 @@
 using namespace pcf;
 using namespace pcf::exper;
 
+int main() {
+	kdtree_point_cloud_full p = import_point_cloud("data/hi.ply");
+	kdtree_point_cloud_full q = import_point_cloud("data/lo.ply");
+	auto cor_q_to_p = make_closest_point_correspondences(p, q, accept_point_filter());
+	auto tester_mae = make_error_metric_range_tester(cor_q_to_p, mean_absolute_error());
+	float mag_t = 0.2;
+	angle mag_r = angle::degrees(6.0);
+	tester_mae.test_random_ranges_1dim("plot.dat", mag_t, mag_r, 10, 30);
+
+}
+/*
 template<typename Tester>
 void batch(const Tester& tester, const std::string& dir, const std::vector<std::pair<std::string, Eigen::Affine3f>>& tests) {
 	for(const auto& p : tests) {
@@ -94,7 +105,7 @@ int main() {
 	tester_mae.test_random_ranges_1dim(dir + fname + "_mae.dat", mag_t, mag_r, sc, it);
 
 
-*/
+
 
 	it = 100;
 	sc = 4;
@@ -117,7 +128,7 @@ int main() {
 }
 
 
-	/*	
+		
 	std::cout << "cor" << std::endl;
 	make_error_metric_range_tester(cor_q_to_p, err_cor).test_random_ranges_1dim
 		(dir + fname + "_cor.dat", mag_t, mag_r, 4, 100);
@@ -125,4 +136,5 @@ int main() {
 	std::cout << "int" << std::endl;
 	make_error_metric_range_tester(cor_q_to_p, err_int).test_random_ranges_1dim
 		(dir + fname + "_int.dat", mag_t, mag_r, 4, 100);
-	*/
+
+*/
